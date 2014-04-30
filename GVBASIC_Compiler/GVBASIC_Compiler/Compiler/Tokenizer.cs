@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GVBASIC_Compiler.Compiler;
 
-
-namespace GVBASIC_Compiler
+namespace GVBASIC_Compiler.Compiler
 {
-    class Program
+    /// <summary>
+    /// lexer 
+    /// </summary>
+    class Tokenizer
     {
-        static void Main(string[] args)
-        {
-        }
     }
 }

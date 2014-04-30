@@ -41,6 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Compiler\Defines.cs" />
+    <Compile Include="Compiler\Parser.cs" />
+    <Compile Include="Compiler\Preprocessor.cs" />
+    <Compile Include="Compiler\Tokenizer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
