@@ -9,7 +9,7 @@ namespace GVBASIC_Compiler.Compiler
     class Preprocessor
     {
         /// <summary>
-        /// preprocess the code 
+        /// preprocess the code , remove commit && cast all the letters 
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
