@@ -2,7 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
-
+/// <summary>
+/// LED screen emulator 
+/// </summary>
 public class LED : MonoBehaviour 
 {
     public SpriteRenderer m_spriteRender;
@@ -45,8 +47,13 @@ public class LED : MonoBehaviour
     {
         //m_texture.SetPixels(0, 0, 160, 80, new Color[] { m_whiteColor });
 
-        m_texture.SetPixels(0, 0, 8, 16, m_asciis[0].m_color );
-        m_texture.SetPixels(8, 0, 8, 16, m_asciis[1].m_reverseColor);
+        for (int i = 0; i < 5; i++ )
+        {
+            for( int j = 0; j < 20; j++ )
+            {
+                m_texture.SetPixels( j*8, i*16, 8, 16, m_asciis[i*20+j].m_color );
+            }
+        }
     }
 
     /// <summary>

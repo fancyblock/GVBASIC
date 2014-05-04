@@ -22,16 +22,16 @@ public class ASCII
         m_asciiCode = asciiCode;
         m_color = new Color[128];
         m_reverseColor = new Color[128];
-        int[] info = getASCIIInfo(asciiCode);
+        int[] dotMatrix = getDotMatrix(asciiCode);
 
         int k = 0;
         for( int i = 0; i < 16; i++ )
         {
-            int line = info[i];
+            int line = dotMatrix[i];
 
             for( int j = 0; j < 8; j++ )
             {
-                bool isBlack = ( line >> j & 0x01 ) == 1 ? true : false;
+                bool isBlack = ( line >> (7-j) & 0x01 ) == 1 ? true : false;
 
                 if( isBlack )
                 {
@@ -54,8 +54,9 @@ public class ASCII
     /// </summary>
     /// <param name="asciiCode"></param>
     /// <returns></returns>
-    protected int[] getASCIIInfo( int asciiCode )
+    protected int[] getDotMatrix( int asciiCode )
     {
-        return ASCIITable.ASCII_065;
+        return ASCIITable.ASCII_DOT_MATRIX[asciiCode];
     }
+
 }
