@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using Assets.Script.Display;
+using System.Collections.Generic;
 
 
 public class LED : MonoBehaviour 
@@ -9,11 +9,15 @@ public class LED : MonoBehaviour
     public Color m_whiteColor;
 
     protected Texture2D m_texture;
+    protected Dictionary<int,ASCII> m_asciis;
 
 	// Use this for initialization
 	void Start () 
     {
         m_texture = m_spriteRender.sprite.texture;
+
+        initASCIITable();
+        
         CleanScreen();
 	}
 	
@@ -39,11 +43,25 @@ public class LED : MonoBehaviour
     /// </summary>
     public void CleanScreen()
     {
-        m_texture.SetPixels(0, 0, 160, 80, new Color[] { m_whiteColor });
-        
-        //TODO 
-        ASCII ascii = new ASCII(1, m_whiteColor, Color.black );
-        m_texture.SetPixels(0, 0, ASCII.WIDTH, ASCII.HEIGHT, ascii.m_color);
+        //m_texture.SetPixels(0, 0, 160, 80, new Color[] { m_whiteColor });
+
+        m_texture.SetPixels(0, 0, 8, 16, m_asciis[0].m_color );
+        m_texture.SetPixels(8, 0, 8, 16, m_asciis[1].m_reverseColor);
+    }
+
+    /// <summary>
+    /// initial the ASCII table 
+    /// </summary>
+    protected void initASCIITable()
+    {
+        m_asciis = new Dictionary<int, ASCII>();
+
+        // initial the ASCII code 
+        for( int i = 0; i < 128; i++ )
+        {
+            ASCII ascii = new ASCII(i, m_whiteColor, Color.black);
+            m_asciis[i] = ascii;
+        }
     }
 
 }

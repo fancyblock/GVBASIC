@@ -1,29 +1,61 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using UnityEngine;
 
 
-namespace Assets.Script.Display
+public class ASCII
 {
-    class ASCII
+    static public int WIDTH = 8;
+    static public int HEIGHT = 16;
+
+    public int m_asciiCode;
+    public Color[] m_color;
+    public Color[] m_reverseColor;
+
+    /// <summary>
+    /// constructor 
+    /// </summary>
+    /// <param name="asciiCode"></param>
+    public ASCII( int asciiCode, Color white, Color black )
     {
-        static public int WIDTH = 8;
-        static public int HEIGHT = 16;
+        m_asciiCode = asciiCode;
+        m_color = new Color[128];
+        m_reverseColor = new Color[128];
+        int[] info = getASCIIInfo(asciiCode);
 
-        public int m_asciiCode;
-        public Color[] m_color;
-
-        /// <summary>
-        /// constructor 
-        /// </summary>
-        /// <param name="asciiCode"></param>
-        public ASCII( int asciiCode, Color white, Color black )
+        int k = 0;
+        for( int i = 0; i < 16; i++ )
         {
-            m_color = new Color[128];
+            int line = info[i];
 
-            //TODO 
+            for( int j = 0; j < 8; j++ )
+            {
+                bool isBlack = ( line >> j & 0x01 ) == 1 ? true : false;
+
+                if( isBlack )
+                {
+                    m_color[k] = black;
+                    m_reverseColor[k] = white;
+                }
+                else
+                {
+                    m_color[k] = white;
+                    m_reverseColor[k] = black;
+                }
+
+                k++;
+            }
         }
+    }
+
+    /// <summary>
+    /// return the ASCII info 
+    /// </summary>
+    /// <param name="asciiCode"></param>
+    /// <returns></returns>
+    protected int[] getASCIIInfo( int asciiCode )
+    {
+        return ASCIITable.ASCII_065;
     }
 }

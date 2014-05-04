@@ -1,0 +1,9 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class ASCIITable
+{
+    static public int[] ASCII_065 = { 0x00, 0x00, 0x10, 0x38, 0x6C, 
+                                        0xC6, 0xC6, 0xFE, 0xC6, 0xC6, 
+                                        0xC6, 0xC6, 0x00, 0x00, 0x00, 0x00 };
+}
