@@ -114,7 +114,7 @@ CHR$ 	取字符
 用法:	CHR$(n)
 *求ASCII码为n的字符
 
-CLRCLE	画圆
+CIRCLE	画圆
 用法:	CIRCLE X0,Y0,R,FILL,TYPE
 *FILL=1 填充
 *FILL=0 不填充
@@ -171,10 +171,21 @@ DIM		数组定义
 *说明数组维数并分配空间，没有经过DIM说明的数组下标设定最大值是10。
 
 DRAW	画点
-//TODO
+用法:	DRAW X,Y,TYPE
+*TYPE=1 画点
+*TYPE=0 清点
 
 ELLIPSE	画椭圆
-//TODO
+用法:	ELLIPSE X0,Y0,A,B,FILL,TYPE
+*FILL=1 填充
+*FILL=0 不填充
+*TYPE=1 画椭圆
+*TYPE=0 清椭圆
+如:
+]10 GRAPH
+]20 ELLIPSE 80,40,60,30,1
+]40 END
+
 
 IF...THEN/(GOTO)...ELSE 条件判断
 用法:
@@ -257,7 +268,9 @@ INT 	取整
 //TODO
 
 INVERSE	反显字符
-//TODO
+用法:	INVERSE
+如:
+]30 INVERSE
 
 LEFT$	取字符
 //TODO
@@ -347,11 +360,24 @@ POP		将堆栈中的返回地址弹栈
 
 POS		取光标位置
 用法:	POS(n)
-//TODO
+*得到光标的水平位置
 
 PRINT	屏幕显示
 用法:	1.PRINT exp
-//TODO
+		显示完表达式以后换行。
+		2.PRINT exp1,exp2,exp3...
+		显示完每个表达式以后就换行。
+		3.PRINT exp1;exp2;exp3...
+		显示每个表达式以后不换行,接着显示下一个表达式。
+		*当显示超过一行时，自动换行接着显示。
+如:
+]A=23:LET B=15
+]PRINT A,B
+23
+15
+]PRINT "THIS";"IS";"GVBASIC"
+THISISGVBASIC
+]
 
 PUT		向指定文件的指定记录写入缓冲区内容
 //TODO 
@@ -407,7 +433,11 @@ SIN 	正弦值
 
 SPC		打印空格
 用法:	SPC(n)
-//TODO 
+*打印n个空格。
+如:
+]PRINT 45;SPC(4);56
+45    56
+]
 
 SQR		平方根
 用法:	SQR(exp)
@@ -429,7 +459,13 @@ SWAP	变量互换
 TAB 	输出控制
 用法:	TAB(n)
 *从第n列开始输出。
-//TODO
+如：
+]PRINT "QWER";TAB(8);"ASDF"
+QWER    ASDF
+]PRINT "QWERTYUI";TAB(5);"ASDFGH"
+QWERTYUI
+    ASDFGH
+]
 
 TAN		正切值
 用法:	TAN(exp)

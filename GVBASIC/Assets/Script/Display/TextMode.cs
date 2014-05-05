@@ -17,7 +17,7 @@ public class TextMode : MonoBehaviour
 	}
 
     /// <summary>
-    /// active this mode 
+    /// active this mode    [TEXT]
     /// </summary>
     public void SetActive()
     {
@@ -43,4 +43,68 @@ public class TextMode : MonoBehaviour
             m_led.DrawLetter(x, y, letter, false);
         }
     }
+
+    /// <summary>
+    /// clean the screen    [CLS]
+    /// </summary>
+    public void CLS()
+    {
+        m_led.CleanScreen();
+    }
+
+    /// <summary>
+    /// set as inverse mode [INVERSE]
+    /// </summary>
+    public void Inverse()
+    {
+        //TODO 
+    }
+
+    /// <summary>
+    /// set normal mode     [NORMAL]
+    /// </summary>
+    public void Normal()
+    {
+        //TODO 
+    }
+
+    /// <summary>
+    /// set locate          [LOCATE]
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    public void SetLocate( int x, int y )
+    {
+        //TODO 
+    }
+
+    /// <summary>
+    /// print string        [PRINT]
+    /// </summary>
+    /// <param name="str"></param>
+    public void Print( string str )
+    {
+        //TODO 
+    }
+
+    //TODO 
+
+    /// <summary>
+    /// print n spaces      [SPC]
+    /// </summary>
+    /// <param name="n"></param>
+    public void PrintSpace( int n )
+    {
+        //TODO 
+    }
+
+    /// <summary>
+    /// move the locate     [TAB]
+    /// </summary>
+    /// <param name="n"></param>
+    public void Tab( int n )
+    {
+        //TODO 
+    }
+
 }
