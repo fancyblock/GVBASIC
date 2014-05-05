@@ -9,14 +9,23 @@ public class LED : MonoBehaviour
 {
     public SpriteRenderer m_spriteRender;
     public Color m_whiteColor;
+    public Color m_blackColor;
 
     protected Texture2D m_texture;
     protected Dictionary<int,ASCII> m_asciis;
+    protected Color[] m_cleanColorData;
 
 	// Use this for initialization
 	void Start () 
     {
         m_texture = m_spriteRender.sprite.texture;
+
+        // set clean color data 
+        m_cleanColorData = new Color[12800];
+        for (int i = 0; i < 12800; i++)
+        {
+            m_cleanColorData[i] = m_whiteColor;
+        }
 
         initASCIITable();
         
@@ -37,7 +46,25 @@ public class LED : MonoBehaviour
     /// <param name="set"></param>
     public void SetPixel( int x, int y, bool set )
     {
-        m_texture.SetPixel(x, y, set ? Color.black : m_whiteColor);
+        m_texture.SetPixel(x, y, set ? m_blackColor : m_whiteColor);
+    }
+
+    /// <summary>
+    /// draw letter 
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="ascii"></param>
+    public void DrawLetter( int x, int y, int ascii, bool reverse )
+    {
+        if( reverse )
+        {
+            m_texture.SetPixels(x, y, ASCII.WIDTH, ASCII.HEIGHT, m_asciis[ascii].m_reverseColor);
+        }
+        else
+        {
+            m_texture.SetPixels(x, y, ASCII.WIDTH, ASCII.HEIGHT, m_asciis[ascii].m_color);
+        }
     }
 
     /// <summary>
@@ -45,16 +72,11 @@ public class LED : MonoBehaviour
     /// </summary>
     public void CleanScreen()
     {
-        //m_texture.SetPixels(0, 0, 160, 80, new Color[] { m_whiteColor });
-
-        for (int i = 0; i < 5; i++ )
-        {
-            for( int j = 0; j < 20; j++ )
-            {
-                m_texture.SetPixels( j*8, i*16, 8, 16, m_asciis[i*20+j].m_color );
-            }
-        }
+        m_texture.SetPixels(m_cleanColorData);
     }
+
+
+    //--------------------- private functions ---------------------- 
 
     /// <summary>
     /// initial the ASCII table 
@@ -66,7 +88,7 @@ public class LED : MonoBehaviour
         // initial the ASCII code 
         for( int i = 0; i < 128; i++ )
         {
-            ASCII ascii = new ASCII(i, m_whiteColor, Color.black);
+            ASCII ascii = new ASCII(i, m_whiteColor, m_blackColor);
             m_asciis[i] = ascii;
         }
     }

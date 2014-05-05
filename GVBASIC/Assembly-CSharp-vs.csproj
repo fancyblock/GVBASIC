@@ -48,7 +48,9 @@
   <ItemGroup>
      <Compile Include="Assets\Script\Display\ASCII.cs" />
      <Compile Include="Assets\Script\Display\ASCIITable.cs" />
+     <Compile Include="Assets\Script\Display\GraphMode.cs" />
      <Compile Include="Assets\Script\Display\LED.cs" />
+     <Compile Include="Assets\Script\Display\TextMode.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
