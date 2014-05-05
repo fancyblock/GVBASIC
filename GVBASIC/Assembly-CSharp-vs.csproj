@@ -51,6 +51,7 @@
      <Compile Include="Assets\Script\Display\GraphMode.cs" />
      <Compile Include="Assets\Script\Display\LED.cs" />
      <Compile Include="Assets\Script\Display\TextMode.cs" />
+     <Compile Include="Assets\Temp\Test.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
