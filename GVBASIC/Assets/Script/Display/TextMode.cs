@@ -3,8 +3,16 @@ using System.Collections;
 
 public class TextMode : MonoBehaviour 
 {
+	public int TEXT_CNT_WIDTH = 20;
+	public int TEXT_CNT_HEIGHT = 5;
+
     public LED m_led;
     public GraphMode m_otherMode;
+
+	protected int[,] m_displayBuffer;
+	protected int m_curPosX;
+	protected int m_curPosY;
+	protected bool m_inverseMode;
 
 	// Use this for initialization
 	void Start () 
@@ -14,6 +22,7 @@ public class TextMode : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
     {
+		//TODO 
 	}
 
     /// <summary>
@@ -24,7 +33,25 @@ public class TextMode : MonoBehaviour
         m_otherMode.enabled = false;
         this.enabled = true;
 
+		// init buffer 
+		m_displayBuffer = new int[TEXT_CNT_WIDTH, TEXT_CNT_HEIGHT];
+		for( int i = 0; i < TEXT_CNT_WIDTH; i++ )
+		{
+			for( int j = 0; j < TEXT_CNT_HEIGHT; j++ )
+			{
+				m_displayBuffer [i, j] = 0;
+			}
+		}
+
+		// reset the cursor 
+		m_curPosX = 0;
+		m_curPosY = 0;
+
+		// reset the inverse mode 
+		m_inverseMode = false;
+
         //TODO 
+
     }
 
     /// <summary>
@@ -50,6 +77,8 @@ public class TextMode : MonoBehaviour
     public void CLS()
     {
         m_led.CleanScreen();
+
+		//TODO 
     }
 
     /// <summary>
@@ -57,7 +86,7 @@ public class TextMode : MonoBehaviour
     /// </summary>
     public void Inverse()
     {
-        //TODO 
+		m_inverseMode = true;
     }
 
     /// <summary>
@@ -65,7 +94,7 @@ public class TextMode : MonoBehaviour
     /// </summary>
     public void Normal()
     {
-        //TODO 
+		m_inverseMode = false; 
     }
 
     /// <summary>
@@ -75,7 +104,8 @@ public class TextMode : MonoBehaviour
     /// <param name="y"></param>
     public void SetLocate( int x, int y )
     {
-        //TODO 
+		m_curPosX = x;
+		m_curPosY = y;
     }
 
     /// <summary>
