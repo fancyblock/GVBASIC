@@ -3,7 +3,8 @@
 /// <summary>
 /// all the token types 
 /// </summary>
-public enum TokenType
+public enum TokenType : int
 {
     //TODO 
 };
+
