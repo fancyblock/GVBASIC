@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GVBASIC_Compiler.Compiler;
@@ -12,6 +11,27 @@ namespace GVBASIC_Compiler
     {
         static void Main(string[] args)
         {
+            // print the arguments
+            System.Console.WriteLine("[Command line arguments]");
+            foreach (string str in args)
+            {
+                System.Console.WriteLine(str);
+            }
+
+            string path = args[0];
+
+            // read the source
+            string sourceCode = System.IO.File.ReadAllText(path);
+
+            // compiler code 
+            Tokenizer tok = new Tokenizer();
+            tok.SetSource(sourceCode);
+            tok.Reset();
+
+            //TODO 
+
+            // wait for key press 
+            System.Console.ReadKey();
         }
     }
 }
