@@ -5,9 +5,11 @@
 /// </summary>
 public enum TokenType : int
 {
-    eLineNum = 0,
-    eSpacing,
-    eSymbol,
+    eRem,               // REM 
+    eSymbol,            // symbol 
+    eIntNum,            // int number
+    eRealNum,           // real number 
+    eString,            // string 
     ePlus,				// +
     eMinus,				// -
     eMul,				// *
@@ -25,10 +27,10 @@ public enum TokenType : int
     eSemi,				// ;
     eComma,				// ,
     eColon,				// :
-    eQm,				// ?
     eLeftBra,			// (
     eRightBra,			// )
 	ePound,				// #
+    eQm,				// ?
 	eQuota,				// "
     eLet,				// LET 
     eDim,				// DIM

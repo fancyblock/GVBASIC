@@ -23,11 +23,29 @@ namespace GVBASIC_Compiler
             // read the source
             string sourceCode = System.IO.File.ReadAllText(path);
 
+            List<Token> tokenList = new List<Token>();
+
             // compiler code 
             Tokenizer tok = new Tokenizer();
             tok.SetSource(sourceCode);
             tok.Reset();
 
+            // parse to tokens 
+            while( tok.IsFinish() == false )
+            {
+                Token t = tok.GetNextToken();
+
+                if( t.m_type == TokenType.eRem )
+                {
+                    tok.SkipToNextLine();
+                }
+                else
+                {
+                    tokenList.Add(t);
+                }
+            }
+
+            // grammer parse 
             //TODO 
 
             // wait for key press 
