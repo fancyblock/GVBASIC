@@ -29,8 +29,7 @@ public enum TokenType : int
     eLeftBra,			// (
     eRightBra,			// )
 	ePound,				// #
-    eQm,				// ?
-	eQuota,				// "
+    eQm,				// ? 
     eLet,				// LET 
     eDim,				// DIM
     eRead,				// READ

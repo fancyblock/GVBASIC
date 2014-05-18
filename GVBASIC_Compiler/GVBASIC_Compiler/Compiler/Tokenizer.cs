@@ -16,6 +16,7 @@ namespace GVBASIC_Compiler.Compiler
         eIntNum,
         eRealNum,
         eString,
+        eStringTrans,
         eOpCode,
         eDelim,         // delimiter 
         //TODO 
@@ -99,6 +100,16 @@ namespace GVBASIC_Compiler.Compiler
                         {
                             status = LexStatus.eRealNum;
                         }
+                        //TODO 
+                        break;
+                    case LexStatus.eString:
+                        if( c == '\\' )
+                        {
+                            addToBuffer = false;
+                            status = LexStatus.eStringTrans;
+                        }
+                        break;
+                    case LexStatus.eStringTrans:
                         //TODO 
                         break;
                     default:

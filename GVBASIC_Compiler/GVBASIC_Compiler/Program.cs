@@ -37,7 +37,7 @@ namespace GVBASIC_Compiler
 
                 if( t.m_type == TokenType.eIntNum )
                 {
-                    System.Console.WriteLine(t.m_intVal);
+                    System.Console.Write(t.m_type.ToString() + " ");
                     tok.SkipToNextLine();
                 }
                 else
