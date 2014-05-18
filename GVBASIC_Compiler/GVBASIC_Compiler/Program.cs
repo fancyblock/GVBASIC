@@ -35,8 +35,9 @@ namespace GVBASIC_Compiler
             {
                 Token t = tok.GetNextToken();
 
-                if( t.m_type == TokenType.eRem )
+                if( t.m_type == TokenType.eIntNum )
                 {
+                    System.Console.WriteLine(t.m_intVal);
                     tok.SkipToNextLine();
                 }
                 else

@@ -5,7 +5,6 @@
 /// </summary>
 public enum TokenType : int
 {
-    eRem,               // REM 
     eSymbol,            // symbol 
     eIntNum,            // int number
     eRealNum,           // real number 
@@ -50,6 +49,7 @@ public enum TokenType : int
     eGoSub,				// GOSUB
     eReturn,			// RETURN
     eOn,				// ON
+    eRem,               // REM 
 };
 
 

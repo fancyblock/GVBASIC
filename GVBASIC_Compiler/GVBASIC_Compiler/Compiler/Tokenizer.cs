@@ -28,7 +28,6 @@ namespace GVBASIC_Compiler.Compiler
     {
         protected string m_sourceCode;
         protected int m_curIndex;
-        protected LexStatus m_status;
 
         /// <summary>
         /// constructor 
@@ -36,7 +35,6 @@ namespace GVBASIC_Compiler.Compiler
         public Tokenizer()
         {
             m_sourceCode = null;
-            m_buffer = new StringBuilder();
         }
 
         /// <summary>
@@ -54,7 +52,6 @@ namespace GVBASIC_Compiler.Compiler
         public void Reset()
         {
             m_curIndex = 0;
-            m_status = LexStatus.eStart;
         }
 
         /// <summary>
@@ -65,28 +62,65 @@ namespace GVBASIC_Compiler.Compiler
         {
             Token tok = new Token();
             StringBuilder buffer = new StringBuilder();
+            LexStatus status = LexStatus.eStart;
             bool addToBuffer;
+            bool isDone = false;
 
-            for (; m_curIndex < m_sourceCode.Length; m_curIndex++ )
+            for (; m_curIndex < m_sourceCode.Length && isDone == false; m_curIndex++ )
             {
                 char c = m_sourceCode[m_curIndex];
                 addToBuffer = true;
 
-                switch( m_status )
+                switch( status )
                 {
                     case LexStatus.eStart:
+                        if( isWhiteChar( c ) )
+                        {
+                            addToBuffer = false;
+                        }
+                        else if( Char.IsNumber(c) )
+                        {
+                            status = LexStatus.eIntNum;
+                        }
+                        else if( c == '\"' )
+                        {
+                            addToBuffer = false;
+                            status = LexStatus.eString;
+                        }
+                        //TODO 
+                        break;
+                    case LexStatus.eIntNum:
+                        if( isWhiteChar( c ) )
+                        {
+                            addToBuffer = false;
+                            isDone = true;
+                        }
+                        else if( c == '.' )
+                        {
+                            status = LexStatus.eRealNum;
+                        }
                         //TODO 
                         break;
                     default:
                         break;
                 }
 
-                //TODO 
-
                 if( addToBuffer )
                 {
                     buffer.Append(c);
                 }
+            }
+
+            // confirm the token type 
+            switch( status )
+            {
+                case LexStatus.eIntNum:
+                    tok.m_type = TokenType.eIntNum;
+                    tok.m_intVal = Int32.Parse(buffer.ToString());
+                    break;
+                //TODO 
+                default:
+                    break;
             }
 
             return tok;
@@ -116,6 +150,24 @@ namespace GVBASIC_Compiler.Compiler
         public bool IsFinish()
         {
             if( m_curIndex >= m_sourceCode.Length )
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+
+        //------------------------ private functions ------------------------
+
+        /// <summary>
+        /// is white char 
+        /// </summary>
+        /// <param name="c"></param>
+        /// <returns></returns>
+        protected bool isWhiteChar( char c )
+        {
+            if( c == ' ' || c == '\t' )
             {
                 return true;
             }
