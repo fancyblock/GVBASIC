@@ -51,6 +51,9 @@
      <Compile Include="Assets\Script\Display\GraphMode.cs" />
      <Compile Include="Assets\Script\Display\LED.cs" />
      <Compile Include="Assets\Script\Display\TextMode.cs" />
+     <Compile Include="Assets\Script\Keyboard\KeyEnums.cs" />
+     <Compile Include="Assets\Script\Keyboard\Keyboard.cs" />
+     <Compile Include="Assets\Script\Processor\Processor.cs" />
      <Compile Include="Assets\Script\Util\ScreenSettings.cs" />
      <Compile Include="Assets\Temp\Test.cs" />
   </ItemGroup>
