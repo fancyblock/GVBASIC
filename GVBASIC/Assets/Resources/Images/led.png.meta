@@ -35,7 +35,7 @@ TextureImporter:
   spriteMeshType: 0
   alignment: 0
   spritePivot: {x: .5, y: .5}
-  spritePixelsToUnits: .349999994
+  spritePixelsToUnits: .400000006
   alphaIsTransparency: 1
   textureType: 5
   buildTargetSettings: []
