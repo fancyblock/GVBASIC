@@ -16,7 +16,7 @@ namespace GVBASIC_Compiler.Compiler
         eIntNum,
         eRealNum,
         eString,
-        eStringTrans,
+        eStringTrans,   // like '\n', '\t'
         eOpCode,
         eDelim,         // delimiter 
         //TODO 
@@ -88,6 +88,10 @@ namespace GVBASIC_Compiler.Compiler
                             addToBuffer = false;
                             status = LexStatus.eString;
                         }
+                        else if( Char.IsLetter( c ) )
+                        {
+                            status = LexStatus.eSymbol;
+                        }
                         //TODO 
                         break;
                     case LexStatus.eIntNum:
@@ -108,8 +112,21 @@ namespace GVBASIC_Compiler.Compiler
                             addToBuffer = false;
                             status = LexStatus.eStringTrans;
                         }
+                        else if( c == '\"' )
+                        {
+                            addToBuffer = false;
+                            status = LexStatus.eStart;
+                        }
+                        //TODO 
                         break;
                     case LexStatus.eStringTrans:
+                        if( c == 'n' )
+                        {
+                            c = '\n';
+                        }
+                        status = LexStatus.eString;
+                        break;
+                    case LexStatus.eSymbol:
                         //TODO 
                         break;
                     default:
@@ -128,6 +145,10 @@ namespace GVBASIC_Compiler.Compiler
                 case LexStatus.eIntNum:
                     tok.m_type = TokenType.eIntNum;
                     tok.m_intVal = Int32.Parse(buffer.ToString());
+                    break;
+                case LexStatus.eString:
+                    tok.m_type = TokenType.eString;
+                    tok.m_strVal = buffer.ToString();
                     break;
                 //TODO 
                 default:

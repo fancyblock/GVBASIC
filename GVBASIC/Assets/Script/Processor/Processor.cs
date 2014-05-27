@@ -21,5 +21,7 @@ public class Processor : MonoBehaviour
     public void onKeyUp( KeyEnums key )
     {
         //TODO 
+
+        Debug.Log("on key up " + key.ToString());
     }
 }
