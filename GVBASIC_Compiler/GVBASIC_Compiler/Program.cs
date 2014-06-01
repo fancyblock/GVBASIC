@@ -35,10 +35,14 @@ namespace GVBASIC_Compiler
             {
                 Token t = tok.GetNextToken();
 
+                System.Console.Write(t.m_type.ToString() + ",");
+
+                //TODO 
+
                 if( t.m_type == TokenType.eIntNum )
                 {
-                    System.Console.Write(t.m_type.ToString() + " ");
-                    tok.SkipToNextLine();
+                    //System.Console.Write(t.m_type.ToString() + ",");
+                    //tok.SkipToNextLine();
                 }
                 else
                 {

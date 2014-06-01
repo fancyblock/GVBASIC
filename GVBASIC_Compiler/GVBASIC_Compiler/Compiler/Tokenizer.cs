@@ -92,7 +92,10 @@ namespace GVBASIC_Compiler.Compiler
                         {
                             status = LexStatus.eSymbol;
                         }
-                        //TODO 
+                        else
+                        {
+                            //TODO 
+                        }
                         break;
                     case LexStatus.eIntNum:
                         if( isWhiteChar( c ) )
@@ -104,7 +107,25 @@ namespace GVBASIC_Compiler.Compiler
                         {
                             status = LexStatus.eRealNum;
                         }
-                        //TODO 
+                        else
+                        {
+                            //TODO 
+                        }
+                        break;
+                    case LexStatus.eRealNum:
+                        if( Char.IsNumber( c ) )
+                        {
+                            //TODO 
+                        }
+                        else if( isWhiteChar( c ) )
+                        {
+                            addToBuffer = false;
+                            isDone = true;
+                        }
+                        else
+                        {
+                            //TODO 
+                        }
                         break;
                     case LexStatus.eString:
                         if( c == '\\' )
@@ -127,7 +148,17 @@ namespace GVBASIC_Compiler.Compiler
                         status = LexStatus.eString;
                         break;
                     case LexStatus.eSymbol:
-                        //TODO 
+                        if( Char.IsLetter( c ) )
+                        {
+                        }
+                        else if( c == '$' )
+                        {
+                            //TODO 
+                        }
+                        else if( c == '%' )
+                        {
+                            //TODO 
+                        }
                         break;
                     default:
                         break;
@@ -193,6 +224,14 @@ namespace GVBASIC_Compiler.Compiler
         //------------------------ private functions ------------------------
 
         /// <summary>
+        /// step back a char 
+        /// </summary>
+        protected void backAChar()
+        {
+            //TODO 
+        }
+
+        /// <summary>
         /// is white char 
         /// </summary>
         /// <param name="c"></param>
@@ -207,5 +246,16 @@ namespace GVBASIC_Compiler.Compiler
             return false;
         }
 
+        /// <summary>
+        /// if this char belong to operator
+        /// </summary>
+        /// <param name="c"></param>
+        /// <returns></returns>
+        protected bool isOpChar( char c )
+        {
+            //TODO 
+
+            return false;
+        }
     }
 }

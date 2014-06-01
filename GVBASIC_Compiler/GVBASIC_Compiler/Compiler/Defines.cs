@@ -49,6 +49,7 @@ public enum TokenType : int
     eReturn,			// RETURN
     eOn,				// ON
     eRem,               // REM 
+    eEOL,               // end of line ( dev only )
 };
 
 
