@@ -30,12 +30,18 @@ namespace GVBASIC_Compiler.Compiler
         protected string m_sourceCode;
         protected int m_curIndex;
 
+        protected char[] m_opChr;
+        protected char[] m_delimChr;
+
         /// <summary>
         /// constructor 
         /// </summary>
         public Tokenizer()
         {
             m_sourceCode = null;
+
+            m_opChr = new char[] { '+', '-', '*', '/' };    //TODO 
+            m_delimChr = new char[] { ':', ',', ';', '(', ')' };
         }
 
         /// <summary>
@@ -92,6 +98,10 @@ namespace GVBASIC_Compiler.Compiler
                         {
                             status = LexStatus.eSymbol;
                         }
+                        else if( isOpChar( c ))
+                        {
+                            status = LexStatus.eOpCode;
+                        }
                         else
                         {
                             //TODO 
@@ -106,6 +116,12 @@ namespace GVBASIC_Compiler.Compiler
                         else if( c == '.' )
                         {
                             status = LexStatus.eRealNum;
+                        }
+                        else if( isOpChar( c ) )
+                        {
+                            addToBuffer = false;
+                            isDone = true;
+                            backAChar();
                         }
                         else
                         {
@@ -159,6 +175,9 @@ namespace GVBASIC_Compiler.Compiler
                         {
                             //TODO 
                         }
+                        break;
+                    case LexStatus.eOpCode:
+                        //TODO 
                         break;
                     default:
                         break;
@@ -221,14 +240,21 @@ namespace GVBASIC_Compiler.Compiler
         }
 
 
-        //------------------------ private functions ------------------------
+        //------------------------ private functions ------------------------ 
 
         /// <summary>
         /// step back a char 
         /// </summary>
         protected void backAChar()
         {
-            //TODO 
+            if( m_curIndex > 0 )
+            {
+                m_curIndex--;
+            }
+            else
+            {
+                throw new Exception("[Tokenizer]: can not step back.");
+            }
         }
 
         /// <summary>
@@ -253,7 +279,31 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns></returns>
         protected bool isOpChar( char c )
         {
-            //TODO 
+            for (int i = 0; i < m_opChr.Length; i++ )
+            {
+                if( c == m_opChr[i] )
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// judge if is delimter or not 
+        /// </summary>
+        /// <param name="c"></param>
+        /// <returns></returns>
+        protected bool isDelim( char c )
+        {
+            for (int i = 0; i < m_delimChr.Length; i++ )
+            {
+                if( c == m_delimChr[i] )
+                {
+                    return true;
+                }
+            }
 
             return false;
         }
