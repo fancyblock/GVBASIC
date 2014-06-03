@@ -19,7 +19,8 @@ namespace GVBASIC_Compiler.Compiler
         eStringTrans,   // like '\n', '\t'
         eOpCode,
         eDelim,         // delimiter 
-        //TODO 
+        eLineEnd,       // end of line ( for dev )
+        eError,
     };
 
     /// <summary>
@@ -40,7 +41,7 @@ namespace GVBASIC_Compiler.Compiler
         {
             m_sourceCode = null;
 
-            m_opChr = new char[] { '+', '-', '*', '/' };    //TODO 
+            m_opChr = new char[] { '+', '-', '*', '/', '^', '=', '>', '<' };
             m_delimChr = new char[] { ':', ',', ';', '(', ')' };
         }
 
@@ -85,7 +86,7 @@ namespace GVBASIC_Compiler.Compiler
                         {
                             addToBuffer = false;
                         }
-                        else if( Char.IsNumber(c) )
+                        else if( isNumber( c ) )
                         {
                             status = LexStatus.eIntNum;
                         }
@@ -94,7 +95,7 @@ namespace GVBASIC_Compiler.Compiler
                             addToBuffer = false;
                             status = LexStatus.eString;
                         }
-                        else if( Char.IsLetter( c ) )
+                        else if( isLetter( c ) )
                         {
                             status = LexStatus.eSymbol;
                         }
@@ -102,13 +103,27 @@ namespace GVBASIC_Compiler.Compiler
                         {
                             status = LexStatus.eOpCode;
                         }
+                        else if( c == '.' )
+                        {
+                            status = LexStatus.eRealNum;
+                        }
+                        else if( isLineEnd( c ) )
+                        {
+                            addToBuffer = false;
+                            status = LexStatus.eLineEnd;
+                        }
                         else
                         {
-                            //TODO 
+                            status = LexStatus.eError;
+                            isDone = true;
                         }
                         break;
                     case LexStatus.eIntNum:
-                        if( isWhiteChar( c ) )
+                        if( isNumber( c ) )
+                        {
+                            // do nothing 
+                        }
+                        else if( isWhiteChar( c ) )
                         {
                             addToBuffer = false;
                             isDone = true;
@@ -123,24 +138,56 @@ namespace GVBASIC_Compiler.Compiler
                             isDone = true;
                             backAChar();
                         }
+                        else if( isDelim( c ) )
+                        {
+                            addToBuffer = false;
+                            isDone = true;
+                            backAChar();
+                        }
+                        else if( isLineEnd( c ) )
+                        {
+                            addToBuffer = false;
+                            isDone = true;
+                            backAChar();
+                        }
                         else
                         {
-                            //TODO 
+                            status = LexStatus.eError;
+                            isDone = true;
                         }
                         break;
                     case LexStatus.eRealNum:
-                        if( Char.IsNumber( c ) )
+                        if( isNumber( c ) )
                         {
-                            //TODO 
+                            // do nothing 
                         }
                         else if( isWhiteChar( c ) )
                         {
                             addToBuffer = false;
                             isDone = true;
                         }
+                        else if (isOpChar(c))
+                        {
+                            addToBuffer = false;
+                            isDone = true;
+                            backAChar();
+                        }
+                        else if (isDelim(c))
+                        {
+                            addToBuffer = false;
+                            isDone = true;
+                            backAChar();
+                        }
+                        else if (isLineEnd(c))
+                        {
+                            addToBuffer = false;
+                            isDone = true;
+                            backAChar();
+                        }
                         else
                         {
-                            //TODO 
+                            status = LexStatus.eError;
+                            isDone = true;
                         }
                         break;
                     case LexStatus.eString:
@@ -153,25 +200,54 @@ namespace GVBASIC_Compiler.Compiler
                         {
                             addToBuffer = false;
                             status = LexStatus.eStart;
+                            isDone = true;
                         }
-                        //TODO 
+                        else if( isLineEnd( c ) )
+                        {
+                            status = LexStatus.eError;
+                            isDone = true;
+                        }
                         break;
                     case LexStatus.eStringTrans:
                         if( c == 'n' )
                         {
                             c = '\n';
+                            status = LexStatus.eString;
                         }
-                        status = LexStatus.eString;
+                        else if( c == 'r' )
+                        {
+                            c = '\r';
+                            status = LexStatus.eString;
+                        }
+                        else if( c == '\\' )
+                        {
+                            c = '\\';
+                        }
+                        else if( isLineEnd( c ) )
+                        {
+                            status = LexStatus.eError;
+                            isDone = true;
+                        }
+                        else
+                        {
+                            status = LexStatus.eError;
+                            isDone = true;
+                        }
                         break;
                     case LexStatus.eSymbol:
-                        if( Char.IsLetter( c ) )
+                        if( isLetter( c ) || isNumber( c ) )
                         {
+                            // do nothing 
                         }
                         else if( c == '$' )
                         {
                             //TODO 
                         }
                         else if( c == '%' )
+                        {
+                            //TODO 
+                        }
+                        else
                         {
                             //TODO 
                         }
@@ -200,7 +276,17 @@ namespace GVBASIC_Compiler.Compiler
                     tok.m_type = TokenType.eString;
                     tok.m_strVal = buffer.ToString();
                     break;
-                //TODO 
+                case LexStatus.eRealNum:
+                    tok.m_type = TokenType.eRealNum;
+                    tok.m_realVal = float.Parse(buffer.ToString());
+                    break;
+                case LexStatus.eLineEnd:
+                    tok.m_type = TokenType.eEOL;
+                    break;
+                case LexStatus.eError:
+                    tok.m_type = TokenType.eError;
+                    tok.m_strVal = buffer.ToString();
+                    break;
                 default:
                     break;
             }
@@ -258,6 +344,42 @@ namespace GVBASIC_Compiler.Compiler
         }
 
         /// <summary>
+        /// look ahead a char 
+        /// </summary>
+        /// <returns></returns>
+        protected char lookAheadChar()
+        {
+            char c = char.MaxValue;
+
+            if( ( m_curIndex + 1 ) < m_sourceCode.Length )
+            {
+                c = m_sourceCode[m_curIndex + 1];
+            }
+
+            return c;
+        }
+
+        /// <summary>
+        /// judge if the character is number or not 
+        /// </summary>
+        /// <param name="c"></param>
+        /// <returns></returns>
+        protected bool isNumber( char c )
+        {
+            return Char.IsNumber(c);
+        }
+
+        /// <summary>
+        /// judge if the character is letter or not 
+        /// </summary>
+        /// <param name="c"></param>
+        /// <returns></returns>
+        protected bool isLetter( char c )
+        {
+            return Char.IsLetter(c);
+        }
+
+        /// <summary>
         /// is white char 
         /// </summary>
         /// <param name="c"></param>
@@ -303,6 +425,21 @@ namespace GVBASIC_Compiler.Compiler
                 {
                     return true;
                 }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// if is end of line or not 
+        /// </summary>
+        /// <param name="c"></param>
+        /// <returns></returns>
+        protected bool isLineEnd( char c )
+        {
+            if( c == '\n' )
+            {
+                return true;
             }
 
             return false;

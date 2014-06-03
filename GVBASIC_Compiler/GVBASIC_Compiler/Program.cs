@@ -29,6 +29,7 @@ namespace GVBASIC_Compiler
             Tokenizer tok = new Tokenizer();
             tok.SetSource(sourceCode);
             tok.Reset();
+            int lineNum = 1;
 
             // parse to tokens 
             while( tok.IsFinish() == false )
@@ -37,16 +38,20 @@ namespace GVBASIC_Compiler
 
                 System.Console.Write(t.m_type.ToString() + ",");
 
-                //TODO 
-
-                if( t.m_type == TokenType.eIntNum )
+                // end of line 
+                if( t.m_type == TokenType.eEOL )
                 {
-                    //System.Console.Write(t.m_type.ToString() + ",");
-                    //tok.SkipToNextLine();
+                    System.Console.Write("\n");
+                    lineNum++;
                 }
-                else
+                // error handler 
+                else if( t.m_type == TokenType.eError )
                 {
-                    tokenList.Add(t);
+                    System.Console.Write("Error char \'" + t.m_strVal + "\' in line " + lineNum + "\n" );
+                    tok.SkipToNextLine();
+                    lineNum++;
+
+                    //break;  //[TEMP]
                 }
             }
 
