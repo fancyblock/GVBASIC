@@ -36,10 +36,20 @@ namespace GVBASIC_Compiler
             {
                 Token t = tok.GetNextToken();
 
-                System.Console.Write(t.m_type.ToString() + ",");
+                if( t.m_type != TokenType.eEOL )
+                {
+                    tokenList.Add(t);
+                    System.Console.Write(t.m_type.ToString() + " ");
+                }
 
+                // skip the rem 
+                if( t.m_type == TokenType.eRem )
+                {
+                    tok.SkipToNextLine();
+                    lineNum++;
+                }
                 // end of line 
-                if( t.m_type == TokenType.eEOL )
+                else if( t.m_type == TokenType.eEOL )
                 {
                     System.Console.Write("\n");
                     lineNum++;
@@ -51,7 +61,7 @@ namespace GVBASIC_Compiler
                     tok.SkipToNextLine();
                     lineNum++;
 
-                    //break;  //[TEMP]
+                    break;
                 }
             }
 

@@ -33,6 +33,7 @@ namespace GVBASIC_Compiler.Compiler
 
         protected char[] m_opChr;
         protected char[] m_delimChr;
+        protected string[] m_keyword;
 
         /// <summary>
         /// constructor 
@@ -43,6 +44,10 @@ namespace GVBASIC_Compiler.Compiler
 
             m_opChr = new char[] { '+', '-', '*', '/', '^', '=', '>', '<' };
             m_delimChr = new char[] { ':', ',', ';', '(', ')' };
+            m_keyword = new string[] { "AND", "OR", "NOT", "LET", "DIM", "READ", "DATA",
+                                        "RESTORE", "GOTO", "IF", "THEN", "ELSE", "WHILE",
+                                        "WEND", "TO", "STEP", "DEF", "FN", "GOSUB",
+                                        "RETURN", "ON", "REM" };
         }
 
         /// <summary>
@@ -103,6 +108,11 @@ namespace GVBASIC_Compiler.Compiler
                         {
                             status = LexStatus.eOpCode;
                         }
+                        else if( isDelim( c ) )
+                        {
+                            status = LexStatus.eDelim;
+                            isDone = true;
+                        }
                         else if( c == '.' )
                         {
                             status = LexStatus.eRealNum;
@@ -111,6 +121,7 @@ namespace GVBASIC_Compiler.Compiler
                         {
                             addToBuffer = false;
                             status = LexStatus.eLineEnd;
+                            isDone = true;
                         }
                         else
                         {
@@ -132,19 +143,7 @@ namespace GVBASIC_Compiler.Compiler
                         {
                             status = LexStatus.eRealNum;
                         }
-                        else if( isOpChar( c ) )
-                        {
-                            addToBuffer = false;
-                            isDone = true;
-                            backAChar();
-                        }
-                        else if( isDelim( c ) )
-                        {
-                            addToBuffer = false;
-                            isDone = true;
-                            backAChar();
-                        }
-                        else if( isLineEnd( c ) )
+                        else if (isOpChar(c) || isDelim(c) || isLineEnd(c))
                         {
                             addToBuffer = false;
                             isDone = true;
@@ -166,19 +165,7 @@ namespace GVBASIC_Compiler.Compiler
                             addToBuffer = false;
                             isDone = true;
                         }
-                        else if (isOpChar(c))
-                        {
-                            addToBuffer = false;
-                            isDone = true;
-                            backAChar();
-                        }
-                        else if (isDelim(c))
-                        {
-                            addToBuffer = false;
-                            isDone = true;
-                            backAChar();
-                        }
-                        else if (isLineEnd(c))
+                        else if (isOpChar(c) || isDelim(c) || isLineEnd(c))
                         {
                             addToBuffer = false;
                             isDone = true;
@@ -223,11 +210,6 @@ namespace GVBASIC_Compiler.Compiler
                         {
                             c = '\\';
                         }
-                        else if( isLineEnd( c ) )
-                        {
-                            status = LexStatus.eError;
-                            isDone = true;
-                        }
                         else
                         {
                             status = LexStatus.eError;
@@ -239,21 +221,49 @@ namespace GVBASIC_Compiler.Compiler
                         {
                             // do nothing 
                         }
-                        else if( c == '$' )
+                        else if( c == '$' || c == '%' )
                         {
-                            //TODO 
+                            char ac = lookAheadChar();
+
+                            if( isWhiteChar( ac ) )
+                            {
+                                isDone = true;
+                            }
+                            else if( isOpChar( ac ) || isDelim( ac ) || isLineEnd( ac ) )
+                            {
+                                isDone = true;
+                            }
+                            else
+                            {
+                                status = LexStatus.eError;
+                                isDone = true;
+                            }
                         }
-                        else if( c == '%' )
+                        else if (isWhiteChar(c))
                         {
-                            //TODO 
+                            addToBuffer = false;
+                            isDone = true;
+                        }
+                        else if (isOpChar(c) || isDelim(c) || isLineEnd(c) )
+                        {
+                            addToBuffer = false;
+                            isDone = true;
+                            backAChar();
                         }
                         else
                         {
-                            //TODO 
+                            status = LexStatus.eError;
+                            isDone = true;
                         }
                         break;
                     case LexStatus.eOpCode:
                         //TODO 
+                        break;
+                    case LexStatus.eDelim:
+                        //TODO 
+                        addToBuffer = false;
+                        isDone = true;
+                        backAChar();
                         break;
                     default:
                         break;
@@ -279,6 +289,20 @@ namespace GVBASIC_Compiler.Compiler
                 case LexStatus.eRealNum:
                     tok.m_type = TokenType.eRealNum;
                     tok.m_realVal = float.Parse(buffer.ToString());
+                    break;
+                case LexStatus.eOpCode:
+                    //TODO 
+                    break;
+                case LexStatus.eDelim:
+                    //TODO 
+                    break;
+                case LexStatus.eSymbol:
+                    tok.m_type = TokenType.eSymbol;
+                    tok.m_strVal = buffer.ToString();
+                    if( isKeyword( tok.m_strVal ) )
+                    {
+                        tok.m_type = getTokenType(tok.m_strVal);
+                    }
                     break;
                 case LexStatus.eLineEnd:
                     tok.m_type = TokenType.eEOL;
@@ -386,7 +410,7 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns></returns>
         protected bool isWhiteChar( char c )
         {
-            if( c == ' ' || c == '\t' )
+            if( c == ' ' || c == '\t' || c == '\r' )
             {
                 return true;
             }
@@ -437,12 +461,110 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns></returns>
         protected bool isLineEnd( char c )
         {
-            if( c == '\n' )
+            if( c == '\n' || c == '\r' )
             {
                 return true;
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// check the symbol , if is keywork convert to keyword 
+        /// </summary>
+        /// <param name="t"></param>
+        protected bool isKeyword( string str )
+        {
+            for (int i = 0; i < m_keyword.Length; i++ )
+            {
+                if( str == m_keyword[i] )
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// return the token type ( keyword )
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        protected TokenType getTokenType( string str )
+        {
+            TokenType type = TokenType.eUndefine;
+
+            switch( str )
+            {
+                case "AND":
+                    type = TokenType.eAnd;
+                    break;
+                case "OR":
+                    type = TokenType.eOr;
+                    break;
+                case "NOT":
+                    type = TokenType.eNot;
+                    break;
+                case "LET":
+                    type = TokenType.eLet;
+                    break;
+                case "DIM":
+                    type = TokenType.eDim;
+                    break;
+                case "READ":
+                    type = TokenType.eRead;
+                    break;
+                case "DATA":
+                    type = TokenType.eData;
+                    break;
+                case "RESTORE":
+                    type = TokenType.eRestore;
+                    break;
+                case "GOTO":
+                    type = TokenType.eGoto;
+                    break;
+                case "IF":
+                    type = TokenType.eIf;
+                    break;
+                case "THEN":
+                    type = TokenType.eThen;
+                    break;
+                case "ELSE":
+                    type = TokenType.eElse;
+                    break;
+                case "WHILE":
+                    type = TokenType.eWhile;
+                    break;
+                case "WEND":
+                    type = TokenType.eWend;
+                    break;
+                case "TO":
+                    type = TokenType.eTo;
+                    break;
+                case "DEF":
+                    type = TokenType.eDef;
+                    break;
+                case "FN":
+                    type = TokenType.eFn;
+                    break;
+                case "GOSUB":
+                    type = TokenType.eGoSub;
+                    break;
+                case "RETURN":
+                    type = TokenType.eReturn;
+                    break;
+                case "ON":
+                    type = TokenType.eOn;
+                    break;
+                case "REM":
+                    type = TokenType.eRem;
+                    break;
+                default:
+                    break;
+            }
+
+            return type;
         }
     }
 }

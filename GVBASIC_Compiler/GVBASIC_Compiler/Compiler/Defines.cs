@@ -5,6 +5,7 @@
 /// </summary>
 public enum TokenType : int
 {
+    eUndefine,
     eSymbol,            // symbol 
     eIntNum,            // int number
     eRealNum,           // real number 
@@ -22,7 +23,7 @@ public enum TokenType : int
     eNeq,				// <>
     eAnd,				// AND
     eOr,				// OR
-    eNOt,				// NOT
+    eNot,				// NOT
     eSemi,				// ;
     eComma,				// ,
     eColon,				// :
