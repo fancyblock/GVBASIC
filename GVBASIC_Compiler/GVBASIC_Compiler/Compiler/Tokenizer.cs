@@ -186,7 +186,6 @@ namespace GVBASIC_Compiler.Compiler
                         else if( c == '\"' )
                         {
                             addToBuffer = false;
-                            status = LexStatus.eStart;
                             isDone = true;
                         }
                         else if( isLineEnd( c ) )
@@ -257,13 +256,43 @@ namespace GVBASIC_Compiler.Compiler
                         }
                         break;
                     case LexStatus.eOpCode:
-                        //TODO 
-                        break;
-                    case LexStatus.eDelim:
-                        //TODO 
-                        addToBuffer = false;
-                        isDone = true;
-                        backAChar();
+                        if( isWhiteChar(c) || isDelim(c) || isLineEnd(c) 
+                            || isLetter(c) || isNumber(c) || c == '$'
+                            || c == '%' || c == '\"' || c == '.' )
+                        {
+                            addToBuffer = false;
+                            isDone = true;
+                            backAChar();
+                        }
+                        else if( c == '=' )
+                        {
+                            if( buffer[0] == '>' || buffer[0] == '<' )
+                            {
+                                // do nothing 
+                            }
+                            else
+                            {
+                                status = LexStatus.eError;
+                                isDone = true;
+                            }
+                        }
+                        else if( c == '>' )
+                        {
+                            if( buffer[0] == '<' )
+                            {
+                                // do nothing
+                            }
+                            else
+                            {
+                                status = LexStatus.eError;
+                                isDone = true;
+                            }
+                        }
+                        else
+                        {
+                            status = LexStatus.eError;
+                            isDone = true;
+                        }
                         break;
                     default:
                         break;
@@ -291,10 +320,73 @@ namespace GVBASIC_Compiler.Compiler
                     tok.m_realVal = float.Parse(buffer.ToString());
                     break;
                 case LexStatus.eOpCode:
-                    //TODO 
+                    tok.m_strVal = buffer.ToString();
+                    if( tok.m_strVal == "+" )
+                    {
+                        tok.m_type = TokenType.ePlus;
+                    }
+                    else if( tok.m_strVal == "-" )
+                    {
+                        tok.m_type = TokenType.eMinus;
+                    }
+                    else if( tok.m_strVal == "*" )
+                    {
+                        tok.m_type = TokenType.eMul;
+                    }
+                    else if( tok.m_strVal == "/" )
+                    {
+                        tok.m_type = TokenType.eDiv;
+                    }
+                    else if( tok.m_strVal == "^" )
+                    {
+                        tok.m_type = TokenType.ePower;
+                    }
+                    else if( tok.m_strVal == "=" )
+                    {
+                        tok.m_type = TokenType.eEqual;
+                    }
+                    else if( tok.m_strVal == ">" )
+                    {
+                        tok.m_type = TokenType.eGtr;
+                    }
+                    else if( tok.m_strVal == "<" )
+                    {
+                        tok.m_type = TokenType.eLt;
+                    }
+                    else if( tok.m_strVal == ">=" )
+                    {
+                        tok.m_type = TokenType.eGte;
+                    }
+                    else if( tok.m_strVal == "<=" )
+                    {
+                        tok.m_type = TokenType.eLte;
+                    }
+                    else if( tok.m_strVal == "<>" )
+                    {
+                        tok.m_type = TokenType.eNeq;
+                    }
                     break;
                 case LexStatus.eDelim:
-                    //TODO 
+                    if( buffer[0] == ';' )
+                    {
+                        tok.m_type = TokenType.eSemi;
+                    }
+                    else if( buffer[0] == ',' )
+                    {
+                        tok.m_type = TokenType.eComma;
+                    }
+                    else if( buffer[0] == ':' )
+                    {
+                        tok.m_type = TokenType.eColon;
+                    }
+                    else if( buffer[0] == '(' )
+                    {
+                        tok.m_type = TokenType.eLeftBra;
+                    }
+                    else if( buffer[0] == ')' )
+                    {
+                        tok.m_type = TokenType.eRightBra;
+                    }
                     break;
                 case LexStatus.eSymbol:
                     tok.m_type = TokenType.eSymbol;
@@ -482,6 +574,18 @@ namespace GVBASIC_Compiler.Compiler
                     return true;
                 }
             }
+
+            return false;
+        }
+
+        /// <summary>
+        /// if is op token or not 
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        protected bool isOpToken( string str )
+        {
+            //TODO 
 
             return false;
         }
