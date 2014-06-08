@@ -556,18 +556,6 @@ namespace GVBASIC_Compiler.Compiler
         }
 
         /// <summary>
-        /// if is op token or not 
-        /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>
-        protected bool isOpToken( string str )
-        {
-            //TODO 
-
-            return false;
-        }
-
-        /// <summary>
         /// return the token type ( keyword )
         /// </summary>
         /// <param name="str"></param>
