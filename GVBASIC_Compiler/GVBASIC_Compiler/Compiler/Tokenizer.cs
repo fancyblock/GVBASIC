@@ -381,6 +381,7 @@ namespace GVBASIC_Compiler.Compiler
                     tok.m_strVal = buffer.ToString();
                     break;
                 default:
+                    tok.m_type = TokenType.eError;
                     break;
             }
 
@@ -616,6 +617,9 @@ namespace GVBASIC_Compiler.Compiler
                     break;
                 case "TO":
                     type = TokenType.eTo;
+                    break;
+                case "STEP":
+                    type = TokenType.eStep;
                     break;
                 case "DEF":
                     type = TokenType.eDef;

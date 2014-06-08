@@ -36,26 +36,8 @@ namespace GVBASIC_Compiler
             {
                 Token t = tok.GetNextToken();
 
-                if( t.m_type != TokenType.eEOL )
-                {
-                    tokenList.Add(t);
-
-                    if( t.m_type == TokenType.eIntNum )
-                    {
-                        System.Console.Write(t.m_intVal + " ");
-                    }
-                    else if( t.m_type == TokenType.eRealNum )
-                    {
-                        System.Console.Write(t.m_realVal + " ");
-                    }
-                    else
-                    {
-                        System.Console.Write(t.m_type.ToString() + " ");
-                    }
-                }
-
                 // skip the rem 
-                if( t.m_type == TokenType.eRem )
+                if (t.m_type == TokenType.eRem)
                 {
                     tok.SkipToNextLine();
                     lineNum++;
@@ -74,6 +56,27 @@ namespace GVBASIC_Compiler
                     lineNum++;
 
                     break;
+                }
+                else
+                {
+                    tokenList.Add(t);
+
+                    if (t.m_type == TokenType.eIntNum)
+                    {
+                        System.Console.Write(t.m_intVal + " ");
+                    }
+                    else if (t.m_type == TokenType.eRealNum)
+                    {
+                        System.Console.Write(t.m_realVal + " ");
+                    }
+                    else if( t.m_type == TokenType.eUndefine )
+                    {
+                        System.Console.Write("[error]");
+                    }
+                    else
+                    {
+                        System.Console.Write(t.m_type.ToString() + " ");
+                    }
                 }
             }
 
