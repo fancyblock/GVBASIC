@@ -47,7 +47,7 @@ namespace GVBASIC_Compiler.Compiler
             m_keyword = new string[] { "AND", "OR", "NOT", "LET", "DIM", "READ", "DATA",
                                         "RESTORE", "GOTO", "IF", "THEN", "ELSE", "WHILE",
                                         "WEND", "TO", "STEP", "DEF", "FN", "GOSUB",
-                                        "RETURN", "ON", "REM" };
+                                        "RETURN", "ON", "REM", "NEXT", "FOR" };
         }
 
         /// <summary>
@@ -256,41 +256,18 @@ namespace GVBASIC_Compiler.Compiler
                         }
                         break;
                     case LexStatus.eOpCode:
-                        if( isWhiteChar(c) || isDelim(c) || isLineEnd(c) 
-                            || isLetter(c) || isNumber(c) || c == '$'
-                            || c == '%' || c == '\"' || c == '.' )
+                        if( buffer[0] == '>' && c == '=' )
                         {
-                            addToBuffer = false;
                             isDone = true;
-                            backAChar();
                         }
-                        else if( c == '=' )
+                        else if( buffer[0] == '<' && ( c == '=' || c == '>' ) )
                         {
-                            if( buffer[0] == '>' || buffer[0] == '<' )
-                            {
-                                // do nothing 
-                            }
-                            else
-                            {
-                                status = LexStatus.eError;
-                                isDone = true;
-                            }
-                        }
-                        else if( c == '>' )
-                        {
-                            if( buffer[0] == '<' )
-                            {
-                                // do nothing
-                            }
-                            else
-                            {
-                                status = LexStatus.eError;
-                                isDone = true;
-                            }
+                            isDone = true;
                         }
                         else
                         {
-                            status = LexStatus.eError;
+                            addToBuffer = false;
+                            backAChar();
                             isDone = true;
                         }
                         break;
@@ -636,6 +613,12 @@ namespace GVBASIC_Compiler.Compiler
                     break;
                 case "ELSE":
                     type = TokenType.eElse;
+                    break;
+                case "FOR":
+                    type = TokenType.eFor;
+                    break;
+                case "NEXT":
+                    type = TokenType.eNext;
                     break;
                 case "WHILE":
                     type = TokenType.eWhile;

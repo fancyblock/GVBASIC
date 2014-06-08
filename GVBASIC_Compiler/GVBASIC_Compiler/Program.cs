@@ -39,7 +39,19 @@ namespace GVBASIC_Compiler
                 if( t.m_type != TokenType.eEOL )
                 {
                     tokenList.Add(t);
-                    System.Console.Write(t.m_type.ToString() + " ");
+
+                    if( t.m_type == TokenType.eIntNum )
+                    {
+                        System.Console.Write(t.m_intVal + " ");
+                    }
+                    else if( t.m_type == TokenType.eRealNum )
+                    {
+                        System.Console.Write(t.m_realVal + " ");
+                    }
+                    else
+                    {
+                        System.Console.Write(t.m_type.ToString() + " ");
+                    }
                 }
 
                 // skip the rem 

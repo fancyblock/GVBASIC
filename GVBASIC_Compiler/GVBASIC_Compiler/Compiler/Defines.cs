@@ -40,6 +40,8 @@ public enum TokenType : int
     eIf,				// IF
     eThen,				// THEN
     eElse,				// ELSE 
+    eFor,               // FOR 
+    eNext,              // NEXT
     eWhile,				// WHILE
     eWend,				// WEND
     eTo,				// TO
