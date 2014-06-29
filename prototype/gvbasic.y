@@ -7,13 +7,24 @@
 {
 	int		int_val;
 	float	float_val;
-	double	double_val;
 	char	str_val[18];			// the max length of symbol in GVBASIC is 16 
 }
-%token
-//TODO 
-%%
-//TODO
+%token <str_val> SYMBOL STRING 
+%token <int_val> INT
+%token <float_val> REAL
+%token PLUS MINUS MUL DIV POWER EQUAL GTR LT GTE LTE NEQ AND OR NOT SEMI COMMA COLON LEFTBRA RIGHTBRA POUND QM LET READ DATA RESTORE GOTO IF THEN ELSE FOR NEXT WHILE WEND TO STEP DEF FN GOSUB RETURN ON REM 
+%type --------- TODO ---------
 %%
 
-//TODO 
+%%
+
+
+/*
+ * 	entry 
+ */
+int main(void)
+{
+	//TODO 
+
+	return 0;
+}
