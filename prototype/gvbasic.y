@@ -13,9 +13,8 @@
 %token <int_val> INT
 %token <float_val> REAL
 %token PLUS MINUS MUL DIV POWER EQUAL GTR LT GTE LTE NEQ AND OR NOT SEMI COMMA COLON LEFTBRA RIGHTBRA POUND QM LET READ DATA RESTORE GOTO IF THEN ELSE FOR NEXT WHILE WEND TO STEP DEF FN GOSUB RETURN ON REM ERROR 
-//%type --------- TODO ---------
 %%
-line : INT;
+express : SYMBOL
 %%
 
 
@@ -24,7 +23,24 @@ line : INT;
  */
 int main(void)
 {
-	//TODO 
+	FILE* pBasSrc = fopen( "../Bas/tank.bas", "r" );
+	
+	if( pBasSrc != NULL )
+	{
+		printf( "compiling...\n\n" );
+
+		yyin = pBasSrc;
+		
+		yyparse();
+
+		fclose( pBasSrc );
+	}
+	else
+	{
+		printf( "Can not find file \"tank.bas\"." );
+	}
+
+	printf( "\n\n[Over]\n" );
 
 	return 0;
 }

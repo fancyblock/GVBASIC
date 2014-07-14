@@ -7,7 +7,6 @@
 		return 1;
 	}
 
-	int line = 1;
 	char buffer[1024];
 	int bufferIndex = 0;
 %}
@@ -17,65 +16,73 @@
 
 %%
 
-<INITIAL>\n 					{
-	printf("\n%d\t", ++line);
-	BEGIN INITIAL;
-}
+<COMMENT>.						{}
+<COMMENT>\n						BEGIN INITIAL;
 
-<INITIAL>[1-9][0-9]*			{
-	printf( "INT " );
-	//sscanf( yytext, "%d", &yylval.int_val );
-	return INT;
-}
+<INITIAL>\n 					{}
+<INITIAL>"REM"					BEGIN COMMENT;
+<INITIAL>"AND"					return AND;
+<INITIAL>"OR"					return OR;
+<INITIAL>"NOT"					return NOT;
+<INITIAL>"LET"					return LET;
+<INITIAL>"READ"					return READ;
+<INITIAL>"DATA"					return DATA;
+<INITIAL>"RESTORE"				return RESTORE;
+<INITIAL>"GOTO"					return GOTO;
+<INITIAL>"IF"					return IF;
+<INITIAL>"THEN"					return THEN;
+<INITIAL>"ELSE"					return ELSE;
+<INITIAL>"FOR"					return FOR;
+<INITIAL>"NEXT"					return NEXT;
+<INITIAL>"WHILE"				return WHILE;
+<INITIAL>"WEND"					return WEND;
+<INITIAL>"TO"					return TO;
+<INITIAL>"STEP"					return STEP;
+<INITIAL>"DEF"					return DEF;
+<INITIAL>"FN"					return FN;
+<INITIAL>"GOSUB"				return GOSUB;
+<INITIAL>"RETURN"				return RETURN;
+<INITIAL>"ON"					return ON;
 
 <INITIAL>[A-Z][A-Z0-9]*[#\$]?	{
-	printf( "SYMBOL " );
-	//strcpy( yylval.str_val, yytext );
+	strcpy( yylval.str_val, yytext );
 	return SYMBOL;
 }
 
-<INITIAL>[0-9]|([1-9][0-9]+).[0-9]+	{
-	printf( "REAL " );
-	//sscanf( yytext, "%f", &yylval.float_val );
+<INITIAL>([1-9][0-9]*)|0		{
+	sscanf( yytext, "%d", &yylval.int_val );
+	return INT;
+}
+
+<INITIAL>[0-9]*\.[0-9]+			{
+	sscanf( yytext, "%f", &yylval.float_val );
 	return REAL;
 }
 
-<INITIAL>"+"					{
-	printf( "PLUS " );
-	return PLUS;
-}
-
-<INITIAL>"-"					{
-	printf( "SUB " );
-	return MINUS;
-}
-
-<INITIAL>"*"					{
-	printf( "MUL " );
-	return MUL;
-}
-
-<INITIAL>"/"					{
-	printf( "DIV " );
-	return DIV;
-}
-
-<INITIAL>"^"					{
-	printf( "POWER " );
-	return POWER;
-}
-
-<INITIAL>"="					{
-	printf( "EQUAL " );
-	return EQUAL;
-}
+<INITIAL>"+"					return PLUS;
+<INITIAL>"-"					return MINUS;
+<INITIAL>"*"					return MUL;
+<INITIAL>"/"					return DIV;
+<INITIAL>"^"					return POWER;
+<INITIAL>"="					return EQUAL;
+<INITIAL>">="					return GTE;
+<INITIAL>"<="					return LTE;
+<INITIAL>">"					return GTR;
+<INITIAL>"<"					return LT;
+<INITIAL>"<>"					return NEQ;
+<INITIAL>";"					return SEMI;
+<INITIAL>","					return COMMA;
+<INITIAL>":"					return COLON;
+<INITIAL>"("					return LEFTBRA;
+<INITIAL>")"					return RIGHTBRA;
 
 <INITIAL>\"						{
 	BEGIN STRING_STATE;
 	bufferIndex = 0;
 }
 
-<INITIAL>.						{}
+<INITIAL>[\t\n\r ]				{}
+<INITIAL>.						return ERROR;
 
 <STRING_STATE>\\n 				{
 	buffer[bufferIndex] = '\n';
@@ -89,8 +96,7 @@
 
 <STRING_STATE>\" 				{
 	buffer[bufferIndex] = '\0';
-	//strcpy( yylval.str_val, buffer );
-	printf( "STRING " );
+	strcpy( yylval.str_val, buffer );
 	BEGIN INITIAL;
 
 	return STRING;
@@ -103,41 +109,4 @@
 
 <STRING_STATE>\n 			return ERROR;
 
-
 %%
-
-
-
-/*
- * 	test program 
- */
-int main( void )
-{
-	FILE* pBasSrc = fopen( "../Bas/tank.bas", "r" );
-
-	if( pBasSrc != NULL )
-	{
-		printf( "compiling...\n\n" );
-
-		yyin = pBasSrc;
-		
-		printf( "1\t" );			// first line number 
-		int result = yylex();
-		while( result )
-		{
-			result = yylex();
-		}
-
-		fclose( pBasSrc );
-	}
-	else
-	{
-		printf( "Can not find file \"tank.bas\"." );
-	}
-
-	printf( "\n\n[Over]\n" );
-
-	return 0;
-}
-
-
