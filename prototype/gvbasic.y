@@ -17,12 +17,27 @@
 express : SYMBOL
 %%
 
+/*
+ *	yyerror 
+ */
+int yyerror( char const *str )
+{
+	extern char* yytext;
+	extern int yylineno;
+
+	fprintf( stderr, "parser error in line %d , near %s\n", yylineno, yytext );
+
+	return 0;
+}
 
 /*
  * 	entry 
  */
 int main(void)
 {
+	extern int yyparse(void);
+	extern FILE* yyin;
+
 	FILE* pBasSrc = fopen( "../Bas/tank.bas", "r" );
 	
 	if( pBasSrc != NULL )
