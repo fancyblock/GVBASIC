@@ -2,6 +2,9 @@
 	#include <stdio.h>
 	#include <stdlib.h>
 	#define YYDEBUG		1
+
+	int yyerror( char const *str );
+	int yylex();
 %}
 %union
 {
@@ -13,8 +16,15 @@
 %token <int_val> INT
 %token <float_val> REAL
 %token PLUS MINUS MUL DIV POWER EQUAL GTR LT GTE LTE NEQ AND OR NOT SEMI COMMA COLON LEFTBRA RIGHTBRA POUND QM LET READ DATA RESTORE GOTO IF THEN ELSE FOR NEXT WHILE WEND TO STEP DEF FN GOSUB RETURN ON REM ERROR 
+
 %%
-express : SYMBOL
+
+tokenErr		: ERROR
+		 		{ 
+			 		yyerror( "error from token." ); 
+		 		}
+		 		;
+
 %%
 
 /*

@@ -84,16 +84,10 @@
 <INITIAL>[\t\n\r ]				{}
 <INITIAL>.						return ERROR;
 
-<STRING_STATE>\\n 				{
-	buffer[bufferIndex] = '\n';
-	bufferIndex++;
-}
-
-<STRING_STATE>\\t 				{
-	buffer[bufferIndex] = '\t';
-	bufferIndex++;
-}
-
+<STRING_STATE>\\n 				buffer[bufferIndex++] = '\n';
+<STRING_STATE>\\t 				buffer[bufferIndex++] = '\t';
+<STRING_STATE>\\\"				buffer[bufferIndex++] = '\"';
+<STRING_STATE>\\\\				buffer[bufferIndex++] = '\\';
 <STRING_STATE>\" 				{
 	buffer[bufferIndex] = '\0';
 	strcpy( yylval.str_val, buffer );
@@ -102,11 +96,7 @@
 	return STRING;
 }
 
-<STRING_STATE>.					{
-	buffer[bufferIndex] = yytext[0];
-	bufferIndex++;
-}
-
-<STRING_STATE>\n 			return ERROR;
+<STRING_STATE>.					buffer[bufferIndex++] = yytext[0];
+<STRING_STATE>\n 				return ERROR;
 
 %%
