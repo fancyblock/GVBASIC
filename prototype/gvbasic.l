@@ -25,6 +25,7 @@
 <INITIAL>"OR"					return OR;
 <INITIAL>"NOT"					return NOT;
 <INITIAL>"LET"					return LET;
+<INITIAL>"DIM"					return DIM;
 <INITIAL>"READ"					return READ;
 <INITIAL>"DATA"					return DATA;
 <INITIAL>"RESTORE"				return RESTORE;
