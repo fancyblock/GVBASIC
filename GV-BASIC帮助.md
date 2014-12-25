@@ -39,31 +39,62 @@ TEXT,GRAPH,NORMAL,INVERSE,LOCATE,READ,DATA,DEF,FN,DIM,END,FOR...TO...STEP,NEXT,O
 
 
 ------ 功能键 ------
-
+F1		添加新文件
+F2		删除文件
+F4		修改文件
+输入	执行文件
 
 
 -----出错代码-----
-01.NEXT WITHOUT FOR:
+01.	NEXT WITHOUT FOR:
 NEXT语句没有对应的FOR语句,或是二者变量不对应。
-02.SYNTAX:
+
+02.	SYNTAX:
 语法错误,如不相符的括号,拼写错了命令和语句,或不正确的标点符号。
-03.OUT OF DATA:
+
+03.	OUT OF DATA:
 超过数据区的范围,READ语句已读完DATA语句中的所有数据,已无数据可供READ语句读。
-04.ILLEGAL QUANTITY:
+
+04.	ILLEGAL QUANTITY:
 非法的功能调用,出现一个不合法的参数被传送到系统函数中去。
-05.OVERFLOW:
+
+05.	OVERFLOW:
 溢出,数值太大,超过了GV BASIC允许的范围。
-06.OUT OF MEMORY:
+
+06.	OUT OF MEMORY:
 记忆体溢出,程序太大,有过多的FOR循环或GOSUB,过多的变量。
-07.UNDEF'D STATEMENT
+
+07.	UNDEF'D STATEMENT
 :未定义行号,在语句或命令中应用了程序中不存在的行号。
-08.BAD SUBSCRIPT:
+
+08.	BAD SUBSCRIPT:
 下标月结，用户使用了错误的数组元素，或使用了错误的下标值。
-09.REDIM'D ARRAY:
+
+09.	REDIM'D ARRAY:
 重复定义数组。
-10.DIVISION BY ZERO:
+
+10.	DIVISION BY ZERO:
 被零除。
-11.
+
+11.	ILLEGAL DIRECT:
+非法的直接命令
+
+12.	TYPE MISMATCH:
+类型不相符
+
+13.	STRING TOO LONG:
+字符串太长
+
+14.	FORMULA TOO COMPLEX:
+字符串式子太复杂
+
+15.	CAN'T CONTINUE:
+不能继续运行
+
+16.	UNDEF'D FUNCTION:
+未定义用户自定义函数
+
+17.	
 
 
 -----ASCII码表-----
@@ -209,13 +240,18 @@ END		程序结束
 ]50 END
 
 EOF		顺序文件是否结束，未结束返回0
-//TODO
+用法：	EOF(filenum%)
+如：
+]50 IF EOF(1) THEN PRINT "FILE END"
 
 EXP 	e的n次方
 //TODO
 
 FIELD 	指定缓冲区大小分配缓冲区变量
-//TODO
+用法：
+FIELD #filenum%, width% AS var1$[,width% AS var2$]...
+如：
+]40 FIELD #1,2 AS A$, 3 AS B$
 
 FOR...TO...STEP... NEXT 循环控制
 用法:
@@ -230,7 +266,9 @@ NEXT
 ]
 
 GET		从指定文件读取指定记录放入缓冲区
-//TODO
+用法：	GET #filenum%, recordnum%
+如：
+]40 GET #1, 1
 
 GOSUB 	跳转子程序
 用法:	GOSUB 行号
