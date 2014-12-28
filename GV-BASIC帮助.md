@@ -99,7 +99,7 @@ NEXT语句没有对应的FOR语句,或是二者变量不对应。
 
 -----ASCII码表-----
 
-
+TODO 
 
 
 [索引]
@@ -245,7 +245,9 @@ EOF		顺序文件是否结束，未结束返回0
 ]50 IF EOF(1) THEN PRINT "FILE END"
 
 EXP 	e的n次方
-//TODO
+用法：
+EXP （x）
+* e的x次方值
 
 FIELD 	指定缓冲区大小分配缓冲区变量
 用法：
@@ -300,10 +302,37 @@ INKEY$	读键值
 用法:	INKEY$
 
 INPUT 	从键盘或文件输入
-//TODO
+用法：	INPUT A1,A2,A3...
+如：
+]10 INPUT A
+]20 INPUT B
+]30 END
+运行
+?23
+23
+]10 INPUT A$
+]20 PRINT A$
+]30 END
+运行
+?I LOVE GVBASIC
+I LOVE GVBASIC
+]
+用法：
+INPUT #filenum%,varlist[,varlist,...]
+如：
+]10 INPUT #1,A$,A1$
 
 INT 	取整
-//TODO
+用法：
+INT (x)
+*取值为x的整数部分
+如：
+]10 A=234.58
+]20 PRINT INT(A)
+]30 END
+运行
+234
+]
 
 INVERSE	反显字符
 用法:	INVERSE
@@ -311,7 +340,9 @@ INVERSE	反显字符
 ]30 INVERSE
 
 LEFT$	取字符
-//TODO
+用法：
+LEFT$ (S$,n)
+*取字符串s$左端的n个字符。
 
 LEN 	求串长
 用法:	LEN(S$)
@@ -349,7 +380,10 @@ LOG		取对数
 *以e为底的x对数。
 
 LSET	向缓冲区分配的变量赋值，并做左对齐调整
-//TODO
+用法：
+LSET var$=strexpr$
+如：
+]40 LSET A$="HELLO"
 
 MID$	取字符
 用法:	MID$(s$,n,m)
@@ -357,11 +391,13 @@ MID$	取字符
 
 MKI$	整数转为二进制串(2byte表示)
 用法:	MKI$(intexpr)
-//TODO 
+如：
+]40 RSET A$=MKI$(10)
 
 MKS$	实数转为二进制串(5byte表示)
 用法:	MKS$(numexpr)
-//TODO 
+如：
+]40 LSET A$=MKS$(1.445)
 
 NORMAL	正常显示
 用法:	NORMAL
@@ -375,14 +411,25 @@ NOT		逻辑非
 
 NOTRACE	退出单步状态
 用法:	NOTRACE
-//TODO
+* 进入单步跟踪状态后，执行NOTRACE语句后，退出单步状态返回正常状态。
 
 ON 		控制转移
 用法:	ON...GOTO n1,n2,n3...
 *计算ON后的表达式值,为1时对应n1子程序,为2时对应n2子程序.....,当无对应时继续执行下一条语句。
 
 OPEN	打开文件
-//TODO
+用法：	OPEN file$ [FOR mode] AS #filenum% [LEN=reclen%]
+file$：	文件名串
+mode：	打开方式
+		INPUT 只读
+		OUTPUT 只写
+		APPEND 追加
+		RANDOM 随机
+filenum%: 文件号
+LEN：	缓冲区长度，默认为32（只在RANDOM方式下有效）
+如：
+]10 OPEN "DAT" FOR OUTPUT AS #1
+]20 OPEN "DAT1" FOR RANDOM AS #2 LEN=50
 
 OR 		逻辑或
 用法:	OR
@@ -418,7 +465,10 @@ THISISGVBASIC
 ]
 
 PUT		向指定文件的指定记录写入缓冲区内容
-//TODO 
+用法：
+PUT #filenum%,recordnum%
+如：
+]40 PUT #1,1
 
 READ 	从数据区读数
 用法:	READ dat1,dat2,dat3...
@@ -513,7 +563,7 @@ TEXT 	文本模式
 
 TRACE	单步跟踪
 用法:	TRACE
-//TODO 
+* TRACE指令执行后进入单步跟踪状态，这是要执行的每一条语句和行号都显示在屏幕上，直到执行了NOTRACE才退出单步跟踪状态。
 
 VAL		字串转为数字
 用法:	VAL(s$)
@@ -545,27 +595,7 @@ WEND
 
 WRITE	写数据到文件(如无文件号写到屏幕)
 用法:
-//TODO 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+WRITE [#filenum%,] expr1, expr2, ...
+如：
+]40 WRITE #1, A$, B%
 
