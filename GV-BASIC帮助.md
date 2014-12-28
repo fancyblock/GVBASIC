@@ -94,12 +94,64 @@ NEXT语句没有对应的FOR语句,或是二者变量不对应。
 16.	UNDEF'D FUNCTION:
 未定义用户自定义函数
 
-17.	
+17.	WEND WITHOUT WHILE:
+有WEND语句无WHILE语句。
+
+18.	RETURN WITHOUT GOSUB:
+有RETURN语句无GOSUB语句。
+
+19.	OUT OF SPACE:
+空间不足
+
+20.	FILE CREATE:
+文件创建错误。
+
+21.	FILE OPEN:
+文件打开错误。
+
+22.	FILE CLOSE:
+文件关闭错误。
+
+23.	FILE READ:
+读文件错误。
+
+24.	FILE WRITE:
+写文件错误。
+
+25.	FILE DELETE:
+删除文件错误。
+
+26.	FILE NOT EXIST:
+文件不存在。
+
+27.	RECORD NUMBER:
+记录号错误。
+
+28.	FILE NUMBER:
+文件号错误。
+
+29.	FILE MODE:
+文件模式错误。
+
+30.	SAME FILE EXIST:
+有同名文件存在。
+
+31.	FILE LENGTH READ:
+读文件长度错误。
+
+32.	ILLEGAL FILE NAME:
+非法文件名。
+
+33.	FILE TOO LONG:
+数据文件超长。
+
+34.	FILE REOPEN:
+文件重打开错误。
 
 
 -----ASCII码表-----
 
-TODO 
+略。
 
 
 [索引]
