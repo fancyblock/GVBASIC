@@ -6,31 +6,39 @@
 public enum TokenType : int
 {
     eUndefine,
+
     eSymbol,            // symbol 
+
     eIntNum,            // int number
     eRealNum,           // real number 
     eString,            // string 
+
     ePlus,				// +
     eMinus,				// -
     eMul,				// *
     eDiv,				// /
     ePower,				// ^
+
     eEqual,				// =
     eGtr,				// > 
     eLt,				// <
     eGte,				// >=
     eLte,				// <=
     eNeq,				// <>
+
     eAnd,				// AND
     eOr,				// OR
     eNot,				// NOT
+
     eSemi,				// ;
     eComma,				// ,
     eColon,				// :
     eLeftBra,			// (
     eRightBra,			// )
+
 	ePound,				// #
     eQm,				// ? 
+
     eLet,				// LET 
     eDim,				// DIM
     eRead,				// READ
@@ -52,8 +60,9 @@ public enum TokenType : int
     eReturn,			// RETURN
     eOn,				// ON
     eRem,               // REM 
-    eError,             // error 
-    eEOL,               // end of line ( dev only )
+
+    eError,             // error        ( dev only )
+    eEOL,               // end of line  ( dev only )
 };
 
 
@@ -68,3 +77,10 @@ public class Token
 };
 
 
+// store a code line 
+public class CodeLine
+{
+    public int m_lineNum;
+    public int m_tokenSize;
+    public Token[] m_tokens;
+}

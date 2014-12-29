@@ -31,6 +31,15 @@ namespace GVBASIC_Compiler
             tok.Reset();
             int lineNum = 1;
 
+            // parser 
+            Parser parser = new Parser(tok);
+
+            // sort the code line 
+            parser.SortCodeLines();
+
+            // scan labels 
+            parser.ScanLabels();
+
             // parse to tokens 
             while( tok.IsFinish() == false )
             {
@@ -85,6 +94,16 @@ namespace GVBASIC_Compiler
 
             // wait for key press 
             System.Console.ReadKey();
+        }
+
+
+        /// <summary>
+        /// print tokenizer 
+        /// </summary>
+        /// <param name="tokenizer"></param>
+        protected void printTokens( Tokenizer tokenizer )
+        {
+            //TODO 
         }
     }
 }
