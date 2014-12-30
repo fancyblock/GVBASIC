@@ -11,14 +11,8 @@ namespace GVBASIC_Compiler
     {
         static void Main(string[] args)
         {
-            // print the arguments
-            System.Console.WriteLine("[Command line arguments]");
-            foreach (string str in args)
-            {
-                System.Console.WriteLine(str);
-            }
-
             string path = args[0];
+            System.Console.WriteLine("Run file: " + path);
 
             // read the source
             string sourceCode = System.IO.File.ReadAllText(path);
@@ -39,8 +33,12 @@ namespace GVBASIC_Compiler
             // scan labels 
             parser.ScanLabels();
 
-            // grammer parse 
-            //TODO 
+            // run 
+            Runtime rt = new Runtime();
+            rt.SetAPICall(new TestAPISet());
+            rt.SetParser(parser);
+
+            rt.Run();
 
             // wait for key press 
             System.Console.ReadKey();

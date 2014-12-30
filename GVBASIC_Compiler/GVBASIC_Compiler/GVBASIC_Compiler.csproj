@@ -60,12 +60,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Compiler\Defines.cs" />
+    <Compile Include="Compiler\IAPICall.cs" />
     <Compile Include="Compiler\Parser.cs" />
     <Compile Include="Compiler\Preprocessor.cs" />
     <Compile Include="Compiler\Runtime.cs" />
     <Compile Include="Compiler\Tokenizer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestAPISet.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
