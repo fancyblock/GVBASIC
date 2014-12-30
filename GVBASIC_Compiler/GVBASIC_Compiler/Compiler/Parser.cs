@@ -21,32 +21,35 @@ namespace GVBASIC_Compiler.Compiler
             m_codeLines = new List<CodeLine>();
             List<Token> tokenBuff = new List<Token>();
 
+            // read all the tokens into codeline struct
             while( tokenizer.IsFinish == false )
             {
                 Token t = tokenizer.GetNextToken();
                 bool endLine = false;
 
-                if( t.m_type == TokenType.eRem )
+                if( t.m_type == TokenType.eRem )        // filter the comment 
                 {
                     tokenizer.SkipToNextLine();
                     endLine = true;
                 }
-                else if( t.m_type == TokenType.eEOL )
+                else if( t.m_type == TokenType.eEOL )   // omit end of line 
                 {
                     endLine = true;
                 }
                 else if( t.m_type == TokenType.eError )
                 {
                     // throw error , lex error.
-                    //TODO 
-
-                    //tokenizer.SkipToNextLine();
-                    //endLine = true;
+                    throw new Exception("Error token in line " + tokenBuff[0].ToString() );
                 }
                 
                 if( endLine )
                 {
-                    //TODO 
+                    // save the line 
+                    if (tokenBuff.Count > 0)
+                    {
+                        m_codeLines.Add(new CodeLine(tokenBuff));
+                        tokenBuff.Clear();
+                    }
                 }
                 else
                 {
@@ -60,12 +63,12 @@ namespace GVBASIC_Compiler.Compiler
         /// </summary>
         public bool SortCodeLines()
         {
-            if( m_codeLines != null )
+            if( m_codeLines == null )
             {
                 return false;
             }
 
-            //TODO 
+            m_codeLines.Sort((CodeLine lineA, CodeLine lineB) => { return lineA.m_lineNum - lineB.m_lineNum; });
 
             return true;
         }
@@ -77,6 +80,11 @@ namespace GVBASIC_Compiler.Compiler
         {
             //TODO 
         }
+
+
+        //----------------------------- private functions ----------------------------
+
+        //TODO 
 
     }
 }

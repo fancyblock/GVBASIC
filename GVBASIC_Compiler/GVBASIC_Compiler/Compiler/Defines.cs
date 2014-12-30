@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
 
 /// <summary>
 /// all the token types 
@@ -80,6 +81,35 @@ public class Token
 // store a code line 
 public class CodeLine
 {
+    /// <summary>
+    /// constructor 
+    /// </summary>
+    /// <param name="tokens"></param>
+    public CodeLine(List<Token> tokens)
+    {
+        // line number check 
+        if (tokens.Count <= 0)
+        {
+            throw new Exception("No line.");
+        }
+
+        // no line number error. 
+        if (tokens[0].m_type != TokenType.eIntNum)
+        {
+            // throw error, no line number at the beginning of the line. 
+            throw new Exception("No line number.");
+        }
+
+        m_lineNum = tokens[0].m_intVal;
+        m_tokenSize = tokens.Count - 1;
+
+        m_tokens = new Token[m_tokenSize];
+        for (int i = 0; i < m_tokenSize; i++)
+        {
+            m_tokens[i] = tokens[i+1];
+        }
+    }
+
     public int m_lineNum;
     public int m_tokenSize;
     public Token[] m_tokens;
