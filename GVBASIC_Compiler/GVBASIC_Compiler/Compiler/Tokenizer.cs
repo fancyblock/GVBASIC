@@ -409,14 +409,17 @@ namespace GVBASIC_Compiler.Compiler
         /// if is finished or not 
         /// </summary>
         /// <returns></returns>
-        public bool IsFinish()
+        public bool IsFinish
         {
-            if( m_curIndex >= m_sourceCode.Length )
+            get
             {
-                return true;
-            }
+                if (m_curIndex >= m_sourceCode.Length)
+                {
+                    return true;
+                }
 
-            return false;
+                return false;
+            }
         }
 
 

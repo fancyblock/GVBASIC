@@ -19,8 +19,40 @@ namespace GVBASIC_Compiler.Compiler
         {
             tokenizer.Reset();
             m_codeLines = new List<CodeLine>();
+            List<Token> tokenBuff = new List<Token>();
 
-            //TODO 
+            while( tokenizer.IsFinish == false )
+            {
+                Token t = tokenizer.GetNextToken();
+                bool endLine = false;
+
+                if( t.m_type == TokenType.eRem )
+                {
+                    tokenizer.SkipToNextLine();
+                    endLine = true;
+                }
+                else if( t.m_type == TokenType.eEOL )
+                {
+                    endLine = true;
+                }
+                else if( t.m_type == TokenType.eError )
+                {
+                    // throw error , lex error.
+                    //TODO 
+
+                    //tokenizer.SkipToNextLine();
+                    //endLine = true;
+                }
+                
+                if( endLine )
+                {
+                    //TODO 
+                }
+                else
+                {
+                    tokenBuff.Add(t);
+                }
+            }
         }
 
         /// <summary>

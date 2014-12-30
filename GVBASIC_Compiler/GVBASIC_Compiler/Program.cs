@@ -23,13 +23,12 @@ namespace GVBASIC_Compiler
             // read the source
             string sourceCode = System.IO.File.ReadAllText(path);
 
-            List<Token> tokenList = new List<Token>();
-
             // compiler code 
             Tokenizer tok = new Tokenizer();
             tok.SetSource(sourceCode);
             tok.Reset();
-            int lineNum = 1;
+
+            printTokens(tok);
 
             // parser 
             Parser parser = new Parser(tok);
@@ -40,8 +39,27 @@ namespace GVBASIC_Compiler
             // scan labels 
             parser.ScanLabels();
 
+            // grammer parse 
+            //TODO 
+
+            // wait for key press 
+            System.Console.ReadKey();
+        }
+
+
+        /// <summary>
+        /// print tokenizer 
+        /// </summary>
+        /// <param name="tokenizer"></param>
+        static protected void printTokens( Tokenizer tok )
+        {
+            List<Token> tokenList = new List<Token>();
+            int lineNum = 1;
+
+            tok.Reset();
+
             // parse to tokens 
-            while( tok.IsFinish() == false )
+            while (tok.IsFinish == false)
             {
                 Token t = tok.GetNextToken();
 
@@ -52,15 +70,15 @@ namespace GVBASIC_Compiler
                     lineNum++;
                 }
                 // end of line 
-                else if( t.m_type == TokenType.eEOL )
+                else if (t.m_type == TokenType.eEOL)
                 {
                     System.Console.Write("\n");
                     lineNum++;
                 }
                 // error handler 
-                else if( t.m_type == TokenType.eError )
+                else if (t.m_type == TokenType.eError)
                 {
-                    System.Console.Write("Error char \'" + t.m_strVal + "\' in line " + lineNum + "\n" );
+                    System.Console.Write("Error char \'" + t.m_strVal + "\' in line " + lineNum + "\n");
                     tok.SkipToNextLine();
                     lineNum++;
 
@@ -78,7 +96,7 @@ namespace GVBASIC_Compiler
                     {
                         System.Console.Write(t.m_realVal + " ");
                     }
-                    else if( t.m_type == TokenType.eUndefine )
+                    else if (t.m_type == TokenType.eUndefine)
                     {
                         System.Console.Write("[error]");
                     }
@@ -88,22 +106,6 @@ namespace GVBASIC_Compiler
                     }
                 }
             }
-
-            // grammer parse 
-            //TODO 
-
-            // wait for key press 
-            System.Console.ReadKey();
-        }
-
-
-        /// <summary>
-        /// print tokenizer 
-        /// </summary>
-        /// <param name="tokenizer"></param>
-        protected void printTokens( Tokenizer tokenizer )
-        {
-            //TODO 
         }
     }
 }
