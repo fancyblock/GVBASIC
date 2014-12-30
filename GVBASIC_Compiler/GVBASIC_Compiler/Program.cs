@@ -47,6 +47,8 @@ namespace GVBASIC_Compiler
         }
 
 
+        //--------------------------- private functions -------------------------- 
+
         /// <summary>
         /// print tokenizer 
         /// </summary>

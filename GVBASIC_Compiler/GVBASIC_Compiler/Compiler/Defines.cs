@@ -114,3 +114,12 @@ public class CodeLine
     public int m_tokenSize;
     public Token[] m_tokens;
 }
+
+
+// function call 
+public class Func
+{
+    string m_funcName;
+    //TODO 
+}
+

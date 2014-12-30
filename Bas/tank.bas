@@ -4,7 +4,5 @@
 40 LOCATE 3,5:PRINT "Code:HXL"
 50 LOCATE 4,2:PRINT "Press Any Key"
 60 S$=""
-
-80 IF S$="" THEN GOTO 70
 70 S$=INKEY$
-
+80 IF S$="" THEN GOTO 70

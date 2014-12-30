@@ -87,11 +87,30 @@ namespace GVBASIC_Compiler.Compiler
             }
         }
 
+        /// <summary>
+        /// getter of label table
+        /// </summary>
+        public Dictionary<int, int> LABEL_TABLE
+        {
+            get
+            {
+                return m_labelTable;
+            }
+        }
+
+        /// <summary>
+        /// getter of code lines 
+        /// </summary>
+        public List<CodeLine> CODE_LINES
+        {
+            get
+            {
+                return m_codeLines;
+            }
+        }
+
 
         //----------------------------- private functions ----------------------------
-
-
-        //TODO 
 
 
     }
