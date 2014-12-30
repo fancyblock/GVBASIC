@@ -9,6 +9,7 @@ namespace GVBASIC_Compiler.Compiler
     /// </summary>
     class Parser
     {
+        protected Dictionary<int, int> m_labelTable = null;
         protected List<CodeLine> m_codeLines = null;
 
         /// <summary>
@@ -61,16 +62,15 @@ namespace GVBASIC_Compiler.Compiler
         /// <summary>
         /// sort code lines 
         /// </summary>
-        public bool SortCodeLines()
+        public void SortCodeLines()
         {
             if( m_codeLines == null )
             {
-                return false;
+                throw new Exception("[Parse]: no codelines.");
             }
 
+            // sort the codelines
             m_codeLines.Sort((CodeLine lineA, CodeLine lineB) => { return lineA.m_lineNum - lineB.m_lineNum; });
-
-            return true;
         }
 
         /// <summary>
@@ -78,13 +78,21 @@ namespace GVBASIC_Compiler.Compiler
         /// </summary>
         public void ScanLabels()
         {
-            //TODO 
+            m_labelTable = new Dictionary<int, int>();
+
+            // save all the lines 
+            for (int i = 0; i < m_codeLines.Count; i++)
+            {
+                m_labelTable[m_codeLines[0].m_lineNum] = i;
+            }
         }
 
 
         //----------------------------- private functions ----------------------------
 
+
         //TODO 
+
 
     }
 }

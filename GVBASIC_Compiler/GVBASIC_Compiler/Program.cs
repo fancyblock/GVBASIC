@@ -23,12 +23,12 @@ namespace GVBASIC_Compiler
             // read the source
             string sourceCode = System.IO.File.ReadAllText(path);
 
-            // compiler code 
+            // lex 
             Tokenizer tok = new Tokenizer();
             tok.SetSource(sourceCode);
             tok.Reset();
 
-            printTokens(tok);
+            //printTokens(tok);
 
             // parser 
             Parser parser = new Parser(tok);
