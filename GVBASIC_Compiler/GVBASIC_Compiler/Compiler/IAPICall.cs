@@ -12,6 +12,7 @@ namespace GVBASIC_Compiler.Compiler
     interface IAPICall
     {
         void SetContext(RuntimeContext context);
-        void CallFunction(Func func);
+        void CallFunction(Function func);
+        //TODO 
     }
 }

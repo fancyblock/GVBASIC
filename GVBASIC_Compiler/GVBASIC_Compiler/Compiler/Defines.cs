@@ -101,31 +101,26 @@ public class CodeLine
         }
 
         m_lineNum = tokens[0].m_intVal;
-        m_tokenSize = tokens.Count - 1;
+		m_tokenCount = tokens.Count - 1;
 
-        m_tokens = new Token[m_tokenSize];
-        for (int i = 0; i < m_tokenSize; i++)
+		m_tokens = new Token[m_tokenCount];
+		for (int i = 0; i < m_tokenCount; i++)
         {
             m_tokens[i] = tokens[i+1];
         }
     }
 
     public int m_lineNum;
-    public int m_tokenSize;
+    public int m_tokenCount;
     public Token[] m_tokens;
 }
 
 
 // function call 
-public class Func
+public class Function
 {
-    string m_funcName;
-    //TODO 
+    public string m_funcName;
+	public Token[] m_params;
+	//TODO 
 }
 
-
-// runtime context 
-public class RuntimeContext
-{
-    //TODO 
-}

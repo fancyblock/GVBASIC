@@ -11,7 +11,15 @@ namespace GVBASIC_Compiler
     {
         static void Main(string[] args)
         {
-            string path = args[0];
+			string path = null;
+			if (args.Length > 0) 
+			{
+				path = args [0];
+			} 
+			else 
+			{
+				path = "../../../../Bas/tank.bas";
+			}
             System.Console.WriteLine("Run file: " + path);
 
             // read the source

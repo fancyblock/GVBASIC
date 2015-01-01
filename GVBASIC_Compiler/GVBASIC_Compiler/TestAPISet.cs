@@ -13,7 +13,7 @@ namespace GVBASIC_Compiler
         /// set context 
         /// </summary>
         /// <param name="context"></param>
-        public void SetContext(RuntimeContext context)
+        public void SetContext( RuntimeContext context )
         {
             //TODO 
         }
@@ -22,7 +22,7 @@ namespace GVBASIC_Compiler
         /// call function 
         /// </summary>
         /// <param name="func"></param>
-        public void CallFunction(Func func)
+        public void CallFunction( Function func )
         {
             //TODO 
         }
