@@ -1,15 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GVBASIC_Compiler.Compiler;
 
-namespace GVBASIC_Compiler
+namespace GVBASIC_Compiler.Compiler
 {
-    class TestAPISet : IAPICall
+    public class BuildinFunc : IAPICall
     {
         protected RuntimeContext m_context = null;
+
+        /// <summary>
+        /// Constructor 
+        /// </summary>
+        public BuildinFunc()
+        {
+        }
 
         /// <summary>
         /// set context 
@@ -40,11 +42,6 @@ namespace GVBASIC_Compiler
         {
             //TODO 
         }
-
-
-        //------------------------- private function -------------------------
-
-        //TODO 
-
     }
 }
+

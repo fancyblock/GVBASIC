@@ -269,7 +269,6 @@ ELLIPSE	画椭圆
 ]20 ELLIPSE 80,40,60,30,1
 ]40 END
 
-
 IF...THEN/(GOTO)...ELSE 条件判断
 用法:
 IF...THEN n ，IF...GOTO n 条件成立时跳到n行处执行;条件不成立时接着下一行执行。

@@ -70,6 +70,7 @@
     <Compile Include="TestAPISet.cs" />
     <Compile Include="Compiler\RuntimeContext.cs" />
     <Compile Include="Compiler\Expression.cs" />
+    <Compile Include="Compiler\BuildinFunc.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

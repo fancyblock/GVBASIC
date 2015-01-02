@@ -11,6 +11,7 @@ namespace GVBASIC_Compiler.Compiler
     /// </summary>
     class Runtime
     {
+        protected IAPICall m_buildinFunc = null;
         protected IAPICall m_apiCall = null;
         protected Parser m_parser = null;
         protected RuntimeContext m_context = null;
@@ -21,6 +22,8 @@ namespace GVBASIC_Compiler.Compiler
         public Runtime()
         {
             m_context = new RuntimeContext();
+            m_buildinFunc = new BuildinFunc();
+            m_buildinFunc.SetContext(m_context);
         }
 
         /// <summary>
