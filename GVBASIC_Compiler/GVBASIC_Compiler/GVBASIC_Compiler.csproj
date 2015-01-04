@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Compiler\BaseFunc.cs" />
     <Compile Include="Compiler\Defines.cs" />
     <Compile Include="Compiler\IAPICall.cs" />
     <Compile Include="Compiler\Parser.cs" />
