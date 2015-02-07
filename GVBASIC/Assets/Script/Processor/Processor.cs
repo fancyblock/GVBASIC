@@ -3,10 +3,12 @@ using System.Collections;
 
 public class Processor : MonoBehaviour 
 {
+	public TextMode m_textMode;
 
 	// Use this for initialization
 	void Start () 
     {
+		m_textMode.ShowASCII (0);
 	}
 	
 	// Update is called once per frame

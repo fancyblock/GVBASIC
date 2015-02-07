@@ -58,6 +58,7 @@ public class TextMode : MonoBehaviour
     /// show ASCII 
     /// </summary>
     /// <param name="offset"></param>
+	//[TEMP]
     public void ShowASCII( int offset )
     {
         for( int i = 0; i < 100; i++ )
