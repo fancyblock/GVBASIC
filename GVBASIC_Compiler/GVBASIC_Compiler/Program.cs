@@ -43,7 +43,6 @@ namespace GVBASIC_Compiler
 
             // run 
             Runtime rt = new Runtime();
-            rt.SetAPICall(new TestAPISet());
             rt.SetParser(parser);
 
             rt.Run();
