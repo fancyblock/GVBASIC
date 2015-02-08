@@ -101,16 +101,6 @@ namespace GVBASIC_Compiler.Compiler
             //TODO 
         }
 
-        /// <summary>
-        /// getter of label table
-        /// </summary>
-        public Dictionary<int, int> LABEL_TABLE
-        {
-            get
-            {
-                return m_labelTable;
-            }
-        }
 
         /// <summary>
         /// getter of code lines 
