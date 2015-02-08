@@ -5,7 +5,7 @@ namespace GVBASIC_Compiler.Compiler
     /// <summary>
     /// Runtime context.
     /// </summary>
-    public class RuntimeContext
+    public class Context
     {
         public int CURRENT_CODE_LINE { get; set; }
         public int CURRENT_TOKEN_INDEX { get; set; }
@@ -13,7 +13,7 @@ namespace GVBASIC_Compiler.Compiler
         /// <summary>
         /// constructor 
         /// </summary>
-        public RuntimeContext()
+        public Context()
         {
             Reset();
         }

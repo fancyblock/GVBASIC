@@ -16,7 +16,7 @@ namespace GVBASIC_Compiler.Compiler
         /// set context 
         /// </summary>
         /// <param name="context"></param>
-        public void SetContext(RuntimeContext context)
+        public void SetContext(Context context)
         {
             //TODO 
         }

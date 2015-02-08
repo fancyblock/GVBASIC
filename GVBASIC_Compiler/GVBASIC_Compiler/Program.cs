@@ -41,6 +41,8 @@ namespace GVBASIC_Compiler
             // scan labels 
             parser.ScanLabels();
 
+            parser.DoParse();
+
             // run 
             Runtime rt = new Runtime();
             rt.SetParser(parser);

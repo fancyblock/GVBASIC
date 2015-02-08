@@ -57,6 +57,12 @@ namespace GVBASIC_Compiler.Compiler
                     tokenBuff.Add(t);
                 }
             }
+
+            // add the last line 
+            if (tokenBuff.Count > 0)
+            {
+                m_codeLines.Add(new CodeLine(tokenBuff));
+            }
         }
 
         /// <summary>
@@ -83,8 +89,16 @@ namespace GVBASIC_Compiler.Compiler
             // save all the lines 
             for (int i = 0; i < m_codeLines.Count; i++)
             {
-                m_labelTable[m_codeLines[0].m_lineNum] = i;
+                m_labelTable.Add(m_codeLines[i].m_lineNum, i);
             }
+        }
+
+        /// <summary>
+        /// do parse
+        /// </summary>
+        public void DoParse()
+        {
+            //TODO 
         }
 
         /// <summary>

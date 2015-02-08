@@ -13,14 +13,14 @@ namespace GVBASIC_Compiler.Compiler
     {
         protected BuildinFunc m_buildinFunc = null;
         protected Parser m_parser = null;
-        protected RuntimeContext m_context = null;
+        protected Context m_context = null;
 
         /// <summary>
         /// constructor 
         /// </summary>
         public Runtime()
         {
-            m_context = new RuntimeContext();
+            m_context = new Context();
             m_buildinFunc = new BuildinFunc();
             m_buildinFunc.SetContext(m_context);
         }
