@@ -68,7 +68,7 @@ NEXT语句没有对应的FOR语句,或是二者变量不对应。
 :未定义行号,在语句或命令中应用了程序中不存在的行号。
 
 08.	BAD SUBSCRIPT:
-下标月结，用户使用了错误的数组元素，或使用了错误的下标值。
+下标月结,用户使用了错误的数组元素,或使用了错误的下标值。
 
 09.	REDIM'D ARRAY:
 重复定义数组。
@@ -251,7 +251,7 @@ DEF FN 	自定义函数
 
 DIM		数组定义
 用法:	DIM数组名(N1,N2,N3...)
-*说明数组维数并分配空间，没有经过DIM说明的数组下标设定最大值是10。
+*说明数组维数并分配空间,没有经过DIM说明的数组下标设定最大值是10。
 
 DRAW	画点
 用法:	DRAW X,Y,TYPE
@@ -271,8 +271,8 @@ ELLIPSE	画椭圆
 
 IF...THEN/(GOTO)...ELSE 条件判断
 用法:
-IF...THEN n ，IF...GOTO n 条件成立时跳到n行处执行;条件不成立时接着下一行执行。
-IF...THEN n ELSE... , IF...GOTO n ELSE... 条件成立时提到n行处执行；条件不成立时执行ELSE后的语句，接着执行下一行。
+IF...THEN n ,IF...GOTO n 条件成立时跳到n行处执行;条件不成立时接着下一行执行。
+IF...THEN n ELSE... , IF...GOTO n ELSE... 条件成立时提到n行处执行;条件不成立时执行ELSE后的语句,接着执行下一行。
 如:
 ]10 N=1
 ]20 PRINT N,SQR(N)
@@ -290,20 +290,20 @@ END		程序结束
 ]40 PRINT "AAL=";AAL
 ]50 END
 
-EOF		顺序文件是否结束，未结束返回0
-用法：	EOF(filenum%)
-如：
+EOF		顺序文件是否结束,未结束返回0
+用法:	EOF(filenum%)
+如:
 ]50 IF EOF(1) THEN PRINT "FILE END"
 
 EXP 	e的n次方
-用法：
-EXP （x）
+用法:
+EXP (x)
 * e的x次方值
 
 FIELD 	指定缓冲区大小分配缓冲区变量
-用法：
+用法:
 FIELD #filenum%, width% AS var1$[,width% AS var2$]...
-如：
+如:
 ]40 FIELD #1,2 AS A$, 3 AS B$
 
 FOR...TO...STEP... NEXT 循环控制
@@ -319,8 +319,8 @@ NEXT
 ]
 
 GET		从指定文件读取指定记录放入缓冲区
-用法：	GET #filenum%, recordnum%
-如：
+用法:	GET #filenum%, recordnum%
+如:
 ]40 GET #1, 1
 
 GOSUB 	跳转子程序
@@ -353,8 +353,8 @@ INKEY$	读键值
 用法:	INKEY$
 
 INPUT 	从键盘或文件输入
-用法：	INPUT A1,A2,A3...
-如：
+用法:	INPUT A1,A2,A3...
+如:
 ]10 INPUT A
 ]20 INPUT B
 ]30 END
@@ -368,16 +368,16 @@ INPUT 	从键盘或文件输入
 ?I LOVE GVBASIC
 I LOVE GVBASIC
 ]
-用法：
+用法:
 INPUT #filenum%,varlist[,varlist,...]
-如：
+如:
 ]10 INPUT #1,A$,A1$
 
 INT 	取整
-用法：
+用法:
 INT (x)
 *取值为x的整数部分
-如：
+如:
 ]10 A=234.58
 ]20 PRINT INT(A)
 ]30 END
@@ -391,7 +391,7 @@ INVERSE	反显字符
 ]30 INVERSE
 
 LEFT$	取字符
-用法：
+用法:
 LEFT$ (S$,n)
 *取字符串s$左端的n个字符。
 
@@ -430,10 +430,10 @@ LOG		取对数
 用法:	LOG(x)
 *以e为底的x对数。
 
-LSET	向缓冲区分配的变量赋值，并做左对齐调整
-用法：
+LSET	向缓冲区分配的变量赋值,并做左对齐调整
+用法:
 LSET var$=strexpr$
-如：
+如:
 ]40 LSET A$="HELLO"
 
 MID$	取字符
@@ -442,12 +442,12 @@ MID$	取字符
 
 MKI$	整数转为二进制串(2byte表示)
 用法:	MKI$(intexpr)
-如：
+如:
 ]40 RSET A$=MKI$(10)
 
 MKS$	实数转为二进制串(5byte表示)
 用法:	MKS$(numexpr)
-如：
+如:
 ]40 LSET A$=MKS$(1.445)
 
 NORMAL	正常显示
@@ -462,23 +462,23 @@ NOT		逻辑非
 
 NOTRACE	退出单步状态
 用法:	NOTRACE
-* 进入单步跟踪状态后，执行NOTRACE语句后，退出单步状态返回正常状态。
+* 进入单步跟踪状态后,执行NOTRACE语句后,退出单步状态返回正常状态。
 
 ON 		控制转移
 用法:	ON...GOTO n1,n2,n3...
 *计算ON后的表达式值,为1时对应n1子程序,为2时对应n2子程序.....,当无对应时继续执行下一条语句。
 
 OPEN	打开文件
-用法：	OPEN file$ [FOR mode] AS #filenum% [LEN=reclen%]
-file$：	文件名串
-mode：	打开方式
+用法:	OPEN file$ [FOR mode] AS #filenum% [LEN=reclen%]
+file$:	文件名串
+mode:	打开方式
 		INPUT 只读
 		OUTPUT 只写
 		APPEND 追加
 		RANDOM 随机
 filenum%: 文件号
-LEN：	缓冲区长度，默认为32（只在RANDOM方式下有效）
-如：
+LEN:	缓冲区长度,默认为32(只在RANDOM方式下有效)
+如:
 ]10 OPEN "DAT" FOR OUTPUT AS #1
 ]20 OPEN "DAT1" FOR RANDOM AS #2 LEN=50
 
@@ -505,7 +505,7 @@ PRINT	屏幕显示
 		显示完每个表达式以后就换行。
 		3.PRINT exp1;exp2;exp3...
 		显示每个表达式以后不换行,接着显示下一个表达式。
-		*当显示超过一行时，自动换行接着显示。
+		*当显示超过一行时,自动换行接着显示。
 如:
 ]A=23:LET B=15
 ]PRINT A,B
@@ -516,9 +516,9 @@ THISISGVBASIC
 ]
 
 PUT		向指定文件的指定记录写入缓冲区内容
-用法：
+用法:
 PUT #filenum%,recordnum%
-如：
+如:
 ]40 PUT #1,1
 
 READ 	从数据区读数
@@ -598,7 +598,7 @@ SWAP	变量互换
 TAB 	输出控制
 用法:	TAB(n)
 *从第n列开始输出。
-如：
+如:
 ]PRINT "QWER";TAB(8);"ASDF"
 QWER    ASDF
 ]PRINT "QWERTYUI";TAB(5);"ASDFGH"
@@ -614,7 +614,7 @@ TEXT 	文本模式
 
 TRACE	单步跟踪
 用法:	TRACE
-* TRACE指令执行后进入单步跟踪状态，这是要执行的每一条语句和行号都显示在屏幕上，直到执行了NOTRACE才退出单步跟踪状态。
+* TRACE指令执行后进入单步跟踪状态,这是要执行的每一条语句和行号都显示在屏幕上,直到执行了NOTRACE才退出单步跟踪状态。
 
 VAL		字串转为数字
 用法:	VAL(s$)
@@ -638,7 +638,7 @@ WEND
 ]130 READ A
 ]140 WEND
 ]150 RETURN
-]900 DATA 34，45，50，65，23，88，-1
+]900 DATA 34,45,50,65,23,88,-1
 ]990 END
 运行
 305
@@ -647,6 +647,6 @@ WEND
 WRITE	写数据到文件(如无文件号写到屏幕)
 用法:
 WRITE [#filenum%,] expr1, expr2, ...
-如：
+如:
 ]40 WRITE #1, A$, B%
 
