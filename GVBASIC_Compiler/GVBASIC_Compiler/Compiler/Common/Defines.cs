@@ -9,6 +9,7 @@ public enum TokenType : int
     eUndefine,
 
     eSymbol,            // symbol 
+    eFileNum,           // file handler
 
     eIntNum,            // int number
     eRealNum,           // real number 
@@ -113,14 +114,5 @@ public class CodeLine
     public int m_lineNum;
     public int m_tokenCount;
     public Token[] m_tokens;
-}
-
-
-// function call 
-public class Function
-{
-    public string m_funcName;
-	public Token[] m_params;
-	//TODO 
 }
 
