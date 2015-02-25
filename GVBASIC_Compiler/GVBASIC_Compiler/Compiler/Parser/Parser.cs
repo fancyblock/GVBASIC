@@ -66,9 +66,23 @@ namespace GVBASIC_Compiler.Compiler
         }
 
         /// <summary>
+        /// do parse
+        /// </summary>
+        public void DoParse()
+        {
+            sortCodeLines();
+
+            //TODO 
+        }
+
+
+        //----------------------------- private functions ----------------------------
+
+
+        /// <summary>
         /// sort code lines 
         /// </summary>
-        public void SortCodeLines()
+        public void sortCodeLines()
         {
             if( m_codeLines == null )
             {
@@ -78,44 +92,6 @@ namespace GVBASIC_Compiler.Compiler
             // sort the codelines
             m_codeLines.Sort((CodeLine lineA, CodeLine lineB) => { return lineA.m_lineNum - lineB.m_lineNum; });
         }
-
-        /// <summary>
-        /// scan line labels 
-        /// </summary>
-        public void ScanLabels()
-        {
-            m_labelTable = new Dictionary<int, int>();
-
-            // save all the lines 
-            for (int i = 0; i < m_codeLines.Count; i++)
-            {
-                m_labelTable.Add(m_codeLines[i].m_lineNum, i);
-            }
-        }
-
-        /// <summary>
-        /// do parse
-        /// </summary>
-        public void DoParse()
-        {
-            //TODO 
-        }
-
-
-        /// <summary>
-        /// getter of code lines 
-        /// </summary>
-        public List<CodeLine> CODE_LINES
-        {
-            get
-            {
-                return m_codeLines;
-            }
-        }
-
-
-        //----------------------------- private functions ----------------------------
-
 
     }
 }

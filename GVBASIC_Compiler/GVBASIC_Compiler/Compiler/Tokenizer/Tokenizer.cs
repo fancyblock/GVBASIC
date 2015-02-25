@@ -35,6 +35,8 @@ namespace GVBASIC_Compiler.Compiler
         protected char[] m_opChr;
         protected char[] m_delimChr;
         protected string[] m_keyword;
+        protected List<string> m_commands;
+        protected List<string> m_functions;
 
         /// <summary>
         /// constructor 
@@ -49,6 +51,8 @@ namespace GVBASIC_Compiler.Compiler
                                         "RESTORE", "GOTO", "IF", "THEN", "ELSE", "WHILE",
                                         "WEND", "TO", "STEP", "DEF", "FN", "GOSUB",
                                         "RETURN", "ON", "REM", "NEXT", "FOR" };
+            m_commands = new List<string>{ };
+            m_functions = new List<string>(){ };
         }
 
         /// <summary>
