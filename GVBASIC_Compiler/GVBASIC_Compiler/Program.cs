@@ -30,7 +30,7 @@ namespace GVBASIC_Compiler
             tok.SetSource(sourceCode);
             tok.Reset();
 
-            //printTokens(tok);
+            printTokens(tok);
 
             // parser 
             Parser parser = new Parser(tok);
