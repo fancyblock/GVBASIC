@@ -9,8 +9,9 @@ namespace GVBASIC_Compiler.Compiler
     /// </summary>
     class Parser
     {
-        protected Dictionary<int, int> m_labelTable = null;
         protected List<CodeLine> m_codeLines = null;
+        protected int m_lineIndex;
+        protected int m_tokenIndex;
 
         /// <summary>
         /// constructor 
@@ -72,6 +73,9 @@ namespace GVBASIC_Compiler.Compiler
         {
             sortCodeLines();
 
+            m_lineIndex = 0;
+            m_tokenIndex = 0;
+
             //TODO 
         }
 
@@ -82,7 +86,7 @@ namespace GVBASIC_Compiler.Compiler
         /// <summary>
         /// sort code lines 
         /// </summary>
-        public void sortCodeLines()
+        protected void sortCodeLines()
         {
             if( m_codeLines == null )
             {
