@@ -31,7 +31,7 @@ funcDef		{函数定义}
 
 
 
-IF语句=>		IF {exp} THEN/(GOTO) {codeBlock} ELSE
+IF语句=>		IF {exp} THEN/(GOTO) {codeBlock} ELSE 
 
 
 

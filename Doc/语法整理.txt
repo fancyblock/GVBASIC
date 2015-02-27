@@ -1,0 +1,118 @@
+
+［函数］					returnVal FunName( x [,x] )
+
+所有数学函数: ABS,SGN,INT,SIN,COS,TAN,ATN,SQR,EXP,LOG,RND
+
+所有字符函数: ASC,LEN,CHR$,LEFT$,MID$,RIGHT$,STR$,VAL,CVI$,MKI$,CVS$,MKS$,
+
+显示相关函数: POS,SPC,TAB
+
+文件相关函数: EOF,LOF
+
+
+
+[无参语句]				command
+
+BEEP
+
+CLS,INVERSE,NORMAL,GRAPH,TEXT
+
+RESTORE					恢复数据区指针到数据区头
+
+
+
+[单纯有参语句]			command param, [,param]
+
+PLAY
+
+BOX,CIRCLE,DRAW,ELLIPSE,LINE
+
+LOCATE,INKEY$
+
+
+
+[特殊有参语句]
+
+PRINT exp
+PRINT exp[,exp]
+PRINT exp[;exp]
+
+OPEN file$ [FOR mode] AS #filenum% [LEN=reclen%]
+
+CLOSE #filenum%
+
+FIELD #filenum%, width% AS var1$[,width% AS var2$]...
+
+GET #filenum%, recordnum%
+
+LSET var$=strexpr$
+
+PUT #filenum%,recordnum%
+
+RSET var$=strexpr$
+
+WRITE [#filenum%,] expr1, expr2, ...
+
+INPUT A1,A2,A3...
+INPUT #filenum%,varlist[,varlist,...]
+
+
+[一般语法]
+
+Symbol = exp
+
+LET Symbol = exp
+
+DATA dat1,dat2,dat3...			置数据区数据
+
+READ dat1,dat2,dat3...			从数据区读数
+
+IF...THEN n ，IF...GOTO n
+
+IF...THEN n ELSE... , IF...GOTO n ELSE...
+
+FOR...TO...
+...
+NEXT
+
+WHILE 表达式
+...
+WEND
+
+ON...GOTO n1,n2,n3...
+
+GOSUB 行号
+
+RETURN 	子程序返回
+
+POP		将堆栈中的返回地址弹栈
+
+GOTO	无条件跳转
+
+DEF FN 函数名=表达式
+
+DIM 数组名(N1,N2,N3...)
+
+SWAP A1,B1
+
+END
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

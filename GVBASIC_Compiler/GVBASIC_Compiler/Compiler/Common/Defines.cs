@@ -131,3 +131,11 @@ public class CodeLine
     public Token[] m_tokens;
 }
 
+
+/// <summary>
+/// Statement.
+/// </summary>
+public class Statement
+{
+    //TODO 
+}

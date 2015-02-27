@@ -9,9 +9,11 @@ namespace GVBASIC_Compiler.Compiler
     /// </summary>
     class Parser
     {
-        protected List<CodeLine> m_codeLines = null;
+        protected List<CodeLine> m_codeLines;
         protected int m_lineIndex;
         protected int m_tokenIndex;
+
+        protected List<Statement> m_statements;
 
         /// <summary>
         /// constructor 
@@ -76,7 +78,12 @@ namespace GVBASIC_Compiler.Compiler
             m_lineIndex = 0;
             m_tokenIndex = 0;
 
-            //TODO 
+            m_statements = new List<Statement>();
+
+            while (isProgramDone() == false)
+            {
+                m_statements.Add(eatStatement());
+            }
         }
 
 
@@ -95,6 +102,73 @@ namespace GVBASIC_Compiler.Compiler
 
             // sort the codelines
             m_codeLines.Sort((CodeLine lineA, CodeLine lineB) => { return lineA.m_lineNum - lineB.m_lineNum; });
+        }
+
+        /// <summary>
+        /// Looks the ahead.
+        /// </summary>
+        /// <returns>The ahead.</returns>
+        protected Token lookAhead()
+        {
+            Token t = null;
+
+            if (m_lineIndex < m_codeLines.Count)
+            {
+                CodeLine cl = m_codeLines[m_lineIndex];
+
+                if (m_tokenIndex < cl.m_tokenCount)
+                {
+                    t = cl.m_tokens[m_tokenIndex];
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// if program is done or not 
+        /// </summary>
+        /// <returns><c>true</c>, if program done was ised, <c>false</c> otherwise.</returns>
+        protected bool isProgramDone()
+        {
+            if (m_lineIndex < m_codeLines.Count)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Nexts the line.
+        /// </summary>
+        protected void nextLine()
+        {
+            m_lineIndex++;
+            m_tokenIndex = 0;
+        }
+
+        /// <summary>
+        /// Eats the statement.
+        /// </summary>
+        /// <returns>The statement.</returns>
+        protected Statement eatStatement()
+        {
+            Statement s = null;
+
+            Token tok = lookAhead();
+
+            switch (tok.m_type)
+            {
+                case TokenType.eSymbol:
+                    //TODO 
+                    break;
+                default:
+                    throw new Exception("[Parse]: eatStatement error.");
+                    break;
+            }
+
+            return s;
         }
 
     }
