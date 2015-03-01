@@ -82,7 +82,21 @@ namespace GVBASIC_Compiler.Compiler
 
             while (isProgramDone() == false)
             {
-                m_statements.Add(eatStatement());
+                Token tok = lookAhead();
+
+                while (tok != null)
+                {
+                    m_statements.Add(eatStatement());
+
+                    tok = lookAhead();
+
+                    if (tok != null)
+                    {
+                        eatToken(TokenType.eColon);
+                    }
+                }
+
+                nextLine();
             }
         }
 
@@ -122,7 +136,7 @@ namespace GVBASIC_Compiler.Compiler
                 }
             }
 
-            return null;
+            return t;
         }
 
         /// <summary>
@@ -149,6 +163,37 @@ namespace GVBASIC_Compiler.Compiler
         }
 
         /// <summary>
+        /// Eats the token.
+        /// </summary>
+        /// <returns><c>true</c>, if token was eaten, <c>false</c> otherwise.</returns>
+        /// <param name="tok">Tok.</param>
+        protected void eatToken( TokenType tok )
+        {
+            Token t = m_codeLines[m_lineIndex].m_tokens[m_tokenIndex];
+
+            if (t.m_type != tok)
+            {
+                throw new Exception("[Parse]: eatToken, " + tok.ToString() + " is missiong.");
+            }
+
+            m_tokenIndex++;
+        }
+
+        /// <summary>
+        /// get next token 
+        /// </summary>
+        /// <returns>The next token.</returns>
+        protected Token getNextToken()
+        {
+            Token t = null;
+
+            t = m_codeLines[m_lineIndex].m_tokens[m_tokenIndex];
+            m_tokenIndex++;
+
+            return t;
+        }
+
+        /// <summary>
         /// Eats the statement.
         /// </summary>
         /// <returns>The statement.</returns>
@@ -161,12 +206,26 @@ namespace GVBASIC_Compiler.Compiler
             switch (tok.m_type)
             {
                 case TokenType.eSymbol:
-                    //TODO 
+                    s = eatAssign();
                     break;
                 default:
                     throw new Exception("[Parse]: eatStatement error.");
-                    break;
             }
+
+            return s;
+        }
+
+        /// <summary>
+        /// eat assignment 
+        /// </summary>
+        /// <returns>The assign.</returns>
+        protected Statement eatAssign()
+        {
+            Statement s = null;
+
+            Token tok = getNextToken();
+
+            //TODO 
 
             return s;
         }

@@ -137,5 +137,9 @@ public class CodeLine
 /// </summary>
 public class Statement
 {
+    int m_codeNum;
+
     //TODO 
 }
+
+
