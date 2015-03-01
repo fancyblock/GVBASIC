@@ -7,9 +7,6 @@ namespace GVBASIC_Compiler.Compiler
     /// </summary>
     public class Context
     {
-        public int CURRENT_CODE_LINE { get; set; }
-        public int CURRENT_TOKEN_INDEX { get; set; }
-
         /// <summary>
         /// constructor 
         /// </summary>
@@ -23,8 +20,7 @@ namespace GVBASIC_Compiler.Compiler
         /// </summary>
         public void Reset()
         {
-            CURRENT_CODE_LINE = 0;
-            CURRENT_TOKEN_INDEX = 0;
+            //TODO 
         }
 
     }

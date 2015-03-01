@@ -30,17 +30,12 @@ namespace GVBASIC_Compiler
             tok.SetSource(sourceCode);
             tok.Reset();
 
-            //printTokens(tok);
+            printTokens(tok);
 
             // parser 
             Parser parser = new Parser(tok);
 
-            // sort the code line 
-            parser.SortCodeLines();
-
-            // scan labels 
-            parser.ScanLabels();
-
+            // generate the AST 
             parser.DoParse();
 
             // run 
@@ -51,6 +46,7 @@ namespace GVBASIC_Compiler
 
             // wait for key press 
             System.Console.ReadKey();
+
         }
 
 

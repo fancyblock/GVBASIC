@@ -9,8 +9,11 @@ namespace GVBASIC_Compiler.Compiler
     /// </summary>
     class Parser
     {
-        protected Dictionary<int, int> m_labelTable = null;
-        protected List<CodeLine> m_codeLines = null;
+        protected List<CodeLine> m_codeLines;
+        protected int m_lineIndex;
+        protected int m_tokenIndex;
+
+        protected List<Statement> m_statements;
 
         /// <summary>
         /// constructor 
@@ -66,9 +69,45 @@ namespace GVBASIC_Compiler.Compiler
         }
 
         /// <summary>
+        /// do parse
+        /// </summary>
+        public void DoParse()
+        {
+            sortCodeLines();
+
+            m_lineIndex = 0;
+            m_tokenIndex = 0;
+
+            m_statements = new List<Statement>();
+
+            while (isProgramDone() == false)
+            {
+                Token tok = lookAhead();
+
+                while (tok != null)
+                {
+                    m_statements.Add(eatStatement());
+
+                    tok = lookAhead();
+
+                    if (tok != null)
+                    {
+                        eatToken(TokenType.eColon);
+                    }
+                }
+
+                nextLine();
+            }
+        }
+
+
+        //----------------------------- private functions ----------------------------
+
+
+        /// <summary>
         /// sort code lines 
         /// </summary>
-        public void SortCodeLines()
+        protected void sortCodeLines()
         {
             if( m_codeLines == null )
             {
@@ -80,30 +119,116 @@ namespace GVBASIC_Compiler.Compiler
         }
 
         /// <summary>
-        /// scan line labels 
+        /// Looks the ahead.
         /// </summary>
-        public void ScanLabels()
+        /// <returns>The ahead.</returns>
+        protected Token lookAhead()
         {
-            m_labelTable = new Dictionary<int, int>();
+            Token t = null;
 
-            // save all the lines 
-            for (int i = 0; i < m_codeLines.Count; i++)
+            if (m_lineIndex < m_codeLines.Count)
             {
-                m_labelTable.Add(m_codeLines[i].m_lineNum, i);
+                CodeLine cl = m_codeLines[m_lineIndex];
+
+                if (m_tokenIndex < cl.m_tokenCount)
+                {
+                    t = cl.m_tokens[m_tokenIndex];
+                }
             }
+
+            return t;
         }
 
         /// <summary>
-        /// do parse
+        /// if program is done or not 
         /// </summary>
-        public void DoParse()
+        /// <returns><c>true</c>, if program done was ised, <c>false</c> otherwise.</returns>
+        protected bool isProgramDone()
         {
-            //TODO 
+            if (m_lineIndex < m_codeLines.Count)
+            {
+                return false;
+            }
+
+            return true;
         }
 
+        /// <summary>
+        /// Nexts the line.
+        /// </summary>
+        protected void nextLine()
+        {
+            m_lineIndex++;
+            m_tokenIndex = 0;
+        }
 
-        //----------------------------- private functions ----------------------------
+        /// <summary>
+        /// Eats the token.
+        /// </summary>
+        /// <returns><c>true</c>, if token was eaten, <c>false</c> otherwise.</returns>
+        /// <param name="tok">Tok.</param>
+        protected void eatToken( TokenType tok )
+        {
+            Token t = m_codeLines[m_lineIndex].m_tokens[m_tokenIndex];
 
+            if (t.m_type != tok)
+            {
+                throw new Exception("[Parse]: eatToken, " + tok.ToString() + " is missiong.");
+            }
+
+            m_tokenIndex++;
+        }
+
+        /// <summary>
+        /// get next token 
+        /// </summary>
+        /// <returns>The next token.</returns>
+        protected Token getNextToken()
+        {
+            Token t = null;
+
+            t = m_codeLines[m_lineIndex].m_tokens[m_tokenIndex];
+            m_tokenIndex++;
+
+            return t;
+        }
+
+        /// <summary>
+        /// Eats the statement.
+        /// </summary>
+        /// <returns>The statement.</returns>
+        protected Statement eatStatement()
+        {
+            Statement s = null;
+
+            Token tok = lookAhead();
+
+            switch (tok.m_type)
+            {
+                case TokenType.eSymbol:
+                    s = eatAssign();
+                    break;
+                default:
+                    throw new Exception("[Parse]: eatStatement error.");
+            }
+
+            return s;
+        }
+
+        /// <summary>
+        /// eat assignment 
+        /// </summary>
+        /// <returns>The assign.</returns>
+        protected Statement eatAssign()
+        {
+            Statement s = null;
+
+            Token tok = getNextToken();
+
+            //TODO 
+
+            return s;
+        }
 
     }
 }

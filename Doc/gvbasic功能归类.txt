@@ -1,0 +1,332 @@
+
+－－－－－－－－－－－－－－－－－－－－－[数学函数]－－－－－－－－－－－－－－－－－－－－－
+
+ABS		取绝对值						用法:	ABS(exp)
+
+SGN		取符号 						用法:	SGN(x)
+
+INT 	取整 						用法:	INT(x)
+
+SIN 	正弦值 						用法:	SIN(exp)
+
+COS 	余弦值						用法:	COS(exp)
+
+TAN		正切值						用法:	TAN(exp)
+
+ATN		反正切值						用法:	ANT(exp)
+
+SQR		平方根 						用法:	SQR(exp)
+
+EXP 	e的n次方						用法:	EXP(x)  	e的x次方值
+
+LOG		取对数						用法:	LOG(x)		以e为底的x对数。
+
+RND		产生随机数 					用法:	RND(x)
+*产生一个(0,1)间的随机小数。如果x>0,每次产生不同的随机数;如果x<0,产生有一定序列的随机数;如果x=0,输出上次产生的随机数。
+
+－－－－－－－－－－－－－－－－－－－－－[字符函数]－－－－－－－－－－－－－－－－－－－－－
+
+ASC 	求ASCII码 					用法:	ASC(s$)		求取字符串s$中的第一个字符的ASCII码
+
+LEN 	求串长						用法:	LEN(S$)		求字符串s$的长度
+
+CHR$ 	取字符 						用法:	CHR$(n)		求ASCII码为n的字符
+ 
+LEFT$	取字符 						用法:	LEFT$(S$,n)		取字符串s$左端的n个字符。
+
+MID$	取字符 						用法:	MID$(s$,n,m)	从字符串n位置起取m个字符。
+
+RIGHT$	取字符 						用法:	RIGHT$(s$,n)	取字符串s$右端的n个字符。
+
+STR$	数字转为字串 					用法:	STR$(n)			将数字n转化为字符串
+
+VAL		字串转为数字 					用法:	VAL(s$)			将字符串s$转化为数字。
+
+CVI$	二进制串(2byte)转为整数 		用法:	CVI$(s$)
+]40 A%=CVI$("10")
+
+MKI$	整数转为二进制串(2byte表示) 	用法:	MKI$(intexpr)
+]40 RSET A$=MKI$(10)
+
+CVS$	二进制串(5byte)转为实数 		用法:	CVS$(s$)
+]30 LSET A$=MKS$(1.445)
+]40 A=CVS$(A$)
+
+MKS$	实数转为二进制串(5byte表示) 	用法:	MKS$(numexpr)
+]40 LSET A$=MKS$(1.445)
+
+－－－－－－－－－－－－－－－－－－－－－[音频函数]－－－－－－－－－－－－－－－－－－－－－
+
+BEEP	喇叭发声						用法:	BEEP
+
+PLAY	演奏音乐						用法:	PLAY "CDEFGAB"
+
+－－－－－－－－－－－－－－－－－－－－－[图像函数]－－－－－－－－－－－－－－－－－－－－－
+
+BOX		画矩形 						用法:	BOX X0,Y0,X1,Y1,FILL,TYPE
+*FILL=1 填充
+*FILL=0 不填充			]10 GRAPH
+*TYPE=1 画矩形			]20 BOX 10,10,40,40
+*TYPE=0 清矩形
+
+CIRCLE	画圆 						用法:	CIRCLE X0,Y0,R,FILL,TYPE
+*FILL=1 填充
+*FILL=0 不填充			]10 GRAPH
+*TYPE=1 画圆 			]30 CIRCLE 80,40,30,1
+*TYPE=0 清圆
+
+DRAW	画点 						用法:	DRAW X,Y,TYPE
+*TYPE=1 画点
+*TYPE=0 清点
+
+ELLIPSE	画椭圆 						用法:	ELLIPSE X0,Y0,A,B,FILL,TYPE
+*FILL=1 填充
+*FILL=0 不填充			]10 GRAPH
+*TYPE=1 画椭圆			]20 ELLIPSE 80,40,60,30,1
+*TYPE=0 清椭圆
+
+LINE	画直线 						用法:	LINE X0,Y0,X1,Y1,TYPE
+*TYPE=1 画线
+*TYPE=0 清线				]10 GRAPH
+						]30 LINE 10,10,50,50,1
+						]40 END
+
+CLS 	清屏 						用法:	CLS
+
+INVERSE	反显字符 						用法:	INVERSE
+
+NORMAL	正常显示						用法:	NORMAL
+
+LOCATE	置显示位置 					用法:	LOCATE 行号,列号
+
+POS		取光标位置 					用法:	POS(n)				得到光标的水平位置
+
+PRINT	屏幕显示						用法:	1.PRINT exp
+											显示完表达式以后换行。
+											2.PRINT exp1,exp2,exp3...
+											显示完每个表达式以后就换行。
+											3.PRINT exp1;exp2;exp3...
+											显示每个表达式以后不换行,接着显示下一个表达式。
+
+SPC		打印空格 						用法:	SPC(n)
+*打印n个空格。
+						]PRINT 45;SPC(4);56
+						45    56
+						]
+
+TAB 	输出控制 						用法:	TAB(n)
+*从第n列开始输出。
+						]PRINT "QWER";TAB(8);"ASDF"
+						QWER    ASDF
+						]PRINT "QWERTYUI";TAB(5);"ASDFGH"
+						QWERTYUI
+    						ASDFGH
+						]
+
+－－－－－－－－－－－－－－－－－－－－－[文件函数]－－－－－－－－－－－－－－－－－－－－－
+
+OPEN	打开文件 						用法：	OPEN file$ [FOR mode] AS #filenum% [LEN=reclen%]
+file$：	文件名串
+mode：	打开方式
+		INPUT 只读
+		OUTPUT 只写
+		APPEND 追加
+		RANDOM 随机
+filenum%: 文件号,只能是#1,#2,#3
+LEN：	缓冲区长度，默认为32（只在RANDOM方式下有效）
+如：
+]10 OPEN "DAT" FOR OUTPUT AS #1
+]20 OPEN "DAT1" FOR RANDOM AS #2 LEN=50
+
+CLOSE	关闭数据文件 					用法:	CLOSE #filenum%
+
+EOF		顺序文件是否结束，未结束返回0 	用法:	EOF(filenum%)			参数可以是变量
+]50 IF EOF(1) THEN PRINT "FILE END"
+
+FIELD 	指定缓冲区大小分配缓冲区变量  	用法:	FIELD #filenum%, width% AS var1$[,width% AS var2$]...
+]40 FIELD #1,2 AS A$, 3 AS B$
+
+GET		从指定文件读取指定记录放入缓冲区	用法:	GET #filenum%, recordnum%
+]40 GET #1, 1
+
+LOF		返回随机文件长度 				用法:	LOF(filenum%)
+]40 PRINT LOF(1)
+
+LSET	向缓冲区分配的变量赋值，并做左对齐调整 	用法: 	LSET var$=strexpr$
+]40 LSET A$="HELLO"
+
+PUT		向指定文件的指定记录写入缓冲区内容		用法: 	PUT #filenum%,recordnum%
+]40 PUT #1,1
+
+RSET	向缓冲区分配的变量赋值,并做右对齐调整 	用法:	RSET var$=strexpr$
+]40 RSET A$="WORLD"
+
+WRITE	写数据到文件(如无文件号写到屏幕) 		用法: 	WRITE [#filenum%,] expr1, expr2, ...
+]40 WRITE #1, A$, B%
+
+－－－－－－－－－－－－－－－－－－－－－[输入输出]－－－－－－－－－－－－－－－－－－－－－
+
+INKEY$	读键值 						用法:	INKEY$
+
+INPUT 	从键盘或文件输入				用法:	INPUT A1,A2,A3...
+]10 INPUT A
+]20 INPUT B
+]30 END
+运行
+?23
+23
+]10 INPUT A$
+]20 PRINT A$
+]30 END
+运行
+?I LOVE GVBASIC
+I LOVE GVBASIC
+]
+									用法:	INPUT #filenum%,varlist[,varlist,...]
+]10 INPUT #1,A$,A1$
+
+－－－－－－－－－－－－－－－－－－－－－[其他命令]－－－－－－－－－－－－－－－－－－－－－
+
+GRAPH	图形模式						用法:	GRAPH
+
+TEXT 	文本模式						用法:	TEXT
+
+
+
+－－－－－－－－－－－－－－－－－－－－－[数据设置]－－－－－－－－－－－－－－－－－－－－－
+
+LET 	给变量赋值 					用法:	LET 变量=表达式
+*计算表达式的值,将其赋给指定变量。LET可省略。
+]10 LET N=2008-1999
+]20 R=0.09
+]30 LET AAL=100*(1+R)^N
+]40 PRINT "AAL=";AAL
+]50 END
+
+DATA 	置数据区数据 					用法:	DATA dat1,dat2,dat3...
+*相关语句 READ
+
+READ 	从数据区读数 					用法:	READ dat1,dat2,dat3...
+]10 REM AVERAGE
+]20 S0=0
+]30 GOSUB 100
+]40 PRINT S0
+]50 GOTO 990
+]100 READ A
+]110 WHILE A<>-1
+]120 S0=S0+A
+]130 READ A
+]140 WEND
+]150 RETURN
+]900 DATA 34,45,50,65,23,88,-1
+]990 END
+运行
+
+RESTORE	恢复指针 						用法:	RESTORE
+*恢复数据区指针到数据区头。
+
+－－－－－－－－－－－－－－－－－－－－－[逻辑运算]－－－－－－－－－－－－－－－－－－－－－
+
+AND		逻辑与						用法:	AND
+
+OR 		逻辑或						用法:	OR
+
+NOT		逻辑非						用法:	NOT
+
+－－－－－－－－－－－－－－－－－－－－－[流程控制]－－－－－－－－－－－－－－－－－－－－－
+
+IF...THEN/(GOTO)...ELSE 条件判断
+用法:
+IF...THEN n ，IF...GOTO n 条件成立时跳到n行处执行;条件不成立时接着下一行执行。
+IF...THEN n ELSE... , IF...GOTO n ELSE... 条件成立时提到n行处执行；条件不成立时执行ELSE后的语句，接着执行下一行。
+如:
+]10 N=1
+]20 PRINT N,SQR(N)
+]30 N=N+1
+]40 IF N<=4 THEN GOTO 20
+]50 END
+]
+
+FOR...TO...STEP... NEXT 循环控制
+用法:
+FOR...TO...
+...
+NEXT
+如:
+]10 FOR I=5 TO 1 STEP -1
+]20 PRINT I
+]30 NEXT I
+]40 END
+]
+
+WHILE/WEND 循环控制
+用法:
+WHILE 表达式
+...
+WEND
+*当表达式为真时执行循环,当表达式为假时继续执行WEND后的下一条语句。
+如:
+]20 S0=0
+]30 GOSUB 100
+]40 PRINT S0
+]50 GOTO 990
+]100 READ A
+]110 WHILE A<>-1
+]120 S0=S0+A
+]130 READ A
+]140 WEND
+]150 RETURN
+]900 DATA 34，45，50，65，23，88，-1
+]990 END
+运行
+305
+]
+
+ON 		控制转移 						用法:	ON...GOTO n1,n2,n3...
+*计算ON后的表达式值,为1时对应n1子程序,为2时对应n2子程序.....,当无对应时继续执行下一条语句。
+
+GOSUB 	跳转子程序 					用法:	GOSUB 行号
+*程序跳转到以指定行号开始的子程序运行,遇到RETURN语句时就返回到GOSUB的下条语句接着运行。
+如:
+]10 GOSUB 100
+]20 IF X>0 THEN PRINT X ELSE PRINT "ERR"
+]30 END
+]100 INPUT X
+]110 RETURN
+运行
+?45
+45
+]
+
+RETURN 	子程序返回 					用法:	RETURN 			相关语句 GOSUB
+
+POP		将堆栈中的返回地址弹栈 			用法:	POP 			和RETURN功能差不多,但程序不是返回到GOSUB的下条语句,而是接着运行。
+
+GOTO	无条件跳转 					用法:	GOTO 行号 		程序跳转到指定行号处运行.
+
+－－－－－－－－－－－－－－－－－－－－－[声明语句]－－－－－－－－－－－－－－－－－－－－－
+
+DEF FN 	自定义函数 					用法:	DEF FN 函数名=表达式
+如:
+]10 DEF FN A(W)=2*W+W
+]20 PRINT FN A(23)
+]30 DEF FN B(X)=4+3
+]40 G = FN B(23)
+]50 PRINT G
+]60 DEF FN A(Y)=FN B(Z)+Y
+]70 PRINT FN A(G)
+]80 END
+运行
+69
+7
+14
+]
+
+DIM		数组定义 						用法:	DIM数组名(N1,N2,N3...)
+*说明数组维数并分配空间，没有经过DIM说明的数组下标设定最大值是10。
+
+－－－－－－－－－－－－－－－－－－－－－[其他语句]－－－－－－－－－－－－－－－－－－－－－
+
+SWAP	变量互换 						用法:	SWAP A1,B1
+
+END		程序结束 						用法:	END

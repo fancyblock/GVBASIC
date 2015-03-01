@@ -12,6 +12,7 @@ namespace GVBASIC_Compiler.Compiler
     {
         eStart,
         eSymbol,
+        eFileNum,
         eSpace,
         eIntNum,
         eRealNum,
@@ -34,6 +35,8 @@ namespace GVBASIC_Compiler.Compiler
         protected char[] m_opChr;
         protected char[] m_delimChr;
         protected string[] m_keyword;
+        protected List<string> m_commands;
+        protected List<string> m_functions;
 
         /// <summary>
         /// constructor 
@@ -48,6 +51,8 @@ namespace GVBASIC_Compiler.Compiler
                                         "RESTORE", "GOTO", "IF", "THEN", "ELSE", "WHILE",
                                         "WEND", "TO", "STEP", "DEF", "FN", "GOSUB",
                                         "RETURN", "ON", "REM", "NEXT", "FOR" };
+            m_commands = new List<string>{ };
+            m_functions = new List<string>(){ };
         }
 
         /// <summary>
@@ -87,41 +92,45 @@ namespace GVBASIC_Compiler.Compiler
                 switch( status )
                 {
                     case LexStatus.eStart:
-                        if( isWhiteChar( c ) )
+                        if (isWhiteChar(c))
                         {
                             addToBuffer = false;
                         }
-                        else if( isNumber( c ) )
+                        else if (isNumber(c))
                         {
                             status = LexStatus.eIntNum;
                         }
-                        else if( c == '\"' )
+                        else if (c == '\"')
                         {
                             addToBuffer = false;
                             status = LexStatus.eString;
                         }
-                        else if( isLetter( c ) )
+                        else if (isLetter(c))
                         {
                             status = LexStatus.eSymbol;
                         }
-                        else if( isOpChar( c ))
+                        else if (isOpChar(c))
                         {
                             status = LexStatus.eOpCode;
                         }
-                        else if( isDelim( c ) )
+                        else if (isDelim(c))
                         {
                             status = LexStatus.eDelim;
                             isDone = true;
                         }
-                        else if( c == '.' )
+                        else if (c == '.')
                         {
                             status = LexStatus.eRealNum;
                         }
-                        else if( isLineEnd( c ) )
+                        else if (isLineEnd(c))
                         {
                             addToBuffer = false;
                             status = LexStatus.eLineEnd;
                             isDone = true;
+                        }
+                        else if (c == '#')
+                        {
+                            status = LexStatus.eFileNum;
                         }
                         else
                         {
@@ -255,6 +264,28 @@ namespace GVBASIC_Compiler.Compiler
                             isDone = true;
                         }
                         break;
+                    case LexStatus.eFileNum:
+                        if (isNumber(c))
+                        {
+                            // do nothing 
+                        }
+                        else if (isWhiteChar(c))
+                        {
+                            addToBuffer = false;
+                            isDone = true;
+                        }
+                        else if (isOpChar(c) || isDelim(c) || isLineEnd(c))
+                        {
+                            addToBuffer = false;
+                            isDone = true;
+                            backAChar();
+                        }
+                        else
+                        {
+                            status = LexStatus.eError;
+                            isDone = true;
+                        }
+                        break;
                     case LexStatus.eOpCode:
                         if( buffer[0] == '>' && c == '=' )
                         {
@@ -372,6 +403,10 @@ namespace GVBASIC_Compiler.Compiler
                     {
                         tok.m_type = getTokenType(tok.m_strVal);
                     }
+                    break;
+                case LexStatus.eFileNum:
+                    tok.m_type = TokenType.eFileNum;
+                    tok.m_strVal = buffer.ToString();
                     break;
                 case LexStatus.eLineEnd:
                     tok.m_type = TokenType.eEOL;

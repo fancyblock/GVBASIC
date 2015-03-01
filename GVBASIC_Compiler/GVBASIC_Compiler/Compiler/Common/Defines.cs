@@ -9,6 +9,7 @@ public enum TokenType : int
     eUndefine,
 
     eSymbol,            // symbol 
+    eFileNum,           // file handler
 
     eIntNum,            // int number
     eRealNum,           // real number 
@@ -71,10 +72,23 @@ public enum TokenType : int
 // define a token 
 public class Token
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Token"/> class.
+    /// </summary>
+    public Token()
+    {
+        m_type = TokenType.eUndefine;
+        m_intVal = 0;
+        m_realVal = 0.0f;
+        m_strVal = "";
+        m_lineNumber = -1;
+    }
+
 	public TokenType m_type;
 	public int m_intVal;
 	public float m_realVal;
 	public string m_strVal;
+    public int m_lineNumber;
 };
 
 
@@ -107,7 +121,9 @@ public class CodeLine
 		for (int i = 0; i < m_tokenCount; i++)
         {
             m_tokens[i] = tokens[i+1];
+            m_tokens[i].m_lineNumber = m_lineNum;
         }
+
     }
 
     public int m_lineNum;
@@ -116,11 +132,14 @@ public class CodeLine
 }
 
 
-// function call 
-public class Function
+/// <summary>
+/// Statement.
+/// </summary>
+public class Statement
 {
-    public string m_funcName;
-	public Token[] m_params;
-	//TODO 
+    int m_codeNum;
+
+    //TODO 
 }
+
 
