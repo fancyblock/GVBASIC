@@ -102,18 +102,6 @@ namespace GVBASIC_Compiler.Compiler
         }
 
 
-        /// <summary>
-        /// getter of code lines 
-        /// </summary>
-        public List<CodeLine> CODE_LINES
-        {
-            get
-            {
-                return m_codeLines;
-            }
-        }
-
-
         //----------------------------- private functions ----------------------------
 
 
