@@ -221,7 +221,7 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns>The assign.</returns>
         protected Statement eatAssign()
         {
-            Statement s = null;
+            Statement s = new Statement( eStatementType.eAssigment );
 
             Token tok = getNextToken();
 

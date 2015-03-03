@@ -133,13 +133,39 @@ public class CodeLine
 
 
 /// <summary>
+/// statement type 
+/// </summary>
+public enum eStatementType
+{
+    eNone,
+    eAssigment,
+    //TODO 
+}
+
+
+/// <summary>
 /// Statement.
 /// </summary>
 public class Statement
 {
-    int m_codeNum;
+    public int m_codeNum;
+
+    public eStatementType m_statementType;
 
     //TODO 
+
+    /// <summary>
+    /// constructor 
+    /// </summary>
+    /// <param name="type"></param>
+    public Statement( eStatementType type )
+    {
+        m_statementType = type;
+
+        //TODO 
+    }
+
 }
+
 
 
