@@ -149,10 +149,10 @@ public enum eStatementType
 public class Statement
 {
     public int m_codeNum;
-
     public eStatementType m_statementType;
 
-    //TODO 
+    public Token m_symbol;
+    public Express m_express;
 
     /// <summary>
     /// constructor 
@@ -161,11 +161,24 @@ public class Statement
     public Statement( eStatementType type )
     {
         m_statementType = type;
-
-        //TODO 
     }
 
 }
 
 
+/// <summary>
+/// express 
+/// </summary>
+public class Express
+{
+    //TODO 
+}
 
+
+/// <summary>
+/// function call 
+/// </summary>
+public class Func
+{
+    //TODO 
+}

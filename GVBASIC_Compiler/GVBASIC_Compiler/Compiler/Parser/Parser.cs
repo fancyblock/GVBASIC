@@ -208,6 +208,10 @@ namespace GVBASIC_Compiler.Compiler
                 case TokenType.eSymbol:
                     s = eatAssign();
                     break;
+                case TokenType.eLet:
+                    eatToken(TokenType.eLet);
+                    s = eatAssign();
+                    break;
                 default:
                     throw new Exception("[Parse]: eatStatement error.");
             }
@@ -225,9 +229,33 @@ namespace GVBASIC_Compiler.Compiler
 
             Token tok = getNextToken();
 
-            //TODO 
+            if (tok.m_type == TokenType.eSymbol)
+            {
+                s.m_symbol = tok;
+            }
+            else
+            {
+                throw new Exception("[Parse]: eatAssign, missing symbol.");
+            }
+
+            eatToken(TokenType.eEqual);
+
+            s.m_express = eatExpress();
 
             return s;
+        }
+
+        /// <summary>
+        /// parse express 
+        /// </summary>
+        /// <returns></returns>
+        protected Express eatExpress()
+        {
+            Express e = null;
+
+            //TODO 
+
+            return e;
         }
 
     }

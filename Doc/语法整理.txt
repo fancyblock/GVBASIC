@@ -59,9 +59,9 @@ INPUT #filenum%,varlist[,varlist,...]
 
 [一般语法]
 
-Symbol = exp
+Symbol = exp 												[done]
 
-LET Symbol = exp
+LET Symbol = exp 											[done]
 
 DATA dat1,dat2,dat3...			置数据区数据
 
@@ -98,6 +98,15 @@ SWAP A1,B1
 END
 
 
+----------------------------------------------------------------------------------------------
+
+
+
+exp = num 
+
+exp = func(param)
+
+exp = ( exp )
 
 
 
