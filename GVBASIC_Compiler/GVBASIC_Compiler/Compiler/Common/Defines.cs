@@ -63,6 +63,10 @@ public enum TokenType : int
     eOn,				// ON
     eRem,               // REM 
 
+    eFunc,              // inner function 
+    eSimpleCmd,
+    eParamCmd,
+
     eError,             // error        ( dev only )
     eEOL,               // end of line  ( dev only )
 };

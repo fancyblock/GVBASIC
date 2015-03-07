@@ -57,6 +57,7 @@ INPUT A1,A2,A3...
 INPUT #filenum%,varlist[,varlist,...]
 
 
+
 [一般语法]
 
 Symbol = exp 												[done]

@@ -32,11 +32,12 @@ namespace GVBASIC_Compiler.Compiler
         protected string m_sourceCode;
         protected int m_curIndex;
 
-        protected char[] m_opChr;
-        protected char[] m_delimChr;
-        protected string[] m_keyword;
-        protected List<string> m_commands;
-        protected List<string> m_functions;
+        protected List<char> m_opChr;                   // operator
+        protected List<char> m_delimChr;                // separator
+        protected List<string> m_simpleCommands;        // command without parameters 
+        protected List<string> m_paramCommands;         // command with simple form parameters 
+        protected List<string> m_functions;             // inner function 
+        protected List<string> m_keyword;               // keyword 
 
         /// <summary>
         /// constructor 
@@ -45,14 +46,19 @@ namespace GVBASIC_Compiler.Compiler
         {
             m_sourceCode = null;
 
-            m_opChr = new char[] { '+', '-', '*', '/', '^', '=', '>', '<' };
-            m_delimChr = new char[] { ':', ',', ';', '(', ')' };
-            m_keyword = new string[] { "AND", "OR", "NOT", "LET", "DIM", "READ", "DATA",
-                                        "RESTORE", "GOTO", "IF", "THEN", "ELSE", "WHILE",
-                                        "WEND", "TO", "STEP", "DEF", "FN", "GOSUB",
-                                        "RETURN", "ON", "REM", "NEXT", "FOR" };
-            m_commands = new List<string>{ };
-            m_functions = new List<string>(){ };
+            m_opChr = new List<char> { '+', '-', '*', '/', '^', '=', '>', '<' };
+            m_delimChr = new List<char> { ':', ',', ';', '(', ')' };
+            m_keyword = new List<string> { "AND", "OR", "NOT", "LET", "DIM", "READ", "DATA",
+                                           "RESTORE", "GOTO", "IF", "THEN", "ELSE", "WHILE",
+                                           "WEND", "TO", "STEP", "DEF", "FN", "GOSUB",
+                                           "RETURN", "ON", "REM", "NEXT", "FOR" };
+            m_simpleCommands = new List<string> { "BEEP", "CLS", "INVERSE", "NORMAL", "GRAPH", "TEXT", "RESTORE" };
+            m_paramCommands = new List<string> { "PLAY", "BOX", "CIRCLE", "DRAW", "ELLIPSE", "LINE", "LOCATE", "INKEY$" };
+            m_functions = new List<string>(){ "ABS","SGN","INT","SIN","COS","TAN",
+                                              "ATN","SQR","EXP","LOG","RND","ASC",
+                                              "LEN","CHR$","LEFT$","MID$","RIGHT$",
+                                              "STR$","VAL","CVI$","MKI$","CVS$",
+                                              "MKS$","POS","SPC","TAB","EOF","LOF" };
         }
 
         /// <summary>
@@ -399,9 +405,21 @@ namespace GVBASIC_Compiler.Compiler
                 case LexStatus.eSymbol:
                     tok.m_type = TokenType.eSymbol;
                     tok.m_strVal = buffer.ToString();
-                    if( isKeyword( tok.m_strVal ) )
+                    if( m_keyword.Contains( tok.m_strVal ) )
                     {
                         tok.m_type = getTokenType(tok.m_strVal);
+                    }
+                    else if ( m_functions.Contains(tok.m_strVal))
+                    {
+                        tok.m_type = TokenType.eFunc;
+                    }
+                    else if (m_simpleCommands.Contains(tok.m_strVal))
+                    {
+                        tok.m_type = TokenType.eSimpleCmd;
+                    }
+                    else if(m_simpleCommands.Contains(tok.m_strVal))
+                    {
+                        tok.m_type = TokenType.eParamCmd;
                     }
                     break;
                 case LexStatus.eFileNum:
@@ -533,15 +551,7 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns></returns>
         protected bool isOpChar( char c )
         {
-            for (int i = 0; i < m_opChr.Length; i++ )
-            {
-                if( c == m_opChr[i] )
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return m_opChr.Contains(c);
         }
 
         /// <summary>
@@ -551,15 +561,7 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns></returns>
         protected bool isDelim( char c )
         {
-            for (int i = 0; i < m_delimChr.Length; i++ )
-            {
-                if( c == m_delimChr[i] )
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return m_delimChr.Contains(c);
         }
 
         /// <summary>
@@ -572,23 +574,6 @@ namespace GVBASIC_Compiler.Compiler
             if( c == '\n' || c == '\r' )
             {
                 return true;
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// check the symbol , if is keywork convert to keyword 
-        /// </summary>
-        /// <param name="t"></param>
-        protected bool isKeyword( string str )                          //[OPTI]
-        {
-            for (int i = 0; i < m_keyword.Length; i++ )
-            {
-                if( str == m_keyword[i] )
-                {
-                    return true;
-                }
             }
 
             return false;
