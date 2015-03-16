@@ -99,30 +99,25 @@ SWAP A1,B1
 END
 
 
+
+
 ----------------------------------------------------------------------------------------------
 
 
+exp = term
+exp = term + term
+exp = term - term
 
-exp = num 
+term = factor2
+term = factor2 * factor2 
+term = factor2 / factor2
 
-exp = func(param)
+factor2 = factor
+factor2 = factor ^ factor
 
-exp = ( exp )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+factor = num
+factor = Symbol
+factor = Symbol ( exp )
+factor = ( exp )
+factor = - exp
 

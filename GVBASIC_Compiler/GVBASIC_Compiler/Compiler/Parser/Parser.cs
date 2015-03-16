@@ -253,9 +253,26 @@ namespace GVBASIC_Compiler.Compiler
         {
             Express e = null;
 
-            //TODO 
+            Token tok = getNextToken();
+
+            switch( tok.m_type )
+            {
+                default:
+                    break;
+            }
 
             return e;
+        }
+
+        /// <summary>
+        /// eat a func 
+        /// </summary>
+        /// <returns></returns>
+        protected Func eatFunc()
+        {
+            //TODO 
+
+            return null;
         }
 
     }
