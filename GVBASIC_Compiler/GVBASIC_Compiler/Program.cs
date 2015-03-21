@@ -26,11 +26,11 @@ namespace GVBASIC_Compiler
             string sourceCode = System.IO.File.ReadAllText(path);
 
             // lex 
-            Tokenizer tok = new Tokenizer();
-            tok.SetSource(sourceCode);
-            tok.Reset();
+            Tokenizer tok = new Tokenizer(sourceCode);
 
+            // for debug 
             printTokens(tok);
+            tok.Reset();
 
             // parser 
             Parser parser = new Parser(tok);
@@ -64,7 +64,7 @@ namespace GVBASIC_Compiler
             tok.Reset();
 
             // parse to tokens 
-            while (tok.IsFinish == false)
+            while (tok.IsFinish() == false)
             {
                 Token t = tok.GetNextToken();
 

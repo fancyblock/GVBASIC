@@ -13,8 +13,6 @@ namespace GVBASIC_Compiler.Compiler
         protected int m_lineIndex;
         protected int m_tokenIndex;
 
-        protected List<Statement> m_statements;
-
         /// <summary>
         /// constructor 
         /// </summary>
@@ -26,7 +24,7 @@ namespace GVBASIC_Compiler.Compiler
             List<Token> tokenBuff = new List<Token>();
 
             // read all the tokens into codeline struct
-            while( tokenizer.IsFinish == false )
+            while( tokenizer.IsFinish() == false )
             {
                 Token t = tokenizer.GetNextToken();
                 bool endLine = false;
@@ -73,24 +71,21 @@ namespace GVBASIC_Compiler.Compiler
         /// </summary>
         public void DoParse()
         {
-            sortCodeLines();
-
+            // sort the codelines
+            m_codeLines.Sort((CodeLine lineA, CodeLine lineB) => { return lineA.m_lineNum - lineB.m_lineNum; });
+            // init the info 
             m_lineIndex = 0;
             m_tokenIndex = 0;
 
-            m_statements = new List<Statement>();
-
-            while (isProgramDone() == false)
+            // do parsing 
+            while (m_lineIndex < m_codeLines.Count)
             {
-                Token tok = lookAhead();
-
-                while (tok != null)
+                while ( lookAhead() != TokenType.eNull )
                 {
-                    m_statements.Add(eatStatement());
+                    //TODO 
+                    TokenType token = lookAhead();
 
-                    tok = lookAhead();
-
-                    if (tok != null)
+                    if (token != TokenType.eNull)
                     {
                         eatToken(TokenType.eColon);
                     }
@@ -105,52 +100,23 @@ namespace GVBASIC_Compiler.Compiler
 
 
         /// <summary>
-        /// sort code lines 
-        /// </summary>
-        protected void sortCodeLines()
-        {
-            if( m_codeLines == null )
-            {
-                throw new Exception("[Parse]: no codelines.");
-            }
-
-            // sort the codelines
-            m_codeLines.Sort((CodeLine lineA, CodeLine lineB) => { return lineA.m_lineNum - lineB.m_lineNum; });
-        }
-
-        /// <summary>
-        /// Looks the ahead.
+        /// Looks the ahead. 
         /// </summary>
         /// <returns>The ahead.</returns>
-        protected Token lookAhead()
+        protected TokenType lookAhead( int step = 0 )
         {
-            Token t = null;
+            if (m_lineIndex >= m_codeLines.Count)
+                return TokenType.eNull;
 
-            if (m_lineIndex < m_codeLines.Count)
+            CodeLine cl = m_codeLines[m_lineIndex];
+            int index = m_tokenIndex + step;
+
+            if (index < cl.m_tokenCount)
             {
-                CodeLine cl = m_codeLines[m_lineIndex];
-
-                if (m_tokenIndex < cl.m_tokenCount)
-                {
-                    t = cl.m_tokens[m_tokenIndex];
-                }
+                return cl.m_tokens[index].m_type;
             }
 
-            return t;
-        }
-
-        /// <summary>
-        /// if program is done or not 
-        /// </summary>
-        /// <returns><c>true</c>, if program done was ised, <c>false</c> otherwise.</returns>
-        protected bool isProgramDone()
-        {
-            if (m_lineIndex < m_codeLines.Count)
-            {
-                return false;
-            }
-
-            return true;
+            return TokenType.eNull;
         }
 
         /// <summary>
@@ -197,33 +163,29 @@ namespace GVBASIC_Compiler.Compiler
         /// Eats the statement.
         /// </summary>
         /// <returns>The statement.</returns>
-        protected Statement eatStatement()
+        protected void statement()
         {
             Statement s = null;
 
-            Token tok = lookAhead();
-
-            switch (tok.m_type)
+            switch (lookAhead())
             {
                 case TokenType.eSymbol:
-                    s = eatAssign();
+                    assign();
                     break;
                 case TokenType.eLet:
                     eatToken(TokenType.eLet);
-                    s = eatAssign();
+                    assign();
                     break;
                 default:
                     throw new Exception("[Parse]: eatStatement error.");
             }
-
-            return s;
         }
 
         /// <summary>
         /// eat assignment 
         /// </summary>
         /// <returns>The assign.</returns>
-        protected Statement eatAssign()
+        protected void assign()
         {
             Statement s = new Statement( eStatementType.eAssigment );
 
@@ -240,16 +202,15 @@ namespace GVBASIC_Compiler.Compiler
 
             eatToken(TokenType.eEqual);
 
-            s.m_express = eatExpress();
-
-            return s;
+            //s.m_express = 
+            express();
         }
 
         /// <summary>
         /// parse express 
         /// </summary>
         /// <returns></returns>
-        protected Express eatExpress()
+        protected void express()
         {
             Express e = null;
 
@@ -260,19 +221,15 @@ namespace GVBASIC_Compiler.Compiler
                 default:
                     break;
             }
-
-            return e;
         }
 
         /// <summary>
         /// eat a func 
         /// </summary>
         /// <returns></returns>
-        protected Func eatFunc()
+        protected void func()
         {
             //TODO 
-
-            return null;
         }
 
     }

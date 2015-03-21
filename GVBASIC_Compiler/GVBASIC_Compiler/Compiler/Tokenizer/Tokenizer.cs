@@ -42,10 +42,9 @@ namespace GVBASIC_Compiler.Compiler
         /// <summary>
         /// constructor 
         /// </summary>
-        public Tokenizer()
+        public Tokenizer( string source )
         {
-            m_sourceCode = null;
-
+            // init the tokenizer 
             m_opChr = new List<char> { '+', '-', '*', '/', '^', '=', '>', '<' };
             m_delimChr = new List<char> { ':', ',', ';', '(', ')' };
             m_keyword = new List<string> { "AND", "OR", "NOT", "LET", "DIM", "READ", "DATA",
@@ -59,22 +58,8 @@ namespace GVBASIC_Compiler.Compiler
                                               "LEN","CHR$","LEFT$","MID$","RIGHT$",
                                               "STR$","VAL","CVI$","MKI$","CVS$",
                                               "MKS$","POS","SPC","TAB","EOF","LOF" };
-        }
 
-        /// <summary>
-        /// set source code 
-        /// </summary>
-        /// <param name="source"></param>
-        public void SetSource( string source )
-        {
             m_sourceCode = source;
-        }
-
-        /// <summary>
-        /// reset the tokenizer 
-        /// </summary>
-        public void Reset()
-        {
             m_curIndex = 0;
         }
 
@@ -457,22 +442,27 @@ namespace GVBASIC_Compiler.Compiler
             }
         }
 
+        /// <summary>
+        /// reset the tokenizer 
+        /// </summary>
+        public void Reset()
+        {
+            m_curIndex = 0;
+        }
+
 
         /// <summary>
         /// if is finished or not 
         /// </summary>
         /// <returns></returns>
-        public bool IsFinish
+        public bool IsFinish()
         {
-            get
+            if (m_curIndex >= m_sourceCode.Length)
             {
-                if (m_curIndex >= m_sourceCode.Length)
-                {
-                    return true;
-                }
-
-                return false;
+                return true;
             }
+
+            return false;
         }
 
 

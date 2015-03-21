@@ -67,8 +67,9 @@ public enum TokenType : int
     eSimpleCmd,
     eParamCmd,
 
-    eError,             // error        ( dev only )
-    eEOL,               // end of line  ( dev only )
+    eError,             // error 
+    eEOL,               // end of line 
+    eNull,
 };
 
 
