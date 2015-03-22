@@ -9,9 +9,7 @@ namespace GVBASIC_Compiler.Compiler
     /// </summary>
     class Parser
     {
-        protected List<CodeLine> m_codeLines;
-        protected int m_lineIndex;
-        protected int m_tokenIndex;
+        protected Tokenizer m_tokenizer;
 
         /// <summary>
         /// constructor 
@@ -19,46 +17,7 @@ namespace GVBASIC_Compiler.Compiler
         /// <param name="tokenizer"></param>
         public Parser( Tokenizer tokenizer )
         {
-            tokenizer.Reset();
-            m_codeLines = new List<CodeLine>();
-            List<Token> tokenBuff = new List<Token>();
-
-            // read all the tokens into codeline struct
-            while( tokenizer.IsFinish() == false )
-            {
-                Token t = tokenizer.GetNextToken();
-                bool endLine = false;
-
-                if( t.m_type == TokenType.eEOL )   // omit end of line 
-                {
-                    endLine = true;
-                }
-                else if( t.m_type == TokenType.eError )
-                {
-                    // throw error , lex error.
-                    throw new Exception("Error token in line " + tokenBuff[0].ToString() );
-                }
-                
-                if( endLine )
-                {
-                    // save the line 
-                    if (tokenBuff.Count > 0)
-                    {
-                        m_codeLines.Add(new CodeLine(tokenBuff));
-                        tokenBuff.Clear();
-                    }
-                }
-                else
-                {
-                    tokenBuff.Add(t);
-                }
-            }
-
-            // add the last line 
-            if (tokenBuff.Count > 0)
-            {
-                m_codeLines.Add(new CodeLine(tokenBuff));
-            }
+            m_tokenizer = tokenizer;
         }
 
         /// <summary>
@@ -66,14 +25,11 @@ namespace GVBASIC_Compiler.Compiler
         /// </summary>
         public void Parsing()
         {
-            // sort the codelines
-            m_codeLines.Sort((CodeLine lineA, CodeLine lineB) => { return lineA.m_lineNum - lineB.m_lineNum; });
-            // init the info 
-            m_lineIndex = 0;
-            m_tokenIndex = 0;
+            m_tokenizer.Reset();
 
             // do parsing 
-            while (m_lineIndex < m_codeLines.Count)
+            Token tk = m_tokenizer.GetNextToken();
+            while (tk.m_type != TokenType.eEOF)
             {
                 while ( lookAhead() != TokenType.eNull )
                 {
@@ -85,8 +41,6 @@ namespace GVBASIC_Compiler.Compiler
                         eatToken(TokenType.eColon);
                     }
                 }
-
-                nextLine();
             }
         }
 
@@ -100,6 +54,7 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns>The ahead.</returns>
         protected TokenType lookAhead( int step = 0 )
         {
+            /*
             if (m_lineIndex >= m_codeLines.Count)
                 return TokenType.eNull;
 
@@ -110,18 +65,11 @@ namespace GVBASIC_Compiler.Compiler
             {
                 return cl.m_tokens[index].m_type;
             }
+             */
 
             return TokenType.eNull;
         }
 
-        /// <summary>
-        /// Nexts the line.
-        /// </summary>
-        protected void nextLine()
-        {
-            m_lineIndex++;
-            m_tokenIndex = 0;
-        }
 
         /// <summary>
         /// Eats the token.
@@ -130,6 +78,7 @@ namespace GVBASIC_Compiler.Compiler
         /// <param name="tok">Tok.</param>
         protected void eatToken( TokenType tok )
         {
+            /*
             Token t = m_codeLines[m_lineIndex].m_tokens[m_tokenIndex];
 
             if (t.m_type != tok)
@@ -138,20 +87,7 @@ namespace GVBASIC_Compiler.Compiler
             }
 
             m_tokenIndex++;
-        }
-
-        /// <summary>
-        /// get next token 
-        /// </summary>
-        /// <returns>The next token.</returns>
-        protected Token getNextToken()
-        {
-            Token t = null;
-
-            t = m_codeLines[m_lineIndex].m_tokens[m_tokenIndex];
-            m_tokenIndex++;
-
-            return t;
+             */
         }
 
         /// <summary>
@@ -180,7 +116,7 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns>The assign.</returns>
         protected void assign()
         {
-            Token tok = getNextToken();
+            Token tok = null;// getNextToken();
 
             if (tok.m_type == TokenType.eSymbol)
             {
@@ -202,7 +138,7 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns></returns>
         protected void express()
         {
-            Token tok = getNextToken();
+            Token tok = null;// getNextToken();
 
             switch( tok.m_type )
             {

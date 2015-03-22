@@ -426,6 +426,9 @@ namespace GVBASIC_Compiler.Compiler
                 case LexStatus.eLineEnd:
                     tok.m_type = TokenType.eEOL;
                     break;
+                case LexStatus.eStart:
+                    tok.m_type = TokenType.eEOF;
+                    break;
                 case LexStatus.eError:
                     tok.m_type = TokenType.eError;
                     tok.m_strVal = buffer.ToString();
@@ -444,21 +447,6 @@ namespace GVBASIC_Compiler.Compiler
         public void Reset()
         {
             m_curIndex = 0;
-        }
-
-
-        /// <summary>
-        /// if is finished or not 
-        /// </summary>
-        /// <returns></returns>
-        public bool IsFinish()
-        {
-            if (m_curIndex >= m_sourceCode.Length)
-            {
-                return true;
-            }
-
-            return false;
         }
 
 

@@ -30,7 +30,7 @@ namespace GVBASIC_Compiler
             // parser 
             Parser parser = new Parser(tok);
             // generate the IR
-            parser.Parsing();
+            //parser.Parsing();
 
             // run 
             Runtime rt = new Runtime( parser );
@@ -52,11 +52,10 @@ namespace GVBASIC_Compiler
             tok.Reset();
 
             int lineNum = 1;
+            Token t = tok.GetNextToken();
             // parse to tokens 
-            while (tok.IsFinish() == false)
+            while( t.m_type != TokenType.eEOF )
             {
-                Token t = tok.GetNextToken();
-
                 // end of line 
                 if (t.m_type == TokenType.eEOL)
                 {
@@ -80,6 +79,10 @@ namespace GVBASIC_Compiler
                     {
                         System.Console.Write(t.m_realVal + " ");
                     }
+                    else if( t.m_type == TokenType.eSymbol )
+                    {
+                        System.Console.Write(t.m_strVal + " ");
+                    }
                     else if (t.m_type == TokenType.eUndefine)
                     {
                         System.Console.Write("[error]");
@@ -89,6 +92,8 @@ namespace GVBASIC_Compiler
                         System.Console.Write(t.m_type.ToString() + " ");
                     }
                 }
+
+                t = tok.GetNextToken();
             }
         }
     }

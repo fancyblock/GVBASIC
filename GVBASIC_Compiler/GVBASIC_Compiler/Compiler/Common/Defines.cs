@@ -69,6 +69,7 @@ public enum TokenType : int
 
     eError,             // error 
     eEOL,               // end of line 
+    eEOF,               // end of file
     eNull,
 };
 
@@ -96,35 +97,3 @@ public class Token
     public int m_lineNumber;
 };
 
-
-// store a code line 
-public class CodeLine
-{
-    /// <summary>
-    /// constructor 
-    /// </summary>
-    /// <param name="tokens"></param>
-    public CodeLine(List<Token> tokens)
-    {
-        // line number check 
-        if (tokens.Count <= 0)
-            throw new Exception("No line.");
-
-        // throw error, no line number at the beginning of the line. 
-        if (tokens[0].m_type != TokenType.eIntNum)
-            throw new Exception("No line number.");
-
-        m_lineNum = tokens[0].m_intVal;
-		m_tokenCount = tokens.Count - 1;
-
-        m_tokens = new List<Token>();
-		for (int i = 0; i < m_tokenCount; i++)
-        {
-            m_tokens.Add(tokens[i + 1]);
-        }
-    }
-
-    public int m_lineNum;
-    public int m_tokenCount;
-    public List<Token> m_tokens;
-}
