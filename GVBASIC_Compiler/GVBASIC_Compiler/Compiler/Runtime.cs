@@ -18,19 +18,12 @@ namespace GVBASIC_Compiler.Compiler
         /// <summary>
         /// constructor 
         /// </summary>
-        public Runtime()
+        public Runtime(Parser parser)
         {
             m_context = new Context();
             m_buildinFunc = new BuildinFunc();
             m_buildinFunc.SetContext(m_context);
-        }
 
-        /// <summary>
-        /// set parser 
-        /// </summary>
-        /// <param name="parser"></param>
-        public void SetParser( Parser parser )
-        {
             m_parser = parser;
         }
 

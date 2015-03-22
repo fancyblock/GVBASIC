@@ -13,40 +13,32 @@ namespace GVBASIC_Compiler
         {
 			string path = null;
 			if (args.Length > 0) 
-			{
 				path = args [0];
-			} 
 			else 
-			{
 				path = "../../../../Bas/tank.bas";
-			}
+            // print the file path 
             System.Console.WriteLine("Run file: " + path);
 
             // read the source
             string sourceCode = System.IO.File.ReadAllText(path);
 
-            // lex 
+            // tokenizer 
             Tokenizer tok = new Tokenizer(sourceCode);
 
             // for debug 
             printTokens(tok);
-            tok.Reset();
 
             // parser 
             Parser parser = new Parser(tok);
-
-            // generate the AST 
-            parser.DoParse();
+            // generate the IR
+            parser.Parsing();
 
             // run 
-            Runtime rt = new Runtime();
-            rt.SetParser(parser);
-
+            Runtime rt = new Runtime( parser );
             rt.Run();
 
             // wait for key press 
             System.Console.ReadKey();
-
         }
 
 

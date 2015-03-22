@@ -69,7 +69,7 @@ namespace GVBASIC_Compiler.Compiler
         /// <summary>
         /// do parse
         /// </summary>
-        public void DoParse()
+        public void Parsing()
         {
             // sort the codelines
             m_codeLines.Sort((CodeLine lineA, CodeLine lineB) => { return lineA.m_lineNum - lineB.m_lineNum; });
@@ -165,8 +165,6 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns>The statement.</returns>
         protected void statement()
         {
-            Statement s = null;
-
             switch (lookAhead())
             {
                 case TokenType.eSymbol:
@@ -187,13 +185,11 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns>The assign.</returns>
         protected void assign()
         {
-            Statement s = new Statement( eStatementType.eAssigment );
-
             Token tok = getNextToken();
 
             if (tok.m_type == TokenType.eSymbol)
             {
-                s.m_symbol = tok;
+                //s.m_symbol = tok;
             }
             else
             {
@@ -202,7 +198,6 @@ namespace GVBASIC_Compiler.Compiler
 
             eatToken(TokenType.eEqual);
 
-            //s.m_express = 
             express();
         }
 
@@ -212,8 +207,6 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns></returns>
         protected void express()
         {
-            Express e = null;
-
             Token tok = getNextToken();
 
             switch( tok.m_type )
