@@ -15,7 +15,7 @@ namespace GVBASIC_Compiler
 			if (args.Length > 0) 
 				path = args [0];
 			else 
-				path = "../../../../Bas/tank.bas";
+				path = "../../../../Bas/_tank.bas";
             // print the file path 
             System.Console.WriteLine("Run file: " + path);
 
@@ -25,8 +25,7 @@ namespace GVBASIC_Compiler
             // tokenizer 
             Tokenizer tok = new Tokenizer(sourceCode);
 
-            // for debug 
-            printTokens(tok);
+            printTokens(tok);  //<<<<<<<<<<<<<<< for debug
 
             // parser 
             Parser parser = new Parser(tok);
@@ -50,24 +49,16 @@ namespace GVBASIC_Compiler
         /// <param name="tokenizer"></param>
         static protected void printTokens( Tokenizer tok )
         {
-            List<Token> tokenList = new List<Token>();
-            int lineNum = 1;
-
             tok.Reset();
 
+            int lineNum = 1;
             // parse to tokens 
             while (tok.IsFinish() == false)
             {
                 Token t = tok.GetNextToken();
 
-                // skip the rem 
-                if (t.m_type == TokenType.eRem)
-                {
-                    tok.SkipToNextLine();
-                    lineNum++;
-                }
                 // end of line 
-                else if (t.m_type == TokenType.eEOL)
+                if (t.m_type == TokenType.eEOL)
                 {
                     System.Console.Write("\n");
                     lineNum++;
@@ -76,15 +67,11 @@ namespace GVBASIC_Compiler
                 else if (t.m_type == TokenType.eError)
                 {
                     System.Console.Write("Error char \'" + t.m_strVal + "\' in line " + lineNum + "\n");
-                    tok.SkipToNextLine();
-                    lineNum++;
 
                     break;
                 }
                 else
                 {
-                    tokenList.Add(t);
-
                     if (t.m_type == TokenType.eIntNum)
                     {
                         System.Console.Write(t.m_intVal + " ");

@@ -108,30 +108,23 @@ public class CodeLine
     {
         // line number check 
         if (tokens.Count <= 0)
-        {
             throw new Exception("No line.");
-        }
 
-        // no line number error. 
+        // throw error, no line number at the beginning of the line. 
         if (tokens[0].m_type != TokenType.eIntNum)
-        {
-            // throw error, no line number at the beginning of the line. 
             throw new Exception("No line number.");
-        }
 
         m_lineNum = tokens[0].m_intVal;
 		m_tokenCount = tokens.Count - 1;
 
-		m_tokens = new Token[m_tokenCount];
+        m_tokens = new List<Token>();
 		for (int i = 0; i < m_tokenCount; i++)
         {
-            m_tokens[i] = tokens[i+1];
-            m_tokens[i].m_lineNumber = m_lineNum;
+            m_tokens.Add(tokens[i + 1]);
         }
-
     }
 
     public int m_lineNum;
     public int m_tokenCount;
-    public Token[] m_tokens;
+    public List<Token> m_tokens;
 }

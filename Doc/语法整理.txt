@@ -104,6 +104,10 @@ END
 ----------------------------------------------------------------------------------------------
 
 
+statement = num xxxx eol 
+statement = num xxxx (: xxxx )* eol 
+
+
 exp = term2
 exp = term2 + exp
 exp = term2 - exp
@@ -120,4 +124,13 @@ factor = Symbol
 factor = Symbol( exp )
 factor = ( exp )
 factor = - exp
+
+
+
+
+
+
+
+
+
 

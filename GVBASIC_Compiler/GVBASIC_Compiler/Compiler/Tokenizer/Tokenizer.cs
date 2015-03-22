@@ -390,9 +390,21 @@ namespace GVBASIC_Compiler.Compiler
                 case LexStatus.eSymbol:
                     tok.m_type = TokenType.eSymbol;
                     tok.m_strVal = buffer.ToString();
+
                     if( m_keyword.Contains( tok.m_strVal ) )
                     {
-                        tok.m_type = getTokenType(tok.m_strVal);
+                        TokenType tt = getTokenType(tok.m_strVal);
+
+                        // skip the comment
+                        if (tt == TokenType.eRem)
+                        {
+                            tok.m_type = TokenType.eEOL;
+                            nextLine();
+                        }
+                        else
+                        {
+                            tok.m_type = tt;
+                        }
                     }
                     else if ( m_functions.Contains(tok.m_strVal))
                     {
@@ -427,22 +439,6 @@ namespace GVBASIC_Compiler.Compiler
         }
 
         /// <summary>
-        /// skip characters to next line 
-        /// </summary>
-        public void SkipToNextLine()
-        {
-            for( ; m_curIndex < m_sourceCode.Length; m_curIndex++ )
-            {
-                char c = m_sourceCode[m_curIndex];
-
-                if( c == '\n' )
-                {
-                    break;
-                }
-            }
-        }
-
-        /// <summary>
         /// reset the tokenizer 
         /// </summary>
         public void Reset()
@@ -469,18 +465,29 @@ namespace GVBASIC_Compiler.Compiler
         //------------------------ private functions ------------------------ 
 
         /// <summary>
+        /// skip characters to next line 
+        /// </summary>
+        protected void nextLine()
+        {
+            for (; m_curIndex < m_sourceCode.Length; m_curIndex++)
+            {
+                if (m_sourceCode[m_curIndex] == '\n')
+                {
+                    m_curIndex++;
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
         /// step back a char 
         /// </summary>
         protected void backAChar()
         {
             if( m_curIndex > 0 )
-            {
                 m_curIndex--;
-            }
             else
-            {
                 throw new Exception("[Tokenizer]: can not step back.");
-            }
         }
 
         /// <summary>
@@ -492,9 +499,7 @@ namespace GVBASIC_Compiler.Compiler
             char c = char.MaxValue;
 
             if( ( m_curIndex + 1 ) < m_sourceCode.Length )
-            {
                 c = m_sourceCode[m_curIndex + 1];
-            }
 
             return c;
         }
@@ -527,9 +532,7 @@ namespace GVBASIC_Compiler.Compiler
         protected bool isWhiteChar( char c )
         {
             if( c == ' ' || c == '\t' || c == '\r' )
-            {
                 return true;
-            }
 
             return false;
         }
@@ -562,9 +565,7 @@ namespace GVBASIC_Compiler.Compiler
         protected bool isLineEnd( char c )
         {
             if( c == '\n' || c == '\r' )
-            {
                 return true;
-            }
 
             return false;
         }

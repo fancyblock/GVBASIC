@@ -29,12 +29,7 @@ namespace GVBASIC_Compiler.Compiler
                 Token t = tokenizer.GetNextToken();
                 bool endLine = false;
 
-                if( t.m_type == TokenType.eRem )        // filter the comment 
-                {
-                    tokenizer.SkipToNextLine();
-                    endLine = true;
-                }
-                else if( t.m_type == TokenType.eEOL )   // omit end of line 
+                if( t.m_type == TokenType.eEOL )   // omit end of line 
                 {
                     endLine = true;
                 }
@@ -214,15 +209,6 @@ namespace GVBASIC_Compiler.Compiler
                 default:
                     break;
             }
-        }
-
-        /// <summary>
-        /// eat a func 
-        /// </summary>
-        /// <returns></returns>
-        protected void func()
-        {
-            //TODO 
         }
 
     }
