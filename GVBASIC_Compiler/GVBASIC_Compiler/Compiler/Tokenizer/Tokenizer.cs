@@ -67,7 +67,7 @@ namespace GVBASIC_Compiler.Compiler
         /// return the next token 
         /// </summary>
         /// <returns></returns>
-        public Token GetNextToken()
+        public Token GetToken()
         {
             Token tok = new Token();
             StringBuilder buffer = new StringBuilder();

@@ -30,7 +30,7 @@ namespace GVBASIC_Compiler
             // parser 
             Parser parser = new Parser(tok);
             // generate the IR
-            //parser.Parsing();
+            parser.Parsing();
 
             // run 
             Runtime rt = new Runtime( parser );
@@ -52,7 +52,7 @@ namespace GVBASIC_Compiler
             tok.Reset();
 
             int lineNum = 1;
-            Token t = tok.GetNextToken();
+            Token t = tok.GetToken();
             // parse to tokens 
             while( t.m_type != TokenType.eEOF )
             {
@@ -93,7 +93,7 @@ namespace GVBASIC_Compiler
                     }
                 }
 
-                t = tok.GetNextToken();
+                t = tok.GetToken();
             }
         }
     }

@@ -70,7 +70,6 @@ public enum TokenType : int
     eError,             // error 
     eEOL,               // end of line 
     eEOF,               // end of file
-    eNull,
 };
 
 
@@ -87,13 +86,11 @@ public class Token
         m_intVal = 0;
         m_realVal = 0.0f;
         m_strVal = "";
-        m_lineNumber = -1;
     }
 
 	public TokenType m_type;
 	public int m_intVal;
 	public float m_realVal;
 	public string m_strVal;
-    public int m_lineNumber;
 };
 

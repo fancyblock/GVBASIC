@@ -10,14 +10,17 @@ namespace GVBASIC_Compiler.Compiler
     class Parser
     {
         protected Tokenizer m_tokenizer;
+        protected Token[] m_tokenBuff;
+        protected int m_curTokenIndex;
 
         /// <summary>
         /// constructor 
         /// </summary>
         /// <param name="tokenizer"></param>
-        public Parser( Tokenizer tokenizer )
+        public Parser( Tokenizer tokenizer, int k = 10 )
         {
             m_tokenizer = tokenizer;
+            m_tokenBuff = new Token[k];
         }
 
         /// <summary>
@@ -26,21 +29,16 @@ namespace GVBASIC_Compiler.Compiler
         public void Parsing()
         {
             m_tokenizer.Reset();
+            // init the token buffer 
+            for (int i = 0; i < m_tokenBuff.Length; i++)
+                m_tokenBuff[i] = m_tokenizer.GetToken();
+            m_curTokenIndex = 0;
 
             // do parsing 
-            Token tk = m_tokenizer.GetNextToken();
-            while (tk.m_type != TokenType.eEOF)
+            TokenType tk = lookAhead();
+            while (tk != TokenType.eEOF)
             {
-                while ( lookAhead() != TokenType.eNull )
-                {
-                    //TODO 
-                    TokenType token = lookAhead();
-
-                    if (token != TokenType.eNull)
-                    {
-                        eatToken(TokenType.eColon);
-                    }
-                }
+                //TODO 
             }
         }
 
@@ -54,20 +52,13 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns>The ahead.</returns>
         protected TokenType lookAhead( int step = 0 )
         {
-            /*
-            if (m_lineIndex >= m_codeLines.Count)
-                return TokenType.eNull;
+            if (step >= m_tokenBuff.Length)
+                throw new Exception("Look ahead too more...");
 
-            CodeLine cl = m_codeLines[m_lineIndex];
-            int index = m_tokenIndex + step;
+            int index = m_curTokenIndex + step;
+            index %= m_tokenBuff.Length;
 
-            if (index < cl.m_tokenCount)
-            {
-                return cl.m_tokens[index].m_type;
-            }
-             */
-
-            return TokenType.eNull;
+            return m_tokenBuff[index].m_type;
         }
 
 
@@ -78,16 +69,19 @@ namespace GVBASIC_Compiler.Compiler
         /// <param name="tok">Tok.</param>
         protected void eatToken( TokenType tok )
         {
-            /*
-            Token t = m_codeLines[m_lineIndex].m_tokens[m_tokenIndex];
+            Token curTok = m_tokenBuff[m_curTokenIndex];
 
-            if (t.m_type != tok)
-            {
-                throw new Exception("[Parse]: eatToken, " + tok.ToString() + " is missiong.");
-            }
+            // token type error exception 
+            if( curTok.m_type != tok )
+                throw new Exception( "Error token type " + curTok.m_type.ToString() + ",  "
+                    + tok.ToString() + " expected." );
 
-            m_tokenIndex++;
-             */
+            // add new token to the buffer
+            m_tokenBuff[m_curTokenIndex] = m_tokenizer.GetToken();
+
+            // update the token index 
+            m_curTokenIndex++;
+            m_curTokenIndex %= m_tokenBuff.Length;
         }
 
         /// <summary>
