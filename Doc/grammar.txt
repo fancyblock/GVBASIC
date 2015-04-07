@@ -1,39 +1,3 @@
-[GVBasic语言的文法]
-
-
-
-[非终结符]
-
-exp			{表达式}
-codeBlock	{单代码块｝
-codeBlocks	{多代码块}
-funcDef		{函数定义}
-
-
-
-[产生式]
-
-{funcDef}			???
-
-{codeBlock}			{codeBlock} : {codeBlock}							-- 代码块并联
-
-					DIM Symbol ( Int [, int] )							-- 数组定义
-
-					DEF FN Symbol = {exp}								-- 函数定义
-
-					IF {exp} GOTO Int 									-- IF语句
-
-					IF {exp} THEN {codeBlock}
-
-					IF {exp} THEN {codeBlock} ELSE {codeBlock}
-
-					IF {exp} GOTO Int ELSE {codeBlock}
-
-
-
-IF语句=>		IF {exp} THEN/(GOTO) {codeBlock} ELSE 
-
-
 
 [语法测试]
 

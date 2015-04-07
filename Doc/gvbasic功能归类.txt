@@ -3,40 +3,40 @@
 
 ABS		取绝对值						用法:	ABS(exp)
 
-SGN		取符号 						用法:	SGN(x)
+SGN		取符号 							用法:	SGN(x)
 
-INT 	取整 						用法:	INT(x)
+INT 	取整 							用法:	INT(x)
 
-SIN 	正弦值 						用法:	SIN(exp)
+SIN 	正弦值 							用法:	SIN(exp)
 
-COS 	余弦值						用法:	COS(exp)
+COS 	余弦值							用法:	COS(exp)
 
-TAN		正切值						用法:	TAN(exp)
+TAN		正切值							用法:	TAN(exp)
 
 ATN		反正切值						用法:	ANT(exp)
 
-SQR		平方根 						用法:	SQR(exp)
+SQR		平方根 							用法:	SQR(exp)
 
-EXP 	e的n次方						用法:	EXP(x)  	e的x次方值
+EXP 	e的n次方						用法:	EXP(x)  		e的x次方值
 
-LOG		取对数						用法:	LOG(x)		以e为底的x对数。
+LOG		取对数							用法:	LOG(x)			以e为底的x对数。
 
-RND		产生随机数 					用法:	RND(x)
+RND		产生随机数 						用法:	RND(x)
 *产生一个(0,1)间的随机小数。如果x>0,每次产生不同的随机数;如果x<0,产生有一定序列的随机数;如果x=0,输出上次产生的随机数。
 
 －－－－－－－－－－－－－－－－－－－－－[字符函数]－－－－－－－－－－－－－－－－－－－－－
 
-ASC 	求ASCII码 					用法:	ASC(s$)		求取字符串s$中的第一个字符的ASCII码
+ASC 	求ASCII码 						用法:	ASC(s$)			求取字符串s$中的第一个字符的ASCII码
 
-LEN 	求串长						用法:	LEN(S$)		求字符串s$的长度
+LEN 	求串长							用法:	LEN(S$)			求字符串s$的长度
 
-CHR$ 	取字符 						用法:	CHR$(n)		求ASCII码为n的字符
+CHR$ 	取字符 							用法:	CHR$(n)			求ASCII码为n的字符
  
-LEFT$	取字符 						用法:	LEFT$(S$,n)		取字符串s$左端的n个字符。
+LEFT$	取字符 							用法:	LEFT$(S$,n)		取字符串s$左端的n个字符。
 
-MID$	取字符 						用法:	MID$(s$,n,m)	从字符串n位置起取m个字符。
+MID$	取字符 							用法:	MID$(s$,n,m)	从字符串n位置起取m个字符。
 
-RIGHT$	取字符 						用法:	RIGHT$(s$,n)	取字符串s$右端的n个字符。
+RIGHT$	取字符 							用法:	RIGHT$(s$,n)	取字符串s$右端的n个字符。
 
 STR$	数字转为字串 					用法:	STR$(n)			将数字n转化为字符串
 
@@ -63,50 +63,50 @@ PLAY	演奏音乐						用法:	PLAY "CDEFGAB"
 
 －－－－－－－－－－－－－－－－－－－－－[图像函数]－－－－－－－－－－－－－－－－－－－－－
 
-BOX		画矩形 						用法:	BOX X0,Y0,X1,Y1,FILL,TYPE
+BOX		画矩形 							用法:	BOX X0,Y0,X1,Y1,FILL,TYPE
 *FILL=1 填充
 *FILL=0 不填充			]10 GRAPH
 *TYPE=1 画矩形			]20 BOX 10,10,40,40
 *TYPE=0 清矩形
 
-CIRCLE	画圆 						用法:	CIRCLE X0,Y0,R,FILL,TYPE
+CIRCLE	画圆 							用法:	CIRCLE X0,Y0,R,FILL,TYPE
 *FILL=1 填充
 *FILL=0 不填充			]10 GRAPH
 *TYPE=1 画圆 			]30 CIRCLE 80,40,30,1
 *TYPE=0 清圆
 
-DRAW	画点 						用法:	DRAW X,Y,TYPE
+DRAW	画点 							用法:	DRAW X,Y,TYPE
 *TYPE=1 画点
 *TYPE=0 清点
 
-ELLIPSE	画椭圆 						用法:	ELLIPSE X0,Y0,A,B,FILL,TYPE
+ELLIPSE	画椭圆 							用法:	ELLIPSE X0,Y0,A,B,FILL,TYPE
 *FILL=1 填充
 *FILL=0 不填充			]10 GRAPH
 *TYPE=1 画椭圆			]20 ELLIPSE 80,40,60,30,1
 *TYPE=0 清椭圆
 
-LINE	画直线 						用法:	LINE X0,Y0,X1,Y1,TYPE
+LINE	画直线 							用法:	LINE X0,Y0,X1,Y1,TYPE
 *TYPE=1 画线
 *TYPE=0 清线				]10 GRAPH
 						]30 LINE 10,10,50,50,1
 						]40 END
 
-CLS 	清屏 						用法:	CLS
+CLS 	清屏 							用法:	CLS
 
 INVERSE	反显字符 						用法:	INVERSE
 
 NORMAL	正常显示						用法:	NORMAL
 
-LOCATE	置显示位置 					用法:	LOCATE 行号,列号
+LOCATE	置显示位置 						用法:	LOCATE 行号,列号
 
-POS		取光标位置 					用法:	POS(n)				得到光标的水平位置
+POS		取光标位置 						用法:	POS(n)				得到光标的水平位置
 
 PRINT	屏幕显示						用法:	1.PRINT exp
-											显示完表达式以后换行。
-											2.PRINT exp1,exp2,exp3...
-											显示完每个表达式以后就换行。
-											3.PRINT exp1;exp2;exp3...
-											显示每个表达式以后不换行,接着显示下一个表达式。
+												显示完表达式以后换行。
+												2.PRINT exp1,exp2,exp3...
+												显示完每个表达式以后就换行。
+												3.PRINT exp1;exp2;exp3...
+												显示每个表达式以后不换行,接着显示下一个表达式。
 
 SPC		打印空格 						用法:	SPC(n)
 *打印n个空格。
@@ -125,7 +125,7 @@ TAB 	输出控制 						用法:	TAB(n)
 
 －－－－－－－－－－－－－－－－－－－－－[文件函数]－－－－－－－－－－－－－－－－－－－－－
 
-OPEN	打开文件 						用法：	OPEN file$ [FOR mode] AS #filenum% [LEN=reclen%]
+OPEN	打开文件 								用法：	OPEN file$ [FOR mode] AS #filenum% [LEN=reclen%]
 file$：	文件名串
 mode：	打开方式
 		INPUT 只读
@@ -138,18 +138,18 @@ LEN：	缓冲区长度，默认为32（只在RANDOM方式下有效）
 ]10 OPEN "DAT" FOR OUTPUT AS #1
 ]20 OPEN "DAT1" FOR RANDOM AS #2 LEN=50
 
-CLOSE	关闭数据文件 					用法:	CLOSE #filenum%
+CLOSE	关闭数据文件 							用法:	CLOSE #filenum%
 
-EOF		顺序文件是否结束，未结束返回0 	用法:	EOF(filenum%)			参数可以是变量
+EOF		顺序文件是否结束，未结束返回0 			用法:	EOF(filenum%)			参数可以是变量
 ]50 IF EOF(1) THEN PRINT "FILE END"
 
-FIELD 	指定缓冲区大小分配缓冲区变量  	用法:	FIELD #filenum%, width% AS var1$[,width% AS var2$]...
+FIELD 	指定缓冲区大小分配缓冲区变量  			用法:	FIELD #filenum%, width% AS var1$[,width% AS var2$]...
 ]40 FIELD #1,2 AS A$, 3 AS B$
 
-GET		从指定文件读取指定记录放入缓冲区	用法:	GET #filenum%, recordnum%
+GET		从指定文件读取指定记录放入缓冲区		用法:	GET #filenum%, recordnum%
 ]40 GET #1, 1
 
-LOF		返回随机文件长度 				用法:	LOF(filenum%)
+LOF		返回随机文件长度 						用法:	LOF(filenum%)
 ]40 PRINT LOF(1)
 
 LSET	向缓冲区分配的变量赋值，并做左对齐调整 	用法: 	LSET var$=strexpr$
@@ -166,7 +166,7 @@ WRITE	写数据到文件(如无文件号写到屏幕) 		用法: 	WRITE [#filenum
 
 －－－－－－－－－－－－－－－－－－－－－[输入输出]－－－－－－－－－－－－－－－－－－－－－
 
-INKEY$	读键值 						用法:	INKEY$
+INKEY$	读键值 							用法:	INKEY$
 
 INPUT 	从键盘或文件输入				用法:	INPUT A1,A2,A3...
 ]10 INPUT A
@@ -182,7 +182,7 @@ INPUT 	从键盘或文件输入				用法:	INPUT A1,A2,A3...
 ?I LOVE GVBASIC
 I LOVE GVBASIC
 ]
-									用法:	INPUT #filenum%,varlist[,varlist,...]
+										用法:	INPUT #filenum%,varlist[,varlist,...]
 ]10 INPUT #1,A$,A1$
 
 －－－－－－－－－－－－－－－－－－－－－[其他命令]－－－－－－－－－－－－－－－－－－－－－
@@ -195,7 +195,7 @@ TEXT 	文本模式						用法:	TEXT
 
 －－－－－－－－－－－－－－－－－－－－－[数据设置]－－－－－－－－－－－－－－－－－－－－－
 
-LET 	给变量赋值 					用法:	LET 变量=表达式
+LET 	给变量赋值 						用法:	LET 变量=表达式
 *计算表达式的值,将其赋给指定变量。LET可省略。
 ]10 LET N=2008-1999
 ]20 R=0.09
@@ -227,11 +227,11 @@ RESTORE	恢复指针 						用法:	RESTORE
 
 －－－－－－－－－－－－－－－－－－－－－[逻辑运算]－－－－－－－－－－－－－－－－－－－－－
 
-AND		逻辑与						用法:	AND
+AND		逻辑与							用法:	AND
 
-OR 		逻辑或						用法:	OR
+OR 		逻辑或							用法:	OR
 
-NOT		逻辑非						用法:	NOT
+NOT		逻辑非							用法:	NOT
 
 －－－－－－－－－－－－－－－－－－－－－[流程控制]－－－－－－－－－－－－－－－－－－－－－
 
@@ -282,10 +282,10 @@ WEND
 305
 ]
 
-ON 		控制转移 						用法:	ON...GOTO n1,n2,n3...
+ON 		控制转移 							用法:	ON...GOTO n1,n2,n3...
 *计算ON后的表达式值,为1时对应n1子程序,为2时对应n2子程序.....,当无对应时继续执行下一条语句。
 
-GOSUB 	跳转子程序 					用法:	GOSUB 行号
+GOSUB 	跳转子程序 							用法:	GOSUB 行号
 *程序跳转到以指定行号开始的子程序运行,遇到RETURN语句时就返回到GOSUB的下条语句接着运行。
 如:
 ]10 GOSUB 100
@@ -298,15 +298,15 @@ GOSUB 	跳转子程序 					用法:	GOSUB 行号
 45
 ]
 
-RETURN 	子程序返回 					用法:	RETURN 			相关语句 GOSUB
+RETURN 	子程序返回 							用法:	RETURN 			相关语句 GOSUB
 
-POP		将堆栈中的返回地址弹栈 			用法:	POP 			和RETURN功能差不多,但程序不是返回到GOSUB的下条语句,而是接着运行。
+POP		将堆栈中的返回地址弹栈 				用法:	POP 			和RETURN功能差不多,但程序不是返回到GOSUB的下条语句,而是接着运行。
 
-GOTO	无条件跳转 					用法:	GOTO 行号 		程序跳转到指定行号处运行.
+GOTO	无条件跳转 							用法:	GOTO 行号 		程序跳转到指定行号处运行.
 
 －－－－－－－－－－－－－－－－－－－－－[声明语句]－－－－－－－－－－－－－－－－－－－－－
 
-DEF FN 	自定义函数 					用法:	DEF FN 函数名=表达式
+DEF FN 	自定义函数 							用法:	DEF FN 函数名=表达式
 如:
 ]10 DEF FN A(W)=2*W+W
 ]20 PRINT FN A(23)
@@ -322,11 +322,11 @@ DEF FN 	自定义函数 					用法:	DEF FN 函数名=表达式
 14
 ]
 
-DIM		数组定义 						用法:	DIM数组名(N1,N2,N3...)
+DIM		数组定义 							用法:	DIM数组名(N1,N2,N3...)
 *说明数组维数并分配空间，没有经过DIM说明的数组下标设定最大值是10。
 
 －－－－－－－－－－－－－－－－－－－－－[其他语句]－－－－－－－－－－－－－－－－－－－－－
 
-SWAP	变量互换 						用法:	SWAP A1,B1
+SWAP	变量互换 							用法:	SWAP A1,B1
 
-END		程序结束 						用法:	END
+END		程序结束 							用法:	END

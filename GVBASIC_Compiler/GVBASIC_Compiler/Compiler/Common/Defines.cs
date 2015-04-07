@@ -63,6 +63,18 @@ public enum TokenType : int
     eOn,				// ON
     eRem,               // REM 
 
+    ePrint,
+    eOpen,
+    eClose,
+    eField,
+    eGet,
+    eLset,
+    ePut,
+    eRset,
+    eWrite,
+    eInput,
+    eInkey,
+
     eFunc,              // inner function 
     eSimpleCmd,
     eParamCmd,
@@ -70,7 +82,7 @@ public enum TokenType : int
     eError,             // error 
     eEOL,               // end of line 
     eEOF,               // end of file
-};
+}
 
 
 
@@ -92,5 +104,86 @@ public class Token
 	public int m_intVal;
 	public float m_realVal;
 	public string m_strVal;
-};
+}
 
+
+/// <summary>
+/// statement type define 
+/// </summary>
+public enum StatementType : int
+{
+    eInnerFunc,
+    eSimpleCmd,
+    eParamCmd,
+    ePrint,
+    //TODO 
+    eAssign,
+    eData,
+    eRead,
+    eIf,
+    eForBegin,
+    eForEnd,
+    eWhileBegin,
+    eWhileEnd,
+    eOn,
+    eGoSub,
+    eReturn,
+    ePop,
+    eGoto,
+    eDefFn,
+    eDim,
+    eSwap,
+    eEnd,
+}
+
+
+/// <summary>
+/// statement type 
+/// </summary>
+public class Statement
+{
+    public StatementType m_type;
+    public int m_num;
+
+    public List<Expression> m_expressList;
+}
+
+
+public enum ExpressionType : int
+{
+    eOpPlus,
+    eOpMinus,
+    eOpMul,
+    eOpDiv,
+    eOpPower,
+    eOpNeg,
+    eIntNum,
+    eRealNum,
+    eSymbol,
+    eFunc,
+}
+
+
+/// <summary>
+/// expression type 
+/// </summary>
+public class Expression
+{
+    public ExpressionType m_type;
+    public Expression m_leftExp;
+    public Expression m_rightExp;
+    public int m_intVal;
+    public float m_realVal;
+    public string m_symbol;
+
+    /// <summary>
+    /// constructor 
+    /// </summary>
+    /// <param name="type"></param>
+    public Expression( ExpressionType type )
+    {
+        m_type = type;
+        m_leftExp = null;
+        m_rightExp = null;
+    }
+}

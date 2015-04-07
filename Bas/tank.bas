@@ -1,7 +1,1 @@
-10 A = 10
-20 IF A = 10 THEN
-30 PRINT("A=10")
-40 PRINT("A---") REM ahahahahaah's hjb
-41 A%=17 REM TEST
-42 END
-44 OPEN "DAT1" FOR RANDOM AS #2 LEN=50
+10 PRINT 10 + 20 * 7 - 1 * ( 7 - 6 ) - 2^3

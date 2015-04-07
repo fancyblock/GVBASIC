@@ -13,6 +13,8 @@ namespace GVBASIC_Compiler.Compiler
         protected Token[] m_tokenBuff;
         protected int m_curTokenIndex;
 
+        protected List<Statement> m_statements;
+
         /// <summary>
         /// constructor 
         /// </summary>
@@ -34,11 +36,39 @@ namespace GVBASIC_Compiler.Compiler
                 m_tokenBuff[i] = m_tokenizer.GetToken();
             m_curTokenIndex = 0;
 
+            m_statements = new List<Statement>();
+
             // do parsing 
-            TokenType tk = lookAhead();
-            while (tk != TokenType.eEOF)
+            while (lookAhead() != TokenType.eEOF)
             {
-                //TODO 
+                // parse statement 
+                Token t = eatToken(TokenType.eIntNum);
+
+                TokenType tok = TokenType.eUndefine;
+
+                do
+                {
+                    if (tok != TokenType.eUndefine)
+                        eatToken(TokenType.eColon);
+
+                    Statement s = null;
+                    tok = lookAhead();
+
+                    switch( tok )
+                    {
+                        case TokenType.ePrint:
+                            s = print();
+                            break;
+                        //TODO 
+                        default:
+                            throw new Exception("unexpected token: " + tok.ToString());
+                    }
+
+                    // add the statement 
+                    s.m_num = t.m_intVal;
+                    m_statements.Add(s);
+
+                } while (lookAhead() != TokenType.eEOL && lookAhead() != TokenType.eEOF);
             }
         }
 
@@ -67,14 +97,13 @@ namespace GVBASIC_Compiler.Compiler
         /// </summary>
         /// <returns><c>true</c>, if token was eaten, <c>false</c> otherwise.</returns>
         /// <param name="tok">Tok.</param>
-        protected void eatToken( TokenType tok )
+        protected Token eatToken( TokenType tok )
         {
             Token curTok = m_tokenBuff[m_curTokenIndex];
 
             // token type error exception 
             if( curTok.m_type != tok )
-                throw new Exception( "Error token type " + curTok.m_type.ToString() + ",  "
-                    + tok.ToString() + " expected." );
+                throw new Exception( "Error token type " + curTok.m_type.ToString() + ",  " + tok.ToString() + " expected." );
 
             // add new token to the buffer
             m_tokenBuff[m_curTokenIndex] = m_tokenizer.GetToken();
@@ -82,63 +111,215 @@ namespace GVBASIC_Compiler.Compiler
             // update the token index 
             m_curTokenIndex++;
             m_curTokenIndex %= m_tokenBuff.Length;
+
+            return curTok;
         }
 
+
         /// <summary>
-        /// Eats the statement.
+        /// parse print statement 
         /// </summary>
-        /// <returns>The statement.</returns>
-        protected void statement()
+        protected Statement print()
         {
-            switch (lookAhead())
+            Statement s = new Statement();
+            s.m_type = StatementType.ePrint;
+            s.m_expressList = new List<Expression>();
+
+            eatToken(TokenType.ePrint);
+
+            while (true)
             {
-                case TokenType.eSymbol:
-                    assign();
+                s.m_expressList.Add(expression());
+
+                TokenType tok = lookAhead();
+
+                if (tok == TokenType.eSemi)
+                {
+                    // print close to prior exp  
+                    //TODO 
+                }
+                else if (tok == TokenType.eComma)
+                {
+                    // print next line 
+                    //TODO 
+                }
+                else
+                {
                     break;
-                case TokenType.eLet:
-                    eatToken(TokenType.eLet);
-                    assign();
-                    break;
-                default:
-                    throw new Exception("[Parse]: eatStatement error.");
+                }
             }
+
+            //[TEMP]
+            for (int i = 0; i < s.m_expressList.Count; i++ )
+                System.Console.WriteLine(calcExp(s.m_expressList[i]));
+            //[TEMP]
+
+            return s;
+        }
+        
+
+        /// <summary>
+        /// parse express
+        /// </summary>
+        protected Expression expression()
+        {
+            Expression exp = expression2();
+
+            TokenType tt = lookAhead();
+
+            while (tt == TokenType.ePlus || tt == TokenType.eMinus)
+            {
+                Expression subExp = null;
+
+                if (tt == TokenType.ePlus)
+                {
+                    eatToken(TokenType.ePlus);
+                    subExp = new Expression(ExpressionType.eOpPlus);
+                }
+                else if (tt == TokenType.eMinus)
+                { 
+                    eatToken(TokenType.eMinus);
+                    subExp = new Expression(ExpressionType.eOpMinus);
+                }
+
+                subExp.m_leftExp = exp;
+                subExp.m_rightExp = expression2();
+
+                exp = subExp;
+
+                tt = lookAhead();
+            }
+
+            return exp;
         }
 
-        /// <summary>
-        /// eat assignment 
-        /// </summary>
-        /// <returns>The assign.</returns>
-        protected void assign()
+        protected Expression expression2()
         {
-            Token tok = null;// getNextToken();
+            Expression exp = expression3();
 
-            if (tok.m_type == TokenType.eSymbol)
+            TokenType tt = lookAhead();
+
+            while (tt == TokenType.eMul || tt == TokenType.eDiv)
             {
-                //s.m_symbol = tok;
-            }
-            else
-            {
-                throw new Exception("[Parse]: eatAssign, missing symbol.");
+                Expression subExp = null;
+
+                if (tt == TokenType.eMul)
+                {
+                    eatToken(TokenType.eMul);
+                    subExp = new Expression(ExpressionType.eOpMul);
+                }
+                else if (tt == TokenType.eDiv)
+                {
+                    eatToken(TokenType.eDiv);
+                    subExp = new Expression(ExpressionType.eOpDiv);
+                }
+
+                subExp.m_leftExp = exp;
+                subExp.m_rightExp = expression3();
+
+                exp = subExp;
+
+                tt = lookAhead();
             }
 
-            eatToken(TokenType.eEqual);
-
-            express();
+            return exp;
         }
 
-        /// <summary>
-        /// parse express 
-        /// </summary>
-        /// <returns></returns>
-        protected void express()
+        protected Expression expression3()
         {
-            Token tok = null;// getNextToken();
+            Expression exp = expression4();
 
-            switch( tok.m_type )
+            TokenType tt = lookAhead();
+
+            if( tt == TokenType.ePower )
             {
-                default:
-                    break;
+                eatToken(TokenType.ePower);
+                Expression subExp = new Expression(ExpressionType.eOpPower);
+
+                subExp.m_leftExp = exp;
+                subExp.m_rightExp = expression4();
+
+                exp = subExp;
             }
+
+            return exp;
+        }
+
+        protected Expression expression4()
+        {
+            Expression exp = null;
+
+            TokenType tt = lookAhead();
+            Token tok = null;
+
+            if (tt == TokenType.eSymbol)
+            {
+                exp = new Expression(ExpressionType.eSymbol);
+                tok = eatToken(TokenType.eSymbol);
+                //TODO 
+            }
+            else if (tt == TokenType.eIntNum)
+            {
+                exp = new Expression(ExpressionType.eIntNum);
+                tok = eatToken(TokenType.eIntNum);
+                exp.m_intVal = tok.m_intVal;
+            }
+            else if (tt == TokenType.eRealNum)
+            {
+                exp = new Expression(ExpressionType.eRealNum);
+                tok = eatToken(TokenType.eRealNum);
+                exp.m_realVal = tok.m_realVal;
+            }
+            else if (tt == TokenType.eLeftBra)
+            {
+                eatToken(TokenType.eLeftBra);
+                exp = expression();
+                eatToken(TokenType.eRightBra);
+            }
+            else if( tt == TokenType.eMinus)
+            {
+                exp = new Expression(ExpressionType.eOpNeg);
+                eatToken(TokenType.eMinus);
+                exp.m_leftExp = expression4();
+            }
+            else if( tt == TokenType.eFunc )
+            {
+                exp = new Expression(ExpressionType.eFunc);
+                //TODO 
+                eatToken(TokenType.eFunc);
+                eatToken(TokenType.eLeftBra);
+                expression();
+                eatToken(TokenType.eRightBra);
+            }
+
+            return exp;
+        }
+
+
+        //////////////////////////////////////////////TEMP////////////////////////////////////////////////
+
+        protected float calcExp( Expression exp )
+        {
+            float result = 0.0f;
+
+            if (exp.m_type == ExpressionType.eIntNum)
+                return exp.m_intVal;
+            else if (exp.m_type == ExpressionType.eRealNum)
+                return exp.m_realVal;
+            else if (exp.m_type == ExpressionType.eOpNeg)
+                return -calcExp(exp.m_leftExp);
+            else if (exp.m_type == ExpressionType.eOpPlus)
+                return calcExp(exp.m_leftExp) + calcExp(exp.m_rightExp);
+            else if (exp.m_type == ExpressionType.eOpMinus)
+                return calcExp(exp.m_leftExp) - calcExp(exp.m_rightExp);
+            else if (exp.m_type == ExpressionType.eOpMul)
+                return calcExp(exp.m_leftExp) * calcExp(exp.m_rightExp);
+            else if (exp.m_type == ExpressionType.eOpDiv)
+                return calcExp(exp.m_leftExp) / calcExp(exp.m_rightExp);
+            else if (exp.m_type == ExpressionType.eOpPower)
+                return (float)Math.Pow( calcExp(exp.m_leftExp), calcExp(exp.m_rightExp));
+
+            return result;
         }
 
     }

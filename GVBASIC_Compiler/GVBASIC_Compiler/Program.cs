@@ -25,7 +25,7 @@ namespace GVBASIC_Compiler
             // tokenizer 
             Tokenizer tok = new Tokenizer(sourceCode);
 
-            printTokens(tok);  //<<<<<<<<<<<<<<< for debug
+            //printTokens(tok);  //<<<<<<<<<<<<<<< for debug
 
             // parser 
             Parser parser = new Parser(tok);

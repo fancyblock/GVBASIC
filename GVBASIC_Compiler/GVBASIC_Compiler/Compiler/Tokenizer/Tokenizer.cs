@@ -34,10 +34,7 @@ namespace GVBASIC_Compiler.Compiler
 
         protected List<char> m_opChr;                   // operator
         protected List<char> m_delimChr;                // separator
-        protected List<string> m_simpleCommands;        // command without parameters 
-        protected List<string> m_paramCommands;         // command with simple form parameters 
-        protected List<string> m_functions;             // inner function 
-        protected List<string> m_keyword;               // keyword 
+        protected Dictionary<string, TokenType> m_symbolTypes;
 
         /// <summary>
         /// constructor 
@@ -47,17 +44,69 @@ namespace GVBASIC_Compiler.Compiler
             // init the tokenizer 
             m_opChr = new List<char> { '+', '-', '*', '/', '^', '=', '>', '<' };
             m_delimChr = new List<char> { ':', ',', ';', '(', ')' };
-            m_keyword = new List<string> { "AND", "OR", "NOT", "LET", "DIM", "READ", "DATA",
-                                           "RESTORE", "GOTO", "IF", "THEN", "ELSE", "WHILE",
-                                           "WEND", "TO", "STEP", "DEF", "FN", "GOSUB",
-                                           "RETURN", "ON", "REM", "NEXT", "FOR" };
-            m_simpleCommands = new List<string> { "BEEP", "CLS", "INVERSE", "NORMAL", "GRAPH", "TEXT", "RESTORE" };
-            m_paramCommands = new List<string> { "PLAY", "BOX", "CIRCLE", "DRAW", "ELLIPSE", "LINE", "LOCATE", "INKEY$" };
-            m_functions = new List<string>(){ "ABS","SGN","INT","SIN","COS","TAN",
-                                              "ATN","SQR","EXP","LOG","RND","ASC",
-                                              "LEN","CHR$","LEFT$","MID$","RIGHT$",
+
+            m_symbolTypes = new Dictionary<string, TokenType>()
+            {
+                // keywords
+                {"PRINT", TokenType.ePrint},
+                {"AND", TokenType.eAnd},
+                {"OR", TokenType.eOr},
+                {"NOT", TokenType.eNot},
+                {"LET", TokenType.eLet},
+                {"DIM", TokenType.eDim},
+                {"READ", TokenType.eRead},
+                {"DATA", TokenType.eData},
+                {"RESTORE", TokenType.eRestore},
+                {"GOTO", TokenType.eGoto},
+                {"IF", TokenType.eIf},
+                {"THEN", TokenType.eThen},
+                {"ELSE", TokenType.eElse},
+                {"WHILE", TokenType.eWhile},
+                {"WEND", TokenType.eWend},
+                {"TO", TokenType.eTo},
+                {"STEP", TokenType.eStep},
+                {"DEF", TokenType.eDef},
+                {"FN",TokenType.eFn},
+                {"GOSUB", TokenType.eGoSub},
+                {"RETURN", TokenType.eReturn},
+                {"ON", TokenType.eOn},
+                {"REM", TokenType.eRem},
+                {"NEXT", TokenType.eNext},
+                {"FOR", TokenType.eFor},
+                // simple command
+                {"BEEP", TokenType.eSimpleCmd},
+                {"CLS", TokenType.eSimpleCmd},
+                {"INVERSE", TokenType.eSimpleCmd},
+                {"NORMAL", TokenType.eSimpleCmd},
+                {"GRAPH", TokenType.eSimpleCmd},
+                {"TEXT", TokenType.eSimpleCmd},
+                // param command
+                {"PLAY", TokenType.eParamCmd},
+                {"BOX", TokenType.eParamCmd},
+                {"CIRCLE", TokenType.eParamCmd},
+                {"DRAW", TokenType.eParamCmd},
+                {"ELLIPSE", TokenType.eParamCmd},
+                // inner function
+                {"ABS", TokenType.eFunc},
+                {"SGN", TokenType.eFunc},
+                {"INT", TokenType.eFunc},
+                {"SIN", TokenType.eFunc},
+                {"COS", TokenType.eFunc},
+                {"TAN", TokenType.eFunc},
+                {"ATN", TokenType.eFunc},
+                {"SQR", TokenType.eFunc},
+                {"EXP", TokenType.eFunc},
+                {"LOG", TokenType.eFunc},
+                {"RND", TokenType.eFunc},
+                {"ASC", TokenType.eFunc},
+            };
+
+            /*
+            m_paramCommands = new List<string> {"LINE", "LOCATE", "INKEY$" };
+            m_functions = new List<string>(){ "LEN","CHR$","LEFT$","MID$","RIGHT$",
                                               "STR$","VAL","CVI$","MKI$","CVS$",
                                               "MKS$","POS","SPC","TAB","EOF","LOF" };
+             */
 
             m_sourceCode = source;
             m_curIndex = 0;
@@ -391,32 +440,17 @@ namespace GVBASIC_Compiler.Compiler
                     tok.m_type = TokenType.eSymbol;
                     tok.m_strVal = buffer.ToString();
 
-                    if( m_keyword.Contains( tok.m_strVal ) )
+                    // recognize the keyword 
+                    if (m_symbolTypes.ContainsKey(tok.m_strVal))
                     {
-                        TokenType tt = getTokenType(tok.m_strVal);
+                        tok.m_type = m_symbolTypes[tok.m_strVal];
 
-                        // skip the comment
-                        if (tt == TokenType.eRem)
+                        // skip the code comment 
+                        if (tok.m_type == TokenType.eRem)
                         {
                             tok.m_type = TokenType.eEOL;
                             nextLine();
                         }
-                        else
-                        {
-                            tok.m_type = tt;
-                        }
-                    }
-                    else if ( m_functions.Contains(tok.m_strVal))
-                    {
-                        tok.m_type = TokenType.eFunc;
-                    }
-                    else if (m_simpleCommands.Contains(tok.m_strVal))
-                    {
-                        tok.m_type = TokenType.eSimpleCmd;
-                    }
-                    else if(m_simpleCommands.Contains(tok.m_strVal))
-                    {
-                        tok.m_type = TokenType.eParamCmd;
                     }
                     break;
                 case LexStatus.eFileNum:
@@ -556,96 +590,6 @@ namespace GVBASIC_Compiler.Compiler
                 return true;
 
             return false;
-        }
-
-        /// <summary>
-        /// return the token type ( keyword )
-        /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>
-        protected TokenType getTokenType( string str )
-        {
-            TokenType type = TokenType.eUndefine;
-
-            switch( str )
-            {
-                case "AND":
-                    type = TokenType.eAnd;
-                    break;
-                case "OR":
-                    type = TokenType.eOr;
-                    break;
-                case "NOT":
-                    type = TokenType.eNot;
-                    break;
-                case "LET":
-                    type = TokenType.eLet;
-                    break;
-                case "DIM":
-                    type = TokenType.eDim;
-                    break;
-                case "READ":
-                    type = TokenType.eRead;
-                    break;
-                case "DATA":
-                    type = TokenType.eData;
-                    break;
-                case "RESTORE":
-                    type = TokenType.eRestore;
-                    break;
-                case "GOTO":
-                    type = TokenType.eGoto;
-                    break;
-                case "IF":
-                    type = TokenType.eIf;
-                    break;
-                case "THEN":
-                    type = TokenType.eThen;
-                    break;
-                case "ELSE":
-                    type = TokenType.eElse;
-                    break;
-                case "FOR":
-                    type = TokenType.eFor;
-                    break;
-                case "NEXT":
-                    type = TokenType.eNext;
-                    break;
-                case "WHILE":
-                    type = TokenType.eWhile;
-                    break;
-                case "WEND":
-                    type = TokenType.eWend;
-                    break;
-                case "TO":
-                    type = TokenType.eTo;
-                    break;
-                case "STEP":
-                    type = TokenType.eStep;
-                    break;
-                case "DEF":
-                    type = TokenType.eDef;
-                    break;
-                case "FN":
-                    type = TokenType.eFn;
-                    break;
-                case "GOSUB":
-                    type = TokenType.eGoSub;
-                    break;
-                case "RETURN":
-                    type = TokenType.eReturn;
-                    break;
-                case "ON":
-                    type = TokenType.eOn;
-                    break;
-                case "REM":
-                    type = TokenType.eRem;
-                    break;
-                default:
-                    break;
-            }
-
-            return type;
         }
     }
 }

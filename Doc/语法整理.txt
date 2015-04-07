@@ -19,6 +19,8 @@ CLS,INVERSE,NORMAL,GRAPH,TEXT
 
 RESTORE					恢复数据区指针到数据区头
 
+INKEY$						<- 有返回值的语句
+
 
 
 [单纯有参语句]			command param, [,param]
@@ -27,7 +29,7 @@ PLAY
 
 BOX,CIRCLE,DRAW,ELLIPSE,LINE
 
-LOCATE,INKEY$
+LOCATE
 
 
 
@@ -57,12 +59,11 @@ INPUT A1,A2,A3...
 INPUT #filenum%,varlist[,varlist,...]
 
 
-
 [一般语法]
 
-Symbol = exp 												[done]
+Symbol = exp 											
 
-LET Symbol = exp 											[done]
+LET Symbol = exp 										
 
 DATA dat1,dat2,dat3...			置数据区数据
 
@@ -104,8 +105,12 @@ END
 ----------------------------------------------------------------------------------------------
 
 
-statement = num xxxx eol 
-statement = num xxxx (: xxxx )* eol 
+
+statement = num subState eol 
+statement = num subState (: subState )* eol 
+
+subState = while exp eol statement wend
+subState = for symbol = num to num eol statement next
 
 
 exp = term2
