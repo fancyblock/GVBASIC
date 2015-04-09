@@ -27,7 +27,7 @@ namespace GVBASIC_Compiler.Compiler
     /// <summary>
     /// lexer 
     /// </summary>
-    class Tokenizer
+    public class Tokenizer
     {
         protected string m_sourceCode;
         protected int m_curIndex;
@@ -85,7 +85,9 @@ namespace GVBASIC_Compiler.Compiler
                 {"BOX", TokenType.eParamCmd},
                 {"CIRCLE", TokenType.eParamCmd},
                 {"DRAW", TokenType.eParamCmd},
-                {"ELLIPSE", TokenType.eParamCmd},
+                {"LINE", TokenType.eParamCmd},
+                {"LOCATE", TokenType.eParamCmd},
+                {"INKEY$", TokenType.eParamCmd},                // <-------- maybe this need to be treat as special ?
                 // inner function
                 {"ABS", TokenType.eFunc},
                 {"SGN", TokenType.eFunc},
@@ -99,14 +101,22 @@ namespace GVBASIC_Compiler.Compiler
                 {"LOG", TokenType.eFunc},
                 {"RND", TokenType.eFunc},
                 {"ASC", TokenType.eFunc},
+                {"LEN", TokenType.eFunc},
+                {"CHR$", TokenType.eFunc},
+                {"LEFT$", TokenType.eFunc},
+                {"MID$", TokenType.eFunc},
+                {"RIGHT$", TokenType.eFunc},
+                {"STR$", TokenType.eFunc},
+                {"VAL", TokenType.eFunc},
+                {"CVI$", TokenType.eFunc},
+                {"MKI$", TokenType.eFunc},
+                {"CVS$", TokenType.eFunc},
+                {"POS", TokenType.eFunc},
+                {"SPC", TokenType.eFunc},
+                {"TAB", TokenType.eFunc},
+                {"EOF", TokenType.eFunc},
+                {"LOF", TokenType.eFunc},
             };
-
-            /*
-            m_paramCommands = new List<string> {"LINE", "LOCATE", "INKEY$" };
-            m_functions = new List<string>(){ "LEN","CHR$","LEFT$","MID$","RIGHT$",
-                                              "STR$","VAL","CVI$","MKI$","CVS$",
-                                              "MKS$","POS","SPC","TAB","EOF","LOF" };
-             */
 
             m_sourceCode = source;
             m_curIndex = 0;

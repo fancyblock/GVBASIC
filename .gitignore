@@ -18,3 +18,5 @@ GVBASIC/UnityVS.GVBASIC.CSharp.csproj
 GVBASIC/UnityVS.GVBASIC.sln
 GVBASIC/UnityVS.GVBASIC.sln.DotSettings
 GVBASIC_Compiler/GVBASIC_Compiler/GVBASIC_Compiler.csproj.user
+GVBASIC_Compiler/CompilerUnitTest/bin/
+GVBASIC_Compiler/TestResults/

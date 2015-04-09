@@ -149,11 +149,6 @@ namespace GVBASIC_Compiler.Compiler
                 }
             }
 
-            //[TEMP]
-            for (int i = 0; i < s.m_expressList.Count; i++ )
-                System.Console.WriteLine(calcExp(s.m_expressList[i]));
-            //[TEMP]
-
             return s;
         }
         
@@ -293,33 +288,6 @@ namespace GVBASIC_Compiler.Compiler
             }
 
             return exp;
-        }
-
-
-        //////////////////////////////////////////////TEMP////////////////////////////////////////////////
-
-        protected float calcExp( Expression exp )
-        {
-            float result = 0.0f;
-
-            if (exp.m_type == ExpressionType.eIntNum)
-                return exp.m_intVal;
-            else if (exp.m_type == ExpressionType.eRealNum)
-                return exp.m_realVal;
-            else if (exp.m_type == ExpressionType.eOpNeg)
-                return -calcExp(exp.m_leftExp);
-            else if (exp.m_type == ExpressionType.eOpPlus)
-                return calcExp(exp.m_leftExp) + calcExp(exp.m_rightExp);
-            else if (exp.m_type == ExpressionType.eOpMinus)
-                return calcExp(exp.m_leftExp) - calcExp(exp.m_rightExp);
-            else if (exp.m_type == ExpressionType.eOpMul)
-                return calcExp(exp.m_leftExp) * calcExp(exp.m_rightExp);
-            else if (exp.m_type == ExpressionType.eOpDiv)
-                return calcExp(exp.m_leftExp) / calcExp(exp.m_rightExp);
-            else if (exp.m_type == ExpressionType.eOpPower)
-                return (float)Math.Pow( calcExp(exp.m_leftExp), calcExp(exp.m_rightExp));
-
-            return result;
         }
 
     }
