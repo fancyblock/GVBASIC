@@ -113,26 +113,6 @@ subState = while exp eol statement wend
 subState = for symbol = num to num eol statement next
 
 
-exp = term2
-exp = term2 + exp
-exp = term2 - exp
-
-term2 = term
-term2 = term * term2
-term2 = term / term2
-
-term = factor
-term = factor ^ term
-
-factor = num
-factor = Symbol 
-factor = Symbol( exp )
-factor = ( exp )
-factor = - exp
-
-
-
-
 
 
 

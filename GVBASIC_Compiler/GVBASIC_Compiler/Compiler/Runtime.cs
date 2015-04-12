@@ -12,7 +12,7 @@ namespace GVBASIC_Compiler.Compiler
     class Runtime
     {
         protected BuildinFunc m_buildinFunc = null;
-        protected Parser m_parser = null;
+        protected List<Statement> m_statements;
         protected Context m_context = null;
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace GVBASIC_Compiler.Compiler
             m_buildinFunc = new BuildinFunc();
             m_buildinFunc.SetContext(m_context);
 
-            m_parser = parser;
+            m_statements = parser.STATEMENTS;
         }
 
         /// <summary>
@@ -34,13 +34,38 @@ namespace GVBASIC_Compiler.Compiler
         {
 			m_context.Reset();
 
-			//TODO 
+			foreach( Statement s in m_statements )
+            {
+                switch( s.m_type )
+                {
+                    case StatementType.ePrint:
+                        foreach( Expression e in s.m_expressList )
+                        {
+                            System.Console.Write(calculateExpress(e));
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
 
 
 		//-------------------- private function --------------------
 
-        //TODO 
+        /// <summary>
+        /// calculate the express 
+        /// </summary>
+        /// <param name="exp"></param>
+        /// <returns></returns>
+        protected string calculateExpress( Expression exp )
+        {
+            string result = "";
+
+            //TODO 
+
+            return result;
+        }
 
     }
 }

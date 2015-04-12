@@ -70,7 +70,14 @@ namespace GVBASIC_Compiler.Compiler
 
                 } while (lookAhead() != TokenType.eEOL && lookAhead() != TokenType.eEOF);
             }
+
+            // parse done 
         }
+
+        /// <summary>
+        /// getter of all the statements 
+        /// </summary>
+        public List<Statement> STATEMENTS { get { return m_statements; } }
 
 
         //----------------------------- private functions ----------------------------
@@ -129,23 +136,29 @@ namespace GVBASIC_Compiler.Compiler
 
             while (true)
             {
-                s.m_expressList.Add(expression());
-
                 TokenType tok = lookAhead();
 
                 if (tok == TokenType.eSemi)
                 {
                     // print close to prior exp  
-                    //TODO 
+                    eatToken(TokenType.eSemi);
+                    continue;
                 }
                 else if (tok == TokenType.eComma)
                 {
                     // print next line 
-                    //TODO 
+                    eatToken(TokenType.eComma);
+                    s.m_expressList.Add(new Expression(ExpressionType.eString).SetText("\n"));
                 }
-                else
+                else if( tok == TokenType.eColon || tok == TokenType.eEOL || tok == TokenType.eEOF )
                 {
+                    // this statement end 
                     break;
+                }
+                else    
+                {
+                    // expression 
+                    s.m_expressList.Add(expression());
                 }
             }
 

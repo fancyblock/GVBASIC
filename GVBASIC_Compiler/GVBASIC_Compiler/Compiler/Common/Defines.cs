@@ -161,6 +161,7 @@ public enum ExpressionType : int
     eRealNum,
     eSymbol,
     eFunc,
+    eString,
 }
 
 
@@ -175,6 +176,7 @@ public class Expression
     public int m_intVal;
     public float m_realVal;
     public string m_symbol;
+    public string m_text;
 
     /// <summary>
     /// constructor 
@@ -185,5 +187,16 @@ public class Expression
         m_type = type;
         m_leftExp = null;
         m_rightExp = null;
+    }
+
+    /// <summary>
+    /// set text 
+    /// </summary>
+    /// <param name="text"></param>
+    /// <returns></returns>
+    public Expression SetText( string text )
+    {
+        m_text = text;
+        return this;
     }
 }
