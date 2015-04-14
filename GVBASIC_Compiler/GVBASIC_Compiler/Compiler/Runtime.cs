@@ -41,7 +41,16 @@ namespace GVBASIC_Compiler.Compiler
                     case StatementType.ePrint:
                         foreach( Expression e in s.m_expressList )
                         {
-                            System.Console.Write(calculateExpress(e));
+                            Expression exp = reduceExpress(e);
+
+                            if (exp.m_type == ExpressionType.eIntNum)
+                                System.Console.Write(exp.m_intVal);
+                            else if (exp.m_type == ExpressionType.eRealNum)
+                                System.Console.Write(exp.m_realVal);
+                            else if (exp.m_type == ExpressionType.eString)
+                                System.Console.Write(exp.m_text);
+                            else
+                                throw new Exception("[Runtime]: Run , print statement error, wrong type of " + exp.m_type.ToString());
                         }
                         break;
                     default:
@@ -58,13 +67,25 @@ namespace GVBASIC_Compiler.Compiler
         /// </summary>
         /// <param name="exp"></param>
         /// <returns></returns>
-        protected string calculateExpress( Expression exp )
+        protected Expression reduceExpress( Expression exp )
         {
-            string result = "";
+            Expression e = exp;
+            Expression lExp = null;
+            Expression rExp = null;
 
-            //TODO 
+            if( exp.m_type == ExpressionType.eOpDiv )
+            {
+                lExp = reduceExpress(exp.m_leftExp);
+                rExp = reduceExpress(exp.m_rightExp);
 
-            return result;
+                if( lExp.m_type == rExp.m_type )
+                {
+                    e = new Expression(lExp.m_type);
+                    //TODO 
+                }
+            }
+
+            return e;
         }
 
     }

@@ -157,10 +157,12 @@ public enum ExpressionType : int
     eOpDiv,
     eOpPower,
     eOpNeg,
-    eIntNum,
-    eRealNum,
+
     eSymbol,
     eFunc,
+
+    eIntNum,
+    eRealNum,
     eString,
 }
 
