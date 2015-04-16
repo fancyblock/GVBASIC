@@ -73,7 +73,7 @@ namespace GVBASIC_Compiler.Compiler
             Expression lExp = null;
             Expression rExp = null;
 
-            if( exp.m_type == ExpressionType.eOpDiv )
+            if( exp.m_type == ExpressionType.eOpPlus )
             {
                 lExp = reduceExpress(exp.m_leftExp);
                 rExp = reduceExpress(exp.m_rightExp);
@@ -83,6 +83,26 @@ namespace GVBASIC_Compiler.Compiler
                     e = new Expression(lExp.m_type);
                     //TODO 
                 }
+            }
+            else if (exp.m_type == ExpressionType.eOpMinus)
+            {
+                //
+            }
+            else if (exp.m_type == ExpressionType.eOpMul)
+            {
+                //
+            }
+            else if( exp.m_type == ExpressionType.eOpDiv)
+            {
+                //
+            }
+            else if( exp.m_type == ExpressionType.eOpPower)
+            {
+                //
+            }
+            else if( exp.m_type == ExpressionType.eOpNeg)
+            {
+                //
             }
 
             return e;

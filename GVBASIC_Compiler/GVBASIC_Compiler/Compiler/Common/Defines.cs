@@ -144,6 +144,7 @@ public class Statement
 {
     public StatementType m_type;
     public int m_num;
+    public string m_symbol;
 
     public List<Expression> m_expressList;
 }
@@ -160,6 +161,7 @@ public enum ExpressionType : int
 
     eSymbol,
     eFunc,
+    eUserFn,
 
     eIntNum,
     eRealNum,

@@ -1,0 +1,36 @@
+
+
+
+exp =>  exp2 + exp2
+
+	=>  exp2 - exp2
+
+	=>	exp2
+
+
+exp2 =>	exp3 * exp3
+ 
+	 => exp3 / exp3 
+
+	 =>	exp3
+
+
+exp3 => exp4 ^ exp4
+
+	 => exp4
+
+
+exp4 =>	num
+
+	 => symbol
+
+	 => ( exp )
+
+	 => - exp4 
+
+	 => func ( exp )
+
+	 => string
+	 
+	 => fu aa(x)
+	 

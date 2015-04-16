@@ -59,7 +59,18 @@ namespace GVBASIC_Compiler.Compiler
                         case TokenType.ePrint:
                             s = print();
                             break;
-                        //TODO 
+                        case TokenType.eLet:
+                            s = assignLet();
+                            break;
+                        case TokenType.eSymbol:
+                            s = assign();
+                            break;
+                        case TokenType.eData:
+                            s = data();
+                            break;
+                        case TokenType.eRead:
+                            s = read();
+                            break;
                         default:
                             throw new Exception("unexpected token: " + tok.ToString());
                     }
@@ -122,6 +133,70 @@ namespace GVBASIC_Compiler.Compiler
             return curTok;
         }
 
+        /// <summary>
+        /// read statement 
+        /// </summary>
+        /// <returns></returns>
+        protected Statement read()
+        {
+            Statement s = new Statement();
+
+            eatToken(TokenType.eRead);
+            //TODO 
+
+            return s;
+        }
+
+        /// <summary>
+        /// data statement 
+        /// </summary>
+        /// <returns></returns>
+        protected Statement data()
+        {
+            Statement s = new Statement();
+
+            eatToken(TokenType.eData);
+            //TODO 
+
+            return s;
+        }
+
+        /// <summary>
+        /// normal assignment 
+        /// </summary>
+        /// <returns></returns>
+        protected Statement assign()
+        {
+            Statement s = new Statement();
+
+            Token t = eatToken(TokenType.eSymbol);
+            eatToken(TokenType.eEqual);
+
+            s.m_symbol = t.m_strVal;
+            s.m_expressList = new List<Expression>() { expression() };
+
+            return s;
+        }
+
+        /// <summary>
+        /// assignment by let keyword
+        /// </summary>
+        /// <returns></returns>
+        protected Statement assignLet()
+        {
+            Statement s = new Statement();
+            s.m_type = StatementType.eAssign;
+
+            eatToken(TokenType.eLet);
+
+            Token t = eatToken(TokenType.eSymbol);
+            eatToken(TokenType.eEqual);
+
+            s.m_symbol = t.m_strVal;
+            s.m_expressList = new List<Expression>() { expression() };
+
+            return s;
+        }
 
         /// <summary>
         /// parse print statement 
@@ -298,6 +373,17 @@ namespace GVBASIC_Compiler.Compiler
                 eatToken(TokenType.eLeftBra);
                 expression();
                 eatToken(TokenType.eRightBra);
+            }
+            else if(tt == TokenType.eString)
+            {
+                exp = new Expression(ExpressionType.eString);
+                tok = eatToken(TokenType.eString);
+                exp.m_text = tok.m_strVal;
+            }
+            else if( tt == TokenType.eFn)
+            {
+                exp = new Expression(ExpressionType.eUserFn);
+                //TODO 
             }
 
             return exp;
