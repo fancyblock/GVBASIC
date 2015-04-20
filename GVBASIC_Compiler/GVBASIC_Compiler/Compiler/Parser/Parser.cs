@@ -71,6 +71,15 @@ namespace GVBASIC_Compiler.Compiler
                         case TokenType.eRead:
                             s = read();
                             break;
+                        case TokenType.eIf:
+                            s = ifStatement();
+                            break;
+                        case TokenType.eFor:
+                            s = forBegin();
+                            break;
+                        case TokenType.eNext:
+                            s = forEnd();
+                            break;
                         default:
                             throw new Exception("unexpected token: " + tok.ToString());
                     }
@@ -162,6 +171,48 @@ namespace GVBASIC_Compiler.Compiler
         }
 
         /// <summary>
+        /// if statement ( including if...then && if...goto )
+        /// </summary>
+        /// <returns></returns>
+        protected Statement ifStatement()
+        {
+            Statement ifS = new Statement();
+
+            eatToken(TokenType.eIf);
+            //TODO 
+
+            return ifS;
+        }
+
+        /// <summary>
+        /// for statement 
+        /// </summary>
+        /// <returns></returns>
+        protected Statement forBegin()
+        {
+            Statement forS = new Statement();
+
+            eatToken(TokenType.eFor);
+            //TODO
+
+            return forS;
+        }
+
+        /// <summary>
+        /// next statement 
+        /// </summary>
+        /// <returns></returns>
+        protected Statement forEnd()
+        {
+            Statement next = new Statement();
+
+            eatToken(TokenType.eNext);
+            //TODO
+
+            return next;
+        }
+
+        /// <summary>
         /// normal assignment 
         /// </summary>
         /// <returns></returns>
@@ -240,13 +291,50 @@ namespace GVBASIC_Compiler.Compiler
             return s;
         }
         
-
         /// <summary>
-        /// parse express
+        /// parse expression 
         /// </summary>
+        /// <returns></returns>
         protected Expression expression()
         {
-            Expression exp = expression2();
+            TokenType tt = lookAhead();
+
+
+            //TODO 
+
+            return null;
+        }
+
+        protected Expression expression2()
+        {
+            Expression exp = expression3();
+
+            TokenType tt = lookAhead();
+            while( tt == TokenType.eEqual || tt == TokenType.eGtr || tt == TokenType.eLt || tt == TokenType.eGte || tt == TokenType.eLte )
+            {
+                Expression subExp = null;
+
+                if( tt == TokenType.eEqual )
+                {
+                    eatToken(TokenType.eEqual);
+                    subExp = new Expression(ExpressionType.eOpCmpEqual);
+                }
+                //TODO 
+
+                subExp.m_leftExp = exp;
+                subExp.m_rightExp = expression3();
+
+                exp = subExp;
+
+                tt = lookAhead();
+            }
+
+            return exp;
+        }
+
+        protected Expression expression3()
+        {
+            Expression exp = expression4();
 
             TokenType tt = lookAhead();
 
@@ -266,7 +354,7 @@ namespace GVBASIC_Compiler.Compiler
                 }
 
                 subExp.m_leftExp = exp;
-                subExp.m_rightExp = expression2();
+                subExp.m_rightExp = expression4();
 
                 exp = subExp;
 
@@ -276,9 +364,9 @@ namespace GVBASIC_Compiler.Compiler
             return exp;
         }
 
-        protected Expression expression2()
+        protected Expression expression4()
         {
-            Expression exp = expression3();
+            Expression exp = expression5();
 
             TokenType tt = lookAhead();
 
@@ -298,7 +386,7 @@ namespace GVBASIC_Compiler.Compiler
                 }
 
                 subExp.m_leftExp = exp;
-                subExp.m_rightExp = expression3();
+                subExp.m_rightExp = expression5();
 
                 exp = subExp;
 
@@ -308,9 +396,9 @@ namespace GVBASIC_Compiler.Compiler
             return exp;
         }
 
-        protected Expression expression3()
+        protected Expression expression5()
         {
-            Expression exp = expression4();
+            Expression exp = expression6();
 
             TokenType tt = lookAhead();
 
@@ -320,7 +408,7 @@ namespace GVBASIC_Compiler.Compiler
                 Expression subExp = new Expression(ExpressionType.eOpPower);
 
                 subExp.m_leftExp = exp;
-                subExp.m_rightExp = expression4();
+                subExp.m_rightExp = expression6();
 
                 exp = subExp;
             }
@@ -328,7 +416,7 @@ namespace GVBASIC_Compiler.Compiler
             return exp;
         }
 
-        protected Expression expression4()
+        protected Expression expression6()
         {
             Expression exp = null;
 
@@ -363,7 +451,7 @@ namespace GVBASIC_Compiler.Compiler
             {
                 exp = new Expression(ExpressionType.eOpNeg);
                 eatToken(TokenType.eMinus);
-                exp.m_leftExp = expression4();
+                exp.m_leftExp = expression6();
             }
             else if( tt == TokenType.eFunc )
             {

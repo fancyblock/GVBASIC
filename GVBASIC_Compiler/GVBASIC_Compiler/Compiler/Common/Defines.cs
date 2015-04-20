@@ -120,7 +120,10 @@ public enum StatementType : int
     eAssign,
     eData,
     eRead,
-    eIf,
+    eIfThen,
+    eIfGoto,
+    eIfThenElse,
+    eIfGotoElse,
     eForBegin,
     eForEnd,
     eWhileBegin,
@@ -158,6 +161,16 @@ public enum ExpressionType : int
     eOpDiv,
     eOpPower,
     eOpNeg,
+
+    eOpCmpEqual,
+    eOpCmpGtr,
+    eOpCmpGte,
+    eOpCmpLtr,
+    eOpCmpLte,
+
+    eOpLogicAnd,
+    eOpLogicOr,
+    eOpLogicNot,
 
     eSymbol,
     eFunc,
