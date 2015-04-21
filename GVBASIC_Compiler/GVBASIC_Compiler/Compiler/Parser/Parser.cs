@@ -297,12 +297,20 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns></returns>
         protected Expression expression()
         {
+            Expression exp = null;
+
             TokenType tt = lookAhead();
 
+            // NOT at the first 
+            if( tt == TokenType.eNot )
+            {
+                eatToken(tt);
+                exp = new Expression(ExpressionType.eOpLogicNot);
+            }
 
-            //TODO 
+            //
 
-            return null;
+            return exp;
         }
 
         protected Expression expression2()
@@ -314,12 +322,18 @@ namespace GVBASIC_Compiler.Compiler
             {
                 Expression subExp = null;
 
+                eatToken( tt );
+
                 if( tt == TokenType.eEqual )
-                {
-                    eatToken(TokenType.eEqual);
                     subExp = new Expression(ExpressionType.eOpCmpEqual);
-                }
-                //TODO 
+                else if( tt == TokenType.eGtr )
+                    subExp = new Expression(ExpressionType.eOpCmpGtr);
+                else if( tt == TokenType.eGte)
+                    subExp = new Expression(ExpressionType.eOpCmpGte);
+                else if( tt == TokenType.eLt)
+                    subExp = new Expression(ExpressionType.eOpCmpLtr);
+                else if( tt == TokenType.eLte)
+                    subExp = new Expression(ExpressionType.eOpCmpLte);
 
                 subExp.m_leftExp = exp;
                 subExp.m_rightExp = expression3();
@@ -342,16 +356,11 @@ namespace GVBASIC_Compiler.Compiler
             {
                 Expression subExp = null;
 
+                eatToken(tt);
                 if (tt == TokenType.ePlus)
-                {
-                    eatToken(TokenType.ePlus);
                     subExp = new Expression(ExpressionType.eOpPlus);
-                }
                 else if (tt == TokenType.eMinus)
-                { 
-                    eatToken(TokenType.eMinus);
                     subExp = new Expression(ExpressionType.eOpMinus);
-                }
 
                 subExp.m_leftExp = exp;
                 subExp.m_rightExp = expression4();
@@ -374,16 +383,11 @@ namespace GVBASIC_Compiler.Compiler
             {
                 Expression subExp = null;
 
+                eatToken(tt);
                 if (tt == TokenType.eMul)
-                {
-                    eatToken(TokenType.eMul);
                     subExp = new Expression(ExpressionType.eOpMul);
-                }
                 else if (tt == TokenType.eDiv)
-                {
-                    eatToken(TokenType.eDiv);
                     subExp = new Expression(ExpressionType.eOpDiv);
-                }
 
                 subExp.m_leftExp = exp;
                 subExp.m_rightExp = expression5();
