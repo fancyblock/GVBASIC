@@ -290,32 +290,79 @@ namespace GVBASIC_Compiler.Compiler
 
             return s;
         }
-        
+
         /// <summary>
-        /// parse expression 
+        /// parse expression
         /// </summary>
         /// <returns></returns>
         protected Expression expression()
         {
+            Expression exp = expression2();
+
+            TokenType tt = lookAhead();
+            while( tt == TokenType.eAnd || tt == TokenType.eOr )
+            {
+                Expression subExp = null;
+
+                eatToken(tt);
+
+                if (tt == TokenType.eAnd)
+                    subExp = new Expression(ExpressionType.eOpLogicAnd);
+                else if (tt == TokenType.eOr)
+                    subExp = new Expression(ExpressionType.eOpLogicOr);
+
+                subExp.m_leftExp = exp;
+                subExp.m_rightExp = expression2();
+
+                exp = subExp;
+
+                tt = lookAhead();
+            }
+
+            return exp;
+        }
+        
+        protected Expression expression2()
+        {
             Expression exp = null;
+            Expression subExp = null;
 
             TokenType tt = lookAhead();
 
             // NOT at the first 
-            if( tt == TokenType.eNot )
+            while( tt == TokenType.eNot )
             {
                 eatToken(tt);
-                exp = new Expression(ExpressionType.eOpLogicNot);
+                subExp = new Expression(ExpressionType.eOpLogicNot);
+
+                if (exp != null)
+                    subExp.m_leftExp = exp;
+
+                exp = subExp;
+
+                tt = lookAhead();
             }
 
-            //
+            if (exp != null)
+            {
+                subExp = exp;
+                while( subExp.m_leftExp != null )
+                {
+                    subExp = subExp.m_leftExp;
+                }
+                subExp.m_leftExp = expression3();
+            }
+            else
+            {
+                exp = expression3();
+            }
 
             return exp;
         }
 
-        protected Expression expression2()
+        protected Expression expression3()
         {
-            Expression exp = expression3();
+            Expression exp = expression4();
 
             TokenType tt = lookAhead();
             while( tt == TokenType.eEqual || tt == TokenType.eGtr || tt == TokenType.eLt || tt == TokenType.eGte || tt == TokenType.eLte )
@@ -336,33 +383,6 @@ namespace GVBASIC_Compiler.Compiler
                     subExp = new Expression(ExpressionType.eOpCmpLte);
 
                 subExp.m_leftExp = exp;
-                subExp.m_rightExp = expression3();
-
-                exp = subExp;
-
-                tt = lookAhead();
-            }
-
-            return exp;
-        }
-
-        protected Expression expression3()
-        {
-            Expression exp = expression4();
-
-            TokenType tt = lookAhead();
-
-            while (tt == TokenType.ePlus || tt == TokenType.eMinus)
-            {
-                Expression subExp = null;
-
-                eatToken(tt);
-                if (tt == TokenType.ePlus)
-                    subExp = new Expression(ExpressionType.eOpPlus);
-                else if (tt == TokenType.eMinus)
-                    subExp = new Expression(ExpressionType.eOpMinus);
-
-                subExp.m_leftExp = exp;
                 subExp.m_rightExp = expression4();
 
                 exp = subExp;
@@ -379,15 +399,15 @@ namespace GVBASIC_Compiler.Compiler
 
             TokenType tt = lookAhead();
 
-            while (tt == TokenType.eMul || tt == TokenType.eDiv)
+            while (tt == TokenType.ePlus || tt == TokenType.eMinus)
             {
                 Expression subExp = null;
 
                 eatToken(tt);
-                if (tt == TokenType.eMul)
-                    subExp = new Expression(ExpressionType.eOpMul);
-                else if (tt == TokenType.eDiv)
-                    subExp = new Expression(ExpressionType.eOpDiv);
+                if (tt == TokenType.ePlus)
+                    subExp = new Expression(ExpressionType.eOpPlus);
+                else if (tt == TokenType.eMinus)
+                    subExp = new Expression(ExpressionType.eOpMinus);
 
                 subExp.m_leftExp = exp;
                 subExp.m_rightExp = expression5();
@@ -406,21 +426,50 @@ namespace GVBASIC_Compiler.Compiler
 
             TokenType tt = lookAhead();
 
-            if( tt == TokenType.ePower )
+            while (tt == TokenType.eMul || tt == TokenType.eDiv)
             {
-                eatToken(TokenType.ePower);
-                Expression subExp = new Expression(ExpressionType.eOpPower);
+                Expression subExp = null;
+
+                eatToken(tt);
+                if (tt == TokenType.eMul)
+                    subExp = new Expression(ExpressionType.eOpMul);
+                else if (tt == TokenType.eDiv)
+                    subExp = new Expression(ExpressionType.eOpDiv);
 
                 subExp.m_leftExp = exp;
                 subExp.m_rightExp = expression6();
 
                 exp = subExp;
+
+                tt = lookAhead();
             }
 
             return exp;
         }
 
         protected Expression expression6()
+        {
+            Expression exp = expression7();
+
+            TokenType tt = lookAhead();
+
+            while( tt == TokenType.ePower )
+            {
+                eatToken(TokenType.ePower);
+                Expression subExp = new Expression(ExpressionType.eOpPower);
+
+                subExp.m_leftExp = exp;
+                subExp.m_rightExp = expression7();
+
+                exp = subExp;
+
+                tt = lookAhead();
+            }
+
+            return exp;
+        }
+
+        protected Expression expression7()
         {
             Expression exp = null;
 
@@ -455,7 +504,7 @@ namespace GVBASIC_Compiler.Compiler
             {
                 exp = new Expression(ExpressionType.eOpNeg);
                 eatToken(TokenType.eMinus);
-                exp.m_leftExp = expression6();
+                exp.m_leftExp = expression7();
             }
             else if( tt == TokenType.eFunc )
             {

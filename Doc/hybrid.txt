@@ -1,14 +1,19 @@
 
 
-exp =>	exp2 AND exp2
 
-	=>	exp2 OR exp2
 
-	=>	NOT exp2
+exp0 =>	exp AND exp
+
+	 =>	exp OR exp
+
+	 => exp
+
+
+exp	=>	NOT exp2
 
 	=>	exp2
 
-
+ 
 exp2 =>	exp3 = exp3
 
 	 => exp3 > exp3
