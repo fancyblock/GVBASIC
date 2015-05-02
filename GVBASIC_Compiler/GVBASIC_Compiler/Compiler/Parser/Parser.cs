@@ -7,7 +7,7 @@ namespace GVBASIC_Compiler.Compiler
     /// <summary>
     /// parser 
     /// </summary>
-    class Parser
+    public class Parser
     {
         protected Tokenizer m_tokenizer;
         protected Token[] m_tokenBuff;
