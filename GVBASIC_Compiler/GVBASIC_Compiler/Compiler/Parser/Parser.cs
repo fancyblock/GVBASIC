@@ -31,7 +31,7 @@ namespace GVBASIC_Compiler.Compiler
         public void Parsing()
         {
             m_tokenizer.Reset();
-            // init the token buffer 
+            // initial the token buffer 
             for (int i = 0; i < m_tokenBuff.Length; i++)
                 m_tokenBuff[i] = m_tokenizer.GetToken();
             m_curTokenIndex = 0;
@@ -43,7 +43,6 @@ namespace GVBASIC_Compiler.Compiler
             {
                 // parse statement 
                 Token t = eatToken(TokenType.eIntNum);
-
                 TokenType tok = TokenType.eUndefine;
 
                 do
@@ -79,6 +78,12 @@ namespace GVBASIC_Compiler.Compiler
                             break;
                         case TokenType.eNext:
                             s = forEnd();
+                            break;
+                        case TokenType.eWhile:
+                            s = whileStatement();
+                            break;
+                        case TokenType.eWend:
+                            s = wend();
                             break;
                         default:
                             throw new Exception("unexpected token: " + tok.ToString());
@@ -148,10 +153,22 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns></returns>
         protected Statement read()
         {
-            Statement s = new Statement();
+            Statement s = new Statement(StatementType.eRead);
 
             eatToken(TokenType.eRead);
-            //TODO 
+            s.m_symbolList = new List<string>();
+
+            Token tok = eatToken(TokenType.eSymbol);
+            s.m_symbolList.Add(tok.m_strVal);
+
+            TokenType t = lookAhead();
+            while( t == TokenType.eComma)
+            {
+                eatToken(TokenType.eComma);
+                tok = eatToken(TokenType.eSymbol);
+
+                s.m_symbolList.Add(tok.m_strVal);
+            }
 
             return s;
         }
@@ -162,10 +179,32 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns></returns>
         protected Statement data()
         {
-            Statement s = new Statement();
+            Statement s = new Statement(StatementType.eData);
 
             eatToken(TokenType.eData);
-            //TODO 
+            s.m_dataList = new List<BaseData>();
+
+            TokenType t = lookAhead();
+            Token tok = null;
+
+            while(true)
+            {
+                tok = eatToken(t);
+
+                if( t == TokenType.eIntNum )
+                    s.m_dataList.Add(new BaseData(tok.m_intVal));
+                else if( t == TokenType.eRealNum)
+                    s.m_dataList.Add(new BaseData(tok.m_realVal));
+                else if( t == TokenType.eString)
+                    s.m_dataList.Add(new BaseData(tok.m_strVal));
+
+                t = lookAhead();
+
+                if (t != TokenType.eComma)
+                    break;
+                else
+                    eatToken(TokenType.eComma);
+            }
 
             return s;
         }
@@ -190,7 +229,7 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns></returns>
         protected Statement forBegin()
         {
-            Statement forS = new Statement();
+            Statement forS = new Statement(StatementType.eForBegin);
 
             eatToken(TokenType.eFor);
             //TODO
@@ -204,7 +243,7 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns></returns>
         protected Statement forEnd()
         {
-            Statement next = new Statement();
+            Statement next = new Statement(StatementType.eForEnd);
 
             eatToken(TokenType.eNext);
             //TODO
@@ -213,12 +252,40 @@ namespace GVBASIC_Compiler.Compiler
         }
 
         /// <summary>
+        /// while statement 
+        /// </summary>
+        /// <returns></returns>
+        protected Statement whileStatement()
+        {
+            Statement whileStatement = new Statement(StatementType.eWhileBegin);
+
+            eatToken(TokenType.eWhile);
+            //TODO 
+
+            return whileStatement;
+        }
+
+        /// <summary>
+        /// wend statement 
+        /// </summary>
+        /// <returns></returns>
+        protected Statement wend()
+        {
+            Statement wend = new Statement(StatementType.eWhileEnd);
+
+            eatToken(TokenType.eWend);
+            //TODO 
+
+            return wend;
+        }
+
+        /// <summary>
         /// normal assignment 
         /// </summary>
         /// <returns></returns>
         protected Statement assign()
         {
-            Statement s = new Statement();
+            Statement s = new Statement(StatementType.eAssign);
 
             Token t = eatToken(TokenType.eSymbol);
             eatToken(TokenType.eEqual);
@@ -235,7 +302,7 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns></returns>
         protected Statement assignLet()
         {
-            Statement s = new Statement();
+            Statement s = new Statement(StatementType.eAssign);
             s.m_type = StatementType.eAssign;
 
             eatToken(TokenType.eLet);
@@ -254,7 +321,7 @@ namespace GVBASIC_Compiler.Compiler
         /// </summary>
         protected Statement print()
         {
-            Statement s = new Statement();
+            Statement s = new Statement(StatementType.ePrint);
             s.m_type = StatementType.ePrint;
             s.m_expressList = new List<Expression>();
 

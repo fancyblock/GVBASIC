@@ -73,6 +73,16 @@ namespace GVBASIC_Compiler.Compiler
                 {"REM", TokenType.eRem},
                 {"NEXT", TokenType.eNext},
                 {"FOR", TokenType.eFor},
+                {"OPEN", TokenType.eOpen},
+                {"CLOSE", TokenType.eClose},
+                {"FIELD", TokenType.eField},
+                {"GET", TokenType.eGet},
+                {"LSET", TokenType.eLset},
+                {"PUT", TokenType.ePut},
+                {"RSET", TokenType.eRset},
+                {"WRITE", TokenType.eWrite},
+                {"INPUT", TokenType.eInput},
+                {"INKEY$", TokenType.eInkey},
                 // simple command
                 {"BEEP", TokenType.eSimpleCmd},
                 {"CLS", TokenType.eSimpleCmd},
@@ -87,7 +97,6 @@ namespace GVBASIC_Compiler.Compiler
                 {"DRAW", TokenType.eParamCmd},
                 {"LINE", TokenType.eParamCmd},
                 {"LOCATE", TokenType.eParamCmd},
-                {"INKEY$", TokenType.eParamCmd},                // <-------- maybe this need to be treat as special ?
                 // inner function
                 {"ABS", TokenType.eFunc},
                 {"SGN", TokenType.eFunc},

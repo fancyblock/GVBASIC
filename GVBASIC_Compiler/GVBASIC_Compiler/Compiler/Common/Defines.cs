@@ -38,9 +38,6 @@ public enum TokenType : int
     eLeftBra,			// (
     eRightBra,			// )
 
-	ePound,				// #
-    eQm,				// ? 
-
     eLet,				// LET 
     eDim,				// DIM
     eRead,				// READ
@@ -112,6 +109,7 @@ public class Token
 /// </summary>
 public enum StatementType : int
 {
+    eStatementSet,
     eInnerFunc,
     eSimpleCmd,
     eParamCmd,
@@ -149,9 +147,75 @@ public class Statement
     public int m_num;
     public string m_symbol;
 
+    public List<Statement> m_statements;
     public List<Expression> m_expressList;
+    public List<string> m_symbolList;
+    public List<BaseData> m_dataList;
+
+    /// <summary>
+    /// constructor
+    /// </summary>
+    public Statement() { }
+
+    /// <summary>
+    /// constructor
+    /// </summary>
+    /// <param name="type"></param>
+    public Statement( StatementType type )
+    {
+        m_type = type;
+    }
 }
 
+/// <summary>
+/// base data 
+/// </summary>
+public class BaseData
+{
+    public const int TYPE_INT = 1;
+    public const int TYPE_FLOAT = 2;
+    public const int TYPE_STRING = 3;
+
+    public int m_intVal;
+    public float m_floatVal;
+    public string m_stringVal;
+    public int m_type;
+
+    /// <summary>
+    /// default constructor
+    /// </summary>
+    public BaseData() { }
+    
+    /// <summary>
+    /// float constructor
+    /// </summary>
+    /// <param name="val"></param>
+    public BaseData(float val) 
+    {
+        m_type = TYPE_FLOAT;
+        m_floatVal = val;
+    }
+
+    /// <summary>
+    /// int constructor
+    /// </summary>
+    /// <param name="val"></param>
+    public BaseData(int val)
+    {
+        m_type = TYPE_INT;
+        m_intVal = val;
+    }
+
+    /// <summary>
+    /// string constructor
+    /// </summary>
+    /// <param name="val"></param>
+    public BaseData(string val)
+    {
+        m_type = TYPE_STRING;
+        m_stringVal = val;
+    }
+}
 
 public enum ExpressionType : int
 {
