@@ -41,59 +41,16 @@ namespace GVBASIC_Compiler.Compiler
             // do parsing 
             while (lookAhead() != TokenType.eEOF)
             {
-                // parse statement 
-                Token t = eatToken(TokenType.eIntNum);
-                TokenType tok = TokenType.eUndefine;
+                // line number
+                Token tok = eatToken(TokenType.eIntNum);
 
-                do
-                {
-                    if (tok != TokenType.eUndefine)
-                        eatToken(TokenType.eColon);
+                Statement s = statement();
+                s.m_num = tok.m_intVal;
+                m_statements.Add(s);
 
-                    Statement s = null;
-                    tok = lookAhead();
-
-                    switch( tok )
-                    {
-                        case TokenType.ePrint:
-                            s = print();
-                            break;
-                        case TokenType.eLet:
-                            s = assignLet();
-                            break;
-                        case TokenType.eSymbol:
-                            s = assign();
-                            break;
-                        case TokenType.eData:
-                            s = data();
-                            break;
-                        case TokenType.eRead:
-                            s = read();
-                            break;
-                        case TokenType.eIf:
-                            s = ifStatement();
-                            break;
-                        case TokenType.eFor:
-                            s = forBegin();
-                            break;
-                        case TokenType.eNext:
-                            s = forEnd();
-                            break;
-                        case TokenType.eWhile:
-                            s = whileStatement();
-                            break;
-                        case TokenType.eWend:
-                            s = wend();
-                            break;
-                        default:
-                            throw new Exception("unexpected token: " + tok.ToString());
-                    }
-
-                    // add the statement 
-                    s.m_num = t.m_intVal;
-                    m_statements.Add(s);
-
-                } while (lookAhead() != TokenType.eEOL && lookAhead() != TokenType.eEOF);
+                // filter the end of line 
+                while (lookAhead() == TokenType.eEOL)
+                    eatToken(TokenType.eEOL);
             }
 
             // parse done 
@@ -145,6 +102,71 @@ namespace GVBASIC_Compiler.Compiler
             m_curTokenIndex %= m_tokenBuff.Length;
 
             return curTok;
+        }
+
+        /// <summary>
+        /// statement 
+        /// </summary>
+        /// <returns></returns>
+        protected Statement statement()
+        {
+            Statement s = new Statement(StatementType.eStatementSet);
+            s.m_statements = new List<Statement>();
+            TokenType tt;
+
+            while(true)
+            {
+                tt = lookAhead();
+                Statement ss = null;
+
+                switch (tt)
+                {
+                    case TokenType.ePrint:
+                        ss = print();
+                        break;
+                    case TokenType.eLet:
+                        ss = assignLet();
+                        break;
+                    case TokenType.eSymbol:
+                        ss = assign();
+                        break;
+                    case TokenType.eData:
+                        ss = data();
+                        break;
+                    case TokenType.eRead:
+                        ss = read();
+                        break;
+                    case TokenType.eIf:
+                        ss = ifStatement();
+                        break;
+                    case TokenType.eFor:
+                        ss = forBegin();
+                        break;
+                    case TokenType.eNext:
+                        ss = forEnd();
+                        break;
+                    case TokenType.eWhile:
+                        ss = whileStatement();
+                        break;
+                    case TokenType.eWend:
+                        ss = wend();
+                        break;
+                    default:
+                        throw new Exception("unexpected token: " + tt.ToString());
+                }
+
+                s.m_statements.Add(ss);
+
+                if( lookAhead() == TokenType.eColon )
+                    eatToken(TokenType.eColon);
+                else
+                    break;
+            }
+
+            if (s.m_statements.Count == 1)
+                s = s.m_statements[0];
+
+            return s;
         }
 
         /// <summary>
@@ -547,7 +569,7 @@ namespace GVBASIC_Compiler.Compiler
             {
                 exp = new Expression(ExpressionType.eSymbol);
                 tok = eatToken(TokenType.eSymbol);
-                //TODO 
+                exp.m_symbol = tok.m_strVal;
             }
             else if (tt == TokenType.eIntNum)
             {

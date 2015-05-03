@@ -20,7 +20,8 @@ namespace CompilerUnitTest
                 "30 A = 1 + A" + "\r\n" +
                 "40 A = A + A" + "\r\n" +
                 "50 A = A + B" + "\r\n" +
-                "60 A = \"TT\" + \"FF\"";
+                "60 A = \"TT\" + \"FF\"" + "\r\n" +
+                "70 A = 7 + B : B = 1 + 9";
 
             Tokenizer tokenizer = new Tokenizer(sourceCode);
             Parser parser = new Parser(tokenizer);
@@ -29,6 +30,9 @@ namespace CompilerUnitTest
             
             // check statement
             List<Statement> statements = parser.STATEMENTS;
+
+            if (statements.Count != 7)
+                throw new Exception("statement count incorrect.");
 
             //TODO 
         }
