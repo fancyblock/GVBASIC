@@ -15,13 +15,13 @@ namespace CompilerUnitTest
         public void ParserExpAdd()
         {
             string sourceCode =
-                "10 A = 1 + 1" + "\r\n" +
-                "20 A = A + 1" + "\r\n" +
-                "30 A = 1 + A" + "\r\n" +
-                "40 A = A + A" + "\r\n" +
-                "50 A = A + B" + "\r\n" +
-                "60 A = \"TT\" + \"FF\"" + "\r\n" +
-                "70 A = 7 + B : B = 1 + 9" + "\r\n" +
+                "10 A = 1 + 1                           \n" +
+                "20 A = A + 1                           \n" +
+                "30 A = 1 + A                           \n" +
+                "40 A = A + A                           \n" +
+                "50 A = A + B                           \n" +
+                "60 A = \"TT\" + \"FF\"                 \n" +
+                "70 A = 7 + B : B = 1 + 9               \n" +
                 "80 A = 1 + 1 + 2 + A:B = 11 + 9";
 
             Tokenizer tokenizer = new Tokenizer(sourceCode);
@@ -42,13 +42,13 @@ namespace CompilerUnitTest
         public void ParserExpCollection()
         {
             string sourceCode =
-                "10 A = 1 + 1 - 2" + "\r\n" +
-                "20 A = A + 1 * 7" + "\r\n" +
-                "30 A = 1 + A / 8 - ( 11 + 2 )" + "\r\n" +
-                "40 A = -(A + A) * C" + "\r\n" +
-                "50 A = A - C * 1 + B" + "\r\n" +
-                "60 A = \"TT\" + \"FF\"" + "\r\n" +
-                "70 A = 7 + B : B = 1 + 9" + "\r\n" +
+                "10 A = 1 + 1 - 2                       \n" +
+                "20 A = A + 1 * 7                       \n" +
+                "30 A = 1 + A / 8 - ( 11 + 2 )          \n" +
+                "40 A = -(A + A) * C                    \n" +
+                "50 A = A - C * 1 + B                   \n" +
+                "60 A = \"TT\" + \"FF\"                 \n" +
+                "70 A = 7 + B : B = 1 + 9               \n" +
                 "80 A = 1 + 1 + 2 + A:B = 11 + 9";
 
             Tokenizer tokenizer = new Tokenizer(sourceCode);
@@ -69,11 +69,11 @@ namespace CompilerUnitTest
         public void ParserIf()
         {
             string sourceCode =
-                "10 IF A>1 THEN PRINT C" + "\r\n" +
-                "20 IF C=2 THEN PRINT 11 ELSE PRINT 22" + "\r\n" +
-                "30 IF B<=1 GOTO 13" + "\r\n" +
-                "40 IF E>0 GOTO 11 ELSE 70" + "\r\n" +
-                "50 IF F < 6 AND G > 8 THEN PRINT \"MASK\":C=17 ELSE 70";
+                @"10 IF A>1 THEN PRINT C
+                  20 IF C=2 THEN PRINT 11 ELSE PRINT 22
+                  30 IF B<=1 GOTO 13
+                  40 IF E>0 GOTO 11 ELSE 70
+                  50 IF F < 6 AND G > 8 THEN PRINT theStr:C=17 ELSE 70";
 
             Tokenizer tokenizer = new Tokenizer(sourceCode);
             Parser parser = new Parser(tokenizer);

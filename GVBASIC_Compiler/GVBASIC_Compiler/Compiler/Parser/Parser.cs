@@ -303,7 +303,9 @@ namespace GVBASIC_Compiler.Compiler
             Statement forS = new Statement(StatementType.eForBegin);
 
             eatToken(TokenType.eFor);
-            //TODO
+
+            Token tok = eatToken(TokenType.eIntNum);
+            //TODO 
 
             return forS;
         }
