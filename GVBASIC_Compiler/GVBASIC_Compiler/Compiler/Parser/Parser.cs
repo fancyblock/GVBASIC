@@ -237,10 +237,59 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns></returns>
         protected Statement ifStatement()
         {
-            Statement ifS = new Statement();
+            Statement ifS = new Statement(StatementType.eIf);
 
             eatToken(TokenType.eIf);
-            //TODO 
+            ifS.m_expressList = new List<Expression>();
+            ifS.m_statements = new List<Statement>();
+
+            ifS.m_expressList.Add(expression());
+
+            TokenType tt = lookAhead();
+            if( tt != TokenType.eThen && tt != TokenType.eGoto )
+                throw new Exception("[Parser]: ifStatement, error token, then/goto expected.");
+
+            eatToken(tt);
+
+            Token tok = null;
+            Statement s = null;
+
+            if( lookAhead() == TokenType.eIntNum )
+            {
+                tok = eatToken(TokenType.eIntNum);
+
+                s = new Statement(StatementType.eGoto);
+                s.m_intVal = tok.m_intVal;
+            }
+            else
+            {
+                if (tt == TokenType.eGoto)
+                    throw new Exception("[Parser]: ifStatement, error token, number expected.");
+
+                s = statement();
+            }
+
+            ifS.m_statements.Add(s);
+
+            // else case 
+            if (lookAhead() == TokenType.eElse)
+            {
+                eatToken( TokenType.eElse );
+
+                if (lookAhead() == TokenType.eIntNum)
+                {
+                    tok = eatToken(TokenType.eIntNum);
+
+                    s = new Statement(StatementType.eGoto);
+                    s.m_intVal = tok.m_intVal;
+                }
+                else
+                {
+                    s = statement();
+                }
+
+                ifS.m_statements.Add(s);
+            }
 
             return ifS;
         }
@@ -365,12 +414,12 @@ namespace GVBASIC_Compiler.Compiler
                     eatToken(TokenType.eComma);
                     s.m_expressList.Add(new Expression(ExpressionType.eString).SetText("\n"));
                 }
-                else if( tok == TokenType.eColon || tok == TokenType.eEOL || tok == TokenType.eEOF )
+                else if( tok == TokenType.eColon || tok == TokenType.eEOL || tok == TokenType.eEOF || tok == TokenType.eElse )
                 {
                     // this statement end 
                     break;
                 }
-                else    
+                else
                 {
                     // expression 
                     s.m_expressList.Add(expression());

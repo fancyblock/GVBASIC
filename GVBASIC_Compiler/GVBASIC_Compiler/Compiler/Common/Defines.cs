@@ -118,10 +118,7 @@ public enum StatementType : int
     eAssign,
     eData,
     eRead,
-    eIfThen,
-    eIfGoto,
-    eIfThenElse,
-    eIfGotoElse,
+    eIf,
     eForBegin,
     eForEnd,
     eWhileBegin,
@@ -145,7 +142,9 @@ public class Statement
 {
     public StatementType m_type;
     public int m_num;
+
     public string m_symbol;
+    public int m_intVal;
 
     public List<Statement> m_statements;
     public List<Expression> m_expressList;
