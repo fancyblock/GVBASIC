@@ -12,6 +12,11 @@ namespace GVBASIC_Compiler.Compiler
     class Runtime
     {
         protected List<Statement> m_statements;
+        protected Dictionary<StatementType, Action<Statement>> m_executer;
+        protected Dictionary<int, int> m_lineNumDic;
+
+        protected bool m_isRunning;
+        protected int m_index;
 
         /// <summary>
         /// constructor 
@@ -19,6 +24,16 @@ namespace GVBASIC_Compiler.Compiler
         public Runtime(Parser parser)
         {
             m_statements = parser.STATEMENTS;
+
+            m_executer = new Dictionary<StatementType, Action<Statement>>()
+            {
+                { StatementType.ePrint, doPrint },
+                { StatementType.eAssign, doAssign },
+                { StatementType.eIf, doIf },
+                { StatementType.eData, doData },
+                { StatementType.eRead, doRead },
+                //TODO 
+            };
         }
 
         /// <summary>
@@ -26,78 +41,78 @@ namespace GVBASIC_Compiler.Compiler
         /// </summary>
         public void Run()
         {
-			foreach( Statement s in m_statements )
+            // process the data statement 
+            foreach( Statement s in m_statements )
             {
-                switch( s.m_type )
+                if( s.m_type == StatementType.eData )
                 {
-                    case StatementType.ePrint:
-                        foreach( Expression e in s.m_expressList )
-                        {
-                            Expression exp = reduceExpress(e);
-
-                            if (exp.m_type == ExpressionType.eIntNum)
-                                System.Console.Write(exp.m_intVal);
-                            else if (exp.m_type == ExpressionType.eRealNum)
-                                System.Console.Write(exp.m_realVal);
-                            else if (exp.m_type == ExpressionType.eString)
-                                System.Console.Write(exp.m_text);
-                            else
-                                throw new Exception("[Runtime]: Run , print statement error, wrong type of " + exp.m_type.ToString());
-                        }
-                        break;
-                    default:
-                        break;
+                    doData(s);
+                    m_statements.Remove(s);
                 }
+            }
+
+            // index the line number
+            m_lineNumDic = new Dictionary<int, int>();
+            for (int i = 0; i < m_statements.Count; i++)
+                m_lineNumDic.Add(m_statements[i].m_num, i);
+
+            m_isRunning = true;
+            m_index = 0;
+
+            // execute statements 
+			while( m_isRunning )
+            {
+                if (m_index >= m_statements.Count)
+                    break;
+
+                Statement s = m_statements[m_index];
+                m_executer[s.m_type](s);
             }
         }
 
-
-		//-------------------- private function --------------------
+        /// <summary>
+        /// print statement 
+        /// </summary>
+        /// <param name="s"></param>
+        protected void doPrint( Statement s )
+        {
+            //TODO 
+        }
 
         /// <summary>
-        /// calculate the express 
+        /// assignment 
         /// </summary>
-        /// <param name="exp"></param>
-        /// <returns></returns>
-        protected Expression reduceExpress( Expression exp )
+        /// <param name="s"></param>
+        protected void doAssign( Statement s )
         {
-            Expression e = exp;
-            Expression lExp = null;
-            Expression rExp = null;
+            //TODO 
+        }
 
-            if( exp.m_type == ExpressionType.eOpPlus )
-            {
-                lExp = reduceExpress(exp.m_leftExp);
-                rExp = reduceExpress(exp.m_rightExp);
+        /// <summary>
+        /// if statement 
+        /// </summary>
+        /// <param name="s"></param>
+        protected void doIf( Statement s )
+        {
+            //TODO 
+        }
 
-                if( lExp.m_type == rExp.m_type )
-                {
-                    e = new Expression(lExp.m_type);
-                    //TODO 
-                }
-            }
-            else if (exp.m_type == ExpressionType.eOpMinus)
-            {
-                //
-            }
-            else if (exp.m_type == ExpressionType.eOpMul)
-            {
-                //
-            }
-            else if( exp.m_type == ExpressionType.eOpDiv)
-            {
-                //
-            }
-            else if( exp.m_type == ExpressionType.eOpPower)
-            {
-                //
-            }
-            else if( exp.m_type == ExpressionType.eOpNeg)
-            {
-                //
-            }
+        /// <summary>
+        /// data statement 
+        /// </summary>
+        /// <param name="s"></param>
+        protected void doData( Statement s )
+        {
+            //TODO 
+        }
 
-            return e;
+        /// <summary>
+        /// read statement 
+        /// </summary>
+        /// <param name="s"></param>
+        protected void doRead( Statement s )
+        {
+            //TODO 
         }
 
     }

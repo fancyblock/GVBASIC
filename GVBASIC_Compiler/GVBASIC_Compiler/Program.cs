@@ -32,6 +32,7 @@ namespace GVBASIC_Compiler
 
             // run 
             Runtime rt = new Runtime(parser);
+            //TODO 
             rt.Run();
 
             // wait for key press 
