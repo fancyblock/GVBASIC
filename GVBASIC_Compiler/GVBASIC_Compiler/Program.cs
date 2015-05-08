@@ -22,10 +22,8 @@ namespace GVBASIC_Compiler
             // read the source
             string sourceCode = System.IO.File.ReadAllText(path);
 
-            // tokenizer 
+            // lex  
             Tokenizer tok = new Tokenizer(sourceCode);
-
-            //printTokens(tok);  //<<<<<<<<<<<<<<< for debug
 
             // parser 
             Parser parser = new Parser(tok);
@@ -33,68 +31,11 @@ namespace GVBASIC_Compiler
             parser.Parsing();
 
             // run 
-            Runtime rt = new Runtime( parser );
+            Runtime rt = new Runtime(parser);
             rt.Run();
 
             // wait for key press 
             System.Console.ReadKey();
-        }
-
-
-        //--------------------------- private functions -------------------------- 
-
-        /// <summary>
-        /// print tokenizer 
-        /// </summary>
-        /// <param name="tokenizer"></param>
-        static protected void printTokens( Tokenizer tok )
-        {
-            tok.Reset();
-
-            int lineNum = 1;
-            Token t = tok.GetToken();
-            // parse to tokens 
-            while( t.m_type != TokenType.eEOF )
-            {
-                // end of line 
-                if (t.m_type == TokenType.eEOL)
-                {
-                    System.Console.Write("\n");
-                    lineNum++;
-                }
-                // error handler 
-                else if (t.m_type == TokenType.eError)
-                {
-                    System.Console.Write("Error char \'" + t.m_strVal + "\' in line " + lineNum + "\n");
-
-                    break;
-                }
-                else
-                {
-                    if (t.m_type == TokenType.eIntNum)
-                    {
-                        System.Console.Write(t.m_intVal + " ");
-                    }
-                    else if (t.m_type == TokenType.eRealNum)
-                    {
-                        System.Console.Write(t.m_realVal + " ");
-                    }
-                    else if( t.m_type == TokenType.eSymbol )
-                    {
-                        System.Console.Write(t.m_strVal + " ");
-                    }
-                    else if (t.m_type == TokenType.eUndefine)
-                    {
-                        System.Console.Write("[error]");
-                    }
-                    else
-                    {
-                        System.Console.Write(t.m_type.ToString() + " ");
-                    }
-                }
-
-                t = tok.GetToken();
-            }
         }
     }
 }

@@ -11,19 +11,13 @@ namespace GVBASIC_Compiler.Compiler
     /// </summary>
     class Runtime
     {
-        protected BuildinFunc m_buildinFunc = null;
         protected List<Statement> m_statements;
-        protected Context m_context = null;
 
         /// <summary>
         /// constructor 
         /// </summary>
         public Runtime(Parser parser)
         {
-            m_context = new Context();
-            m_buildinFunc = new BuildinFunc();
-            m_buildinFunc.SetContext(m_context);
-
             m_statements = parser.STATEMENTS;
         }
 
@@ -32,8 +26,6 @@ namespace GVBASIC_Compiler.Compiler
         /// </summary>
         public void Run()
         {
-			m_context.Reset();
-
 			foreach( Statement s in m_statements )
             {
                 switch( s.m_type )

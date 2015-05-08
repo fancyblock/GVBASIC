@@ -56,5 +56,73 @@ namespace CompilerUnitTest
                     throw new Exception("Token type incorrect. Must be " + typeList[i].ToString());
             }
         }
+
+
+        [TestMethod]
+        public void ShowTokens()
+        {
+            string path = "../../../../Bas/_tank.bas";
+            // read the source
+            string sourceCode = System.IO.File.ReadAllText(path);
+
+            // tokenizer 
+            Tokenizer tok = new Tokenizer(sourceCode);
+
+            printTokens(tok);
+        }
+
+
+        /// <summary>
+        /// print tokenizer 
+        /// </summary>
+        /// <param name="tokenizer"></param>
+        protected void printTokens(Tokenizer tok)
+        {
+            tok.Reset();
+
+            int lineNum = 1;
+            Token t = tok.GetToken();
+            // parse to tokens 
+            while (t.m_type != TokenType.eEOF)
+            {
+                // end of line 
+                if (t.m_type == TokenType.eEOL)
+                {
+                    System.Console.Write("\n");
+                    lineNum++;
+                }
+                // error handler 
+                else if (t.m_type == TokenType.eError)
+                {
+                    throw new Exception("Error token in line " + lineNum);
+                }
+                else
+                {
+                    if (t.m_type == TokenType.eIntNum)
+                    {
+                        System.Console.Write(t.m_intVal + " ");
+                    }
+                    else if (t.m_type == TokenType.eRealNum)
+                    {
+                        System.Console.Write(t.m_realVal + " ");
+                    }
+                    else if (t.m_type == TokenType.eSymbol)
+                    {
+                        System.Console.Write(t.m_strVal + " ");
+                    }
+                    else if (t.m_type == TokenType.eUndefine)
+                    {
+                        System.Console.Write("[error]");
+                    }
+                    else
+                    {
+                        System.Console.Write(t.m_type.ToString() + " ");
+                    }
+                }
+
+                t = tok.GetToken();
+            }
+        }
+
     }
 }
