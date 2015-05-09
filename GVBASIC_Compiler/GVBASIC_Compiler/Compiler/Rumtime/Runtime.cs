@@ -17,7 +17,8 @@ namespace GVBASIC_Compiler.Compiler
 
         protected bool m_isRunning;
         protected int m_index;
-        protected DataRegion m_dataRegion;
+        protected DataArea m_dataRegion;
+        protected SymbolTable m_symbolTable;
 
         /// <summary>
         /// constructor 
@@ -39,7 +40,8 @@ namespace GVBASIC_Compiler.Compiler
             };
 
             // initial the context 
-            m_dataRegion = new DataRegion();
+            m_dataRegion = new DataArea();
+            m_symbolTable = new SymbolTable();
         }
 
         /// <summary>

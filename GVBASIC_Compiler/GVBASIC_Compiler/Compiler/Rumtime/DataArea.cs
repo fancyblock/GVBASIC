@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GVBASIC_Compiler.Compiler
 {
-    public class DataRegion
+    public class DataArea
     {
         protected List<BaseData> m_datas;
         protected int m_curIndex;
@@ -14,7 +14,7 @@ namespace GVBASIC_Compiler.Compiler
         /// <summary>
         /// constructor
         /// </summary>
-        public DataRegion()
+        public DataArea()
         {
             m_datas = new List<BaseData>();
             m_curIndex = 0;
@@ -30,5 +30,19 @@ namespace GVBASIC_Compiler.Compiler
                 m_datas.Add(data[i]);
         }
 
+        /// <summary>
+        /// get a data from data region 
+        /// </summary>
+        /// <returns></returns>
+        public BaseData GetData()
+        {
+            if (m_curIndex >= m_datas.Count)
+                throw new Exception("OUT OF DATA ERROR IN (line number)");
+
+            BaseData bd = m_datas[m_curIndex];
+            m_curIndex++;
+
+            return bd;
+        }
     }
 }
