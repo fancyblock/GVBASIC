@@ -151,6 +151,9 @@ namespace GVBASIC_Compiler.Compiler
                     case TokenType.eWend:
                         ss = wend();
                         break;
+                    case TokenType.eGoto:
+                        ss = gotoStatement();
+                        break;
                     default:
                         throw new Exception("unexpected token: " + tt.ToString());
                 }
@@ -165,6 +168,22 @@ namespace GVBASIC_Compiler.Compiler
 
             if (s.m_statements.Count == 1)
                 s = s.m_statements[0];
+
+            return s;
+        }
+
+        /// <summary>
+        /// goto statement 
+        /// </summary>
+        /// <returns></returns>
+        protected Statement gotoStatement()
+        {
+            Statement s = new Statement(StatementType.eGoto);
+
+            eatToken(TokenType.eGoto);
+
+            Token tok = eatToken(TokenType.eIntNum);
+            s.m_intVal = tok.m_intVal;
 
             return s;
         }

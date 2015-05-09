@@ -27,11 +27,13 @@ namespace GVBASIC_Compiler.Compiler
 
             m_executer = new Dictionary<StatementType, Action<Statement>>()
             {
+                { StatementType.eStatementSet, doStatements },
                 { StatementType.ePrint, doPrint },
                 { StatementType.eAssign, doAssign },
                 { StatementType.eIf, doIf },
                 { StatementType.eData, doData },
                 { StatementType.eRead, doRead },
+                { StatementType.eGoto, doGoto },
                 //TODO 
             };
         }
@@ -66,8 +68,36 @@ namespace GVBASIC_Compiler.Compiler
                     break;
 
                 Statement s = m_statements[m_index];
+                m_index++;
                 m_executer[s.m_type](s);
             }
+        }
+
+        /// <summary>
+        /// do statement set 
+        /// </summary>
+        /// <param name="s"></param>
+        protected void doStatements( Statement s )
+        {
+            List<Statement> statements = s.m_statements;
+
+            for( int i = 0; i < statements.Count; i++ )
+            {
+                Statement subS = statements[i];
+                m_executer[subS.m_type](subS);
+
+                if (subS.m_type == StatementType.eGoto)
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// do goto statement 
+        /// </summary>
+        /// <param name="s"></param>
+        protected void doGoto( Statement s )
+        {
+            m_index = m_lineNumDic[s.m_intVal];
         }
 
         /// <summary>
