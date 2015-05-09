@@ -9,7 +9,7 @@ namespace GVBASIC_Compiler.Compiler
     /// <summary>
     /// Basic runtime 
     /// </summary>
-    class Runtime
+    public class Runtime
     {
         protected List<Statement> m_statements;
         protected Dictionary<StatementType, Action<Statement>> m_executer;
@@ -17,6 +17,7 @@ namespace GVBASIC_Compiler.Compiler
 
         protected bool m_isRunning;
         protected int m_index;
+        protected DataRegion m_dataRegion;
 
         /// <summary>
         /// constructor 
@@ -36,6 +37,9 @@ namespace GVBASIC_Compiler.Compiler
                 { StatementType.eGoto, doGoto },
                 //TODO 
             };
+
+            // initial the context 
+            m_dataRegion = new DataRegion();
         }
 
         /// <summary>
@@ -133,7 +137,7 @@ namespace GVBASIC_Compiler.Compiler
         /// <param name="s"></param>
         protected void doData( Statement s )
         {
-            //TODO 
+            m_dataRegion.AddDatas(s.m_dataList);
         }
 
         /// <summary>
