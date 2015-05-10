@@ -17,5 +17,25 @@ namespace GVBASIC_Compiler.Compiler
         {
             m_symbolDic = new Dictionary<string, Symbol>();
         }
+
+        /// <summary>
+        /// define a symbol 
+        /// </summary>
+        /// <param name="sym"></param>
+        public void Define( Symbol sym )
+        {
+            m_symbolDic.Add(sym.NAME, sym); 
+        }
+
+        /// <summary>
+        /// return a symbol 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public Symbol Resolve( string name )
+        {
+            return m_symbolDic[name];
+        }
+
     }
 }
