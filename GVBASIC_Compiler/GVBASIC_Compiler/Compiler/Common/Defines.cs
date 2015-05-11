@@ -174,10 +174,12 @@ public class BaseData
     public const int TYPE_INT = 1;
     public const int TYPE_FLOAT = 2;
     public const int TYPE_STRING = 3;
+    public const int TYPE_BOOL = 4;
 
     public int m_intVal;
     public float m_floatVal;
     public string m_stringVal;
+    public bool m_boolVal;
     public int m_type;
 
     /// <summary>
@@ -213,6 +215,16 @@ public class BaseData
     {
         m_type = TYPE_STRING;
         m_stringVal = val;
+    }
+
+    /// <summary>
+    /// bool constructor 
+    /// </summary>
+    /// <param name="val"></param>
+    public BaseData(bool val)
+    {
+        m_type = TYPE_BOOL;
+        m_boolVal = val;
     }
 }
 

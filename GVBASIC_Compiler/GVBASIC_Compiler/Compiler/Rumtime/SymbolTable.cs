@@ -37,5 +37,22 @@ namespace GVBASIC_Compiler.Compiler
             return m_symbolDic[name];
         }
 
+        /// <summary>
+        /// has symbol type
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public bool HasSymbolType( int type, string name )
+        {
+            if( m_symbolDic.ContainsKey( name ) )
+            {
+                if (m_symbolDic[name].TYPE == type )
+                    return true;
+            }
+
+            return false;
+        }
+
     }
 }

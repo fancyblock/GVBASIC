@@ -121,7 +121,11 @@ namespace GVBASIC_Compiler.Compiler
         /// <param name="s"></param>
         protected void doAssign( Statement s )
         {
-            //TODO 
+            string symbolName = s.m_symbol;
+
+            BaseData dat = calculateExpression(s.m_expressList[0]);
+            
+
         }
 
         /// <summary>
@@ -149,6 +153,35 @@ namespace GVBASIC_Compiler.Compiler
         protected void doRead( Statement s )
         {
             //TODO 
+        }
+
+
+        /// <summary>
+        /// calculate the expression 
+        /// </summary>
+        /// <param name="exp"></param>
+        /// <returns></returns>
+        protected BaseData calculateExpression( Expression exp )
+        {
+            BaseData result = null;
+            BaseData bdLeft = null;
+            BaseData bdRight = null;
+
+            if( exp.m_type == ExpressionType.eIntNum )
+            {
+                result = new BaseData(exp.m_intVal);
+            }
+            else if( exp.m_type == ExpressionType.eRealNum)
+            {
+                result = new BaseData(exp.m_realVal);
+            }
+            else if( exp.m_type == ExpressionType.eString )
+            {
+                result = new BaseData(exp.m_text);
+            }
+            //TODO 
+
+            return result;
         }
 
     }

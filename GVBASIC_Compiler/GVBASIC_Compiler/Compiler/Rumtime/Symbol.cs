@@ -6,6 +6,14 @@ using System.Threading.Tasks;
 
 namespace GVBASIC_Compiler.Compiler
 {
+    public enum SymbolType : int
+    {
+        sInt = 1,
+        sFloat,
+        sString,
+        sFunc,
+    }
+
     /// <summary>
     /// symbol class
     /// </summary>
@@ -40,4 +48,5 @@ namespace GVBASIC_Compiler.Compiler
     {
         //TODO 
     }
+
 }

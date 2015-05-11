@@ -51,6 +51,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ParserTest.cs" />
+    <Compile Include="RunningTest.cs" />
     <Compile Include="TokenizerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
