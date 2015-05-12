@@ -14,7 +14,19 @@ namespace CompilerUnitTest
         [TestMethod]
         public void DoAssign()
         {
-            //TODO 
+            string sourceCode =
+                "10 A = 1                               \n" +
+                "20 B% = 2                              \n" +
+                "30 C$ = \"HJB\"                        \n" +
+                "40 D% = 17.1                           \n";
+
+            Tokenizer tokenizer = new Tokenizer(sourceCode);
+            Parser parser = new Parser(tokenizer);
+
+            parser.Parsing();
+
+            Runtime rt = new Runtime(parser);
+            rt.Run();
         }
     }
 }

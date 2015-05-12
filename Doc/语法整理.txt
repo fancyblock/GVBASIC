@@ -99,23 +99,3 @@ SWAP A1,B1
 
 END
 
-
-
-
-----------------------------------------------------------------------------------------------
-
-
-
-statement = num subState eol 
-statement = num subState (: subState )* eol 
-
-subState = while exp eol statement wend
-subState = for symbol = num to num eol statement next
-
-
-
-
-
-
-
-

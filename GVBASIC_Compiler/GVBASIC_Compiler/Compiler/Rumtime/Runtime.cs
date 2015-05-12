@@ -121,11 +121,21 @@ namespace GVBASIC_Compiler.Compiler
         /// <param name="s"></param>
         protected void doAssign( Statement s )
         {
-            string symbolName = s.m_symbol;
-
+            // calculate the expression value 
             BaseData dat = calculateExpression(s.m_expressList[0]);
-            
 
+            string symbolName = s.m_symbol;
+            Symbol symbol = null;
+
+            if (symbolName.EndsWith("%"))           // int value 
+                symbol = new VarSymbol( Symbol.INT, symbolName, dat );
+            else if (symbolName.EndsWith("$"))      // string value 
+                symbol = new VarSymbol( Symbol.STRING, symbolName, dat );
+            else                                    // float value 
+                symbol = new VarSymbol( Symbol.FLOAT, symbolName, dat );
+
+            // add to symbol table 
+            m_symbolTable.Define(symbol);
         }
 
         /// <summary>

@@ -60,8 +60,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Compiler\Common\Defines.cs" />
+    <Compile Include="Compiler\Common\ErrorCode.cs" />
     <Compile Include="Compiler\Parser\Parser.cs" />
     <Compile Include="Compiler\Rumtime\DataArea.cs" />
+    <Compile Include="Compiler\Rumtime\IAPI.cs" />
     <Compile Include="Compiler\Rumtime\Runtime.cs" />
     <Compile Include="Compiler\Rumtime\Symbol.cs" />
     <Compile Include="Compiler\Rumtime\SymbolTable.cs" />
