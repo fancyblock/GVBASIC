@@ -244,6 +244,11 @@ public enum ExpressionType : int
     eIntNum,
     eRealNum,
     eString,
+
+    eSpecSpace,
+    eSpecTab,
+    eSpecNextLine,
+    eSpecCloseTo,
 }
 
 
@@ -269,16 +274,5 @@ public class Expression
         m_type = type;
         m_leftExp = null;
         m_rightExp = null;
-    }
-
-    /// <summary>
-    /// set text 
-    /// </summary>
-    /// <param name="text"></param>
-    /// <returns></returns>
-    public Expression SetText( string text )
-    {
-        m_text = text;
-        return this;
     }
 }

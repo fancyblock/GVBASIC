@@ -8,6 +8,6 @@ namespace GVBASIC_Compiler.Compiler
 {
     public interface IAPI
     {
-        //TODO 
+        void Print(List<Expression> expList);
     }
 }

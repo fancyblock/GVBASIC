@@ -62,8 +62,6 @@ namespace GVBASIC_Compiler.Compiler
         public List<Statement> STATEMENTS { get { return m_statements; } }
 
 
-        //----------------------------- private functions ----------------------------
-
 
         /// <summary>
         /// Looks the ahead. 
@@ -427,13 +425,13 @@ namespace GVBASIC_Compiler.Compiler
                 {
                     // print close to prior exp  
                     eatToken(TokenType.eSemi);
-                    continue;
+                    s.m_expressList.Add(new Expression(ExpressionType.eSpecCloseTo));
                 }
                 else if (tok == TokenType.eComma)
                 {
                     // print next line 
                     eatToken(TokenType.eComma);
-                    s.m_expressList.Add(new Expression(ExpressionType.eString).SetText("\n"));
+                    s.m_expressList.Add(new Expression(ExpressionType.eSpecNextLine));
                 }
                 else if( tok == TokenType.eColon || tok == TokenType.eEOL || tok == TokenType.eEOF || tok == TokenType.eElse )
                 {
