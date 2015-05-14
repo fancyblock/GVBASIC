@@ -38,9 +38,7 @@ public class TextMode : MonoBehaviour
 		for( int i = 0; i < TEXT_CNT_WIDTH; i++ )
 		{
 			for( int j = 0; j < TEXT_CNT_HEIGHT; j++ )
-			{
 				m_displayBuffer [i, j] = 0;
-			}
 		}
 
 		// reset the cursor 

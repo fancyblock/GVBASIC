@@ -8,7 +8,7 @@ public class Processor : MonoBehaviour
 	// Use this for initialization
 	void Start () 
     {
-		m_textMode.ShowASCII (28);
+		m_textMode.ShowASCII (27);      //[TEST]
 	}
 	
 	// Update is called once per frame

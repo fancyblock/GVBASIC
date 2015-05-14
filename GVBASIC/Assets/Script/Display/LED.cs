@@ -16,16 +16,14 @@ public class LED : MonoBehaviour
     protected Color[] m_cleanColorData;
 
 	// Use this for initialization
-	void Start () 
+	void Awake () 
     {
         m_texture = m_spriteRender.sprite.texture;
 
         // set clean color data 
         m_cleanColorData = new Color[12800];
         for (int i = 0; i < 12800; i++)
-        {
             m_cleanColorData[i] = m_whiteColor;
-        }
 
         initASCIITable();
         
@@ -58,13 +56,9 @@ public class LED : MonoBehaviour
     public void DrawLetter( int x, int y, int ascii, bool reverse )
     {
         if( reverse )
-        {
             m_texture.SetPixels(x, y, ASCII.WIDTH, ASCII.HEIGHT, m_asciis[ascii].m_reverseColor);
-        }
         else
-        {
             m_texture.SetPixels(x, y, ASCII.WIDTH, ASCII.HEIGHT, m_asciis[ascii].m_color);
-        }
     }
 
     /// <summary>
@@ -75,8 +69,6 @@ public class LED : MonoBehaviour
         m_texture.SetPixels(m_cleanColorData);
     }
 
-
-    //--------------------- private functions ---------------------- 
 
     /// <summary>
     /// initial the ASCII table 
