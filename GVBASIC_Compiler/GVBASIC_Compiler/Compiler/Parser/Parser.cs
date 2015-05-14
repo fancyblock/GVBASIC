@@ -40,10 +40,10 @@ namespace GVBASIC_Compiler.Compiler
             m_statements = new List<Statement>();
 
             // do parsing 
-            while (lookAhead() != TokenType.eEOF)
+            while (lookAhead() != Token.FILE_END)
             {
                 // line number
-                Token tok = eatToken(TokenType.eIntNum);
+                Token tok = eatToken(Token.INT);
                 m_curLineNumber = tok.m_intVal;
 
                 Statement s = statement();
@@ -51,8 +51,8 @@ namespace GVBASIC_Compiler.Compiler
                 m_statements.Add(s);
 
                 // filter the end of line 
-                while (lookAhead() == TokenType.eEOL)
-                    eatToken(TokenType.eEOL);
+                while (lookAhead() == Token.EOL)
+                    eatToken(Token.EOL);
             }
 
             // parse done 
@@ -69,7 +69,7 @@ namespace GVBASIC_Compiler.Compiler
         /// Looks the ahead. 
         /// </summary>
         /// <returns>The ahead.</returns>
-        protected TokenType lookAhead( int step = 0 )
+        protected int lookAhead( int step = 0 )
         {
             if (step >= m_tokenBuff.Length)
                 throw new Exception("Look ahead too more...");
@@ -86,7 +86,7 @@ namespace GVBASIC_Compiler.Compiler
         /// </summary>
         /// <returns><c>true</c>, if token was eaten, <c>false</c> otherwise.</returns>
         /// <param name="tok">Tok.</param>
-        protected Token eatToken( TokenType tok )
+        protected Token eatToken( int tok )
         {
             Token curTok = m_tokenBuff[m_curTokenIndex];
 
@@ -112,7 +112,7 @@ namespace GVBASIC_Compiler.Compiler
         {
             Statement s = new Statement(Statement.TYPE_STATEMENT_SET);
             s.m_statements = new List<Statement>();
-            TokenType tt;
+            int tt;
 
             while(true)
             {
@@ -121,40 +121,40 @@ namespace GVBASIC_Compiler.Compiler
 
                 switch (tt)
                 {
-                    case TokenType.ePrint:
+                    case Token.PRINT:
                         ss = print();
                         break;
-                    case TokenType.eLet:
+                    case Token.LET:
                         ss = assignLet();
                         break;
-                    case TokenType.eSymbol:
+                    case Token.SYMBOL:
                         ss = assign();
                         break;
-                    case TokenType.eData:
+                    case Token.DATA:
                         ss = data();
                         break;
-                    case TokenType.eRead:
+                    case Token.READ:
                         ss = read();
                         break;
-                    case TokenType.eIf:
+                    case Token.IF:
                         ss = ifStatement();
                         break;
-                    case TokenType.eFor:
+                    case Token.FOR:
                         ss = forBegin();
                         break;
-                    case TokenType.eNext:
+                    case Token.NEXT:
                         ss = forEnd();
                         break;
-                    case TokenType.eWhile:
+                    case Token.WHILE:
                         ss = whileStatement();
                         break;
-                    case TokenType.eWend:
+                    case Token.WEND:
                         ss = wend();
                         break;
-                    case TokenType.eGoto:
+                    case Token.GOTO:
                         ss = gotoStatement();
                         break;
-                    case TokenType.eSimpleCmd:
+                    case Token.SIMPLE_CMD:
                         ss = simpleCommand();
                         break;
                     default:
@@ -163,8 +163,8 @@ namespace GVBASIC_Compiler.Compiler
 
                 s.m_statements.Add(ss);
 
-                if( lookAhead() == TokenType.eColon )
-                    eatToken(TokenType.eColon);
+                if( lookAhead() == Token.COLON )
+                    eatToken(Token.COLON);
                 else
                     break;
             }
@@ -183,9 +183,9 @@ namespace GVBASIC_Compiler.Compiler
         {
             Statement s = new Statement(Statement.TYPE_GOTO);
 
-            eatToken(TokenType.eGoto);
+            eatToken(Token.GOTO);
 
-            Token tok = eatToken(TokenType.eIntNum);
+            Token tok = eatToken(Token.INT);
             s.m_intVal = tok.m_intVal;
 
             return s;
@@ -199,17 +199,17 @@ namespace GVBASIC_Compiler.Compiler
         {
             Statement s = new Statement(Statement.TYPE_READ);
 
-            eatToken(TokenType.eRead);
+            eatToken(Token.READ);
             s.m_symbolList = new List<string>();
 
-            Token tok = eatToken(TokenType.eSymbol);
+            Token tok = eatToken(Token.SYMBOL);
             s.m_symbolList.Add(tok.m_strVal);
 
-            TokenType t = lookAhead();
-            while( t == TokenType.eComma)
+            int t = lookAhead();
+            while( t == Token.COMMA)
             {
-                eatToken(TokenType.eComma);
-                tok = eatToken(TokenType.eSymbol);
+                eatToken(Token.COMMA);
+                tok = eatToken(Token.SYMBOL);
 
                 s.m_symbolList.Add(tok.m_strVal);
             }
@@ -225,29 +225,29 @@ namespace GVBASIC_Compiler.Compiler
         {
             Statement s = new Statement(Statement.TYPE_DATA);
 
-            eatToken(TokenType.eData);
+            eatToken(Token.DATA);
             s.m_dataList = new List<BaseData>();
 
-            TokenType t = lookAhead();
+            int t = lookAhead();
             Token tok = null;
 
             while(true)
             {
                 tok = eatToken(t);
 
-                if( t == TokenType.eIntNum )
+                if( t == Token.INT )
                     s.m_dataList.Add(new BaseData(tok.m_intVal));
-                else if( t == TokenType.eRealNum)
+                else if( t == Token.FLOAT)
                     s.m_dataList.Add(new BaseData(tok.m_realVal));
-                else if( t == TokenType.eString)
+                else if( t == Token.STRING)
                     s.m_dataList.Add(new BaseData(tok.m_strVal));
 
                 t = lookAhead();
 
-                if (t != TokenType.eComma)
+                if (t != Token.COMMA)
                     break;
                 else
-                    eatToken(TokenType.eComma);
+                    eatToken(Token.COMMA);
             }
 
             return s;
@@ -261,14 +261,14 @@ namespace GVBASIC_Compiler.Compiler
         {
             Statement ifS = new Statement(Statement.TYPE_IF);
 
-            eatToken(TokenType.eIf);
+            eatToken(Token.IF);
             ifS.m_expressList = new List<Expression>();
             ifS.m_statements = new List<Statement>();
 
             ifS.m_expressList.Add(expression());
 
-            TokenType tt = lookAhead();
-            if( tt != TokenType.eThen && tt != TokenType.eGoto )
+            int tt = lookAhead();
+            if( tt != Token.THEN && tt != Token.GOTO )
                 throw new Exception("[Parser]: ifStatement, error token, then/goto expected. in line " + m_curLineNumber);
 
             eatToken(tt);
@@ -276,16 +276,16 @@ namespace GVBASIC_Compiler.Compiler
             Token tok = null;
             Statement s = null;
 
-            if( lookAhead() == TokenType.eIntNum )
+            if( lookAhead() == Token.INT )
             {
-                tok = eatToken(TokenType.eIntNum);
+                tok = eatToken(Token.INT);
 
                 s = new Statement(Statement.TYPE_GOTO);
                 s.m_intVal = tok.m_intVal;
             }
             else
             {
-                if (tt == TokenType.eGoto)
+                if (tt == Token.GOTO)
                     throw new Exception("[Parser]: ifStatement, error token, number expected. in line " + m_curLineNumber);
 
                 s = statement();
@@ -294,13 +294,13 @@ namespace GVBASIC_Compiler.Compiler
             ifS.m_statements.Add(s);
 
             // else case 
-            if (lookAhead() == TokenType.eElse)
+            if (lookAhead() == Token.ELSE)
             {
-                eatToken( TokenType.eElse );
+                eatToken( Token.ELSE );
 
-                if (lookAhead() == TokenType.eIntNum)
+                if (lookAhead() == Token.INT)
                 {
-                    tok = eatToken(TokenType.eIntNum);
+                    tok = eatToken(Token.INT);
 
                     s = new Statement(Statement.TYPE_GOTO);
                     s.m_intVal = tok.m_intVal;
@@ -324,9 +324,9 @@ namespace GVBASIC_Compiler.Compiler
         {
             Statement forS = new Statement(Statement.TYPE_FOR_BEGIN);
 
-            eatToken(TokenType.eFor);
+            eatToken(Token.FOR);
 
-            Token tok = eatToken(TokenType.eIntNum);
+            Token tok = eatToken(Token.INT);
             //TODO 
 
             return forS;
@@ -340,7 +340,7 @@ namespace GVBASIC_Compiler.Compiler
         {
             Statement next = new Statement(Statement.TYPE_FOR_END);
 
-            eatToken(TokenType.eNext);
+            eatToken(Token.NEXT);
             //TODO
 
             return next;
@@ -354,7 +354,7 @@ namespace GVBASIC_Compiler.Compiler
         {
             Statement whileStatement = new Statement(Statement.TYPE_WHILE_BEGIN);
 
-            eatToken(TokenType.eWhile);
+            eatToken(Token.WHILE);
             //TODO 
 
             return whileStatement;
@@ -368,7 +368,7 @@ namespace GVBASIC_Compiler.Compiler
         {
             Statement wend = new Statement(Statement.TYPE_WHILE_END);
 
-            eatToken(TokenType.eWend);
+            eatToken(Token.WEND);
             //TODO 
 
             return wend;
@@ -382,8 +382,8 @@ namespace GVBASIC_Compiler.Compiler
         {
             Statement s = new Statement(Statement.TYPE_ASSIGN);
 
-            Token t = eatToken(TokenType.eSymbol);
-            eatToken(TokenType.eEqual);
+            Token t = eatToken(Token.SYMBOL);
+            eatToken(Token.EQUAL);
 
             s.m_symbol = t.m_strVal;
             s.m_expressList = new List<Expression>() { expression() };
@@ -399,10 +399,10 @@ namespace GVBASIC_Compiler.Compiler
         {
             Statement s = new Statement(Statement.TYPE_ASSIGN);
 
-            eatToken(TokenType.eLet);
+            eatToken(Token.LET);
 
-            Token t = eatToken(TokenType.eSymbol);
-            eatToken(TokenType.eEqual);
+            Token t = eatToken(Token.SYMBOL);
+            eatToken(Token.EQUAL);
 
             s.m_symbol = t.m_strVal;
             s.m_expressList = new List<Expression>() { expression() };
@@ -418,25 +418,25 @@ namespace GVBASIC_Compiler.Compiler
             Statement s = new Statement(Statement.TYPE_PRINT);
             s.m_expressList = new List<Expression>();
 
-            eatToken(TokenType.ePrint);
+            eatToken(Token.PRINT);
 
             while (true)
             {
-                TokenType tok = lookAhead();
+                int tok = lookAhead();
 
-                if (tok == TokenType.eSemi)
+                if (tok == Token.SEMI)
                 {
                     // print close to prior exp  
-                    eatToken(TokenType.eSemi);
-                    s.m_expressList.Add(new Expression(Expression.eSpecCloseTo));
+                    eatToken(Token.SEMI);
+                    s.m_expressList.Add(new Expression(Expression.SPEC_CLOSE_TO));
                 }
-                else if (tok == TokenType.eComma)
+                else if (tok == Token.COMMA)
                 {
                     // print next line 
-                    eatToken(TokenType.eComma);
-                    s.m_expressList.Add(new Expression(Expression.eSpecNextLine));
+                    eatToken(Token.COMMA);
+                    s.m_expressList.Add(new Expression(Expression.SPEC_NEXT_LINE));
                 }
-                else if( tok == TokenType.eColon || tok == TokenType.eEOL || tok == TokenType.eEOF || tok == TokenType.eElse )
+                else if( tok == Token.COLON || tok == Token.EOL || tok == Token.FILE_END || tok == Token.ELSE )
                 {
                     // this statement end 
                     break;
@@ -459,16 +459,16 @@ namespace GVBASIC_Compiler.Compiler
         {
             Expression exp = expression2();
 
-            TokenType tt = lookAhead();
-            while( tt == TokenType.eAnd || tt == TokenType.eOr )
+            int tt = lookAhead();
+            while( tt == Token.AND || tt == Token.OR )
             {
                 Expression subExp = null;
 
                 eatToken(tt);
 
-                if (tt == TokenType.eAnd)
+                if (tt == Token.AND)
                     subExp = new Expression(Expression.OP_AND);
-                else if (tt == TokenType.eOr)
+                else if (tt == Token.OR)
                     subExp = new Expression(Expression.OP_OR);
 
                 subExp.m_leftExp = exp;
@@ -487,10 +487,10 @@ namespace GVBASIC_Compiler.Compiler
             Expression exp = null;
             Expression subExp = null;
 
-            TokenType tt = lookAhead();
+            int tt = lookAhead();
 
             // NOT at the first 
-            while( tt == TokenType.eNot )
+            while( tt == Token.NOT )
             {
                 eatToken(tt);
                 subExp = new Expression(Expression.OP_NOT);
@@ -524,22 +524,22 @@ namespace GVBASIC_Compiler.Compiler
         {
             Expression exp = expression4();
 
-            TokenType tt = lookAhead();
-            while( tt == TokenType.eEqual || tt == TokenType.eGtr || tt == TokenType.eLt || tt == TokenType.eGte || tt == TokenType.eLte )
+            int tt = lookAhead();
+            while( tt == Token.EQUAL || tt == Token.GTR || tt == Token.LT || tt == Token.GTE || tt == Token.LTE )
             {
                 Expression subExp = null;
 
                 eatToken( tt );
 
-                if( tt == TokenType.eEqual )
+                if( tt == Token.EQUAL )
                     subExp = new Expression(Expression.OP_EQUAL);
-                else if( tt == TokenType.eGtr )
+                else if( tt == Token.GTR )
                     subExp = new Expression(Expression.OP_GREATER);
-                else if( tt == TokenType.eGte)
+                else if( tt == Token.GTE)
                     subExp = new Expression(Expression.OP_GREATER_EQU);
-                else if( tt == TokenType.eLt)
+                else if( tt == Token.LT)
                     subExp = new Expression(Expression.OP_LESS);
-                else if( tt == TokenType.eLte)
+                else if( tt == Token.LTE)
                     subExp = new Expression(Expression.OP_LESS_EQ);
 
                 subExp.m_leftExp = exp;
@@ -557,16 +557,16 @@ namespace GVBASIC_Compiler.Compiler
         {
             Expression exp = expression5();
 
-            TokenType tt = lookAhead();
+            int tt = lookAhead();
 
-            while (tt == TokenType.ePlus || tt == TokenType.eMinus)
+            while (tt == Token.PLUS || tt == Token.MINUS)
             {
                 Expression subExp = null;
 
                 eatToken(tt);
-                if (tt == TokenType.ePlus)
+                if (tt == Token.PLUS)
                     subExp = new Expression(Expression.OP_PLUS);
-                else if (tt == TokenType.eMinus)
+                else if (tt == Token.MINUS)
                     subExp = new Expression(Expression.OP_MINUS);
 
                 subExp.m_leftExp = exp;
@@ -584,16 +584,16 @@ namespace GVBASIC_Compiler.Compiler
         {
             Expression exp = expression6();
 
-            TokenType tt = lookAhead();
+            int tt = lookAhead();
 
-            while (tt == TokenType.eMul || tt == TokenType.eDiv)
+            while (tt == Token.MUL || tt == Token.DIV)
             {
                 Expression subExp = null;
 
                 eatToken(tt);
-                if (tt == TokenType.eMul)
+                if (tt == Token.MUL)
                     subExp = new Expression(Expression.OP_MUL);
-                else if (tt == TokenType.eDiv)
+                else if (tt == Token.DIV)
                     subExp = new Expression(Expression.OP_DIV);
 
                 subExp.m_leftExp = exp;
@@ -611,11 +611,11 @@ namespace GVBASIC_Compiler.Compiler
         {
             Expression exp = expression7();
 
-            TokenType tt = lookAhead();
+            int tt = lookAhead();
 
-            while( tt == TokenType.ePower )
+            while( tt == Token.POWER )
             {
-                eatToken(TokenType.ePower);
+                eatToken(Token.POWER);
                 Expression subExp = new Expression(Expression.OP_POWER);
 
                 subExp.m_leftExp = exp;
@@ -633,57 +633,57 @@ namespace GVBASIC_Compiler.Compiler
         {
             Expression exp = null;
 
-            TokenType tt = lookAhead();
+            int tt = lookAhead();
             Token tok = null;
 
-            if (tt == TokenType.eSymbol)
+            if (tt == Token.SYMBOL)
             {
-                exp = new Expression(Expression.eSymbol);
-                tok = eatToken(TokenType.eSymbol);
+                exp = new Expression(Expression.EXP_SYMBOL);
+                tok = eatToken(Token.SYMBOL);
                 exp.m_symbol = tok.m_strVal;
             }
-            else if (tt == TokenType.eIntNum)
+            else if (tt == Token.INT)
             {
                 exp = new Expression(Expression.VAL_INT);
-                tok = eatToken(TokenType.eIntNum);
+                tok = eatToken(Token.INT);
                 exp.m_intVal = tok.m_intVal;
             }
-            else if (tt == TokenType.eRealNum)
+            else if (tt == Token.FLOAT)
             {
                 exp = new Expression(Expression.VAL_FLOAT);
-                tok = eatToken(TokenType.eRealNum);
+                tok = eatToken(Token.FLOAT);
                 exp.m_realVal = tok.m_realVal;
             }
-            else if (tt == TokenType.eLeftBra)
+            else if (tt == Token.LEFT_BRA)
             {
-                eatToken(TokenType.eLeftBra);
+                eatToken(Token.LEFT_BRA);
                 exp = expression();
-                eatToken(TokenType.eRightBra);
+                eatToken(Token.RIGHT_BRA);
             }
-            else if( tt == TokenType.eMinus)
+            else if( tt == Token.MINUS)
             {
                 exp = new Expression(Expression.OP_NEG);
-                eatToken(TokenType.eMinus);
+                eatToken(Token.MINUS);
                 exp.m_leftExp = expression7();
             }
-            else if( tt == TokenType.eFunc )
+            else if( tt == Token.FUNC )
             {
-                exp = new Expression(Expression.eFunc);
+                exp = new Expression(Expression.EXP_FUNC);
                 //TODO 
-                eatToken(TokenType.eFunc);
-                eatToken(TokenType.eLeftBra);
+                eatToken(Token.FUNC);
+                eatToken(Token.LEFT_BRA);
                 expression();
-                eatToken(TokenType.eRightBra);
+                eatToken(Token.RIGHT_BRA);
             }
-            else if(tt == TokenType.eString)
+            else if(tt == Token.STRING)
             {
                 exp = new Expression(Expression.VAL_STRING);
-                tok = eatToken(TokenType.eString);
+                tok = eatToken(Token.STRING);
                 exp.m_text = tok.m_strVal;
             }
-            else if( tt == TokenType.eFn)
+            else if( tt == Token.FN)
             {
-                exp = new Expression(Expression.eUserFn);
+                exp = new Expression(Expression.EXP_USER_FUNC);
                 //TODO 
             }
 
@@ -698,7 +698,7 @@ namespace GVBASIC_Compiler.Compiler
         {
             Statement s = new Statement(Statement.TYPE_SIMPLE_CMD);
 
-            Token tok = eatToken(TokenType.eSimpleCmd);
+            Token tok = eatToken(Token.SIMPLE_CMD);
             //TODO 
 
             return s;

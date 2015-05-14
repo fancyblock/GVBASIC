@@ -27,23 +27,23 @@ namespace CompilerUnitTest
             ""                                      +    //TODO 
             "@";
 
-            TokenType[] typeList = new TokenType[] 
+            int[] typeList = new int[] 
             {
-            TokenType.eSymbol, TokenType.eFileNum, TokenType.eIntNum, TokenType.eRealNum, TokenType.eString, TokenType.eEOL,
-            TokenType.ePlus, TokenType.eMinus, TokenType.eMul, TokenType.eDiv, TokenType.ePower,
-            TokenType.eEqual, TokenType.eGtr, TokenType.eLt, TokenType.eGte, TokenType.eLte, TokenType.eNeq,
-            TokenType.eAnd, TokenType.eOr, TokenType.eNot,
-            TokenType.eSemi, TokenType.eComma, TokenType.eColon, TokenType.eLeftBra, TokenType.eRightBra,
-            TokenType.eLet, TokenType.eDim, TokenType.eRead, TokenType.eData, TokenType.eRestore, TokenType.eGoto,
-            TokenType.eIf, TokenType.eThen, TokenType.eElse, TokenType.eFor, TokenType.eNext,
-            TokenType.eWhile, TokenType.eWend, TokenType.eTo, TokenType.eStep,
-            TokenType.eDef, TokenType.eFn, TokenType.eGoSub, TokenType.eReturn, TokenType.eOn, 
-            TokenType.eEOL,
-            TokenType.ePrint, TokenType.eOpen, TokenType.eClose, TokenType.eField,
-            TokenType.eGet, TokenType.eLset, TokenType.ePut, TokenType.eRset, TokenType.eWrite,
-            TokenType.eInput, TokenType.eInkey,
+            Token.SYMBOL, Token.FILE_NUM, Token.INT, Token.FLOAT, Token.STRING, Token.EOL,
+            Token.PLUS, Token.MINUS, Token.MUL, Token.DIV, Token.POWER,
+            Token.EQUAL, Token.GTR, Token.LT, Token.GTE, Token.LTE, Token.NEG,
+            Token.AND, Token.OR, Token.NOT,
+            Token.SEMI, Token.COMMA, Token.COLON, Token.LEFT_BRA, Token.RIGHT_BRA,
+            Token.LET, Token.DIM, Token.READ, Token.DATA, Token.RESTORE, Token.GOTO,
+            Token.IF, Token.THEN, Token.ELSE, Token.FOR, Token.NEXT,
+            Token.WHILE, Token.WEND, Token.TO, Token.STEP,
+            Token.DEF, Token.FN, Token.GOSUB, Token.RETURN, Token.ON, 
+            Token.EOL,
+            Token.PRINT, Token.OPEN, Token.CLOSE, Token.FIELD,
+            Token.GET, Token.LSET, Token.PUT, Token.RSET, Token.WRITE,
+            Token.INPUT, Token.INKEY,
             //TODO 
-            TokenType.eError, TokenType.eEOF
+            Token.ERROR, Token.FILE_END
             };
 
             Tokenizer tokenizer = new Tokenizer( sourceCode );
@@ -83,36 +83,32 @@ namespace CompilerUnitTest
             int lineNum = 1;
             Token t = tok.GetToken();
             // parse to tokens 
-            while (t.m_type != TokenType.eEOF)
+            while (t.m_type != Token.FILE_END)
             {
                 // end of line 
-                if (t.m_type == TokenType.eEOL)
+                if (t.m_type == Token.EOL)
                 {
                     System.Console.Write("\n");
                     lineNum++;
                 }
                 // error handler 
-                else if (t.m_type == TokenType.eError)
+                else if (t.m_type == Token.ERROR)
                 {
                     throw new Exception("Error token in line " + lineNum);
                 }
                 else
                 {
-                    if (t.m_type == TokenType.eIntNum)
+                    if (t.m_type == Token.INT)
                     {
                         System.Console.Write(t.m_intVal + " ");
                     }
-                    else if (t.m_type == TokenType.eRealNum)
+                    else if (t.m_type == Token.FLOAT)
                     {
                         System.Console.Write(t.m_realVal + " ");
                     }
-                    else if (t.m_type == TokenType.eSymbol)
+                    else if (t.m_type == Token.SYMBOL)
                     {
                         System.Console.Write(t.m_strVal + " ");
-                    }
-                    else if (t.m_type == TokenType.eUndefine)
-                    {
-                        System.Console.Write("[error]");
                     }
                     else
                     {

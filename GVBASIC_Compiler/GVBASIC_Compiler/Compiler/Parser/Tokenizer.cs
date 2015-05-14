@@ -34,7 +34,7 @@ namespace GVBASIC_Compiler.Compiler
 
         protected List<char> m_opChr;                   // operator
         protected List<char> m_delimChr;                // separator
-        protected Dictionary<string, TokenType> m_symbolTypes;
+        protected Dictionary<string, int> m_symbolTypes;
 
         /// <summary>
         /// constructor 
@@ -45,87 +45,87 @@ namespace GVBASIC_Compiler.Compiler
             m_opChr = new List<char> { '+', '-', '*', '/', '^', '=', '>', '<' };
             m_delimChr = new List<char> { ':', ',', ';', '(', ')' };
 
-            m_symbolTypes = new Dictionary<string, TokenType>()
+            m_symbolTypes = new Dictionary<string, int>()
             {
                 // keywords
-                {"PRINT", TokenType.ePrint},
-                {"AND", TokenType.eAnd},
-                {"OR", TokenType.eOr},
-                {"NOT", TokenType.eNot},
-                {"LET", TokenType.eLet},
-                {"DIM", TokenType.eDim},
-                {"READ", TokenType.eRead},
-                {"DATA", TokenType.eData},
-                {"RESTORE", TokenType.eRestore},
-                {"GOTO", TokenType.eGoto},
-                {"IF", TokenType.eIf},
-                {"THEN", TokenType.eThen},
-                {"ELSE", TokenType.eElse},
-                {"WHILE", TokenType.eWhile},
-                {"WEND", TokenType.eWend},
-                {"TO", TokenType.eTo},
-                {"STEP", TokenType.eStep},
-                {"DEF", TokenType.eDef},
-                {"FN",TokenType.eFn},
-                {"GOSUB", TokenType.eGoSub},
-                {"RETURN", TokenType.eReturn},
-                {"ON", TokenType.eOn},
-                {"REM", TokenType.eRem},
-                {"NEXT", TokenType.eNext},
-                {"FOR", TokenType.eFor},
-                {"OPEN", TokenType.eOpen},
-                {"CLOSE", TokenType.eClose},
-                {"FIELD", TokenType.eField},
-                {"GET", TokenType.eGet},
-                {"LSET", TokenType.eLset},
-                {"PUT", TokenType.ePut},
-                {"RSET", TokenType.eRset},
-                {"WRITE", TokenType.eWrite},
-                {"INPUT", TokenType.eInput},
-                {"INKEY$", TokenType.eInkey},
+                {"PRINT", Token.PRINT},
+                {"AND", Token.AND},
+                {"OR", Token.OR},
+                {"NOT", Token.NOT},
+                {"LET", Token.LET},
+                {"DIM", Token.DIM},
+                {"READ", Token.READ},
+                {"DATA", Token.DATA},
+                {"RESTORE", Token.RESTORE},
+                {"GOTO", Token.GOTO},
+                {"IF", Token.IF},
+                {"THEN", Token.THEN},
+                {"ELSE", Token.ELSE},
+                {"WHILE", Token.WHILE},
+                {"WEND", Token.WEND},
+                {"TO", Token.TO},
+                {"STEP", Token.STEP},
+                {"DEF", Token.DEF},
+                {"FN",Token.FN},
+                {"GOSUB", Token.GOSUB},
+                {"RETURN", Token.RETURN},
+                {"ON", Token.ON},
+                {"REM", Token.REM},
+                {"NEXT", Token.NEXT},
+                {"FOR", Token.FOR},
+                {"OPEN", Token.OPEN},
+                {"CLOSE", Token.CLOSE},
+                {"FIELD", Token.FIELD},
+                {"GET", Token.GET},
+                {"LSET", Token.LSET},
+                {"PUT", Token.PUT},
+                {"RSET", Token.RSET},
+                {"WRITE", Token.WRITE},
+                {"INPUT", Token.INPUT},
+                {"INKEY$", Token.INKEY},
                 // simple command
-                {"BEEP", TokenType.eSimpleCmd},
-                {"CLS", TokenType.eSimpleCmd},
-                {"INVERSE", TokenType.eSimpleCmd},
-                {"NORMAL", TokenType.eSimpleCmd},
-                {"GRAPH", TokenType.eSimpleCmd},
-                {"TEXT", TokenType.eSimpleCmd},
-                {"CLEAR", TokenType.eSimpleCmd},
+                {"BEEP", Token.SIMPLE_CMD},
+                {"CLS", Token.SIMPLE_CMD},
+                {"INVERSE", Token.SIMPLE_CMD},
+                {"NORMAL", Token.SIMPLE_CMD},
+                {"GRAPH", Token.SIMPLE_CMD},
+                {"TEXT", Token.SIMPLE_CMD},
+                {"CLEAR", Token.SIMPLE_CMD},
                 // param command
-                {"PLAY", TokenType.eParamCmd},
-                {"BOX", TokenType.eParamCmd},
-                {"CIRCLE", TokenType.eParamCmd},
-                {"DRAW", TokenType.eParamCmd},
-                {"LINE", TokenType.eParamCmd},
-                {"LOCATE", TokenType.eParamCmd},
+                {"PLAY", Token.PARAM_CMD},
+                {"BOX", Token.PARAM_CMD},
+                {"CIRCLE", Token.PARAM_CMD},
+                {"DRAW", Token.PARAM_CMD},
+                {"LINE", Token.PARAM_CMD},
+                {"LOCATE", Token.PARAM_CMD},
                 // inner function
-                {"ABS", TokenType.eFunc},
-                {"SGN", TokenType.eFunc},
-                {"INT", TokenType.eFunc},
-                {"SIN", TokenType.eFunc},
-                {"COS", TokenType.eFunc},
-                {"TAN", TokenType.eFunc},
-                {"ATN", TokenType.eFunc},
-                {"SQR", TokenType.eFunc},
-                {"EXP", TokenType.eFunc},
-                {"LOG", TokenType.eFunc},
-                {"RND", TokenType.eFunc},
-                {"ASC", TokenType.eFunc},
-                {"LEN", TokenType.eFunc},
-                {"CHR$", TokenType.eFunc},
-                {"LEFT$", TokenType.eFunc},
-                {"MID$", TokenType.eFunc},
-                {"RIGHT$", TokenType.eFunc},
-                {"STR$", TokenType.eFunc},
-                {"VAL", TokenType.eFunc},
-                {"CVI$", TokenType.eFunc},
-                {"MKI$", TokenType.eFunc},
-                {"CVS$", TokenType.eFunc},
-                {"POS", TokenType.eFunc},
-                {"SPC", TokenType.eFunc},
-                {"TAB", TokenType.eFunc},
-                {"EOF", TokenType.eFunc},
-                {"LOF", TokenType.eFunc},
+                {"ABS", Token.FUNC},
+                {"SGN", Token.FUNC},
+                {"INT", Token.FUNC},
+                {"SIN", Token.FUNC},
+                {"COS", Token.FUNC},
+                {"TAN", Token.FUNC},
+                {"ATN", Token.FUNC},
+                {"SQR", Token.FUNC},
+                {"EXP", Token.FUNC},
+                {"LOG", Token.FUNC},
+                {"RND", Token.FUNC},
+                {"ASC", Token.FUNC},
+                {"LEN", Token.FUNC},
+                {"CHR$", Token.FUNC},
+                {"LEFT$", Token.FUNC},
+                {"MID$", Token.FUNC},
+                {"RIGHT$", Token.FUNC},
+                {"STR$", Token.FUNC},
+                {"VAL", Token.FUNC},
+                {"CVI$", Token.FUNC},
+                {"MKI$", Token.FUNC},
+                {"CVS$", Token.FUNC},
+                {"POS", Token.FUNC},
+                {"SPC", Token.FUNC},
+                {"TAB", Token.FUNC},
+                {"EOF", Token.FUNC},
+                {"LOF", Token.FUNC},
             };
 
             m_sourceCode = source;
@@ -376,88 +376,88 @@ namespace GVBASIC_Compiler.Compiler
             switch( status )
             {
                 case LexStatus.eIntNum:
-                    tok.m_type = TokenType.eIntNum;
+                    tok.m_type = Token.INT;
                     tok.m_intVal = Int32.Parse(buffer.ToString());
                     break;
                 case LexStatus.eString:
-                    tok.m_type = TokenType.eString;
+                    tok.m_type = Token.STRING;
                     tok.m_strVal = buffer.ToString();
                     break;
                 case LexStatus.eRealNum:
-                    tok.m_type = TokenType.eRealNum;
+                    tok.m_type = Token.FLOAT;
                     tok.m_realVal = float.Parse(buffer.ToString());
                     break;
                 case LexStatus.eOpCode:
                     tok.m_strVal = buffer.ToString();
                     if( tok.m_strVal == "+" )
                     {
-                        tok.m_type = TokenType.ePlus;
+                        tok.m_type = Token.PLUS;
                     }
                     else if( tok.m_strVal == "-" )
                     {
-                        tok.m_type = TokenType.eMinus;
+                        tok.m_type = Token.MINUS;
                     }
                     else if( tok.m_strVal == "*" )
                     {
-                        tok.m_type = TokenType.eMul;
+                        tok.m_type = Token.MUL;
                     }
                     else if( tok.m_strVal == "/" )
                     {
-                        tok.m_type = TokenType.eDiv;
+                        tok.m_type = Token.DIV;
                     }
                     else if( tok.m_strVal == "^" )
                     {
-                        tok.m_type = TokenType.ePower;
+                        tok.m_type = Token.POWER;
                     }
                     else if( tok.m_strVal == "=" )
                     {
-                        tok.m_type = TokenType.eEqual;
+                        tok.m_type = Token.EQUAL;
                     }
                     else if( tok.m_strVal == ">" )
                     {
-                        tok.m_type = TokenType.eGtr;
+                        tok.m_type = Token.GTR;
                     }
                     else if( tok.m_strVal == "<" )
                     {
-                        tok.m_type = TokenType.eLt;
+                        tok.m_type = Token.LT;
                     }
                     else if( tok.m_strVal == ">=" )
                     {
-                        tok.m_type = TokenType.eGte;
+                        tok.m_type = Token.GTE;
                     }
                     else if( tok.m_strVal == "<=" )
                     {
-                        tok.m_type = TokenType.eLte;
+                        tok.m_type = Token.LTE;
                     }
                     else if( tok.m_strVal == "<>" )
                     {
-                        tok.m_type = TokenType.eNeq;
+                        tok.m_type = Token.NEG;
                     }
                     break;
                 case LexStatus.eDelim:
                     if( buffer[0] == ';' )
                     {
-                        tok.m_type = TokenType.eSemi;
+                        tok.m_type = Token.SEMI;
                     }
                     else if( buffer[0] == ',' )
                     {
-                        tok.m_type = TokenType.eComma;
+                        tok.m_type = Token.COMMA;
                     }
                     else if( buffer[0] == ':' )
                     {
-                        tok.m_type = TokenType.eColon;
+                        tok.m_type = Token.COLON;
                     }
                     else if( buffer[0] == '(' )
                     {
-                        tok.m_type = TokenType.eLeftBra;
+                        tok.m_type = Token.LEFT_BRA;
                     }
                     else if( buffer[0] == ')' )
                     {
-                        tok.m_type = TokenType.eRightBra;
+                        tok.m_type = Token.RIGHT_BRA;
                     }
                     break;
                 case LexStatus.eSymbol:
-                    tok.m_type = TokenType.eSymbol;
+                    tok.m_type = Token.SYMBOL;
                     tok.m_strVal = buffer.ToString();
 
                     // recognize the keyword 
@@ -466,29 +466,29 @@ namespace GVBASIC_Compiler.Compiler
                         tok.m_type = m_symbolTypes[tok.m_strVal];
 
                         // skip the code comment 
-                        if (tok.m_type == TokenType.eRem)
+                        if (tok.m_type == Token.REM)
                         {
-                            tok.m_type = TokenType.eEOL;
+                            tok.m_type = Token.EOL;
                             nextLine();
                         }
                     }
                     break;
                 case LexStatus.eFileNum:
-                    tok.m_type = TokenType.eFileNum;
+                    tok.m_type = Token.FILE_NUM;
                     tok.m_strVal = buffer.ToString();
                     break;
                 case LexStatus.eLineEnd:
-                    tok.m_type = TokenType.eEOL;
+                    tok.m_type = Token.EOL;
                     break;
                 case LexStatus.eStart:
-                    tok.m_type = TokenType.eEOF;
+                    tok.m_type = Token.FILE_END;
                     break;
                 case LexStatus.eError:
-                    tok.m_type = TokenType.eError;
+                    tok.m_type = Token.ERROR;
                     tok.m_strVal = buffer.ToString();
                     break;
                 default:
-                    tok.m_type = TokenType.eError;
+                    tok.m_type = Token.ERROR;
                     break;
             }
 
