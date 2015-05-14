@@ -90,6 +90,7 @@ namespace GVBASIC_Compiler.Compiler
                 {"NORMAL", TokenType.eSimpleCmd},
                 {"GRAPH", TokenType.eSimpleCmd},
                 {"TEXT", TokenType.eSimpleCmd},
+                {"CLEAR", TokenType.eSimpleCmd},
                 // param command
                 {"PLAY", TokenType.eParamCmd},
                 {"BOX", TokenType.eParamCmd},

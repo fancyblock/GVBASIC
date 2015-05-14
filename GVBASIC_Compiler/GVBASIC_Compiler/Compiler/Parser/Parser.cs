@@ -154,6 +154,9 @@ namespace GVBASIC_Compiler.Compiler
                     case TokenType.eGoto:
                         ss = gotoStatement();
                         break;
+                    case TokenType.eSimpleCmd:
+                        ss = simpleCommand();
+                        break;
                     default:
                         throw new Exception("unexpected token: " + tt.ToString() + " in line " + m_curLineNumber);
                 }
@@ -689,5 +692,18 @@ namespace GVBASIC_Compiler.Compiler
             return exp;
         }
 
+        /// <summary>
+        /// simple command 
+        /// </summary>
+        /// <returns></returns>
+        protected Statement simpleCommand()
+        {
+            Statement s = new Statement(StatementType.eSimpleCmd);
+
+            Token tok = eatToken(TokenType.eSimpleCmd);
+            //TODO 
+
+            return s;
+        }
     }
 }
