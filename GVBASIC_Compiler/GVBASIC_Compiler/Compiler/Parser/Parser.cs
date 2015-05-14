@@ -238,7 +238,7 @@ namespace GVBASIC_Compiler.Compiler
                 if( t == Token.INT )
                     s.m_dataList.Add(new BaseData(tok.m_intVal));
                 else if( t == Token.FLOAT)
-                    s.m_dataList.Add(new BaseData(tok.m_realVal));
+                    s.m_dataList.Add(new BaseData(tok.m_floatVal));
                 else if( t == Token.STRING)
                     s.m_dataList.Add(new BaseData(tok.m_strVal));
 
@@ -428,13 +428,13 @@ namespace GVBASIC_Compiler.Compiler
                 {
                     // print close to prior exp  
                     eatToken(Token.SEMI);
-                    s.m_expressList.Add(new Expression(Expression.SPEC_CLOSE_TO));
+                    s.m_expressList.Add(new Expression(Expression.TYPE_CLOSE_TO));
                 }
                 else if (tok == Token.COMMA)
                 {
                     // print next line 
                     eatToken(Token.COMMA);
-                    s.m_expressList.Add(new Expression(Expression.SPEC_NEXT_LINE));
+                    s.m_expressList.Add(new Expression(Expression.TYPE_NEXT_LINE));
                 }
                 else if( tok == Token.COLON || tok == Token.EOL || tok == Token.FILE_END || tok == Token.ELSE )
                 {
@@ -652,7 +652,7 @@ namespace GVBASIC_Compiler.Compiler
             {
                 exp = new Expression(Expression.VAL_FLOAT);
                 tok = eatToken(Token.FLOAT);
-                exp.m_realVal = tok.m_realVal;
+                exp.m_floatVal = tok.m_floatVal;
             }
             else if (tt == Token.LEFT_BRA)
             {
@@ -679,7 +679,7 @@ namespace GVBASIC_Compiler.Compiler
             {
                 exp = new Expression(Expression.VAL_STRING);
                 tok = eatToken(Token.STRING);
-                exp.m_text = tok.m_strVal;
+                exp.m_strVal = tok.m_strVal;
             }
             else if( tt == Token.FN)
             {

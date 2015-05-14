@@ -123,7 +123,12 @@ namespace GVBASIC_Compiler.Compiler
         /// <param name="s"></param>
         protected void doPrint( Statement s )
         {
-            m_apiCall.Print(s.m_expressList);
+            List<BaseData> dataList = new List<BaseData>();
+
+            foreach( Expression exp in s.m_expressList )
+                dataList.Add(calculateExpression(exp));
+
+            m_apiCall.Print( dataList );
         }
 
         /// <summary>
@@ -188,19 +193,29 @@ namespace GVBASIC_Compiler.Compiler
             BaseData bdLeft = null;
             BaseData bdRight = null;
 
-            if( exp.m_type == Expression.VAL_INT )
+            switch( exp.m_type )
             {
-                result = new BaseData(exp.m_intVal);
+                case Expression.VAL_INT:
+                    result = new BaseData(exp.m_intVal);
+                    break;
+                case Expression.VAL_FLOAT:
+                    result = new BaseData(exp.m_floatVal);
+                    break;
+                case Expression.VAL_STRING:
+                    result = new BaseData(exp.m_strVal);
+                    break;
+                case Expression.TYPE_CLOSE_TO:
+                    result = new BaseData();
+                    result.m_type = BaseData.TYPE_CLOSE_TO;
+                    break;
+                case Expression.TYPE_NEXT_LINE:
+                    result = new BaseData();
+                    result.m_type = BaseData.TYPE_NEXT_LINE;
+                    break;
+                //TODO 
+                default:
+                    break;
             }
-            else if( exp.m_type == Expression.VAL_FLOAT)
-            {
-                result = new BaseData(exp.m_realVal);
-            }
-            else if( exp.m_type == Expression.VAL_STRING )
-            {
-                result = new BaseData(exp.m_text);
-            }
-            //TODO 
 
             return result;
         }

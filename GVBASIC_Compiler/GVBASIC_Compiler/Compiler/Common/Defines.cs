@@ -88,13 +88,13 @@ public class Token
     {
         m_type = Token.UNDEFINE;
         m_intVal = 0;
-        m_realVal = 0.0f;
+        m_floatVal = 0.0f;
         m_strVal = "";
     }
 
 	public int m_type;
 	public int m_intVal;
-	public float m_realVal;
+	public float m_floatVal;
 	public string m_strVal;
 }
 
@@ -161,6 +161,10 @@ public class BaseData
     public const int TYPE_INT       = 1;
     public const int TYPE_FLOAT     = 2;
     public const int TYPE_STRING    = 3;
+    public const int TYPE_SPACE     = 4;
+    public const int TYPE_TAB       = 5;
+    public const int TYPE_NEXT_LINE = 6;
+    public const int TYPE_CLOSE_TO  = 7;
 
     public int m_intVal;
     public float m_floatVal;
@@ -236,18 +240,16 @@ public class Expression
     public const int VAL_FLOAT      = 18;
     public const int VAL_STRING     = 19;
 
-    public const int SPEC_SPACE     = 20;
-    public const int SPEC_TAB       = 21;
-    public const int SPEC_NEXT_LINE = 22;
-    public const int SPEC_CLOSE_TO  = 23;
+    public const int TYPE_NEXT_LINE = 22;
+    public const int TYPE_CLOSE_TO  = 23;
 
     public int m_type;
     public Expression m_leftExp;
     public Expression m_rightExp;
     public int m_intVal;
-    public float m_realVal;
+    public float m_floatVal;
+    public string m_strVal;
     public string m_symbol;
-    public string m_text;
 
     /// <summary>
     /// constructor 

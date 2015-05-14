@@ -385,7 +385,7 @@ namespace GVBASIC_Compiler.Compiler
                     break;
                 case LexStatus.eRealNum:
                     tok.m_type = Token.FLOAT;
-                    tok.m_realVal = float.Parse(buffer.ToString());
+                    tok.m_floatVal = float.Parse(buffer.ToString());
                     break;
                 case LexStatus.eOpCode:
                     tok.m_strVal = buffer.ToString();

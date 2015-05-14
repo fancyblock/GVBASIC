@@ -99,21 +99,13 @@ namespace CompilerUnitTest
                 else
                 {
                     if (t.m_type == Token.INT)
-                    {
                         System.Console.Write(t.m_intVal + " ");
-                    }
                     else if (t.m_type == Token.FLOAT)
-                    {
-                        System.Console.Write(t.m_realVal + " ");
-                    }
+                        System.Console.Write(t.m_floatVal + " ");
                     else if (t.m_type == Token.SYMBOL)
-                    {
                         System.Console.Write(t.m_strVal + " ");
-                    }
                     else
-                    {
                         System.Console.Write(t.m_type.ToString() + " ");
-                    }
                 }
 
                 t = tok.GetToken();

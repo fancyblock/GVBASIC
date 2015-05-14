@@ -37,7 +37,7 @@ namespace GVBASIC_Compiler.Compiler
         public BaseData GetData()
         {
             if (m_curIndex >= m_datas.Count)
-                throw new Exception("OUT OF DATA ERROR IN (line number)");
+                throw new ErrorCode(ErrorCode.ERROR_CODE_03);
 
             BaseData bd = m_datas[m_curIndex];
             m_curIndex++;
