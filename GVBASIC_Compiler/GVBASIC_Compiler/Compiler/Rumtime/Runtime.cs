@@ -188,15 +188,15 @@ namespace GVBASIC_Compiler.Compiler
             BaseData bdLeft = null;
             BaseData bdRight = null;
 
-            if( exp.m_type == ExpressionType.eIntNum )
+            if( exp.m_type == Expression.VAL_INT )
             {
                 result = new BaseData(exp.m_intVal);
             }
-            else if( exp.m_type == ExpressionType.eRealNum)
+            else if( exp.m_type == Expression.VAL_FLOAT)
             {
                 result = new BaseData(exp.m_realVal);
             }
-            else if( exp.m_type == ExpressionType.eString )
+            else if( exp.m_type == Expression.VAL_STRING )
             {
                 result = new BaseData(exp.m_text);
             }

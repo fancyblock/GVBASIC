@@ -211,46 +211,43 @@ public class BaseData
 
 }
 
-public enum ExpressionType : int
-{
-    eOpPlus,
-    eOpMinus,
-    eOpMul,
-    eOpDiv,
-    eOpPower,
-    eOpNeg,
-
-    eOpCmpEqual,
-    eOpCmpGtr,
-    eOpCmpGte,
-    eOpCmpLtr,
-    eOpCmpLte,
-
-    eOpLogicAnd,
-    eOpLogicOr,
-    eOpLogicNot,
-
-    eSymbol,
-    eFunc,
-    eUserFn,
-
-    eIntNum,
-    eRealNum,
-    eString,
-
-    eSpecSpace,
-    eSpecTab,
-    eSpecNextLine,
-    eSpecCloseTo,
-}
-
 
 /// <summary>
 /// expression type 
 /// </summary>
 public class Expression
 {
-    public ExpressionType m_type;
+    public const int OP_PLUS = 0;
+    public const int OP_MINUS = 1;
+    public const int OP_MUL = 2;
+    public const int OP_DIV = 3;
+    public const int OP_POWER = 4;
+    public const int OP_NEG = 5;
+
+    public const int OP_EQUAL = 6;
+    public const int OP_GREATER = 7;
+    public const int OP_GREATER_EQU = 8;
+    public const int OP_LESS = 9;
+    public const int OP_LESS_EQ = 10;
+
+    public const int OP_AND = 11;
+    public const int OP_OR = 12;
+    public const int OP_NOT = 13;
+
+    public const int eSymbol = 14;
+    public const int eFunc = 15;
+    public const int eUserFn = 16;
+
+    public const int VAL_INT = 17;
+    public const int VAL_FLOAT = 18;
+    public const int VAL_STRING = 19;
+
+    public const int eSpecSpace = 20;
+    public const int eSpecTab = 21;
+    public const int eSpecNextLine = 22;
+    public const int eSpecCloseTo = 23;
+
+    public int m_type;
     public Expression m_leftExp;
     public Expression m_rightExp;
     public int m_intVal;
@@ -262,7 +259,7 @@ public class Expression
     /// constructor 
     /// </summary>
     /// <param name="type"></param>
-    public Expression( ExpressionType type )
+    public Expression( int type )
     {
         m_type = type;
         m_leftExp = null;

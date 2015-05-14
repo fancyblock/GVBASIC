@@ -428,13 +428,13 @@ namespace GVBASIC_Compiler.Compiler
                 {
                     // print close to prior exp  
                     eatToken(TokenType.eSemi);
-                    s.m_expressList.Add(new Expression(ExpressionType.eSpecCloseTo));
+                    s.m_expressList.Add(new Expression(Expression.eSpecCloseTo));
                 }
                 else if (tok == TokenType.eComma)
                 {
                     // print next line 
                     eatToken(TokenType.eComma);
-                    s.m_expressList.Add(new Expression(ExpressionType.eSpecNextLine));
+                    s.m_expressList.Add(new Expression(Expression.eSpecNextLine));
                 }
                 else if( tok == TokenType.eColon || tok == TokenType.eEOL || tok == TokenType.eEOF || tok == TokenType.eElse )
                 {
@@ -467,9 +467,9 @@ namespace GVBASIC_Compiler.Compiler
                 eatToken(tt);
 
                 if (tt == TokenType.eAnd)
-                    subExp = new Expression(ExpressionType.eOpLogicAnd);
+                    subExp = new Expression(Expression.OP_AND);
                 else if (tt == TokenType.eOr)
-                    subExp = new Expression(ExpressionType.eOpLogicOr);
+                    subExp = new Expression(Expression.OP_OR);
 
                 subExp.m_leftExp = exp;
                 subExp.m_rightExp = expression2();
@@ -493,7 +493,7 @@ namespace GVBASIC_Compiler.Compiler
             while( tt == TokenType.eNot )
             {
                 eatToken(tt);
-                subExp = new Expression(ExpressionType.eOpLogicNot);
+                subExp = new Expression(Expression.OP_NOT);
 
                 if (exp != null)
                     subExp.m_leftExp = exp;
@@ -532,15 +532,15 @@ namespace GVBASIC_Compiler.Compiler
                 eatToken( tt );
 
                 if( tt == TokenType.eEqual )
-                    subExp = new Expression(ExpressionType.eOpCmpEqual);
+                    subExp = new Expression(Expression.OP_EQUAL);
                 else if( tt == TokenType.eGtr )
-                    subExp = new Expression(ExpressionType.eOpCmpGtr);
+                    subExp = new Expression(Expression.OP_GREATER);
                 else if( tt == TokenType.eGte)
-                    subExp = new Expression(ExpressionType.eOpCmpGte);
+                    subExp = new Expression(Expression.OP_GREATER_EQU);
                 else if( tt == TokenType.eLt)
-                    subExp = new Expression(ExpressionType.eOpCmpLtr);
+                    subExp = new Expression(Expression.OP_LESS);
                 else if( tt == TokenType.eLte)
-                    subExp = new Expression(ExpressionType.eOpCmpLte);
+                    subExp = new Expression(Expression.OP_LESS_EQ);
 
                 subExp.m_leftExp = exp;
                 subExp.m_rightExp = expression4();
@@ -565,9 +565,9 @@ namespace GVBASIC_Compiler.Compiler
 
                 eatToken(tt);
                 if (tt == TokenType.ePlus)
-                    subExp = new Expression(ExpressionType.eOpPlus);
+                    subExp = new Expression(Expression.OP_PLUS);
                 else if (tt == TokenType.eMinus)
-                    subExp = new Expression(ExpressionType.eOpMinus);
+                    subExp = new Expression(Expression.OP_MINUS);
 
                 subExp.m_leftExp = exp;
                 subExp.m_rightExp = expression5();
@@ -592,9 +592,9 @@ namespace GVBASIC_Compiler.Compiler
 
                 eatToken(tt);
                 if (tt == TokenType.eMul)
-                    subExp = new Expression(ExpressionType.eOpMul);
+                    subExp = new Expression(Expression.OP_MUL);
                 else if (tt == TokenType.eDiv)
-                    subExp = new Expression(ExpressionType.eOpDiv);
+                    subExp = new Expression(Expression.OP_DIV);
 
                 subExp.m_leftExp = exp;
                 subExp.m_rightExp = expression6();
@@ -616,7 +616,7 @@ namespace GVBASIC_Compiler.Compiler
             while( tt == TokenType.ePower )
             {
                 eatToken(TokenType.ePower);
-                Expression subExp = new Expression(ExpressionType.eOpPower);
+                Expression subExp = new Expression(Expression.OP_POWER);
 
                 subExp.m_leftExp = exp;
                 subExp.m_rightExp = expression7();
@@ -638,19 +638,19 @@ namespace GVBASIC_Compiler.Compiler
 
             if (tt == TokenType.eSymbol)
             {
-                exp = new Expression(ExpressionType.eSymbol);
+                exp = new Expression(Expression.eSymbol);
                 tok = eatToken(TokenType.eSymbol);
                 exp.m_symbol = tok.m_strVal;
             }
             else if (tt == TokenType.eIntNum)
             {
-                exp = new Expression(ExpressionType.eIntNum);
+                exp = new Expression(Expression.VAL_INT);
                 tok = eatToken(TokenType.eIntNum);
                 exp.m_intVal = tok.m_intVal;
             }
             else if (tt == TokenType.eRealNum)
             {
-                exp = new Expression(ExpressionType.eRealNum);
+                exp = new Expression(Expression.VAL_FLOAT);
                 tok = eatToken(TokenType.eRealNum);
                 exp.m_realVal = tok.m_realVal;
             }
@@ -662,13 +662,13 @@ namespace GVBASIC_Compiler.Compiler
             }
             else if( tt == TokenType.eMinus)
             {
-                exp = new Expression(ExpressionType.eOpNeg);
+                exp = new Expression(Expression.OP_NEG);
                 eatToken(TokenType.eMinus);
                 exp.m_leftExp = expression7();
             }
             else if( tt == TokenType.eFunc )
             {
-                exp = new Expression(ExpressionType.eFunc);
+                exp = new Expression(Expression.eFunc);
                 //TODO 
                 eatToken(TokenType.eFunc);
                 eatToken(TokenType.eLeftBra);
@@ -677,13 +677,13 @@ namespace GVBASIC_Compiler.Compiler
             }
             else if(tt == TokenType.eString)
             {
-                exp = new Expression(ExpressionType.eString);
+                exp = new Expression(Expression.VAL_STRING);
                 tok = eatToken(TokenType.eString);
                 exp.m_text = tok.m_strVal;
             }
             else if( tt == TokenType.eFn)
             {
-                exp = new Expression(ExpressionType.eUserFn);
+                exp = new Expression(Expression.eUserFn);
                 //TODO 
             }
 
