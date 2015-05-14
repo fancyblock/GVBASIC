@@ -14,6 +14,7 @@ namespace GVBASIC_Compiler.Compiler
         protected int m_curTokenIndex;
 
         protected List<Statement> m_statements;
+        protected int m_curLineNumber;
 
         /// <summary>
         /// constructor 
@@ -43,9 +44,10 @@ namespace GVBASIC_Compiler.Compiler
             {
                 // line number
                 Token tok = eatToken(TokenType.eIntNum);
+                m_curLineNumber = tok.m_intVal;
 
                 Statement s = statement();
-                s.m_num = tok.m_intVal;
+                s.m_num = m_curLineNumber;
                 m_statements.Add(s);
 
                 // filter the end of line 
@@ -90,7 +92,7 @@ namespace GVBASIC_Compiler.Compiler
 
             // token type error exception 
             if( curTok.m_type != tok )
-                throw new Exception( "Error token type " + curTok.m_type.ToString() + ",  " + tok.ToString() + " expected." );
+                throw new Exception("Error token type " + curTok.m_type.ToString() + " in line " + m_curLineNumber + ",  " + tok.ToString() + " expected. ");
 
             // add new token to the buffer
             m_tokenBuff[m_curTokenIndex] = m_tokenizer.GetToken();
@@ -153,7 +155,7 @@ namespace GVBASIC_Compiler.Compiler
                         ss = gotoStatement();
                         break;
                     default:
-                        throw new Exception("unexpected token: " + tt.ToString());
+                        throw new Exception("unexpected token: " + tt.ToString() + " in line " + m_curLineNumber);
                 }
 
                 s.m_statements.Add(ss);
@@ -264,7 +266,7 @@ namespace GVBASIC_Compiler.Compiler
 
             TokenType tt = lookAhead();
             if( tt != TokenType.eThen && tt != TokenType.eGoto )
-                throw new Exception("[Parser]: ifStatement, error token, then/goto expected.");
+                throw new Exception("[Parser]: ifStatement, error token, then/goto expected. in line " + m_curLineNumber);
 
             eatToken(tt);
 
@@ -281,7 +283,7 @@ namespace GVBASIC_Compiler.Compiler
             else
             {
                 if (tt == TokenType.eGoto)
-                    throw new Exception("[Parser]: ifStatement, error token, number expected.");
+                    throw new Exception("[Parser]: ifStatement, error token, number expected. in line " + m_curLineNumber);
 
                 s = statement();
             }

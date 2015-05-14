@@ -528,7 +528,7 @@ namespace GVBASIC_Compiler.Compiler
             if( m_curIndex > 0 )
                 m_curIndex--;
             else
-                throw new Exception("[Tokenizer]: can not step back.");
+                throw new Exception("[Tokenizer]: can not step back. ");
         }
 
         /// <summary>

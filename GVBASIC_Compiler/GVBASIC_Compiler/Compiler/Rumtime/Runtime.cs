@@ -20,6 +20,8 @@ namespace GVBASIC_Compiler.Compiler
         protected DataArea m_dataRegion;
         protected SymbolTable m_symbolTable;
 
+        protected IAPI m_apiCall;
+
         /// <summary>
         /// constructor 
         /// </summary>
@@ -42,6 +44,15 @@ namespace GVBASIC_Compiler.Compiler
             // initial the context 
             m_dataRegion = new DataArea();
             m_symbolTable = new SymbolTable();
+        }
+
+        /// <summary>
+        /// set api 
+        /// </summary>
+        /// <param name="api"></param>
+        public void SetAPI( IAPI api )
+        {
+            m_apiCall = api;
         }
 
         /// <summary>
@@ -112,7 +123,7 @@ namespace GVBASIC_Compiler.Compiler
         /// <param name="s"></param>
         protected void doPrint( Statement s )
         {
-            //TODO 
+            m_apiCall.Print(s.m_expressList);
         }
 
         /// <summary>

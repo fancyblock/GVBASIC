@@ -32,7 +32,7 @@ namespace GVBASIC_Compiler
 
             // run 
             Runtime rt = new Runtime(parser);
-            //TODO 
+            rt.SetAPI(new DebugAPI());
             rt.Run();
 
             // wait for key press 

@@ -11,20 +11,20 @@ namespace CompilerUnitTest
         public void Tokenizer()
         {
             string sourceCode =
-            "testSymbol #1 123 17.0 \"hjb\" \r\n" +
-            "+-*/^" +
-            "=>< >=<=<>" +
-            "AND OR NOT" +
-            ";,:()" +
-            "LET DIM READ DATA RESTORE GOTO " +
-            "IF THEN ELSE FOR NEXT " +
-            "WHILE WEND TO STEP " +
-            "DEF FN GOSUB RETURN ON " +
-            "REM this is comment \r\n" +             // REM will be skip , replace with a EOL
-            "PRINT OPEN CLOSE FIELD " +
-            "GET LSET PUT RSET WRITE " +
-            "INPUT INKEY$ " +
-            "" +    //TODO 
+            "testSymbol #1 123 17.0 \"hjb\" \r\n"   +
+            "+-*/^"                                 +
+            "=>< >=<=<>"                            +
+            "AND OR NOT"                            +
+            ";,:()"                                 +
+            "LET DIM READ DATA RESTORE GOTO "       +
+            "IF THEN ELSE FOR NEXT "                +
+            "WHILE WEND TO STEP "                   +
+            "DEF FN GOSUB RETURN ON "               +
+            "REM this is comment \r\n"              +             // REM will be skip , replace with a EOL
+            "PRINT OPEN CLOSE FIELD "               +
+            "GET LSET PUT RSET WRITE "              +
+            "INPUT INKEY$ "                         +
+            ""                                      +    //TODO 
             "@";
 
             TokenType[] typeList = new TokenType[] 
