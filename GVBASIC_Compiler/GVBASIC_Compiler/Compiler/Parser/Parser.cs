@@ -110,7 +110,7 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns></returns>
         protected Statement statement()
         {
-            Statement s = new Statement(StatementType.eStatementSet);
+            Statement s = new Statement(Statement.TYPE_STATEMENT_SET);
             s.m_statements = new List<Statement>();
             TokenType tt;
 
@@ -181,7 +181,7 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns></returns>
         protected Statement gotoStatement()
         {
-            Statement s = new Statement(StatementType.eGoto);
+            Statement s = new Statement(Statement.TYPE_GOTO);
 
             eatToken(TokenType.eGoto);
 
@@ -197,7 +197,7 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns></returns>
         protected Statement read()
         {
-            Statement s = new Statement(StatementType.eRead);
+            Statement s = new Statement(Statement.TYPE_READ);
 
             eatToken(TokenType.eRead);
             s.m_symbolList = new List<string>();
@@ -223,7 +223,7 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns></returns>
         protected Statement data()
         {
-            Statement s = new Statement(StatementType.eData);
+            Statement s = new Statement(Statement.TYPE_DATA);
 
             eatToken(TokenType.eData);
             s.m_dataList = new List<BaseData>();
@@ -259,7 +259,7 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns></returns>
         protected Statement ifStatement()
         {
-            Statement ifS = new Statement(StatementType.eIf);
+            Statement ifS = new Statement(Statement.TYPE_IF);
 
             eatToken(TokenType.eIf);
             ifS.m_expressList = new List<Expression>();
@@ -280,7 +280,7 @@ namespace GVBASIC_Compiler.Compiler
             {
                 tok = eatToken(TokenType.eIntNum);
 
-                s = new Statement(StatementType.eGoto);
+                s = new Statement(Statement.TYPE_GOTO);
                 s.m_intVal = tok.m_intVal;
             }
             else
@@ -302,7 +302,7 @@ namespace GVBASIC_Compiler.Compiler
                 {
                     tok = eatToken(TokenType.eIntNum);
 
-                    s = new Statement(StatementType.eGoto);
+                    s = new Statement(Statement.TYPE_GOTO);
                     s.m_intVal = tok.m_intVal;
                 }
                 else
@@ -322,7 +322,7 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns></returns>
         protected Statement forBegin()
         {
-            Statement forS = new Statement(StatementType.eForBegin);
+            Statement forS = new Statement(Statement.TYPE_FOR_BEGIN);
 
             eatToken(TokenType.eFor);
 
@@ -338,7 +338,7 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns></returns>
         protected Statement forEnd()
         {
-            Statement next = new Statement(StatementType.eForEnd);
+            Statement next = new Statement(Statement.TYPE_FOR_END);
 
             eatToken(TokenType.eNext);
             //TODO
@@ -352,7 +352,7 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns></returns>
         protected Statement whileStatement()
         {
-            Statement whileStatement = new Statement(StatementType.eWhileBegin);
+            Statement whileStatement = new Statement(Statement.TYPE_WHILE_BEGIN);
 
             eatToken(TokenType.eWhile);
             //TODO 
@@ -366,7 +366,7 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns></returns>
         protected Statement wend()
         {
-            Statement wend = new Statement(StatementType.eWhileEnd);
+            Statement wend = new Statement(Statement.TYPE_WHILE_END);
 
             eatToken(TokenType.eWend);
             //TODO 
@@ -380,7 +380,7 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns></returns>
         protected Statement assign()
         {
-            Statement s = new Statement(StatementType.eAssign);
+            Statement s = new Statement(Statement.TYPE_ASSIGN);
 
             Token t = eatToken(TokenType.eSymbol);
             eatToken(TokenType.eEqual);
@@ -397,8 +397,7 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns></returns>
         protected Statement assignLet()
         {
-            Statement s = new Statement(StatementType.eAssign);
-            s.m_type = StatementType.eAssign;
+            Statement s = new Statement(Statement.TYPE_ASSIGN);
 
             eatToken(TokenType.eLet);
 
@@ -416,8 +415,7 @@ namespace GVBASIC_Compiler.Compiler
         /// </summary>
         protected Statement print()
         {
-            Statement s = new Statement(StatementType.ePrint);
-            s.m_type = StatementType.ePrint;
+            Statement s = new Statement(Statement.TYPE_PRINT);
             s.m_expressList = new List<Expression>();
 
             eatToken(TokenType.ePrint);
@@ -698,7 +696,7 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns></returns>
         protected Statement simpleCommand()
         {
-            Statement s = new Statement(StatementType.eSimpleCmd);
+            Statement s = new Statement(Statement.TYPE_SIMPLE_CMD);
 
             Token tok = eatToken(TokenType.eSimpleCmd);
             //TODO 

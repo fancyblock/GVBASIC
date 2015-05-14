@@ -82,10 +82,11 @@ public enum TokenType : int
 }
 
 
-
 // define a token 
 public class Token
 {
+    //TODO 
+
     /// <summary>
     /// Initializes a new instance of the <see cref="Token"/> class.
     /// </summary>
@@ -105,42 +106,34 @@ public class Token
 
 
 /// <summary>
-/// statement type define 
-/// </summary>
-public enum StatementType : int
-{
-    eStatementSet,
-    eInnerFunc,
-    eSimpleCmd,
-    eParamCmd,
-    ePrint,
-    //TODO 
-    eAssign,
-    eData,
-    eRead,
-    eIf,
-    eForBegin,
-    eForEnd,
-    eWhileBegin,
-    eWhileEnd,
-    eOn,
-    eGoSub,
-    eReturn,
-    ePop,
-    eGoto,
-    eDefFn,
-    eDim,
-    eSwap,
-    eEnd,
-}
-
-
-/// <summary>
 /// statement type 
 /// </summary>
 public class Statement
 {
-    public StatementType m_type;
+    public const int TYPE_STATEMENT_SET = 0;
+    public const int TYPE_INNER_FUNC = 1;
+    public const int TYPE_SIMPLE_CMD = 2;
+    public const int TYPE_PARAM_CMD = 3;
+    public const int TYPE_PRINT = 4;
+    public const int TYPE_ASSIGN = 5;
+    public const int TYPE_DATA = 6;
+    public const int TYPE_READ = 7;
+    public const int TYPE_IF = 8;
+    public const int TYPE_FOR_BEGIN = 9;
+    public const int TYPE_FOR_END = 10;
+    public const int TYPE_WHILE_BEGIN = 11;
+    public const int TYPE_WHILE_END = 12;
+    public const int TYPE_ON = 13;
+    public const int TYPE_GOSUB = 14;
+    public const int TYPE_RETURN = 15;
+    public const int TYPE_POP = 16;
+    public const int TYPE_GOTO = 17;
+    public const int TYPE_DEF_FN = 18;
+    public const int TYPE_DIM = 19;
+    public const int TYPE_SWAP = 20;
+    public const int TYPE_END = 21;
+
+    public int m_type;
     public int m_num;
 
     public string m_symbol;
@@ -160,7 +153,7 @@ public class Statement
     /// constructor
     /// </summary>
     /// <param name="type"></param>
-    public Statement( StatementType type )
+    public Statement( int type )
     {
         m_type = type;
     }

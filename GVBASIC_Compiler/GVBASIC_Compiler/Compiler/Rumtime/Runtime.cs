@@ -12,7 +12,7 @@ namespace GVBASIC_Compiler.Compiler
     public class Runtime
     {
         protected List<Statement> m_statements;
-        protected Dictionary<StatementType, Action<Statement>> m_executer;
+        protected Dictionary<int, Action<Statement>> m_executer;
         protected Dictionary<int, int> m_lineNumDic;
 
         protected bool m_isRunning;
@@ -29,15 +29,15 @@ namespace GVBASIC_Compiler.Compiler
         {
             m_statements = parser.STATEMENTS;
 
-            m_executer = new Dictionary<StatementType, Action<Statement>>()
+            m_executer = new Dictionary<int, Action<Statement>>()
             {
-                { StatementType.eStatementSet, doStatements },
-                { StatementType.ePrint, doPrint },
-                { StatementType.eAssign, doAssign },
-                { StatementType.eIf, doIf },
-                { StatementType.eData, doData },
-                { StatementType.eRead, doRead },
-                { StatementType.eGoto, doGoto },
+                { Statement.TYPE_STATEMENT_SET, doStatements },
+                { Statement.TYPE_PRINT, doPrint },
+                { Statement.TYPE_ASSIGN, doAssign },
+                { Statement.TYPE_IF, doIf },
+                { Statement.TYPE_DATA, doData },
+                { Statement.TYPE_READ, doRead },
+                { Statement.TYPE_GOTO, doGoto },
                 //TODO 
             };
 
@@ -63,7 +63,7 @@ namespace GVBASIC_Compiler.Compiler
             // process the data statement 
             foreach( Statement s in m_statements )
             {
-                if( s.m_type == StatementType.eData )
+                if( s.m_type == Statement.TYPE_DATA )
                 {
                     doData(s);
                     m_statements.Remove(s);
@@ -103,7 +103,7 @@ namespace GVBASIC_Compiler.Compiler
                 Statement subS = statements[i];
                 m_executer[subS.m_type](subS);
 
-                if (subS.m_type == StatementType.eGoto)
+                if (subS.m_type == Statement.TYPE_GOTO)
                     break;
             }
         }
