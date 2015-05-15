@@ -215,7 +215,7 @@ public class BaseData
 /// </summary>
 public class Expression
 {
-    public const int OP_PLUS        = 0;
+    public const int OP_ADD         = 0;
     public const int OP_MINUS       = 1;
     public const int OP_MUL         = 2;
     public const int OP_DIV         = 3;

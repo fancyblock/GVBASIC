@@ -565,7 +565,7 @@ namespace GVBASIC_Compiler.Compiler
 
                 eatToken(tt);
                 if (tt == Token.PLUS)
-                    subExp = new Expression(Expression.OP_PLUS);
+                    subExp = new Expression(Expression.OP_ADD);
                 else if (tt == Token.MINUS)
                     subExp = new Expression(Expression.OP_MINUS);
 
