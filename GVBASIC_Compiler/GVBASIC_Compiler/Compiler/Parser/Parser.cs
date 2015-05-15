@@ -640,7 +640,7 @@ namespace GVBASIC_Compiler.Compiler
             {
                 exp = new Expression(Expression.EXP_SYMBOL);
                 tok = eatToken(Token.SYMBOL);
-                exp.m_symbol = tok.m_strVal;
+                exp.m_strVal = tok.m_strVal;
             }
             else if (tt == Token.INT)
             {

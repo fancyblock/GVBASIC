@@ -249,7 +249,6 @@ public class Expression
     public int m_intVal;
     public float m_floatVal;
     public string m_strVal;
-    public string m_symbol;
 
     /// <summary>
     /// constructor 

@@ -190,8 +190,8 @@ namespace GVBASIC_Compiler.Compiler
         protected BaseData calculateExpression( Expression exp )
         {
             BaseData result = null;
-            BaseData bdLeft = null;
-            BaseData bdRight = null;
+
+            exp = reduceExpression(exp);
 
             switch( exp.m_type )
             {
@@ -212,13 +212,118 @@ namespace GVBASIC_Compiler.Compiler
                     result = new BaseData();
                     result.m_type = BaseData.TYPE_NEXT_LINE;
                     break;
-                //TODO 
                 default:
-                    break;
+                    throw new Exception("[Runtime]: calculateExpression, error expression type " + exp.m_type);
             }
 
             return result;
         }
 
+        /// <summary>
+        /// reduce the expession 
+        /// </summary>
+        /// <param name="exp"></param>
+        /// <returns></returns>
+        protected Expression reduceExpression( Expression exp )
+        {
+            Expression result = null;
+
+            switch( exp.m_type )
+            {
+                case Expression.VAL_FLOAT:
+                case Expression.VAL_INT:
+                case Expression.VAL_STRING:
+                case Expression.TYPE_CLOSE_TO:
+                case Expression.TYPE_NEXT_LINE:
+                    result = exp;
+                    break;
+                case Expression.EXP_SYMBOL:
+                    Symbol s = m_symbolTable.Resolve(exp.m_strVal);
+                    result = symbolToExp(s);
+                    break;
+                case Expression.EXP_FUNC:
+                    //TODO
+                    break;
+                case Expression.EXP_USER_FUNC:
+                    //TODO
+                    break;
+                case Expression.OP_PLUS:
+                    //TODO
+                    break;
+                case Expression.OP_MINUS:
+                    //TODO
+                    break;
+                case Expression.OP_MUL:
+                    //TODO
+                    break;
+                case Expression.OP_DIV:
+                    //TODO
+                    break;
+                case Expression.OP_POWER:
+                    //TODO
+                    break;
+                case Expression.OP_NEG:
+                    //TODO
+                    break;
+                case Expression.OP_EQUAL:
+                    //TODO
+                    break;
+                case Expression.OP_GREATER:
+                    //TODO
+                    break;
+                case Expression.OP_GREATER_EQU:
+                    //TODO
+                    break;
+                case Expression.OP_LESS:
+                    //TODO
+                    break;
+                case Expression.OP_LESS_EQ:
+                    //TODO
+                    break;
+                case Expression.OP_AND:
+                    //TODO
+                    break;
+                case Expression.OP_OR:
+                    //TODO
+                    break;
+                case Expression.OP_NOT:
+                    //TODO
+                    break;
+                default:
+                    throw new Exception("[Runtime]: reduceExpression, error expression type " + exp.m_type );
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// convert symbol to exp 
+        /// </summary>
+        /// <param name="symbol"></param>
+        /// <returns></returns>
+        protected Expression symbolToExp( Symbol symbol )
+        {
+            Expression res = null;
+
+            switch( symbol.TYPE )
+            {
+                case Symbol.INT:
+                    res = new Expression(Expression.VAL_INT);
+                    res.m_intVal = (symbol as VarSymbol).m_intVal;
+                    break;
+                case Symbol.FLOAT:
+                    res = new Expression(Expression.VAL_FLOAT);
+                    res.m_floatVal = (symbol as VarSymbol).m_floatVal;
+                    break;
+                case Symbol.STRING:
+                    res = new Expression(Expression.VAL_STRING);
+                    res.m_strVal = (symbol as VarSymbol).m_strVal;
+                    break;
+                default:
+                    throw new Exception("[Runtime]: symbolToExp, error symbol type " + symbol.TYPE );
+            }
+
+            return res;
+        }
     }
 }
