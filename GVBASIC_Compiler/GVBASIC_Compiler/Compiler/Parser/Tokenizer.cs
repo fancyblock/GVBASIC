@@ -297,7 +297,7 @@ namespace GVBASIC_Compiler.Compiler
                             {
                                 isDone = true;
                             }
-                            else if( isOpChar( ac ) || isDelim( ac ) || isLineEnd( ac ) )
+                            else if( isOpChar( ac ) || isDelim( ac ) || isLineEnd( ac ) || isLineEnd( ac ) )
                             {
                                 isDone = true;
                             }
