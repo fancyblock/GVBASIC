@@ -113,6 +113,8 @@ namespace GVBASIC_Compiler.Compiler
             }
         }
 
+        #region statement
+
         /// <summary>
         /// do statement set 
         /// </summary>
@@ -204,6 +206,7 @@ namespace GVBASIC_Compiler.Compiler
             //TODO 
         }
 
+        #endregion
 
         /// <summary>
         /// calculate the expression 
@@ -362,6 +365,8 @@ namespace GVBASIC_Compiler.Compiler
 
             return result;
         }
+
+        #region operators
 
         /// <summary>
         /// add operation 
@@ -593,6 +598,8 @@ namespace GVBASIC_Compiler.Compiler
 
             return result;
         }
+
+        #endregion
 
         /// <summary>
         /// operation type match 

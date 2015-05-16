@@ -17,9 +17,10 @@ namespace GVBASIC_Compiler.Compiler
         public InnerFunc()
         {
             // initial the functions 
-            m_funcDic = new Dictionary<string, Func<List<BaseData>, BaseData>>();
-
-            //TODO 
+            m_funcDic = new Dictionary<string, Func<List<BaseData>, BaseData>>()
+            {
+                {"ABS", ABS},
+            };
         }
 
         /// <summary>
@@ -49,12 +50,37 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns></returns>
         public BaseData CallFunc( string name, List<BaseData> parameters )
         {
-            BaseData result = null;
-
-            //TODO 
-
-            return result;
+            return m_funcDic[name](parameters);
         }
+
+
+        #region inner functions
+
+        /// <summary>
+        /// abs 
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        protected BaseData ABS( List<BaseData> param )
+        {
+            if (param.Count != 1)
+                throw new ErrorCode(ErrorCode.ERROR_CODE_02);
+
+            BaseData ret = null;
+            BaseData p = param[0];
+
+            if (p.m_type == BaseData.TYPE_INT)
+                ret = new BaseData(p.m_intVal >= 0 ? p.m_intVal : -p.m_intVal);
+            else if (p.m_type == BaseData.TYPE_FLOAT)
+                ret = new BaseData(p.m_floatVal >= 0.0f ? p.m_floatVal : -p.m_floatVal);
+            else
+                throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+
+            return ret;
+        }
+
+
+        #endregion
 
     }
 }

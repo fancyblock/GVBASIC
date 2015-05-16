@@ -50,6 +50,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="InnerFuncTest.cs" />
     <Compile Include="ParserTest.cs" />
     <Compile Include="RunningTest.cs" />
     <Compile Include="SpecialStatementTest.cs" />
