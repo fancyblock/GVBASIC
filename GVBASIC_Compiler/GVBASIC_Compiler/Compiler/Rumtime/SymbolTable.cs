@@ -34,7 +34,14 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns></returns>
         public Symbol Resolve( string name )
         {
-            return m_symbolDic[name];
+            if( m_symbolDic.ContainsKey( name ) )
+                return m_symbolDic[name];
+
+            Symbol symbol = null;
+
+            //TODO 
+
+            return symbol;
         }
 
         /// <summary>

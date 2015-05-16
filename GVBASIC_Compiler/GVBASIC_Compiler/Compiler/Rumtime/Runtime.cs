@@ -317,12 +317,10 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns></returns>
         protected Expression opAdd( Expression expLeft, Expression expRight )
         {
-            Expression result = null;
+            Expression result = new Expression( binaryOperateType(expLeft.m_type, expRight.m_type) );
 
             if( expLeft.m_type == Expression.VAL_STRING )
             {
-                result = new Expression(Expression.VAL_STRING);
-
                 if (expRight.m_type == Expression.VAL_STRING)
                     result.m_strVal = expLeft.m_strVal + expRight.m_strVal;
                 else if (expRight.m_type == Expression.VAL_INT)
@@ -335,46 +333,24 @@ namespace GVBASIC_Compiler.Compiler
             else if( expLeft.m_type == Expression.VAL_INT )
             {
                 if (expRight.m_type == Expression.VAL_STRING)
-                {
-                    result = new Expression(Expression.VAL_STRING);
                     result.m_strVal = expLeft.m_intVal.ToString() + expRight.m_strVal;
-                }
                 else if (expRight.m_type == Expression.VAL_INT)
-                {
-                    result = new Expression(Expression.VAL_INT);
                     result.m_intVal = expLeft.m_intVal + expRight.m_intVal;
-                }
                 else if (expRight.m_type == Expression.VAL_FLOAT)
-                {
-                    result = new Expression(Expression.VAL_FLOAT);
                     result.m_floatVal = expLeft.m_intVal + expRight.m_floatVal;
-                }
                 else
-                {
                     throw new ErrorCode(ErrorCode.ERROR_CODE_12);
-                }
             }
             else if( expLeft.m_type == Expression.VAL_FLOAT )
             {
                 if (expRight.m_type == Expression.VAL_STRING)
-                {
-                    result = new Expression(Expression.VAL_STRING);
                     result.m_strVal = expLeft.m_floatVal.ToString() + expRight.m_strVal;
-                }
                 else if (expRight.m_type == Expression.VAL_INT)
-                {
-                    result = new Expression(Expression.VAL_FLOAT);
                     result.m_floatVal = expLeft.m_floatVal + expRight.m_intVal;
-                }
                 else if (expRight.m_type == Expression.VAL_FLOAT)
-                {
-                    result = new Expression(Expression.VAL_FLOAT);
                     result.m_floatVal = expLeft.m_floatVal + expRight.m_floatVal;
-                }
                 else
-                {
                     throw new ErrorCode(ErrorCode.ERROR_CODE_12);
-                }
             }
             else
             {
@@ -392,9 +368,28 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns></returns>
         protected Expression opMinus(Expression expLeft, Expression expRight)
         {
-            Expression result = null;
+            Expression result = new Expression( binaryOperateType( expLeft.m_type, expRight.m_type ) );
 
-            //TODO 
+            if( expLeft.m_type == Expression.VAL_INT )
+            {
+                if( expRight.m_type == Expression.VAL_INT )
+                    result.m_intVal = expLeft.m_intVal - expRight.m_intVal;
+                else if( expRight.m_type == Expression.VAL_FLOAT )
+                    result.m_floatVal = expLeft.m_intVal - expRight.m_floatVal;
+                else
+                    throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+            }
+            else if( expLeft.m_type == Expression.VAL_FLOAT )
+            {
+                if (expRight.m_type == Expression.VAL_INT)
+                    result.m_floatVal = expLeft.m_floatVal - expRight.m_intVal;
+                else if (expRight.m_type == Expression.VAL_FLOAT)
+                    result.m_floatVal = expLeft.m_floatVal - expRight.m_floatVal;
+            }
+            else
+            {
+                throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+            }
 
             return result;
         }
@@ -505,6 +500,28 @@ namespace GVBASIC_Compiler.Compiler
             //TODO 
 
             return result;
+        }
+
+        /// <summary>
+        /// operation type match 
+        /// </summary>
+        /// <param name="leftType"></param>
+        /// <param name="rightType"></param>
+        /// <returns></returns>
+        protected int binaryOperateType( int leftType, int rightType )
+        {
+            int type = -1;
+
+            if (leftType == Expression.VAL_STRING || rightType == Expression.VAL_STRING)
+                type = Expression.VAL_STRING;
+            else if (leftType == Expression.VAL_FLOAT || rightType == Expression.VAL_FLOAT)
+                type = Expression.VAL_FLOAT;
+            else if (leftType == Expression.VAL_INT && rightType == Expression.VAL_INT)
+                type = Expression.VAL_INT;
+            else
+                throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+
+            return type;
         }
 
         /// <summary>
