@@ -16,12 +16,13 @@ namespace GVBASIC_Compiler.Compiler
         protected Dictionary<int, int> m_lineNumDic;
 
         protected Dictionary<int, Func<Expression,Expression,Expression>> m_binaryOperators;
-
-        protected bool m_isRunning;
-        protected int m_index;
         protected DataArea m_dataRegion;
         protected SymbolTable m_symbolTable;
 
+        protected bool m_isRunning;
+        protected int m_index;
+
+        protected InnerFunc m_innerFunc;
         protected IAPI m_apiCall;
 
         /// <summary>
@@ -62,6 +63,8 @@ namespace GVBASIC_Compiler.Compiler
             // initial the context 
             m_dataRegion = new DataArea();
             m_symbolTable = new SymbolTable();
+
+            m_innerFunc = new InnerFunc();
         }
 
         /// <summary>
@@ -71,6 +74,8 @@ namespace GVBASIC_Compiler.Compiler
         public void SetAPI( IAPI api )
         {
             m_apiCall = api;
+
+            m_innerFunc.SetAPI(m_apiCall);
         }
 
         /// <summary>
@@ -238,6 +243,42 @@ namespace GVBASIC_Compiler.Compiler
         }
 
         /// <summary>
+        /// BaseData to Expression
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        protected Expression baseDataToExp( BaseData data )
+        {
+            Expression exp = null;
+
+            switch( data.m_type )
+            {
+                case BaseData.TYPE_INT:
+                    exp = new Expression(Expression.VAL_INT);
+                    exp.m_intVal = data.m_intVal;
+                    break;
+                case BaseData.TYPE_FLOAT:
+                    exp = new Expression(Expression.VAL_FLOAT);
+                    exp.m_floatVal = data.m_floatVal;
+                    break;
+                case BaseData.TYPE_STRING:
+                    exp = new Expression(Expression.VAL_STRING);
+                    exp.m_strVal = data.m_stringVal;
+                    break;
+                case BaseData.TYPE_CLOSE_TO:
+                    exp = new Expression(Expression.TYPE_CLOSE_TO);
+                    break;
+                case BaseData.TYPE_NEXT_LINE:
+                    exp = new Expression(Expression.TYPE_NEXT_LINE);
+                    break;
+                default:
+                    break;
+            }
+
+            return exp;
+        }
+
+        /// <summary>
         /// reduce the expession 
         /// </summary>
         /// <param name="exp"></param>
@@ -260,10 +301,23 @@ namespace GVBASIC_Compiler.Compiler
                     result = symbolToExp(s);
                     break;
                 case Expression.EXP_FUNC:
-                    //TODO
+                    if( m_innerFunc.HasFunc( exp.m_strVal ) )
+                    {
+                        List<BaseData> param = new List<BaseData>();
+                        // convert the parameters 
+                        foreach (Expression e in exp.m_funcParams)
+                            param.Add(calculateExpression(e));
+                        // call the function 
+                        BaseData returnVal = m_innerFunc.CallFunc(exp.m_strVal, param);
+                        result = baseDataToExp(returnVal);
+                    }
+                    else
+                    {
+                        throw new Exception("[Runtime]: reduceExpression, can not found inner function " + exp.m_strVal );
+                    }
                     break;
                 case Expression.EXP_USER_FUNC:
-                    //TODO
+                    //TODO 
                     break;
                 case Expression.OP_NOT:
                     result = new Expression(Expression.VAL_INT);
@@ -404,7 +458,26 @@ namespace GVBASIC_Compiler.Compiler
         {
             Expression result = null;
 
-            //TODO 
+            if (expLeft.m_type == Expression.VAL_INT)
+            {
+                if (expRight.m_type == Expression.VAL_INT)
+                    result.m_intVal = expLeft.m_intVal * expRight.m_intVal;
+                else if (expRight.m_type == Expression.VAL_FLOAT)
+                    result.m_floatVal = expLeft.m_intVal * expRight.m_floatVal;
+                else
+                    throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+            }
+            else if (expLeft.m_type == Expression.VAL_FLOAT)
+            {
+                if (expRight.m_type == Expression.VAL_INT)
+                    result.m_floatVal = expLeft.m_floatVal * expRight.m_intVal;
+                else if (expRight.m_type == Expression.VAL_FLOAT)
+                    result.m_floatVal = expLeft.m_floatVal * expRight.m_floatVal;
+            }
+            else
+            {
+                throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+            }
 
             return result;
         }
@@ -419,7 +492,26 @@ namespace GVBASIC_Compiler.Compiler
         {
             Expression result = null;
 
-            //TODO 
+            if (expLeft.m_type == Expression.VAL_INT)
+            {
+                if (expRight.m_type == Expression.VAL_INT)
+                    result.m_intVal = expLeft.m_intVal / expRight.m_intVal;
+                else if (expRight.m_type == Expression.VAL_FLOAT)
+                    result.m_floatVal = expLeft.m_intVal / expRight.m_floatVal;
+                else
+                    throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+            }
+            else if (expLeft.m_type == Expression.VAL_FLOAT)
+            {
+                if (expRight.m_type == Expression.VAL_INT)
+                    result.m_floatVal = expLeft.m_floatVal / expRight.m_intVal;
+                else if (expRight.m_type == Expression.VAL_FLOAT)
+                    result.m_floatVal = expLeft.m_floatVal / expRight.m_floatVal;
+            }
+            else
+            {
+                throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+            }
 
             return result;
         }

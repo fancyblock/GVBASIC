@@ -246,6 +246,7 @@ public class Expression
     public int m_type;
     public Expression m_leftExp;
     public Expression m_rightExp;
+    public List<Expression> m_funcParams;
     public int m_intVal;
     public float m_floatVal;
     public string m_strVal;

@@ -669,10 +669,18 @@ namespace GVBASIC_Compiler.Compiler
             else if( tt == Token.FUNC )
             {
                 exp = new Expression(Expression.EXP_FUNC);
-                //TODO 
-                eatToken(Token.FUNC);
+                exp.m_funcParams = new List<Expression>();
+                // function name
+                tok = eatToken(Token.FUNC);
+                exp.m_strVal = tok.m_strVal;
+                // function parameters 
                 eatToken(Token.LEFT_BRA);
-                expression();
+                exp.m_funcParams.Add( expression() );
+                while( lookAhead() == Token.COMMA )
+                {
+                    eatToken(Token.COMMA);
+                    exp.m_funcParams.Add(expression());
+                }
                 eatToken(Token.RIGHT_BRA);
             }
             else if(tt == Token.STRING)

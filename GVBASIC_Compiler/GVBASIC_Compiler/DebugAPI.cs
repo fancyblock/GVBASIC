@@ -36,8 +36,11 @@ namespace GVBASIC_Compiler
                             System.Console.Write("\n");
                         break;
                     case BaseData.TYPE_SPACE:
+                        for (int i = 0; i < dat.m_intVal; i++)
+                            System.Console.Write(" ");
                         break;
                     case BaseData.TYPE_TAB:
+                        //TODO 
                         break;
                     case BaseData.TYPE_CLOSE_TO:
                         if (lastType == BaseData.TYPE_FLOAT || lastType == BaseData.TYPE_INT || lastType == BaseData.TYPE_STRING)
