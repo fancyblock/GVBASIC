@@ -344,8 +344,19 @@ namespace GVBASIC_Compiler.Compiler
 
             eatToken(Token.FOR);
 
-            Token tok = eatToken(Token.INT);
+            Token tok = eatToken(Token.SYMBOL);
+            string symbolName = tok.m_strVal;
+
+            if (symbolName.EndsWith("%"))
+                throw new ErrorCode(ErrorCode.ERROR_CODE_02);
+            else if (symbolName.EndsWith("$"))
+                throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+
+            eatToken(Token.EQUAL);
+
+            int t = lookAhead();
             //TODO 
+
 
             return forS;
         }
