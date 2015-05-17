@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace GVBASIC_Compiler.Compiler
 {
@@ -10,6 +8,8 @@ namespace GVBASIC_Compiler.Compiler
     {
         protected IAPI m_iapi;
         protected Dictionary<string, Func<List<BaseData>, BaseData>> m_funcDic;
+        protected float m_lastRandomNum = 0.0f;
+        protected Random m_random = new Random();
 
         /// <summary>
         /// constructor
@@ -69,11 +69,6 @@ namespace GVBASIC_Compiler.Compiler
 
         #region inner functions
 
-        /// <summary>
-        /// abs 
-        /// </summary>
-        /// <param name="param"></param>
-        /// <returns></returns>
         protected BaseData ABS( List<BaseData> param )
         {
             checkMathParam(param);
@@ -96,7 +91,10 @@ namespace GVBASIC_Compiler.Compiler
             BaseData ret = null;
             BaseData p = param[0];
 
-            //TODO 
+            if (p.m_type == BaseData.TYPE_INT)
+                ret = new BaseData(p.m_intVal >= 0 ? 1 : -1);
+            else if (p.m_type == BaseData.TYPE_FLOAT)
+                ret = new BaseData(p.m_floatVal >= 0.0f ? 1 : -1);
 
             return ret;
         }
@@ -108,7 +106,10 @@ namespace GVBASIC_Compiler.Compiler
             BaseData ret = null;
             BaseData p = param[0];
 
-            //TODO 
+            if (p.m_type == BaseData.TYPE_INT)
+                ret = new BaseData(p.m_intVal);
+            else if (p.m_type == BaseData.TYPE_FLOAT)
+                ret = new BaseData(((int)p.m_floatVal));
 
             return ret;
         }
@@ -197,6 +198,11 @@ namespace GVBASIC_Compiler.Compiler
             return ret;
         }
 
+        /// <summary>
+        /// *产生一个(0,1)间的随机小数。如果x>0,每次产生不同的随机数;如果x<0,产生有一定序列的随机数;如果x=0,输出上次产生的随机数。
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
         protected BaseData RND(List<BaseData> param)
         {
             checkMathParam(param);
@@ -204,7 +210,23 @@ namespace GVBASIC_Compiler.Compiler
             BaseData ret = null;
             BaseData p = param[0];
 
-            //TODO 
+            int randParam = 0;
+
+            if (p.m_type == BaseData.TYPE_INT)
+                randParam = p.m_intVal;
+            else if (p.m_type == BaseData.TYPE_FLOAT)
+                randParam = (int)p.m_floatVal;
+
+            if( randParam > 0 )
+            {
+                m_lastRandomNum = (float)m_random.NextDouble();
+            }
+            else if( randParam < 0 )
+            {
+                m_lastRandomNum = (float)m_random.NextDouble(); //[TEMP]
+            }
+
+            ret = new BaseData(m_lastRandomNum);
 
             return ret;
         }

@@ -54,6 +54,7 @@
     <Compile Include="ParserTest.cs" />
     <Compile Include="RunningTest.cs" />
     <Compile Include="SpecialStatementTest.cs" />
+    <Compile Include="TestHelper.cs" />
     <Compile Include="TokenizerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

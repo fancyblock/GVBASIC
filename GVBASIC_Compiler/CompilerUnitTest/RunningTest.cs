@@ -26,14 +26,7 @@ namespace CompilerUnitTest
                 "80 PRINT C$                            \n" +
                 "90 PRINT A + B% + C$ + D%              \n";
 
-            Tokenizer tokenizer = new Tokenizer(sourceCode);
-            Parser parser = new Parser(tokenizer);
-
-            parser.Parsing();
-
-            Runtime rt = new Runtime(parser);
-            rt.SetAPI(new DebugAPI());
-            rt.Run();
+            TestHelper.RunProgram(sourceCode);
         }
     }
 }

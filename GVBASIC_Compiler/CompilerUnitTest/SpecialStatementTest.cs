@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using GVBASIC_Compiler;
-using GVBASIC_Compiler.Compiler;
+
 
 namespace CompilerUnitTest
 {
@@ -25,14 +22,7 @@ namespace CompilerUnitTest
                 "70 PRINT \"TAIL\"                          \n" +
                 "80 PRINT -1,-77,-23.8                      \n";
 
-            Tokenizer tokenizer = new Tokenizer(sourceCode);
-            Parser parser = new Parser(tokenizer);
-
-            parser.Parsing();
-
-            Runtime rt = new Runtime(parser);
-            rt.SetAPI(new DebugAPI());
-            rt.Run();
+            TestHelper.RunProgram(sourceCode);
         }
 
         [TestMethod]
@@ -42,14 +32,7 @@ namespace CompilerUnitTest
                 "10 PRINT 1 + 1                                \n" +
                 "20 PRINT \"HE\" + \"JIABIN\"                  \n";
 
-            Tokenizer tokenizer = new Tokenizer(sourceCode);
-            Parser parser = new Parser(tokenizer);
-
-            parser.Parsing();
-
-            Runtime rt = new Runtime(parser);
-            rt.SetAPI(new DebugAPI());
-            rt.Run();
+            TestHelper.RunProgram(sourceCode);
         }
 
     }

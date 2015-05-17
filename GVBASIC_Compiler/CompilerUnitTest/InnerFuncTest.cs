@@ -4,8 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using GVBASIC_Compiler.Compiler;
-using GVBASIC_Compiler;
 
 namespace CompilerUnitTest
 {
@@ -22,14 +20,17 @@ namespace CompilerUnitTest
                 "40 D = -4.9                            \n" +
                 "50 PRINT ABS(A),ABS(B),ABS(C),ABS(D)   \n";
 
-            Tokenizer tokenizer = new Tokenizer(sourceCode);
-            Parser parser = new Parser(tokenizer);
+            TestHelper.RunProgram(sourceCode);
+        }
 
-            parser.Parsing();
+        [TestMethod]
+        public void RandomGenerate()
+        {
+            string sourceCode =
+                "10 A = RND(1)                          \n" +
+                "20 PRINT A, RND(1)                     \n";
 
-            Runtime rt = new Runtime(parser);
-            rt.SetAPI(new DebugAPI());
-            rt.Run();
+            TestHelper.RunProgram(sourceCode);
         }
     }
 }
