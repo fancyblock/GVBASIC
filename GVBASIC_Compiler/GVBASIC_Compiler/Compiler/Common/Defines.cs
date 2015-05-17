@@ -61,6 +61,7 @@ public class Token
     public const int ON             = 89;				// ON
     public const int POP            = 90;               // POP 
     public const int REM            = 91;               // REM 
+    public const int END            = 92;               // END 
 
     public const int PRINT          = 100;
     public const int OPEN           = 101;

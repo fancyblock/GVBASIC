@@ -83,6 +83,7 @@ namespace GVBASIC_Compiler.Compiler
                 {"WRITE", Token.WRITE},
                 {"INPUT", Token.INPUT},
                 {"INKEY$", Token.INKEY},
+                {"END", Token.END},
                 // simple command
                 {"BEEP", Token.SIMPLE_CMD},
                 {"CLS", Token.SIMPLE_CMD},

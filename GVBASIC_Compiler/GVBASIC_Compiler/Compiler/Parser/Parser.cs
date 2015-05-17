@@ -155,19 +155,22 @@ namespace GVBASIC_Compiler.Compiler
                         ss = gotoStatement();
                         break;
                     case Token.ON:
-                        //TODO 
+                        ss = onStatement();
                         break;
                     case Token.GOSUB:
-                        //TODO 
+                        ss = gosubStatement();
                         break;
                     case Token.RETURN:
-                        //TODO 
+                        ss = returnStatement();
                         break;
                     case Token.POP:
-                        //TODO 
+                        ss = popStatement();
                         break;
                     case Token.SIMPLE_CMD:
                         ss = simpleCommand();
+                        break;
+                    case Token.END:
+                        ss = endStatement();
                         break;
                     default:
                         throw new Exception("unexpected token: " + tt.ToString() + " in line " + m_curLineNumber);
@@ -283,8 +286,8 @@ namespace GVBASIC_Compiler.Compiler
             ifS.m_expressList.Add(expression());
 
             int tt = lookAhead();
-            if( tt != Token.THEN && tt != Token.GOTO )
-                throw new Exception("[Parser]: ifStatement, error token, then/goto expected. in line " + m_curLineNumber);
+            if (tt != Token.THEN && tt != Token.GOTO)
+                throw new ErrorCode(ErrorCode.ERROR_CODE_02);
 
             eatToken(tt);
 
@@ -301,7 +304,7 @@ namespace GVBASIC_Compiler.Compiler
             else
             {
                 if (tt == Token.GOTO)
-                    throw new Exception("[Parser]: ifStatement, error token, number expected. in line " + m_curLineNumber);
+                    throw new ErrorCode("[Parser]: ifStatement, error token, number expected. in line " + m_curLineNumber);
 
                 s = statement();
             }
@@ -387,6 +390,62 @@ namespace GVBASIC_Compiler.Compiler
             //TODO 
 
             return wend;
+        }
+
+        /// <summary>
+        /// on statement 
+        /// </summary>
+        /// <returns></returns>
+        protected Statement onStatement()
+        {
+            Statement on = new Statement( Statement.TYPE_ON );
+
+            eatToken( Token.ON );
+            //TODO 
+
+            return on;
+        }
+        
+        /// <summary>
+        /// GOSUB statement 
+        /// </summary>
+        /// <returns></returns>
+        protected Statement gosubStatement()
+        {
+            Statement gosub = new Statement( Statement.TYPE_GOSUB );
+
+            eatToken( Token.GOSUB );
+            //TODO 
+
+            return gosub;
+        }
+
+        /// <summary>
+        /// return statment 
+        /// </summary>
+        /// <returns></returns>
+        protected Statement returnStatement()
+        {
+            Statement returnStatement = new Statement( Statement.TYPE_RETURN );
+
+            eatToken( Token.RETURN );
+            //TODO 
+
+            return returnStatement;
+        }
+
+        /// <summary>
+        /// pop statement 
+        /// </summary>
+        /// <returns></returns>
+        protected Statement popStatement()
+        {
+            Statement popStatement = new Statement( Statement.TYPE_POP );
+
+            eatToken( Token.POP );
+            //TODO 
+
+            return popStatement;
         }
 
         /// <summary>
@@ -726,5 +785,19 @@ namespace GVBASIC_Compiler.Compiler
 
             return s;
         }
+
+        /// <summary>
+        /// end statement 
+        /// </summary>
+        /// <returns></returns>
+        protected Statement endStatement()
+        {
+            Statement s = new Statement(Statement.TYPE_END);
+
+            eatToken(Token.END);
+
+            return s;
+        }
+
     }
 }

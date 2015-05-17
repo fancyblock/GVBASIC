@@ -41,6 +41,7 @@ namespace GVBASIC_Compiler.Compiler
                 { Statement.TYPE_DATA, doData },
                 { Statement.TYPE_READ, doRead },
                 { Statement.TYPE_GOTO, doGoto },
+                { Statement.TYPE_END, doEnd },
                 //TODO 
             };
 
@@ -156,6 +157,15 @@ namespace GVBASIC_Compiler.Compiler
         }
 
         /// <summary>
+        /// do end 
+        /// </summary>
+        /// <param name="s"></param>
+        protected void doEnd( Statement s )
+        {
+            m_isRunning = false;
+        }
+
+        /// <summary>
         /// print statement 
         /// </summary>
         /// <param name="s"></param>
@@ -198,7 +208,38 @@ namespace GVBASIC_Compiler.Compiler
         /// <param name="s"></param>
         protected void doIf( Statement s )
         {
-            //TODO 
+            BaseData condition = calculateExpression(s.m_expressList[0]);
+
+            bool first = false;
+
+            if( condition.m_type == BaseData.TYPE_INT )
+            {
+                first = condition.m_intVal != 0;
+            }
+            else if( condition.m_type == BaseData.TYPE_FLOAT )
+            {
+                if (condition.m_floatVal < float.Epsilon && condition.m_floatVal > -float.Epsilon)
+                    first = false;
+                else
+                    first = true;
+            }
+            else if( condition.m_type == BaseData.TYPE_STRING )
+            {
+                first = !string.IsNullOrEmpty( condition.m_stringVal );
+            }
+
+            Statement exeS = null;
+
+            if( first )
+            {
+                exeS = s.m_statements[0];
+                m_executer[exeS.m_type](exeS);
+            }
+            else if (s.m_statements.Count > 1)
+            {
+                exeS = s.m_statements[1];
+                m_executer[exeS.m_type](exeS);
+            }
         }
 
         /// <summary>
@@ -591,9 +632,30 @@ namespace GVBASIC_Compiler.Compiler
 
         protected Expression opGtr(Expression expLeft, Expression expRight)
         {
-            Expression result = null;
+            Expression result = new Expression( Expression.VAL_INT );
 
-            //TODO 
+            if( expLeft.m_type == Expression.VAL_INT )
+            {
+                if (expRight.m_type == Expression.VAL_INT)
+                    result.m_intVal = expLeft.m_intVal > expRight.m_intVal ? 1 : 0;
+                else if (expRight.m_type == Expression.VAL_FLOAT)
+                    result.m_intVal = expLeft.m_intVal > expRight.m_floatVal ? 1 : 0;
+                else
+                    throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+            }
+            else if( expLeft.m_type == Expression.VAL_FLOAT )
+            {
+                if (expRight.m_type == Expression.VAL_INT)
+                    result.m_intVal = expLeft.m_floatVal > expRight.m_intVal ? 1 : 0;
+                else if (expRight.m_type == Expression.VAL_FLOAT)
+                    result.m_intVal = expLeft.m_floatVal > expRight.m_floatVal ? 1 : 0;
+                else
+                    throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+            }
+            else if( expLeft.m_type == Expression.VAL_STRING )
+            {
+                //TODO 
+            }
 
             return result;
         }
@@ -609,9 +671,30 @@ namespace GVBASIC_Compiler.Compiler
 
         protected Expression opLtr(Expression expLeft, Expression expRight)
         {
-            Expression result = null;
+            Expression result = new Expression( Expression.VAL_INT );;
 
-            //TODO 
+            if (expLeft.m_type == Expression.VAL_INT)
+            {
+                if (expRight.m_type == Expression.VAL_INT)
+                    result.m_intVal = expLeft.m_intVal < expRight.m_intVal ? 1 : 0;
+                else if (expRight.m_type == Expression.VAL_FLOAT)
+                    result.m_intVal = expLeft.m_intVal < expRight.m_floatVal ? 1 : 0;
+                else
+                    throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+            }
+            else if (expLeft.m_type == Expression.VAL_FLOAT)
+            {
+                if (expRight.m_type == Expression.VAL_INT)
+                    result.m_intVal = expLeft.m_floatVal < expRight.m_intVal ? 1 : 0;
+                else if (expRight.m_type == Expression.VAL_FLOAT)
+                    result.m_intVal = expLeft.m_floatVal < expRight.m_floatVal ? 1 : 0;
+                else
+                    throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+            }
+            else if (expLeft.m_type == Expression.VAL_STRING)
+            {
+                //TODO 
+            }
 
             return result;
         }

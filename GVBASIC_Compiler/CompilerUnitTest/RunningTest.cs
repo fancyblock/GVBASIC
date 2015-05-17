@@ -44,5 +44,22 @@ namespace CompilerUnitTest
 
             TestHelper.RunProgram(sourceCode);
         }
+
+        [TestMethod]
+        public void IfElse()
+        {
+            string sourceCode =
+                "10 A = 1: B = 7                            \n" +
+                "20 IF A > 0 THEN PRINT \"A>0\"             \n" +
+                "30 IF B < 5 THEN PRINT \"B<5\"             \n" +
+                "40 C = 11                                  \n" +
+                "50 IF C < 20 GOTO 70 ELSE PRINT \"CCC\"    \n" +
+                "60 PRINT \"THIS IS 60\"                    \n" +
+                "70 PRINT \"THIS IS 70\"                    \n" +
+                "80 END                                     \n";
+
+            TestHelper.RunProgram(sourceCode);
+        }
+
     }
 }
