@@ -8,6 +8,7 @@ namespace GVBASIC_Compiler.Compiler
 {
     public interface IAPI
     {
+        void ProgramDone();
         void Print(List<BaseData> expList);
     }
 }

@@ -154,6 +154,18 @@ namespace GVBASIC_Compiler.Compiler
                     case Token.GOTO:
                         ss = gotoStatement();
                         break;
+                    case Token.ON:
+                        //TODO 
+                        break;
+                    case Token.GOSUB:
+                        //TODO 
+                        break;
+                    case Token.RETURN:
+                        //TODO 
+                        break;
+                    case Token.POP:
+                        //TODO 
+                        break;
                     case Token.SIMPLE_CMD:
                         ss = simpleCommand();
                         break;
@@ -202,16 +214,19 @@ namespace GVBASIC_Compiler.Compiler
             eatToken(Token.READ);
             s.m_symbolList = new List<string>();
 
+            // read the first 
             Token tok = eatToken(Token.SYMBOL);
             s.m_symbolList.Add(tok.m_strVal);
 
             int t = lookAhead();
-            while( t == Token.COMMA)
+            while( t == Token.COMMA )
             {
                 eatToken(Token.COMMA);
                 tok = eatToken(Token.SYMBOL);
 
                 s.m_symbolList.Add(tok.m_strVal);
+
+                t = lookAhead();
             }
 
             return s;
@@ -228,19 +243,19 @@ namespace GVBASIC_Compiler.Compiler
             eatToken(Token.DATA);
             s.m_dataList = new List<BaseData>();
 
-            int t = lookAhead();
-            Token tok = null;
-
             while(true)
             {
-                tok = eatToken(t);
+                int t = lookAhead();
+                Token tok = eatToken(t);
 
-                if( t == Token.INT )
+                if (t == Token.INT)
                     s.m_dataList.Add(new BaseData(tok.m_intVal));
-                else if( t == Token.FLOAT)
+                else if (t == Token.FLOAT)
                     s.m_dataList.Add(new BaseData(tok.m_floatVal));
-                else if( t == Token.STRING)
+                else if (t == Token.STRING)
                     s.m_dataList.Add(new BaseData(tok.m_strVal));
+                else
+                    throw new Exception("Error token in line " + m_curLineNumber + ", INT, FLOAT, STRING excepted." );
 
                 t = lookAhead();
 

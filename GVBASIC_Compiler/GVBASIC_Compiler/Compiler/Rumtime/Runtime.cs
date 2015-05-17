@@ -84,14 +84,18 @@ namespace GVBASIC_Compiler.Compiler
         public void Run()
         {
             // process the data statement 
+            List<Statement> removeList = new List<Statement>();
             foreach( Statement s in m_statements )
             {
                 if( s.m_type == Statement.TYPE_DATA )
                 {
                     doData(s);
-                    m_statements.Remove(s);
+                    removeList.Add(s);
                 }
             }
+            // remove the data statments
+            foreach (Statement s in removeList)
+                m_statements.Remove(s);
 
             // index the line number
             m_lineNumDic = new Dictionary<int, int>();
@@ -111,6 +115,8 @@ namespace GVBASIC_Compiler.Compiler
                 m_index++;
                 m_executer[s.m_type](s);
             }
+
+            m_apiCall.ProgramDone();
         }
 
         #region statement
@@ -165,15 +171,7 @@ namespace GVBASIC_Compiler.Compiler
             // calculate the expression value 
             BaseData dat = calculateExpression(s.m_expressList[0]);
 
-            string symbolName = s.m_symbol;
-            Symbol symbol = null;
-
-            if (symbolName.EndsWith("%"))           // int value 
-                symbol = new VarSymbol( Symbol.INT, symbolName, dat );
-            else if (symbolName.EndsWith("$"))      // string value 
-                symbol = new VarSymbol( Symbol.STRING, symbolName, dat );
-            else                                    // float value 
-                symbol = new VarSymbol( Symbol.FLOAT, symbolName, dat );
+            Symbol symbol = new VarSymbol(Symbol.VAR, s.m_symbol, dat);
 
             // add to symbol table 
             m_symbolTable.Define(symbol);
@@ -203,7 +201,11 @@ namespace GVBASIC_Compiler.Compiler
         /// <param name="s"></param>
         protected void doRead( Statement s )
         {
-            //TODO 
+            foreach( string symbolName in s.m_symbolList )
+            {
+                Symbol symbol = m_symbolTable.Resolve(symbolName);
+                (symbol as VarSymbol).m_value = m_dataRegion.GetData();
+            }
         }
 
         #endregion
@@ -301,7 +303,9 @@ namespace GVBASIC_Compiler.Compiler
                     break;
                 case Expression.EXP_SYMBOL:
                     Symbol s = m_symbolTable.Resolve(exp.m_strVal);
-                    result = symbolToExp(s);
+                    if (s.TYPE != Symbol.VAR)
+                        throw new Exception("Symbol type error in line " + m_lineNumDic[m_index]);
+                    result = baseDataToExp((s as VarSymbol).m_value);
                     break;
                 case Expression.EXP_FUNC:
                     if( m_innerFunc.HasFunc( exp.m_strVal ) )
@@ -623,34 +627,5 @@ namespace GVBASIC_Compiler.Compiler
             return type;
         }
 
-        /// <summary>
-        /// convert symbol to exp 
-        /// </summary>
-        /// <param name="symbol"></param>
-        /// <returns></returns>
-        protected Expression symbolToExp( Symbol symbol )
-        {
-            Expression res = null;
-
-            switch( symbol.TYPE )
-            {
-                case Symbol.INT:
-                    res = new Expression(Expression.VAL_INT);
-                    res.m_intVal = (symbol as VarSymbol).m_intVal;
-                    break;
-                case Symbol.FLOAT:
-                    res = new Expression(Expression.VAL_FLOAT);
-                    res.m_floatVal = (symbol as VarSymbol).m_floatVal;
-                    break;
-                case Symbol.STRING:
-                    res = new Expression(Expression.VAL_STRING);
-                    res.m_strVal = (symbol as VarSymbol).m_strVal;
-                    break;
-                default:
-                    throw new Exception("[Runtime]: symbolToExp, error symbol type " + symbol.TYPE );
-            }
-
-            return res;
-        }
     }
 }

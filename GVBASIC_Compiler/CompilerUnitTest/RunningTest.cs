@@ -28,5 +28,16 @@ namespace CompilerUnitTest
 
             TestHelper.RunProgram(sourceCode);
         }
+
+        [TestMethod]
+        public void ReadData()
+        {
+            string sourceCode =
+                "10 DATA 1,23,2.6,19.5                     \n" +
+                "20 READ A,T,F% , R%                       \n" +
+                "30 PRINT T,A,F%, R%                       \n";
+
+            TestHelper.RunProgram(sourceCode);
+        }
     }
 }

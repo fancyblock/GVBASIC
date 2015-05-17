@@ -39,7 +39,14 @@ namespace GVBASIC_Compiler.Compiler
 
             Symbol symbol = null;
 
-            //TODO 
+            if (name.EndsWith("%"))           // int value 
+                symbol = new VarSymbol(Symbol.VAR, name, new BaseData(0));
+            else if (name.EndsWith("$"))      // string value 
+                symbol = new VarSymbol(Symbol.VAR, name, new BaseData(""));
+            else                                    // float value 
+                symbol = new VarSymbol(Symbol.VAR, name, new BaseData(0.0f));
+
+            m_symbolDic.Add(name, symbol);
 
             return symbol;
         }

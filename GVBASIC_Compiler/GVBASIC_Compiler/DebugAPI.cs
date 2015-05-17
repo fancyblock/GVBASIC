@@ -10,6 +10,14 @@ namespace GVBASIC_Compiler
     public class DebugAPI : IAPI
     {
         /// <summary>
+        /// program runing done 
+        /// </summary>
+        public void ProgramDone()
+        {
+            System.Console.Write("\n\n[END OF PROGRAM]");
+        }
+
+        /// <summary>
         /// print 
         /// </summary>
         /// <param name="expList"></param>
