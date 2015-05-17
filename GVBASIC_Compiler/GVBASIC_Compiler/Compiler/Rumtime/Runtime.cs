@@ -102,19 +102,31 @@ namespace GVBASIC_Compiler.Compiler
             for (int i = 0; i < m_statements.Count; i++)
                 m_lineNumDic.Add(m_statements[i].m_num, i);
 
-            m_isRunning = true;
-            m_index = 0;
+            ErrorCode errorCode = null;
 
-            // execute statements 
-			while( m_isRunning )
+            try
             {
-                if (m_index >= m_statements.Count)
-                    break;
+                m_isRunning = true;
+                m_index = 0;
 
-                Statement s = m_statements[m_index];
-                m_index++;
-                m_executer[s.m_type](s);
+                // execute statements 
+                while (m_isRunning)
+                {
+                    if (m_index >= m_statements.Count)
+                        break;
+
+                    Statement s = m_statements[m_index];
+                    m_index++;
+                    m_executer[s.m_type](s);
+                }
             }
+            catch( ErrorCode ec )
+            {
+                errorCode = ec;
+            }
+
+            if( errorCode != null )
+                throw new Exception(errorCode.Message + " ERROR IN LINE " + m_statements[m_index].m_num);
 
             m_apiCall.ProgramDone();
         }
@@ -171,10 +183,18 @@ namespace GVBASIC_Compiler.Compiler
             // calculate the expression value 
             BaseData dat = calculateExpression(s.m_expressList[0]);
 
-            Symbol symbol = new VarSymbol(Symbol.VAR, s.m_symbol, dat);
+            Symbol symbol = m_symbolTable.Resolve(s.m_symbol);
 
-            // add to symbol table 
-            m_symbolTable.Define(symbol);
+            if( symbol == null )
+            {
+                symbol = new VarSymbol(Symbol.VAR, s.m_symbol, dat);
+                // add to symbol table 
+                m_symbolTable.Define(symbol);
+            }
+            else
+            {
+                (symbol as VarSymbol).SetValue(dat);
+            }
         }
 
         /// <summary>
@@ -203,8 +223,17 @@ namespace GVBASIC_Compiler.Compiler
         {
             foreach( string symbolName in s.m_symbolList )
             {
-                Symbol symbol = m_symbolTable.Resolve(symbolName);
-                (symbol as VarSymbol).m_value = m_dataRegion.GetData();
+                VarSymbol symbol = m_symbolTable.Resolve(symbolName) as VarSymbol;
+
+                if (symbol == null)
+                {
+                    symbol = new VarSymbol(VarSymbol.VAR, symbolName, m_dataRegion.GetData());
+                    m_symbolTable.Define(symbol);
+                }
+                else
+                {
+                    symbol.SetValue(m_dataRegion.GetData());
+                }
             }
         }
 
@@ -304,7 +333,7 @@ namespace GVBASIC_Compiler.Compiler
                 case Expression.EXP_SYMBOL:
                     Symbol s = m_symbolTable.Resolve(exp.m_strVal);
                     if (s.TYPE != Symbol.VAR)
-                        throw new Exception("Symbol type error in line " + m_lineNumDic[m_index]);
+                        throw new Exception("Symbol type error in line " + m_statements[m_index].m_num);
                     result = baseDataToExp((s as VarSymbol).m_value);
                     break;
                 case Expression.EXP_FUNC:

@@ -30,7 +30,9 @@ namespace CompilerUnitTest
         {
             string sourceCode =
                 "10 PRINT 1 + 1                                \n" +
-                "20 PRINT \"HE\" + \"JIABIN\"                  \n";
+                "20 PRINT \"HE\" + \"JIABIN\"                  \n" +
+                "30 A = 3                                      \n" +
+                "40 PRINT A                                    \n";
 
             TestHelper.RunProgram(sourceCode);
         }

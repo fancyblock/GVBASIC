@@ -208,6 +208,41 @@ public class BaseData
         m_stringVal = val;
     }
 
+    /// <summary>
+    /// convert the data type 
+    /// </summary>
+    /// <param name="type"></param>
+    public void Convert( int type )
+    {
+        switch( type )
+        {
+            case BaseData.TYPE_INT:
+                if (m_type == BaseData.TYPE_FLOAT)
+                    m_intVal = (int)m_floatVal;
+                else if( m_type != BaseData.TYPE_INT )
+                    throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+                break;
+            case BaseData.TYPE_FLOAT:
+                if (m_type == BaseData.TYPE_INT)
+                    m_floatVal = m_intVal;
+                else if( m_type != BaseData.TYPE_FLOAT )
+                    throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+                break;
+            case BaseData.TYPE_STRING:
+                if (m_type == BaseData.TYPE_FLOAT)
+                    m_stringVal = m_floatVal.ToString();
+                else if (m_type == BaseData.TYPE_INT)
+                    m_stringVal = m_intVal.ToString();
+                else if( m_type != BaseData.TYPE_STRING )
+                    throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+                break;
+            default:
+                throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+        }
+
+        m_type = type;
+    }
+
 }
 
 

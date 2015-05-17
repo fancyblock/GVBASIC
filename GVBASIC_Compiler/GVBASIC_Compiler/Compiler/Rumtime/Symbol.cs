@@ -43,25 +43,36 @@ namespace GVBASIC_Compiler.Compiler
         /// <param name="bd"></param>
         public VarSymbol( int type, string name, BaseData bd )
         {
-            // convert the type 
-            if( name.EndsWith("%") )
-            {
-                //TODO 
-            }
-            else if( name.EndsWith("$"))
-            {
-                //TODO 
-            }
-            else
-            {
-                //TODO 
-            }
-
             m_type = type;
             m_name = name;
 
-            m_value = bd;
+            SetValue(bd);
         }
+
+        /// <summary>
+        /// set value 
+        /// </summary>
+        /// <param name="bd"></param>
+        public void SetValue( BaseData bd )
+        {
+            m_value = bd;
+
+            // convert the type 
+            if (m_name.EndsWith("%"))
+            {
+                m_value.Convert(BaseData.TYPE_INT);
+            }
+            else if (m_name.EndsWith("$"))
+            {
+                if (bd.m_type != BaseData.TYPE_STRING)
+                    throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+            }
+            else
+            {
+                m_value.Convert(BaseData.TYPE_FLOAT);
+            }
+        }
+
     }
 
     /// <summary>

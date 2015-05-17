@@ -37,6 +37,11 @@ namespace CompilerUnitTest
                 "20 READ A,T,F% , R%                       \n" +
                 "30 PRINT T,A,F%, R%                       \n";
 
+            // 23
+            // 1
+            // 2
+            // 19
+
             TestHelper.RunProgram(sourceCode);
         }
     }

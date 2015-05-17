@@ -37,18 +37,7 @@ namespace GVBASIC_Compiler.Compiler
             if( m_symbolDic.ContainsKey( name ) )
                 return m_symbolDic[name];
 
-            Symbol symbol = null;
-
-            if (name.EndsWith("%"))           // int value 
-                symbol = new VarSymbol(Symbol.VAR, name, new BaseData(0));
-            else if (name.EndsWith("$"))      // string value 
-                symbol = new VarSymbol(Symbol.VAR, name, new BaseData(""));
-            else                                    // float value 
-                symbol = new VarSymbol(Symbol.VAR, name, new BaseData(0.0f));
-
-            m_symbolDic.Add(name, symbol);
-
-            return symbol;
+            return null;
         }
 
         /// <summary>
