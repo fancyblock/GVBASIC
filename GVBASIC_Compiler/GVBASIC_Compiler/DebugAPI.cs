@@ -10,6 +10,15 @@ namespace GVBASIC_Compiler
     public class DebugAPI : IAPI
     {
         /// <summary>
+        /// error code 
+        /// </summary>
+        /// <param name="error"></param>
+        public void ErrorCode( string error )
+        {
+            throw new Exception(error);
+        }
+
+        /// <summary>
         /// program runing done 
         /// </summary>
         public void ProgramDone()

@@ -102,8 +102,6 @@ namespace GVBASIC_Compiler.Compiler
             for (int i = 0; i < m_statements.Count; i++)
                 m_lineNumDic.Add(m_statements[i].m_num, i);
 
-            ErrorCode errorCode = null;
-
             try
             {
                 m_isRunning = true;
@@ -122,11 +120,8 @@ namespace GVBASIC_Compiler.Compiler
             }
             catch( ErrorCode ec )
             {
-                errorCode = ec;
+                m_apiCall.ErrorCode( "?" + ec.Message + " ERROR IN LINE " + m_statements[m_index-1].m_num);
             }
-
-            if( errorCode != null )
-                throw new Exception(errorCode.Message + " ERROR IN LINE " + m_statements[m_index].m_num);
 
             m_apiCall.ProgramDone();
         }
@@ -332,8 +327,6 @@ namespace GVBASIC_Compiler.Compiler
                     break;
                 case Expression.EXP_SYMBOL:
                     Symbol s = m_symbolTable.Resolve(exp.m_strVal);
-                    if (s.TYPE != Symbol.VAR)
-                        throw new Exception("Symbol type error in line " + m_statements[m_index].m_num);
                     result = baseDataToExp((s as VarSymbol).m_value);
                     break;
                 case Expression.EXP_FUNC:
