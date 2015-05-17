@@ -11,7 +11,7 @@ namespace CompilerUnitTest
     public class InnerFuncTest
     {
         [TestMethod]
-        public void MathFuncions()
+        public void ABSFunc()
         {
             string sourceCode =
                 "10 A = 1                               \n" +

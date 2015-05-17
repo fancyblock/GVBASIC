@@ -92,9 +92,16 @@ namespace GVBASIC_Compiler.Compiler
             BaseData p = param[0];
 
             if (p.m_type == BaseData.TYPE_INT)
-                ret = new BaseData(p.m_intVal >= 0 ? 1 : -1);
+            {
+                ret = new BaseData( p.m_intVal == 0 ? 0 : p.m_intVal / Math.Abs( p.m_intVal ) );
+            }
             else if (p.m_type == BaseData.TYPE_FLOAT)
-                ret = new BaseData(p.m_floatVal >= 0.0f ? 1 : -1);
+            {
+                if (p.m_floatVal < float.Epsilon && p.m_floatVal > -float.Epsilon)
+                    ret = new BaseData(0.0f);
+                else
+                    ret = new BaseData(p.m_floatVal >= 0.0f ? 1 : -1);
+            }
 
             return ret;
         }

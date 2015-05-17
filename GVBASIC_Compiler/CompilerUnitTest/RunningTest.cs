@@ -13,7 +13,7 @@ namespace CompilerUnitTest
     public class RunningTest
     {
         [TestMethod]
-        public void DoAssign()
+        public void AssignVar()
         {
             string sourceCode =
                 "10 A = 1                               \n" +
