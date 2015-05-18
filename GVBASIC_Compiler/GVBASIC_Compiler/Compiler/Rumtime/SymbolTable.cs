@@ -24,7 +24,14 @@ namespace GVBASIC_Compiler.Compiler
         /// <param name="sym"></param>
         public void Define( Symbol sym )
         {
-            m_symbolDic.Add(sym.NAME, sym); 
+            if( m_symbolDic.ContainsKey( sym.NAME ) )
+            {
+                m_symbolDic[sym.NAME] = sym;
+            }
+            else
+            {
+                m_symbolDic.Add(sym.NAME, sym); 
+            }
         }
 
         /// <summary>
@@ -38,23 +45,6 @@ namespace GVBASIC_Compiler.Compiler
                 return m_symbolDic[name];
 
             return null;
-        }
-
-        /// <summary>
-        /// has symbol type
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public bool HasSymbolType( int type, string name )
-        {
-            if( m_symbolDic.ContainsKey( name ) )
-            {
-                if (m_symbolDic[name].TYPE == type )
-                    return true;
-            }
-
-            return false;
         }
 
     }

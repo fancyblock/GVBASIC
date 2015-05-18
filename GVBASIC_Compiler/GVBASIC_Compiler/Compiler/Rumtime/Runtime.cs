@@ -42,6 +42,8 @@ namespace GVBASIC_Compiler.Compiler
                 { Statement.TYPE_READ, doRead },
                 { Statement.TYPE_GOTO, doGoto },
                 { Statement.TYPE_END, doEnd },
+                { Statement.TYPE_FOR_BEGIN, doForBegin },
+                { Statement.TYPE_FOR_END, doForEnd },
                 //TODO 
             };
 
@@ -242,6 +244,19 @@ namespace GVBASIC_Compiler.Compiler
             }
         }
 
+        protected void doForBegin( Statement s )
+        {
+            string varName = s.m_symbol;
+            Symbol symbol = m_symbolTable.Resolve(varName);
+
+            //TODO 
+        }
+
+        protected void doForEnd( Statement s )
+        {
+            //TODO 
+        }
+
         /// <summary>
         /// data statement 
         /// </summary>
@@ -368,7 +383,10 @@ namespace GVBASIC_Compiler.Compiler
                     break;
                 case Expression.EXP_SYMBOL:
                     Symbol s = m_symbolTable.Resolve(exp.m_strVal);
-                    result = baseDataToExp((s as VarSymbol).m_value);
+                    if ( s != null && s.TYPE == Symbol.VAR)
+                        result = baseDataToExp((s as VarSymbol).m_value);
+                    else
+                        result = baseDataToExp(new BaseData(0));
                     break;
                 case Expression.EXP_FUNC:
                     if( m_innerFunc.HasFunc( exp.m_strVal ) )

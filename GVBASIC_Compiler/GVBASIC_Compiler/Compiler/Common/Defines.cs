@@ -171,7 +171,7 @@ public class BaseData
     public int m_intVal;
     public float m_floatVal;
     public string m_stringVal;
-    public bool m_boolVal;
+
     public int m_type;
 
     /// <summary>
