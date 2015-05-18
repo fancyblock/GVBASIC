@@ -341,9 +341,11 @@ namespace GVBASIC_Compiler.Compiler
         protected Statement forBegin()
         {
             Statement forS = new Statement(Statement.TYPE_FOR_BEGIN);
+            forS.m_dataList = new List<BaseData>();
 
+            // keyword
             eatToken(Token.FOR);
-
+            // loop var 
             Token tok = eatToken(Token.SYMBOL);
             string symbolName = tok.m_strVal;
 
@@ -352,11 +354,53 @@ namespace GVBASIC_Compiler.Compiler
             else if (symbolName.EndsWith("$"))
                 throw new ErrorCode(ErrorCode.ERROR_CODE_12);
 
+            // equal 
             eatToken(Token.EQUAL);
 
+            // start number 
             int t = lookAhead();
-            //TODO 
+            tok = eatToken(t);
+            if (tok.m_type == Token.INT)
+                forS.m_dataList.Add(new BaseData((float)tok.m_intVal));
+            else if (tok.m_type == Token.FLOAT)
+                forS.m_dataList.Add(new BaseData(tok.m_floatVal));
+            else
+                throw new ErrorCode(ErrorCode.ERROR_CODE_12);
 
+            // to 
+            eatToken(Token.TO);
+
+            // end number 
+            t = lookAhead();
+            tok = eatToken(t);
+            if (tok.m_type == Token.INT)
+                forS.m_dataList.Add(new BaseData((float)tok.m_intVal));
+            else if (tok.m_type == Token.FLOAT)
+                forS.m_dataList.Add(new BaseData(tok.m_floatVal));
+            else
+                throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+
+            // if has step or not ? 
+            t = lookAhead();
+            if( t == Token.STEP )
+            {
+                eatToken(Token.STEP);
+
+                t = lookAhead();
+                tok = eatToken(t);
+
+                if (tok.m_type == Token.INT)
+                    forS.m_dataList.Add(new BaseData((float)tok.m_intVal));
+                else if (tok.m_type == Token.FLOAT)
+                    forS.m_dataList.Add(new BaseData(tok.m_floatVal));
+                else
+                    throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+            }
+            else
+            {
+                // default step 
+                forS.m_dataList.Add(new BaseData(1.0f));
+            }
 
             return forS;
         }
@@ -370,7 +414,20 @@ namespace GVBASIC_Compiler.Compiler
             Statement next = new Statement(Statement.TYPE_FOR_END);
 
             eatToken(Token.NEXT);
-            //TODO
+            int t = lookAhead();
+
+            if( t == Token.SYMBOL )
+            {
+                Token tok = eatToken( Token.SYMBOL );
+                string symbolName = tok.m_strVal;
+
+                if (symbolName.EndsWith("%"))
+                    throw new ErrorCode(ErrorCode.ERROR_CODE_02);
+                else if (symbolName.EndsWith("$"))
+                    throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+
+                next.m_symbol = symbolName;
+            }
 
             return next;
         }

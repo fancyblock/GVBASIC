@@ -62,5 +62,16 @@ namespace CompilerUnitTest
             TestHelper.RunProgram(sourceCode);
         }
 
+        [TestMethod]
+        public void ForNext()
+        {
+            string sourceCode =
+                "10 FOR I=1 TO 5                            \n" +
+                "20 PRINT I                                 \n" +
+                "30 NEXT I                                  \n";
+
+            TestHelper.RunProgram(sourceCode);
+        }
+
     }
 }

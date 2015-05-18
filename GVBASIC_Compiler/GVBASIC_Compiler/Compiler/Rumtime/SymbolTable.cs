@@ -37,7 +37,12 @@ namespace GVBASIC_Compiler.Compiler
             if( m_symbolDic.ContainsKey( name ) )
                 return m_symbolDic[name];
 
-            return null;
+            VarSymbol symbol = new VarSymbol( Symbol.VAR, name, new BaseData(0));
+            symbol.m_value.m_intVal = 0;
+            symbol.m_value.m_floatVal = 0.0f;
+            symbol.m_value.m_stringVal = "";
+
+            return symbol;
         }
 
         /// <summary>
