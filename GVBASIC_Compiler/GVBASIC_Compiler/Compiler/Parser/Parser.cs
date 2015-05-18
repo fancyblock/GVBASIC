@@ -348,6 +348,7 @@ namespace GVBASIC_Compiler.Compiler
             // loop var 
             Token tok = eatToken(Token.SYMBOL);
             string symbolName = tok.m_strVal;
+            forS.m_symbol = symbolName;
 
             if (symbolName.EndsWith("%"))
                 throw new ErrorCode(ErrorCode.ERROR_CODE_02);
