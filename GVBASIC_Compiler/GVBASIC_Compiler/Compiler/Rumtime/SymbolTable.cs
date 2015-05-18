@@ -25,13 +25,9 @@ namespace GVBASIC_Compiler.Compiler
         public void Define( Symbol sym )
         {
             if( m_symbolDic.ContainsKey( sym.NAME ) )
-            {
                 m_symbolDic[sym.NAME] = sym;
-            }
             else
-            {
                 m_symbolDic.Add(sym.NAME, sym); 
-            }
         }
 
         /// <summary>
