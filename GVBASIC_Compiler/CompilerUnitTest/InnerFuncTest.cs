@@ -20,6 +20,11 @@ namespace CompilerUnitTest
                 "40 D = -4.9                            \n" +
                 "50 PRINT ABS(A),ABS(B),ABS(C),ABS(D)   \n";
 
+            // 1
+            // 2
+            // 3.7
+            // 4.9
+
             TestHelper.RunProgram(sourceCode);
         }
 

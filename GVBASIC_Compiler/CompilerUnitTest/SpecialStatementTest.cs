@@ -22,6 +22,20 @@ namespace CompilerUnitTest
                 "70 PRINT \"TAIL\"                          \n" +
                 "80 PRINT -1,-77,-23.8                      \n";
 
+            // 10
+            // HEJIABN
+            // 27.3
+            // ------------
+            // 1
+            // 2
+            // 3
+            // 4
+            // 5
+            // 246810TAIL
+            // -1
+            // -77
+            // -23.8
+
             TestHelper.RunProgram(sourceCode);
         }
 
@@ -33,6 +47,10 @@ namespace CompilerUnitTest
                 "20 PRINT \"HE\" + \"JIABIN\"                  \n" +
                 "30 A = 3                                      \n" +
                 "40 PRINT A                                    \n";
+
+            // 2
+            // hejiabin
+            // 3
 
             TestHelper.RunProgram(sourceCode);
         }

@@ -26,6 +26,11 @@ namespace CompilerUnitTest
                 "80 PRINT C$                            \n" +
                 "90 PRINT A + B% + C$ + D%              \n";
 
+            // 20
+            // 1
+            // HJB
+            // 3HJB17
+
             TestHelper.RunProgram(sourceCode);
         }
 
@@ -58,6 +63,11 @@ namespace CompilerUnitTest
                 "70 PRINT \"THIS IS 70\"                    \n" +
                 "80 END                                     \n" +
                 "90 PRINT 117                               ";
+
+            // A>0
+            // CCC
+            // THIS IS 60
+            // THIS IS 70
 
             TestHelper.RunProgram(sourceCode);
         }

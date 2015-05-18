@@ -190,18 +190,8 @@ namespace GVBASIC_Compiler.Compiler
             // calculate the expression value 
             BaseData dat = calculateExpression(s.m_expressList[0]);
 
-            Symbol symbol = m_symbolTable.Resolve(s.m_symbol);
-
-            if( symbol == null )
-            {
-                symbol = new VarSymbol(Symbol.VAR, s.m_symbol, dat);
-                // add to symbol table 
-                m_symbolTable.Define(symbol);
-            }
-            else
-            {
-                (symbol as VarSymbol).SetValue(dat);
-            }
+            VarSymbol symbol = m_symbolTable.ResolveVar(s.m_symbol);
+            symbol.SetValue(dat);
         }
 
         /// <summary>
@@ -247,7 +237,7 @@ namespace GVBASIC_Compiler.Compiler
         protected void doForBegin( Statement s )
         {
             string varName = s.m_symbol;
-            Symbol symbol = m_symbolTable.Resolve(varName);
+            Symbol symbol = m_symbolTable.ResolveVar(varName);
 
             //TODO 
         }
@@ -274,17 +264,8 @@ namespace GVBASIC_Compiler.Compiler
         {
             foreach( string symbolName in s.m_symbolList )
             {
-                VarSymbol symbol = m_symbolTable.Resolve(symbolName) as VarSymbol;
-
-                if (symbol == null)
-                {
-                    symbol = new VarSymbol(VarSymbol.VAR, symbolName, m_dataRegion.GetData());
-                    m_symbolTable.Define(symbol);
-                }
-                else
-                {
-                    symbol.SetValue(m_dataRegion.GetData());
-                }
+                VarSymbol symbol = m_symbolTable.ResolveVar(symbolName);
+                symbol.SetValue(m_dataRegion.GetData());
             }
         }
 
@@ -382,7 +363,7 @@ namespace GVBASIC_Compiler.Compiler
                     result = exp;
                     break;
                 case Expression.EXP_SYMBOL:
-                    Symbol s = m_symbolTable.Resolve(exp.m_strVal);
+                    Symbol s = m_symbolTable.ResolveVar(exp.m_strVal);
                     if ( s != null && s.TYPE == Symbol.VAR)
                         result = baseDataToExp((s as VarSymbol).m_value);
                     else
