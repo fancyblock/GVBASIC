@@ -341,7 +341,7 @@ namespace GVBASIC_Compiler.Compiler
         protected Statement forBegin()
         {
             Statement forS = new Statement(Statement.TYPE_FOR_BEGIN);
-            forS.m_dataList = new List<BaseData>();
+            forS.m_expressList = new List<Expression>();
 
             // keyword
             eatToken(Token.FOR);
@@ -359,48 +359,28 @@ namespace GVBASIC_Compiler.Compiler
             eatToken(Token.EQUAL);
 
             // start number 
-            int t = lookAhead();
-            tok = eatToken(t);
-            if (tok.m_type == Token.INT)
-                forS.m_dataList.Add(new BaseData((float)tok.m_intVal));
-            else if (tok.m_type == Token.FLOAT)
-                forS.m_dataList.Add(new BaseData(tok.m_floatVal));
-            else
-                throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+            forS.m_expressList.Add(expression());
 
             // to 
             eatToken(Token.TO);
 
             // end number 
-            t = lookAhead();
-            tok = eatToken(t);
-            if (tok.m_type == Token.INT)
-                forS.m_dataList.Add(new BaseData((float)tok.m_intVal));
-            else if (tok.m_type == Token.FLOAT)
-                forS.m_dataList.Add(new BaseData(tok.m_floatVal));
-            else
-                throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+            forS.m_expressList.Add(expression());
 
             // if has step or not ? 
-            t = lookAhead();
+            int t = lookAhead();
             if( t == Token.STEP )
             {
                 eatToken(Token.STEP);
 
-                t = lookAhead();
-                tok = eatToken(t);
-
-                if (tok.m_type == Token.INT)
-                    forS.m_dataList.Add(new BaseData((float)tok.m_intVal));
-                else if (tok.m_type == Token.FLOAT)
-                    forS.m_dataList.Add(new BaseData(tok.m_floatVal));
-                else
-                    throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+                forS.m_expressList.Add(expression());
             }
             else
             {
                 // default step 
-                forS.m_dataList.Add(new BaseData(1.0f));
+                Expression step = new Expression(Expression.VAL_INT);
+                step.m_intVal = 1;
+                forS.m_expressList.Add(step);
             }
 
             return forS;

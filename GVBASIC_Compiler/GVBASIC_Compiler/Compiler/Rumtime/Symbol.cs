@@ -34,7 +34,7 @@ namespace GVBASIC_Compiler.Compiler
     /// </summary>
     public class VarSymbol : Symbol
     {
-        public BaseData m_value;
+        protected BaseData m_value;
 
         /// <summary>
         /// constructor 
@@ -46,30 +46,36 @@ namespace GVBASIC_Compiler.Compiler
             m_type = type;
             m_name = name;
 
-            SetValue(bd);
+            VALUE = bd;
         }
 
         /// <summary>
-        /// set value 
+        /// getter && setter of the value 
         /// </summary>
-        /// <param name="bd"></param>
-        public void SetValue( BaseData bd )
+        public BaseData VALUE
         {
-            m_value = bd;
+            get
+            {
+                return m_value;
+            }
+            set
+            {
+                m_value = value;
 
-            // convert the type 
-            if (m_name.EndsWith("%"))
-            {
-                m_value.Convert(BaseData.TYPE_INT);
-            }
-            else if (m_name.EndsWith("$"))
-            {
-                if (bd.m_type != BaseData.TYPE_STRING)
-                    throw new ErrorCode(ErrorCode.ERROR_CODE_12);
-            }
-            else
-            {
-                m_value.Convert(BaseData.TYPE_FLOAT);
+                // convert the type 
+                if (m_name.EndsWith("%"))
+                {
+                    m_value.Convert(BaseData.TYPE_INT);
+                }
+                else if (m_name.EndsWith("$"))
+                {
+                    if (value.m_type != BaseData.TYPE_STRING)
+                        throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+                }
+                else
+                {
+                    m_value.Convert(BaseData.TYPE_FLOAT);
+                }
             }
         }
 

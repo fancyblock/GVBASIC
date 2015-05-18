@@ -191,7 +191,7 @@ namespace GVBASIC_Compiler.Compiler
             BaseData dat = calculateExpression(s.m_expressList[0]);
 
             VarSymbol symbol = m_symbolTable.ResolveVar(s.m_symbol);
-            symbol.SetValue(dat);
+            symbol.VALUE = dat;
         }
 
         /// <summary>
@@ -237,9 +237,9 @@ namespace GVBASIC_Compiler.Compiler
         protected void doForBegin( Statement s )
         {
             string varName = s.m_symbol;
-            Symbol symbol = m_symbolTable.ResolveVar(varName);
+            VarSymbol symbol = m_symbolTable.ResolveVar(varName);
 
-            //TODO 
+            //symbol.VALUE = s.m_
         }
 
         protected void doForEnd( Statement s )
@@ -265,7 +265,7 @@ namespace GVBASIC_Compiler.Compiler
             foreach( string symbolName in s.m_symbolList )
             {
                 VarSymbol symbol = m_symbolTable.ResolveVar(symbolName);
-                symbol.SetValue(m_dataRegion.GetData());
+                symbol.VALUE = m_dataRegion.GetData();
             }
         }
 
@@ -363,11 +363,8 @@ namespace GVBASIC_Compiler.Compiler
                     result = exp;
                     break;
                 case Expression.EXP_SYMBOL:
-                    Symbol s = m_symbolTable.ResolveVar(exp.m_strVal);
-                    if ( s != null && s.TYPE == Symbol.VAR)
-                        result = baseDataToExp((s as VarSymbol).m_value);
-                    else
-                        result = baseDataToExp(new BaseData(0));
+                    VarSymbol s = m_symbolTable.ResolveVar(exp.m_strVal);
+                    result = baseDataToExp(s.VALUE);
                     break;
                 case Expression.EXP_FUNC:
                     if( m_innerFunc.HasFunc( exp.m_strVal ) )
