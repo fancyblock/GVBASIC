@@ -246,6 +246,9 @@ namespace GVBASIC_Compiler.Compiler
 
         protected void doForBegin( Statement s )
         {
+            string varName = s.m_symbol;
+            Symbol symbol = m_symbolTable.Resolve(varName);
+
             //TODO 
         }
 
@@ -380,7 +383,7 @@ namespace GVBASIC_Compiler.Compiler
                     break;
                 case Expression.EXP_SYMBOL:
                     Symbol s = m_symbolTable.Resolve(exp.m_strVal);
-                    if (s.TYPE == Symbol.VAR)
+                    if ( s != null && s.TYPE == Symbol.VAR)
                         result = baseDataToExp((s as VarSymbol).m_value);
                     else
                         result = baseDataToExp(new BaseData(0));
