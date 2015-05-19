@@ -80,6 +80,12 @@ namespace CompilerUnitTest
                 "20 PRINT I                                 \n" +
                 "30 NEXT I                                  \n";
 
+            // 1
+            // 2
+            // 3
+            // 4
+            // 5
+
             TestHelper.RunProgram(sourceCode);
         }
 

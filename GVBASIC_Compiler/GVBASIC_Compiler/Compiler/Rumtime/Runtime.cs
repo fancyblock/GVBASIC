@@ -239,7 +239,22 @@ namespace GVBASIC_Compiler.Compiler
             string varName = s.m_symbol;
             VarSymbol symbol = m_symbolTable.ResolveVar(varName);
 
-            //symbol.VALUE = s.m_
+            BaseData startValue = calculateExpression(s.m_expressList[0]);
+            BaseData endValue = calculateExpression(s.m_expressList[1]);
+            BaseData stepValue = calculateExpression(s.m_expressList[2]);
+
+            // check the value type 
+            if (startValue.m_type != BaseData.TYPE_INT && startValue.m_type != BaseData.TYPE_FLOAT)
+                throw new ErrorCode(ErrorCode.ERROR_CODE_02);
+            if (endValue.m_type != BaseData.TYPE_INT && endValue.m_type != BaseData.TYPE_FLOAT)
+                throw new ErrorCode(ErrorCode.ERROR_CODE_02);
+            if (stepValue.m_type != BaseData.TYPE_INT && stepValue.m_type != BaseData.TYPE_FLOAT)
+                throw new ErrorCode(ErrorCode.ERROR_CODE_02);
+
+            // initital the loop var 
+            symbol.VALUE = startValue;
+
+            //TODO 
         }
 
         protected void doForEnd( Statement s )
