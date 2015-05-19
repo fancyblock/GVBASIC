@@ -22,7 +22,7 @@ namespace GVBASIC_Compiler.Compiler
         protected bool m_isRunning;
         protected int m_index;
 
-        protected InnerFunc m_innerFunc;
+        protected BuildinFunc m_innerFunc;
         protected IAPI m_apiCall;
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace GVBASIC_Compiler.Compiler
             m_dataRegion = new DataArea();
             m_symbolTable = new SymbolTable();
 
-            m_innerFunc = new InnerFunc();
+            m_innerFunc = new BuildinFunc();
         }
 
         /// <summary>

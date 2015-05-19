@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GVBASIC_Compiler.Compiler
 {
-    public class InnerFunc
+    public class BuildinFunc
     {
         protected IAPI m_iapi;
         protected Dictionary<string, Func<List<BaseData>, BaseData>> m_funcDic;
@@ -14,7 +14,7 @@ namespace GVBASIC_Compiler.Compiler
         /// <summary>
         /// constructor
         /// </summary>
-        public InnerFunc()
+        public BuildinFunc()
         {
             // initial the functions 
             m_funcDic = new Dictionary<string, Func<List<BaseData>, BaseData>>()
