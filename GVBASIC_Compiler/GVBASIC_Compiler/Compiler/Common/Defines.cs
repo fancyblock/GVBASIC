@@ -74,8 +74,9 @@ public class Token
     public const int WRITE          = 108;
     public const int INPUT          = 109;
     public const int INKEY          = 110;
+    public const int EOF            = 111;
 
-    public const int FUNC           = 130;               // inner function 
+    public const int FUNC           = 130;               // buildin function 
     public const int SIMPLE_CMD     = 131;
     public const int PARAM_CMD      = 132;
 
@@ -107,7 +108,7 @@ public class Token
 public class Statement
 {
     public const int TYPE_STATEMENT_SET     = 0;
-    public const int TYPE_INNER_FUNC        = 1;
+    public const int TYPE_BUILDIN_FUNC      = 1;
     public const int TYPE_SIMPLE_CMD        = 2;
     public const int TYPE_PARAM_CMD         = 3;
     public const int TYPE_PRINT             = 4;
@@ -178,6 +179,18 @@ public class BaseData
     /// default constructor
     /// </summary>
     public BaseData() { }
+
+    /// <summary>
+    /// constructor 
+    /// </summary>
+    /// <param name="bd"></param>
+    public BaseData( BaseData bd )
+    {
+        m_type = bd.m_type;
+        m_intVal = bd.m_intVal;
+        m_floatVal = bd.m_floatVal;
+        m_stringVal = bd.m_stringVal;
+    }
     
     /// <summary>
     /// float constructor
@@ -242,6 +255,44 @@ public class BaseData
         }
 
         m_type = type;
+    }
+
+    /// <summary>
+    /// plus 
+    /// </summary>
+    /// <param name="lhs"></param>
+    /// <param name="rhs"></param>
+    /// <returns></returns>
+    public static BaseData operator + ( BaseData lhs, BaseData rhs )
+    {
+        BaseData result = new BaseData( lhs );
+
+        if( lhs.m_type == BaseData.TYPE_STRING || rhs.m_type == BaseData.TYPE_STRING )
+        {
+            result.Convert(BaseData.TYPE_STRING);
+            lhs.Convert(BaseData.TYPE_STRING);
+            rhs.Convert(BaseData.TYPE_STRING);
+
+            result.m_stringVal = lhs.m_stringVal + rhs.m_stringVal;
+        }
+        else if( lhs.m_type == BaseData.TYPE_FLOAT || rhs.m_type == BaseData.TYPE_FLOAT )
+        {
+            result.Convert(BaseData.TYPE_FLOAT);
+            lhs.Convert(BaseData.TYPE_FLOAT);
+            rhs.Convert(BaseData.TYPE_FLOAT);
+
+            result.m_floatVal = lhs.m_floatVal + rhs.m_floatVal;
+        }
+        else if( lhs.m_type == BaseData.TYPE_INT && rhs.m_type == BaseData.TYPE_INT )
+        {
+            result.m_intVal = lhs.m_intVal + rhs.m_intVal;
+        }
+        else
+        {
+            throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+        }
+
+        return result;
     }
 
 }

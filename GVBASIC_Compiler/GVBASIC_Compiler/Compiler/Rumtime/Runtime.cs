@@ -18,6 +18,8 @@ namespace GVBASIC_Compiler.Compiler
         protected Dictionary<int, Func<Expression,Expression,Expression>> m_binaryOperators;
         protected DataArea m_dataRegion;
         protected SymbolTable m_symbolTable;
+        protected Stack<LoopRecord> m_loopStack;
+        protected bool m_inLoopJump;
 
         protected bool m_isRunning;
         protected int m_index;
@@ -66,6 +68,8 @@ namespace GVBASIC_Compiler.Compiler
             // initial the context 
             m_dataRegion = new DataArea();
             m_symbolTable = new SymbolTable();
+            m_loopStack = new Stack<LoopRecord>();
+            m_inLoopJump = false;
 
             m_innerFunc = new BuildinFunc();
         }
@@ -236,8 +240,26 @@ namespace GVBASIC_Compiler.Compiler
 
         protected void doForBegin( Statement s )
         {
+            if( m_inLoopJump )
+            {
+                m_inLoopJump = false;
+                return;
+            }
+
             string varName = s.m_symbol;
             VarSymbol symbol = m_symbolTable.ResolveVar(varName);
+
+            LoopRecord lr = null;
+
+            // use the top of LoopRecord or push a new one ? 
+            if( m_loopStack.Count > 0 )
+                lr = m_loopStack.Peek();
+
+            if( lr == null || lr.LOOP_VAR_NAME != varName )
+            {
+                lr = new LoopRecord();
+                m_loopStack.Push(lr);
+            }
 
             BaseData startValue = calculateExpression(s.m_expressList[0]);
             BaseData endValue = calculateExpression(s.m_expressList[1]);
@@ -252,14 +274,35 @@ namespace GVBASIC_Compiler.Compiler
                 throw new ErrorCode(ErrorCode.ERROR_CODE_02);
 
             // initital the loop var 
-            symbol.VALUE = startValue;
+            lr.SetLoopRecord(symbol, startValue, endValue, stepValue);
+            lr.SetBeginLine(s.m_num);
 
-            //TODO 
+            // init the symbol value 
+            symbol.VALUE = startValue;
         }
 
         protected void doForEnd( Statement s )
         {
-            //TODO 
+            if( m_loopStack.Count <= 0 )
+                throw new ErrorCode( ErrorCode.ERROR_CODE_01);
+
+            LoopRecord lr = m_loopStack.Peek();
+
+            if( s.m_symbol != null && s.m_symbol != lr.LOOP_VAR_NAME )
+                throw new ErrorCode( ErrorCode.ERROR_CODE_01);
+
+            lr.UpdateLoop();
+
+            if( lr.IsLoopDone() )
+            {
+                m_loopStack.Pop();
+            }
+            else
+            {
+                // goto the for begin line 
+                m_index = m_lineNumDic[lr.LOOP_BEGIN_LINE];
+                m_inLoopJump = true;
+            }
         }
 
         /// <summary>
