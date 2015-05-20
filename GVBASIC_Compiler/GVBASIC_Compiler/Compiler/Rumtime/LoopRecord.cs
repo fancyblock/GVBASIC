@@ -66,7 +66,16 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns></returns>
         public bool IsLoopDone()
         {
-            //TODO 
+            if (m_stepValue > BaseData.ZERO)
+            {
+                if (m_loopSymbol.VALUE > m_endValue)
+                    return true;
+            }
+            else if (m_stepValue < BaseData.ZERO)
+            {
+                if (m_loopSymbol.VALUE < m_endValue)
+                    return true;
+            }
 
             return false;
         }

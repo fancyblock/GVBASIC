@@ -6,37 +6,45 @@ using System.Threading.Tasks;
 
 namespace GVBASIC_Compiler.Compiler
 {
-    public class BaseData
+    public struct BaseData
     {
         public const int TYPE_INT = 1;
         public const int TYPE_FLOAT = 2;
         public const int TYPE_STRING = 3;
+
         public const int TYPE_SPACE = 4;
         public const int TYPE_TAB = 5;
         public const int TYPE_NEXT_LINE = 6;
         public const int TYPE_CLOSE_TO = 7;
 
-        public int m_intVal;
-        public float m_floatVal;
-        public string m_stringVal;
+        public static BaseData ZERO = new BaseData(0);
 
-        public int m_type;
-
-        /// <summary>
-        /// default constructor
-        /// </summary>
-        public BaseData() { }
+        private int m_intVal;
+        private float m_floatVal;
+        private string m_stringVal;
+        private int m_type;
 
         /// <summary>
-        /// constructor 
+        /// getter of the type 
         /// </summary>
-        /// <param name="bd"></param>
-        public BaseData(BaseData bd)
+        public int TYPE { get { return m_type; } }
+
+        public int INT_VAL { get { return m_intVal; } }
+        public float FLOAT_VAL { get { return m_floatVal; } }
+        public string STR_VAL { get { return m_stringVal; } }
+
+
+        /// <summary>
+        /// special type constructor
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="param"></param>
+        public BaseData( int type, int param )
         {
-            m_type = bd.m_type;
-            m_intVal = bd.m_intVal;
-            m_floatVal = bd.m_floatVal;
-            m_stringVal = bd.m_stringVal;
+            m_type = type;
+            m_intVal = param;
+            m_floatVal = 0.0f;
+            m_stringVal = null;
         }
 
         /// <summary>
@@ -46,7 +54,9 @@ namespace GVBASIC_Compiler.Compiler
         public BaseData(float val)
         {
             m_type = TYPE_FLOAT;
+            m_intVal = (int)val;
             m_floatVal = val;
+            m_stringVal = val.ToString();
         }
 
         /// <summary>
@@ -57,6 +67,8 @@ namespace GVBASIC_Compiler.Compiler
         {
             m_type = TYPE_INT;
             m_intVal = val;
+            m_floatVal = val;
+            m_stringVal = val.ToString();
         }
 
         /// <summary>
@@ -66,8 +78,12 @@ namespace GVBASIC_Compiler.Compiler
         public BaseData(string val)
         {
             m_type = TYPE_STRING;
+            m_intVal = 0;
+            m_floatVal = 0.0f;
             m_stringVal = val;
         }
+
+        //TODO 
 
         /// <summary>
         /// convert the data type 
@@ -112,7 +128,7 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns></returns>
         public static BaseData operator +(BaseData lhs, BaseData rhs)
         {
-            BaseData result = new BaseData(lhs);
+            BaseData result = lhs;
 
             if (lhs.m_type == BaseData.TYPE_STRING || rhs.m_type == BaseData.TYPE_STRING)
             {
@@ -140,6 +156,58 @@ namespace GVBASIC_Compiler.Compiler
             }
 
             return result;
+        }
+
+        public static bool operator >(BaseData lhs, BaseData rhs)
+        {
+            if (lhs.m_type == BaseData.TYPE_STRING || rhs.m_type == BaseData.TYPE_STRING)
+            {
+                lhs.Convert(BaseData.TYPE_STRING);
+                rhs.Convert(BaseData.TYPE_STRING);
+
+                return lhs.m_stringVal.CompareTo(rhs.m_stringVal) > 0;
+            }
+            else if (lhs.m_type == BaseData.TYPE_FLOAT || rhs.m_type == BaseData.TYPE_FLOAT)
+            {
+                lhs.Convert(BaseData.TYPE_FLOAT);
+                rhs.Convert(BaseData.TYPE_FLOAT);
+
+                return lhs.m_floatVal > rhs.m_floatVal;
+            }
+            else if (lhs.m_type == BaseData.TYPE_INT && rhs.m_type == BaseData.TYPE_INT)
+            {
+                return lhs.m_intVal > rhs.m_intVal;
+            }
+            else
+            {
+                throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+            }
+        }
+
+        public static bool operator <(BaseData lhs, BaseData rhs)
+        {
+            if (lhs.m_type == BaseData.TYPE_STRING || rhs.m_type == BaseData.TYPE_STRING)
+            {
+                lhs.Convert(BaseData.TYPE_STRING);
+                rhs.Convert(BaseData.TYPE_STRING);
+
+                return lhs.m_stringVal.CompareTo(rhs.m_stringVal) < 0;
+            }
+            else if (lhs.m_type == BaseData.TYPE_FLOAT || rhs.m_type == BaseData.TYPE_FLOAT)
+            {
+                lhs.Convert(BaseData.TYPE_FLOAT);
+                rhs.Convert(BaseData.TYPE_FLOAT);
+
+                return lhs.m_floatVal < rhs.m_floatVal;
+            }
+            else if (lhs.m_type == BaseData.TYPE_INT && rhs.m_type == BaseData.TYPE_INT)
+            {
+                return lhs.m_intVal < rhs.m_intVal;
+            }
+            else
+            {
+                throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+            }
         }
     }
 }

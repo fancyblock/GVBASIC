@@ -77,14 +77,17 @@ namespace CompilerUnitTest
         {
             string sourceCode =
                 "10 FOR I=1 TO 5                            \n" +
-                "20 PRINT I                                 \n" +
-                "30 NEXT I                                  \n";
+                "20 FOR J=I TO 3                            \n" +
+                "30 PRINT J;                                \n" +
+                "40 NEXT                                    \n" +
+                "45 PRINT \";\"                             \n" +
+                "50 NEXT                                    \n";
 
-            // 1
-            // 2
-            // 3
-            // 4
-            // 5
+            // 123;
+            // 23;
+            // 3;
+            // 4;
+            // 5;
 
             TestHelper.RunProgram(sourceCode);
         }

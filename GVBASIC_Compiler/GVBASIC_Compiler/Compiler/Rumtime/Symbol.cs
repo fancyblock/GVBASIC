@@ -69,7 +69,7 @@ namespace GVBASIC_Compiler.Compiler
                 }
                 else if (m_name.EndsWith("$"))
                 {
-                    if (value.m_type != BaseData.TYPE_STRING)
+                    if (value.TYPE != BaseData.TYPE_STRING)
                         throw new ErrorCode(ErrorCode.ERROR_CODE_12);
                 }
                 else

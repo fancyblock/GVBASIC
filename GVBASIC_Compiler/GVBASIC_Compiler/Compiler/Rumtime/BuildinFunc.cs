@@ -73,13 +73,13 @@ namespace GVBASIC_Compiler.Compiler
         {
             checkMathParam(param);
 
-            BaseData ret = null;
+            BaseData ret = BaseData.ZERO;
             BaseData p = param[0];
 
-            if (p.m_type == BaseData.TYPE_INT)
-                ret = new BaseData(p.m_intVal >= 0 ? p.m_intVal : -p.m_intVal);
-            else if (p.m_type == BaseData.TYPE_FLOAT)
-                ret = new BaseData(p.m_floatVal >= 0.0f ? p.m_floatVal : -p.m_floatVal);
+            if (p.TYPE == BaseData.TYPE_INT)
+                ret = new BaseData(p.INT_VAL >= 0 ? p.INT_VAL : -p.INT_VAL);
+            else if (p.TYPE == BaseData.TYPE_FLOAT)
+                ret = new BaseData(p.FLOAT_VAL >= 0.0f ? p.FLOAT_VAL : -p.FLOAT_VAL);
 
             return ret;
         }
@@ -88,19 +88,19 @@ namespace GVBASIC_Compiler.Compiler
         {
             checkMathParam(param);
 
-            BaseData ret = null;
+            BaseData ret = BaseData.ZERO;
             BaseData p = param[0];
 
-            if (p.m_type == BaseData.TYPE_INT)
+            if (p.TYPE == BaseData.TYPE_INT)
             {
-                ret = new BaseData( p.m_intVal == 0 ? 0 : p.m_intVal / Math.Abs( p.m_intVal ) );
+                ret = new BaseData(p.INT_VAL == 0 ? 0 : p.INT_VAL / Math.Abs(p.INT_VAL));
             }
-            else if (p.m_type == BaseData.TYPE_FLOAT)
+            else if (p.TYPE == BaseData.TYPE_FLOAT)
             {
-                if (p.m_floatVal < float.Epsilon && p.m_floatVal > -float.Epsilon)
+                if (p.FLOAT_VAL < float.Epsilon && p.FLOAT_VAL > -float.Epsilon)
                     ret = new BaseData(0.0f);
                 else
-                    ret = new BaseData(p.m_floatVal >= 0.0f ? 1 : -1);
+                    ret = new BaseData(p.FLOAT_VAL >= 0.0f ? 1 : -1);
             }
 
             return ret;
@@ -110,13 +110,13 @@ namespace GVBASIC_Compiler.Compiler
         {
             checkMathParam(param);
 
-            BaseData ret = null;
+            BaseData ret = BaseData.ZERO;
             BaseData p = param[0];
 
-            if (p.m_type == BaseData.TYPE_INT)
-                ret = new BaseData(p.m_intVal);
-            else if (p.m_type == BaseData.TYPE_FLOAT)
-                ret = new BaseData(((int)p.m_floatVal));
+            if (p.TYPE == BaseData.TYPE_INT)
+                ret = new BaseData(p.INT_VAL);
+            else if (p.TYPE == BaseData.TYPE_FLOAT)
+                ret = new BaseData(((int)p.FLOAT_VAL));
 
             return ret;
         }
@@ -125,7 +125,7 @@ namespace GVBASIC_Compiler.Compiler
         {
             checkMathParam(param);
 
-            BaseData ret = null;
+            BaseData ret = BaseData.ZERO;
             BaseData p = param[0];
 
             //TODO 
@@ -137,7 +137,7 @@ namespace GVBASIC_Compiler.Compiler
         {
             checkMathParam(param);
 
-            BaseData ret = null;
+            BaseData ret = BaseData.ZERO;
             BaseData p = param[0];
 
             //TODO 
@@ -149,7 +149,7 @@ namespace GVBASIC_Compiler.Compiler
         {
             checkMathParam(param);
 
-            BaseData ret = null;
+            BaseData ret = BaseData.ZERO;
             BaseData p = param[0];
 
             //TODO 
@@ -161,7 +161,7 @@ namespace GVBASIC_Compiler.Compiler
         {
             checkMathParam(param);
 
-            BaseData ret = null;
+            BaseData ret = BaseData.ZERO;
             BaseData p = param[0];
 
             //TODO 
@@ -173,7 +173,7 @@ namespace GVBASIC_Compiler.Compiler
         {
             checkMathParam(param);
 
-            BaseData ret = null;
+            BaseData ret = BaseData.ZERO;
             BaseData p = param[0];
 
             //TODO 
@@ -185,7 +185,7 @@ namespace GVBASIC_Compiler.Compiler
         {
             checkMathParam(param);
 
-            BaseData ret = null;
+            BaseData ret = BaseData.ZERO;
             BaseData p = param[0];
 
             //TODO 
@@ -197,7 +197,7 @@ namespace GVBASIC_Compiler.Compiler
         {
             checkMathParam(param);
 
-            BaseData ret = null;
+            BaseData ret = BaseData.ZERO;
             BaseData p = param[0];
 
             //TODO 
@@ -214,15 +214,15 @@ namespace GVBASIC_Compiler.Compiler
         {
             checkMathParam(param);
 
-            BaseData ret = null;
+            BaseData ret = BaseData.ZERO;
             BaseData p = param[0];
 
             int randParam = 0;
 
-            if (p.m_type == BaseData.TYPE_INT)
-                randParam = p.m_intVal;
-            else if (p.m_type == BaseData.TYPE_FLOAT)
-                randParam = (int)p.m_floatVal;
+            if (p.TYPE == BaseData.TYPE_INT)
+                randParam = p.INT_VAL;
+            else if (p.TYPE == BaseData.TYPE_FLOAT)
+                randParam = (int)p.FLOAT_VAL;
 
             if( randParam > 0 )
             {
@@ -254,7 +254,7 @@ namespace GVBASIC_Compiler.Compiler
 
             BaseData p = param[0];
 
-            if (p.m_type != BaseData.TYPE_INT && p.m_type != BaseData.TYPE_FLOAT)
+            if (p.TYPE != BaseData.TYPE_INT && p.TYPE != BaseData.TYPE_FLOAT)
                 throw new ErrorCode(ErrorCode.ERROR_CODE_12);
 
             return true;

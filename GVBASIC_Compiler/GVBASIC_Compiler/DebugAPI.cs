@@ -37,23 +37,23 @@ namespace GVBASIC_Compiler
 
             foreach (BaseData dat in dataList)
             {
-                switch( dat.m_type )
+                switch( dat.TYPE )
                 {
                     case BaseData.TYPE_FLOAT:
-                        System.Console.Write(dat.m_floatVal.ToString());
+                        System.Console.Write(dat.FLOAT_VAL.ToString());
                         break;
                     case BaseData.TYPE_INT:
-                        System.Console.Write(dat.m_intVal.ToString());
+                        System.Console.Write(dat.INT_VAL.ToString());
                         break;
                     case BaseData.TYPE_STRING:
-                        System.Console.Write(dat.m_stringVal);
+                        System.Console.Write(dat.STR_VAL);
                         break;
                     case BaseData.TYPE_NEXT_LINE:
                         if (lastType == BaseData.TYPE_FLOAT || lastType == BaseData.TYPE_INT || lastType == BaseData.TYPE_STRING)
                             System.Console.Write("\n");
                         break;
                     case BaseData.TYPE_SPACE:
-                        for (int i = 0; i < dat.m_intVal; i++)
+                        for (int i = 0; i < dat.INT_VAL; i++)
                             System.Console.Write(" ");
                         break;
                     case BaseData.TYPE_TAB:
@@ -67,7 +67,7 @@ namespace GVBASIC_Compiler
                         break;
                 }
 
-                lastType = dat.m_type;
+                lastType = dat.TYPE;
             }
 
             if (!(lastType == BaseData.TYPE_CLOSE_TO && closeTo))

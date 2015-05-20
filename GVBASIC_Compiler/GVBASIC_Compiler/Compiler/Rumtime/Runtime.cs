@@ -208,20 +208,20 @@ namespace GVBASIC_Compiler.Compiler
 
             bool first = false;
 
-            if( condition.m_type == BaseData.TYPE_INT )
+            if (condition.TYPE == BaseData.TYPE_INT)
             {
-                first = condition.m_intVal != 0;
+                first = condition.INT_VAL != 0;
             }
-            else if( condition.m_type == BaseData.TYPE_FLOAT )
+            else if (condition.TYPE == BaseData.TYPE_FLOAT)
             {
-                if (condition.m_floatVal < float.Epsilon && condition.m_floatVal > -float.Epsilon)
+                if (condition.FLOAT_VAL < float.Epsilon && condition.FLOAT_VAL > -float.Epsilon)
                     first = false;
                 else
                     first = true;
             }
-            else if( condition.m_type == BaseData.TYPE_STRING )
+            else if (condition.TYPE == BaseData.TYPE_STRING)
             {
-                first = !string.IsNullOrEmpty( condition.m_stringVal );
+                first = !string.IsNullOrEmpty( condition.STR_VAL );
             }
 
             Statement exeS = null;
@@ -266,11 +266,11 @@ namespace GVBASIC_Compiler.Compiler
             BaseData stepValue = calculateExpression(s.m_expressList[2]);
 
             // check the value type 
-            if (startValue.m_type != BaseData.TYPE_INT && startValue.m_type != BaseData.TYPE_FLOAT)
+            if (startValue.TYPE != BaseData.TYPE_INT && startValue.TYPE != BaseData.TYPE_FLOAT)
                 throw new ErrorCode(ErrorCode.ERROR_CODE_02);
-            if (endValue.m_type != BaseData.TYPE_INT && endValue.m_type != BaseData.TYPE_FLOAT)
+            if (endValue.TYPE != BaseData.TYPE_INT && endValue.TYPE != BaseData.TYPE_FLOAT)
                 throw new ErrorCode(ErrorCode.ERROR_CODE_02);
-            if (stepValue.m_type != BaseData.TYPE_INT && stepValue.m_type != BaseData.TYPE_FLOAT)
+            if (stepValue.TYPE != BaseData.TYPE_INT && stepValue.TYPE != BaseData.TYPE_FLOAT)
                 throw new ErrorCode(ErrorCode.ERROR_CODE_02);
 
             // initital the loop var 
@@ -336,7 +336,7 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns></returns>
         protected BaseData calculateExpression( Expression exp )
         {
-            BaseData result = null;
+            BaseData result = BaseData.ZERO;
 
             exp = reduceExpression(exp);
 
@@ -352,12 +352,10 @@ namespace GVBASIC_Compiler.Compiler
                     result = new BaseData(exp.m_strVal);
                     break;
                 case Expression.TYPE_CLOSE_TO:
-                    result = new BaseData();
-                    result.m_type = BaseData.TYPE_CLOSE_TO;
+                    result = new BaseData(BaseData.TYPE_CLOSE_TO, 0);
                     break;
                 case Expression.TYPE_NEXT_LINE:
-                    result = new BaseData();
-                    result.m_type = BaseData.TYPE_NEXT_LINE;
+                    result = new BaseData(BaseData.TYPE_NEXT_LINE, 0);
                     break;
                 default:
                     throw new Exception("[Runtime]: calculateExpression, error expression type " + exp.m_type);
@@ -375,19 +373,19 @@ namespace GVBASIC_Compiler.Compiler
         {
             Expression exp = null;
 
-            switch( data.m_type )
+            switch( data.TYPE )
             {
                 case BaseData.TYPE_INT:
                     exp = new Expression(Expression.VAL_INT);
-                    exp.m_intVal = data.m_intVal;
+                    exp.m_intVal = data.INT_VAL;
                     break;
                 case BaseData.TYPE_FLOAT:
                     exp = new Expression(Expression.VAL_FLOAT);
-                    exp.m_floatVal = data.m_floatVal;
+                    exp.m_floatVal = data.FLOAT_VAL;
                     break;
                 case BaseData.TYPE_STRING:
                     exp = new Expression(Expression.VAL_STRING);
-                    exp.m_strVal = data.m_stringVal;
+                    exp.m_strVal = data.STR_VAL;
                     break;
                 case BaseData.TYPE_CLOSE_TO:
                     exp = new Expression(Expression.TYPE_CLOSE_TO);
