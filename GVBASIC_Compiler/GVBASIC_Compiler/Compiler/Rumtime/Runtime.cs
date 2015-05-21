@@ -198,7 +198,7 @@ namespace GVBASIC_Compiler.Compiler
             List<BaseData> dataList = new List<BaseData>();
 
             foreach( Expression exp in s.m_expressList )
-                dataList.Add(calculateExpression(exp));
+                dataList.Add(expToBaseData(exp));
 
             m_apiCall.Print( dataList );
         }
@@ -210,7 +210,7 @@ namespace GVBASIC_Compiler.Compiler
         protected void doAssign( Statement s )
         {
             // calculate the expression value 
-            BaseData dat = calculateExpression(s.m_expressList[0]);
+            BaseData dat = expToBaseData(s.m_expressList[0]);
 
             VarSymbol symbol = m_symbolTable.ResolveVar(s.m_symbol);
             symbol.VALUE = dat;
@@ -222,7 +222,7 @@ namespace GVBASIC_Compiler.Compiler
         /// <param name="s"></param>
         protected void doIf( Statement s )
         {
-            BaseData condition = calculateExpression(s.m_expressList[0]);
+            BaseData condition = expToBaseData(s.m_expressList[0]);
 
             bool first = false;
 
@@ -283,9 +283,9 @@ namespace GVBASIC_Compiler.Compiler
                 m_loopStack.Push(lr);
             }
 
-            BaseData startValue = calculateExpression(s.m_expressList[0]);
-            BaseData endValue = calculateExpression(s.m_expressList[1]);
-            BaseData stepValue = calculateExpression(s.m_expressList[2]);
+            BaseData startValue = expToBaseData(s.m_expressList[0]);
+            BaseData endValue = expToBaseData(s.m_expressList[1]);
+            BaseData stepValue = expToBaseData(s.m_expressList[2]);
 
             // check the value type 
             if (startValue.TYPE != BaseData.TYPE_INT && startValue.TYPE != BaseData.TYPE_FLOAT)
@@ -430,7 +430,7 @@ namespace GVBASIC_Compiler.Compiler
         /// </summary>
         /// <param name="exp"></param>
         /// <returns></returns>
-        protected BaseData calculateExpression( Expression exp )
+        protected BaseData expToBaseData( Expression exp )
         {
             BaseData result = BaseData.ZERO;
 
@@ -524,7 +524,7 @@ namespace GVBASIC_Compiler.Compiler
                         List<BaseData> param = new List<BaseData>();
                         // convert the parameters 
                         foreach (Expression e in exp.m_funcParams)
-                            param.Add(calculateExpression(e));
+                            param.Add(expToBaseData(e));
                         // call the function 
                         BaseData returnVal = m_innerFunc.CallFunc(exp.m_strVal, param);
                         result = baseDataToExp(returnVal);
