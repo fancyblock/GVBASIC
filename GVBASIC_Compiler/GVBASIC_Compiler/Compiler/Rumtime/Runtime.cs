@@ -48,6 +48,8 @@ namespace GVBASIC_Compiler.Compiler
                 { Statement.TYPE_END, doEnd },
                 { Statement.TYPE_FOR_BEGIN, doForBegin },
                 { Statement.TYPE_FOR_END, doForEnd },
+                { Statement.TYPE_WHILE_BEGIN, onWhileBegin },
+                { Statement.TYPE_WHILE_END, onWhileEnd },
                 //TODO 
             };
 
@@ -316,6 +318,24 @@ namespace GVBASIC_Compiler.Compiler
                 m_index = m_lineNumDic[lr.LOOP_BEGIN_LINE];
                 m_inLoopJump = true;
             }
+        }
+
+        /// <summary>
+        /// while 
+        /// </summary>
+        /// <param name="s"></param>
+        protected void onWhileBegin( Statement s )
+        {
+            //TODO 
+        }
+
+        /// <summary>
+        /// wend 
+        /// </summary>
+        /// <param name="s"></param>
+        protected void onWhileEnd( Statement s )
+        {
+            //TODO 
         }
 
         /// <summary>

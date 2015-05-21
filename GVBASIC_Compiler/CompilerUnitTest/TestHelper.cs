@@ -34,15 +34,7 @@ namespace CompilerUnitTest
         /// <param name="result"></param>
         static public void TestProgram( string code, string result )
         {
-            Tokenizer tokenizer = new Tokenizer(code);
-            Parser parser = new Parser(tokenizer);
-            DebugAPI api = new DebugAPI();
-
-            parser.Parsing();
-
-            Runtime rt = new Runtime(parser);
-            rt.SetAPI(api);
-            rt.Run();
+            DebugAPI api = RunProgram(code);
 
             if( api.OUT_PUT != result )
                 throw new Exception("Result Error.");

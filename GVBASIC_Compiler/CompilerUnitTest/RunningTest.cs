@@ -73,7 +73,7 @@ namespace CompilerUnitTest
                 "10 A = 1: B = 7                            \n" +
                 "20 IF A > 0 THEN PRINT \"A>0\"             \n" +
                 "30 IF B < 5 THEN PRINT \"B<5\"             \n" +
-                "40 C = 110                                  \n" +
+                "40 C = 110                                 \n" +
                 "50 IF C < 20 GOTO 70 ELSE PRINT \"CCC\"    \n" +
                 "60 PRINT \"THIS IS 60\"                    \n" +
                 "70 PRINT \"THIS IS 70\"                    \n" +
@@ -144,5 +144,24 @@ namespace CompilerUnitTest
             TestHelper.TestProgram(sourceCode, result);
         }
 
+        [TestMethod]
+        public void WhileWend()
+        {
+            string sourceCode =
+                "10 A = 3                            \n" +
+                "20 WHILE A > 0                      \n" +
+                "30 PRINT A                          \n" +
+                "40 A=A-1                            \n" +
+                "50 WEND                             ";
+
+            //
+
+            string result =
+                "3" + "\n" +
+                "2" + "\n" +
+                "1" + "\n";
+
+            TestHelper.TestProgram(sourceCode, result);
+        }
     }
 }

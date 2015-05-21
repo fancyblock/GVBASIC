@@ -440,7 +440,10 @@ namespace GVBASIC_Compiler.Compiler
             Statement whileStatement = new Statement(Statement.TYPE_WHILE_BEGIN);
 
             eatToken(Token.WHILE);
-            //TODO 
+
+            Expression exp = expression();
+            whileStatement.m_expressList = new List<Expression>();
+            whileStatement.m_expressList.Add(exp);
 
             return whileStatement;
         }
@@ -452,9 +455,7 @@ namespace GVBASIC_Compiler.Compiler
         protected Statement wend()
         {
             Statement wend = new Statement(Statement.TYPE_WHILE_END);
-
             eatToken(Token.WEND);
-            //TODO 
 
             return wend;
         }
