@@ -145,6 +145,9 @@ namespace GVBASIC_Compiler.Compiler
 
             for( int i = 0; i < statements.Count; i++ )
             {
+                if (m_inLoopJump)
+                    continue;
+
                 Statement subS = statements[i];
                 m_executer[subS.m_type](subS);
 
