@@ -9,6 +9,19 @@ namespace GVBASIC_Compiler
 {
     public class DebugAPI : IAPI
     {
+        protected StringBuilder m_outputBuff;
+        protected string m_output;
+
+        public DebugAPI()
+        {
+            m_outputBuff = new StringBuilder();
+        }
+
+        /// <summary>
+        /// getter of the program output 
+        /// </summary>
+        public string OUT_PUT { get { return m_output; } }
+
         /// <summary>
         /// error code 
         /// </summary>
@@ -24,6 +37,9 @@ namespace GVBASIC_Compiler
         public void ProgramDone()
         {
             System.Console.Write("\n\n[END OF PROGRAM]");
+
+            // set the output 
+            m_output = m_outputBuff.ToString();
         }
 
         /// <summary>
@@ -34,27 +50,30 @@ namespace GVBASIC_Compiler
         {
             int lastType = -1;
             bool closeTo = false;
+            string output = null;
 
             foreach (BaseData dat in dataList)
             {
+                output = "";
+
                 switch( dat.TYPE )
                 {
                     case BaseData.TYPE_FLOAT:
-                        System.Console.Write(dat.FLOAT_VAL.ToString());
+                        output = dat.FLOAT_VAL.ToString();
                         break;
                     case BaseData.TYPE_INT:
-                        System.Console.Write(dat.INT_VAL.ToString());
+                        output = dat.INT_VAL.ToString();
                         break;
                     case BaseData.TYPE_STRING:
-                        System.Console.Write(dat.STR_VAL);
+                        output = dat.STR_VAL;
                         break;
                     case BaseData.TYPE_NEXT_LINE:
                         if (lastType == BaseData.TYPE_FLOAT || lastType == BaseData.TYPE_INT || lastType == BaseData.TYPE_STRING)
-                            System.Console.Write("\n");
+                            output = "\n";
                         break;
                     case BaseData.TYPE_SPACE:
                         for (int i = 0; i < dat.INT_VAL; i++)
-                            System.Console.Write(" ");
+                            output = " ";
                         break;
                     case BaseData.TYPE_TAB:
                         //TODO 
@@ -67,11 +86,17 @@ namespace GVBASIC_Compiler
                         break;
                 }
 
+                System.Console.Write(output);
+                m_outputBuff.Append(output);
+
                 lastType = dat.TYPE;
             }
 
             if (!(lastType == BaseData.TYPE_CLOSE_TO && closeTo))
+            {
                 System.Console.Write("\n");
+                m_outputBuff.Append("\n");
+            }
         }
 
         public void Beep() { }

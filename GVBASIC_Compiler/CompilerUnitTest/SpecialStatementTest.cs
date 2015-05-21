@@ -36,7 +36,22 @@ namespace CompilerUnitTest
             // -77
             // -23.8
 
-            TestHelper.RunProgram(sourceCode);
+            string result =
+                "10" + "\n" +
+                "HEJIABIN" + "\n" +
+                "27.3" + "\n" +
+                "-------------" + "\n" +
+                "1" + "\n" +
+                "2" + "\n" +
+                "3" + "\n" +
+                "4" + "\n" +
+                "5" + "\n" +
+                "246810TAIL" + "\n" +
+                "-1" + "\n" +
+                "-77" + "\n" +
+                "-23.8" + "\n";
+
+            TestHelper.TestProgram(sourceCode, result);
         }
 
         [TestMethod]
@@ -49,10 +64,15 @@ namespace CompilerUnitTest
                 "40 PRINT A                                    \n";
 
             // 2
-            // hejiabin
+            // HEJIABIN
             // 3
 
-            TestHelper.RunProgram(sourceCode);
+            string result =
+                "2" + "\n" +
+                "HEJIABIN" + "\n" +
+                "3" + "\n";
+
+            TestHelper.TestProgram(sourceCode, result);
         }
 
     }

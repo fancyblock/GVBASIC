@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using GVBASIC_Compiler;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CompilerUnitTest
@@ -25,7 +22,13 @@ namespace CompilerUnitTest
             // 3.7
             // 4.9
 
-            TestHelper.RunProgram(sourceCode);
+            string result = 
+                "1\n"   +
+                "2\n"   +
+                "3.7\n" +
+                "4.9\n";
+
+            TestHelper.TestProgram(sourceCode, result);
         }
 
         [TestMethod]

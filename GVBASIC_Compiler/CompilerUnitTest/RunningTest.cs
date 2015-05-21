@@ -34,7 +34,14 @@ namespace CompilerUnitTest
             // 3HJB17
             // 176
 
-            TestHelper.RunProgram(sourceCode);
+            string result =
+                "20\n" +
+                "1\n" +
+                "HJB\n" +
+                "3HJB17\n" +
+                "176\n";
+
+            TestHelper.TestProgram(sourceCode, result);
         }
 
         [TestMethod]
@@ -44,14 +51,19 @@ namespace CompilerUnitTest
                 "10 DATA 1,23,2.6,19.5                     \n" +
                 "20 READ A,T,F% , R%                       \n" +
                 "30 PRINT T,A,F%, R%                       \n";
-                //"40 READ CC                                \n";
 
             // 23
             // 1
             // 2
             // 19
 
-            TestHelper.RunProgram(sourceCode);
+            string result =
+                "23" + "\n" +
+                "1" + "\n" +
+                "2" + "\n" +
+                "19" + "\n";
+
+            TestHelper.TestProgram(sourceCode, result);
         }
 
         [TestMethod]
@@ -73,7 +85,13 @@ namespace CompilerUnitTest
             // THIS IS 60
             // THIS IS 70
 
-            TestHelper.RunProgram(sourceCode);
+            string result =
+                "A>0" + "\n" +
+                "CCC" + "\n" +
+                "THIS IS 60" + "\n" +
+                "THIS IS 70" + "\n";
+
+            TestHelper.TestProgram(sourceCode, result);
         }
 
         [TestMethod]
@@ -93,7 +111,14 @@ namespace CompilerUnitTest
             // 4;
             // 5;
 
-            TestHelper.RunProgram(sourceCode);
+            string result =
+                "123;"      + "\n" +
+                "23;"       + "\n" +
+                "3;"        + "\n" +
+                "4;"        + "\n" +
+                "5;"        + "\n";
+
+            TestHelper.TestProgram(sourceCode, result);
         }
 
         [TestMethod]
@@ -110,7 +135,13 @@ namespace CompilerUnitTest
             // 3
             // 4
 
-            TestHelper.RunProgram(sourceCode);
+            string result =
+                "1" + "\n" +
+                "2" + "\n" +
+                "3" + "\n" +
+                "4" + "\n";
+
+            TestHelper.TestProgram(sourceCode, result);
         }
 
     }
