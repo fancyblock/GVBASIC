@@ -158,6 +158,12 @@ namespace GVBASIC_Compiler.Compiler
             return result;
         }
 
+        /// <summary>
+        /// >
+        /// </summary>
+        /// <param name="lhs"></param>
+        /// <param name="rhs"></param>
+        /// <returns></returns>
         public static bool operator >(BaseData lhs, BaseData rhs)
         {
             if (lhs.m_type == BaseData.TYPE_STRING || rhs.m_type == BaseData.TYPE_STRING)
@@ -184,6 +190,12 @@ namespace GVBASIC_Compiler.Compiler
             }
         }
 
+        /// <summary>
+        /// <
+        /// </summary>
+        /// <param name="lhs"></param>
+        /// <param name="rhs"></param>
+        /// <returns></returns>
         public static bool operator <(BaseData lhs, BaseData rhs)
         {
             if (lhs.m_type == BaseData.TYPE_STRING || rhs.m_type == BaseData.TYPE_STRING)

@@ -241,6 +241,10 @@ namespace GVBASIC_Compiler.Compiler
             }
         }
 
+        /// <summary>
+        /// for statement 
+        /// </summary>
+        /// <param name="s"></param>
         protected void doForBegin( Statement s )
         {
             if( m_inLoopJump )
@@ -277,13 +281,17 @@ namespace GVBASIC_Compiler.Compiler
                 throw new ErrorCode(ErrorCode.ERROR_CODE_02);
 
             // initital the loop var 
-            lr.SetLoopRecord(symbol, startValue, endValue, stepValue);
+            lr.SetLoopRecord(symbol, endValue, stepValue);
             lr.SetBeginLine(s.m_num);
 
             // init the symbol value 
             symbol.VALUE = startValue;
         }
 
+        /// <summary>
+        /// next statement 
+        /// </summary>
+        /// <param name="s"></param>
         protected void doForEnd( Statement s )
         {
             if( m_loopStack.Count <= 0 )
@@ -294,9 +302,7 @@ namespace GVBASIC_Compiler.Compiler
             if( s.m_symbol != null && s.m_symbol != lr.LOOP_VAR_NAME )
                 throw new ErrorCode( ErrorCode.ERROR_CODE_01);
 
-            lr.UpdateLoop();
-
-            if( lr.IsLoopDone() )
+            if (lr.UpdateLoop())
             {
                 m_loopStack.Pop();
             }

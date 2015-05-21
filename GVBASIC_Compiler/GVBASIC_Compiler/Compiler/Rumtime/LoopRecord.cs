@@ -12,7 +12,6 @@ namespace GVBASIC_Compiler.Compiler
     public class LoopRecord
     {
         protected VarSymbol m_loopSymbol;
-        protected BaseData m_startValue;
         protected BaseData m_endValue;
         protected BaseData m_stepValue;
         protected int m_beginLine;
@@ -34,11 +33,10 @@ namespace GVBASIC_Compiler.Compiler
         /// <param name="startVal"></param>
         /// <param name="endVal"></param>
         /// <param name="stepVal"></param>
-        public void SetLoopRecord( VarSymbol symbol, BaseData startVal, BaseData endVal, BaseData stepVal )
+        public void SetLoopRecord( VarSymbol symbol, BaseData endVal, BaseData stepVal )
         {
             m_loopSymbol = symbol;
 
-            m_startValue = startVal;
             m_endValue = endVal;
             m_stepValue = stepVal;
         }
@@ -53,19 +51,13 @@ namespace GVBASIC_Compiler.Compiler
         }
 
         /// <summary>
-        /// update loop 
-        /// </summary>
-        public void UpdateLoop()
-        {
-            m_loopSymbol.VALUE = m_loopSymbol.VALUE + m_stepValue;
-        }
-
-        /// <summary>
-        /// if loop done or not 
+        /// the return value is if loop is done or not ?
         /// </summary>
         /// <returns></returns>
-        public bool IsLoopDone()
+        public bool UpdateLoop()
         {
+            m_loopSymbol.VALUE = m_loopSymbol.VALUE + m_stepValue;
+
             if (m_stepValue > BaseData.ZERO)
             {
                 if (m_loopSymbol.VALUE > m_endValue)
