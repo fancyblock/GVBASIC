@@ -17,7 +17,8 @@ namespace GVBASIC_Compiler.Compiler
 
         protected DataArea m_dataRegion;
         protected SymbolTable m_symbolTable;
-        protected Stack<LoopRecord> m_loopStack;
+        protected Stack<ForRecord> m_forLoopStack;
+        protected Stack<WhileRecord> m_whileLoopStack;
         protected bool m_inLoopJump;
         protected bool m_inGotoJump;
 
@@ -64,7 +65,8 @@ namespace GVBASIC_Compiler.Compiler
             // initial the context 
             m_dataRegion = new DataArea();
             m_symbolTable = new SymbolTable();
-            m_loopStack = new Stack<LoopRecord>();
+            m_forLoopStack = new Stack<ForRecord>();
+            m_whileLoopStack = new Stack<WhileRecord>();
             m_inLoopJump = false;
             m_inGotoJump = false;
 
@@ -254,16 +256,16 @@ namespace GVBASIC_Compiler.Compiler
             string varName = s.m_symbol;
             VarSymbol symbol = m_symbolTable.ResolveVar(varName);
 
-            LoopRecord lr = null;
+            ForRecord lr = null;
 
             // use the top of LoopRecord or push a new one ? 
-            if( m_loopStack.Count > 0 )
-                lr = m_loopStack.Peek();
+            if( m_forLoopStack.Count > 0 )
+                lr = m_forLoopStack.Peek();
 
             if( lr == null || lr.LOOP_VAR_NAME != varName )
             {
-                lr = new LoopRecord();
-                m_loopStack.Push(lr);
+                lr = new ForRecord();
+                m_forLoopStack.Push(lr);
             }
 
             BaseData startValue = calculateExp(s.m_expressList[0]).m_value;
@@ -292,17 +294,17 @@ namespace GVBASIC_Compiler.Compiler
         /// <param name="s"></param>
         protected void doForEnd( Statement s )
         {
-            if( m_loopStack.Count <= 0 )
+            if( m_forLoopStack.Count <= 0 )
                 throw new ErrorCode( ErrorCode.ERROR_CODE_01);
 
-            LoopRecord lr = m_loopStack.Peek();
+            ForRecord lr = m_forLoopStack.Peek();
 
             if( s.m_symbol != null && s.m_symbol != lr.LOOP_VAR_NAME )
                 throw new ErrorCode( ErrorCode.ERROR_CODE_01);
 
             if (lr.UpdateLoop())
             {
-                m_loopStack.Pop();
+                m_forLoopStack.Pop();
             }
             else
             {

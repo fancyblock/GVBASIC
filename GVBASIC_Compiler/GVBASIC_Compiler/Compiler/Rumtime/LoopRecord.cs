@@ -9,7 +9,7 @@ namespace GVBASIC_Compiler.Compiler
     /// <summary>
     /// loop statement info 
     /// </summary>
-    public class LoopRecord
+    public class ForRecord
     {
         protected VarSymbol m_loopSymbol;
         protected BaseData m_endValue;
@@ -73,4 +73,14 @@ namespace GVBASIC_Compiler.Compiler
         }
 
     }
+
+
+    /// <summary>
+    /// while loop record 
+    /// </summary>
+    public class WhileRecord
+    {
+        //TODO
+    }
+
 }
