@@ -123,7 +123,7 @@ namespace GVBASIC_Compiler.Compiler
         public const int TYPE_FOR_END               = 11;
         public const int TYPE_WHILE_BEGIN           = 12;
         public const int TYPE_WHILE_END             = 13;
-        public const int TYPE_ON                    = 14;
+        public const int TYPE_ON_GOTO               = 14;
         public const int TYPE_GOSUB                 = 15;
         public const int TYPE_RETURN                = 16;
         public const int TYPE_POP                   = 17;

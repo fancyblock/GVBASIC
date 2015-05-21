@@ -466,7 +466,7 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns></returns>
         protected Statement onStatement()
         {
-            Statement on = new Statement( Statement.TYPE_ON );
+            Statement on = new Statement( Statement.TYPE_ON_GOTO );
 
             eatToken( Token.ON );
             //TODO 
@@ -495,9 +495,7 @@ namespace GVBASIC_Compiler.Compiler
         protected Statement returnStatement()
         {
             Statement returnStatement = new Statement( Statement.TYPE_RETURN );
-
             eatToken( Token.RETURN );
-            //TODO 
 
             return returnStatement;
         }
@@ -509,9 +507,7 @@ namespace GVBASIC_Compiler.Compiler
         protected Statement popStatement()
         {
             Statement popStatement = new Statement( Statement.TYPE_POP );
-
             eatToken( Token.POP );
-            //TODO 
 
             return popStatement;
         }
@@ -834,7 +830,13 @@ namespace GVBASIC_Compiler.Compiler
             else if( tt == Token.FN)
             {
                 exp = new Expression(Expression.EXP_USER_FUNC);
+                eatToken(Token.FN);
                 //TODO 
+            }
+            else if( tt == Token.INKEY )
+            {
+                exp = new Expression(Expression.EXP_FUNC);
+                eatToken(Token.INKEY);
             }
 
             return exp;
@@ -862,6 +864,7 @@ namespace GVBASIC_Compiler.Compiler
         {
             Statement s = new Statement(Statement.TYPE_PARAM_CMD);
 
+            Token tok = eatToken(Token.PARAM_CMD);
             //TODO 
 
             return s;

@@ -50,6 +50,15 @@ namespace GVBASIC_Compiler.Compiler
                 { Statement.TYPE_FOR_END, doForEnd },
                 { Statement.TYPE_WHILE_BEGIN, onWhileBegin },
                 { Statement.TYPE_WHILE_END, onWhileEnd },
+                { Statement.TYPE_ON_GOTO, onOnGoto },
+                { Statement.TYPE_GOSUB, onGoSub },
+                { Statement.TYPE_RETURN, onReturn },
+                { Statement.TYPE_POP, onPop },
+                { Statement.TYPE_DEF_FN, onDefFn },
+                { Statement.TYPE_DIM, onDim },
+                { Statement.TYPE_SWAP, onSwap },
+                { Statement.TYPE_SIMPLE_CMD, onSimpleCmd },
+                { Statement.TYPE_PARAM_CMD, onParamCmd },
                 //TODO 
             };
 
@@ -334,6 +343,51 @@ namespace GVBASIC_Compiler.Compiler
         /// </summary>
         /// <param name="s"></param>
         protected void onWhileEnd( Statement s )
+        {
+            //TODO 
+        }
+
+        protected void onOnGoto( Statement s )
+        {
+            //TODO 
+        }
+
+        protected void onGoSub( Statement s )
+        {
+            //TODO 
+        }
+
+        protected void onReturn( Statement s )
+        {
+            //TODO 
+        }
+
+        protected void onPop( Statement s )
+        {
+            //TODO 
+        }
+
+        protected void onDefFn( Statement s )
+        {
+            //TODO 
+        }
+
+        protected void onDim( Statement s )
+        {
+            //TODO 
+        }
+                
+        protected void onSwap( Statement s )
+        {
+            //TODO 
+        }
+
+        protected void onSimpleCmd( Statement s )
+        {
+            //TODO 
+        }
+
+        protected void onParamCmd( Statement s )
         {
             //TODO 
         }

@@ -99,6 +99,13 @@ namespace GVBASIC_Compiler
             }
         }
 
+        public int Inkey()
+        {
+            //TODO 
+
+            return 13;
+        }
+
         public void Beep() { }
         public void Cls() { }
         public void Inverse() { }
