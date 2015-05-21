@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="Compiler\Common\BaseData.cs" />
     <Compile Include="Compiler\Common\CommonDef.cs" />
+    <Compile Include="Compiler\Common\Expression.cs" />
     <Compile Include="Compiler\Parser\Parser.cs" />
     <Compile Include="Compiler\Rumtime\DataArea.cs" />
     <Compile Include="Compiler\Rumtime\IAPI.cs" />

@@ -15,7 +15,6 @@ namespace GVBASIC_Compiler.Compiler
         protected Dictionary<int, Action<Statement>> m_executer;
         protected Dictionary<int, int> m_lineNumDic;
 
-        protected Dictionary<int, Func<Expression,Expression,Expression>> m_binaryOperators;
         protected DataArea m_dataRegion;
         protected SymbolTable m_symbolTable;
         protected Stack<LoopRecord> m_loopStack;
@@ -60,22 +59,6 @@ namespace GVBASIC_Compiler.Compiler
                 { Statement.TYPE_SIMPLE_CMD, onSimpleCmd },
                 { Statement.TYPE_PARAM_CMD, onParamCmd },
                 //TODO 
-            };
-
-            m_binaryOperators = new Dictionary<int, Func<Expression, Expression, Expression>>()
-            {
-                { Expression.OP_ADD, opAdd },
-                { Expression.OP_MINUS, opMinus },
-                { Expression.OP_MUL, opMul },
-                { Expression.OP_DIV, opDiv },
-                { Expression.OP_POWER, opPower },
-                { Expression.OP_AND, opAnd },
-                { Expression.OP_OR, opOr },
-                { Expression.OP_EQUAL, opEqual },
-                { Expression.OP_GREATER, opGtr },
-                { Expression.OP_GREATER_EQU, opGte },
-                { Expression.OP_LESS, opLtr },
-                { Expression.OP_LESS_EQ, opLte },
             };
 
             // initial the context 
@@ -434,6 +417,8 @@ namespace GVBASIC_Compiler.Compiler
         {
             Expression result = null;
             Expression midExp = null;
+            Expression expLeft = null;
+            Expression expRight = null;
 
             switch( exp.m_type )
             {
@@ -453,20 +438,13 @@ namespace GVBASIC_Compiler.Compiler
                     result = new Expression( s.VALUE );
                     break;
                 case Expression.EXP_FUNC:
-                    if( m_innerFunc.HasFunc( exp.m_symbolName ) )
-                    {
-                        List<BaseData> param = new List<BaseData>();
-                        // convert the parameters 
-                        foreach (Expression e in exp.m_funcParams)
-                            param.Add( calculateExp(e).m_value );
-                        // call the function 
-                        BaseData returnVal = m_innerFunc.CallFunc(exp.m_symbolName, param);
-                        result = new Expression(returnVal);
-                    }
-                    else
-                    {
-                        throw new Exception("[Runtime]: reduceExpression, can not found inner function " + exp.m_symbolName );
-                    }
+                    List<BaseData> param = new List<BaseData>();
+                    // convert the parameters 
+                    foreach (Expression e in exp.m_funcParams)
+                        param.Add( calculateExp(e).m_value );
+                    // call the function 
+                    BaseData returnVal = m_innerFunc.CallFunc(exp.m_symbolName, param);
+                    result = new Expression(returnVal);
                     break;
                 case Expression.EXP_USER_FUNC:
                     //TODO 
@@ -497,160 +475,72 @@ namespace GVBASIC_Compiler.Compiler
                         throw new ErrorCode(ErrorCode.ERROR_CODE_12);
                     }
                     break;
-                default:
-                    // binary operator 
-                    if( m_binaryOperators.ContainsKey(exp.m_type) )
-                    {
-                        Expression leftExp = calculateExp(exp.m_leftExp);
-                        Expression rightExp = calculateExp(exp.m_rightExp);
-
-                        result = m_binaryOperators[exp.m_type](leftExp, rightExp);
-                    }
-                    else
-                    {
-                        throw new Exception("[Runtime]: reduceExpression, error expression type " + exp.m_type);
-                    }
+                case Expression.OP_ADD:
+                    expLeft = calculateExp(exp.m_leftExp);
+                    expRight = calculateExp(exp.m_rightExp);
+                    if (expLeft.m_type != Expression.VALUE || expRight.m_type != Expression.VALUE)
+                        throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+                    result = new Expression(expLeft.m_value + expRight.m_value);
                     break;
+                case Expression.OP_MINUS:
+                    expLeft = calculateExp(exp.m_leftExp);
+                    expRight = calculateExp(exp.m_rightExp);
+                    if (expLeft.m_type != Expression.VALUE || expRight.m_type != Expression.VALUE)
+                        throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+                    result = new Expression(expLeft.m_value - expRight.m_value);
+                    break;
+                case Expression.OP_MUL:
+                    expLeft = calculateExp(exp.m_leftExp);
+                    expRight = calculateExp(exp.m_rightExp);
+                    if (expLeft.m_type != Expression.VALUE || expRight.m_type != Expression.VALUE)
+                        throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+                    result = new Expression(expLeft.m_value * expRight.m_value);
+                    break;
+                case Expression.OP_DIV:
+                    expLeft = calculateExp(exp.m_leftExp);
+                    expRight = calculateExp(exp.m_rightExp);
+                    if (expLeft.m_type != Expression.VALUE || expRight.m_type != Expression.VALUE)
+                        throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+                    result = new Expression(expLeft.m_value / expRight.m_value);
+                    break;
+                case Expression.OP_POWER:
+                    //TODO 
+                    break;
+                case Expression.OP_AND:
+                    //TODO
+                    break;
+                case Expression.OP_OR:
+                    //TODO
+                    break;
+                case Expression.OP_EQUAL:
+                    //TODO
+                    break;
+                case Expression.OP_GREATER:
+                    expLeft = calculateExp(exp.m_leftExp);
+                    expRight = calculateExp(exp.m_rightExp);
+                    if (expLeft.m_type != Expression.VALUE || expRight.m_type != Expression.VALUE)
+                        throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+                    result = new Expression( new BaseData( expLeft.m_value > expRight.m_value ? 1 : 0 ) );
+                    break;
+                case Expression.OP_GREATER_EQU:
+                    //TODO
+                    break;
+                case Expression.OP_LESS:
+                    expLeft = calculateExp(exp.m_leftExp);
+                    expRight = calculateExp(exp.m_rightExp);
+                    if (expLeft.m_type != Expression.VALUE || expRight.m_type != Expression.VALUE)
+                        throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+                    result = new Expression( new BaseData( expLeft.m_value < expRight.m_value ? 1 : 0 ) );
+                    break;
+                case Expression.OP_LESS_EQ:
+                    //TODO
+                    break;
+                default:
+                    throw new Exception("[Runtime]: calculate, no this expression type: " + exp.m_type);
             }
 
             return result;
         }
-
-        #region operators
-
-        /// <summary>
-        /// add operation 
-        /// </summary>
-        /// <param name="expLeft"></param>
-        /// <param name="expRight"></param>
-        /// <returns></returns>
-        protected Expression opAdd( Expression expLeft, Expression expRight )
-        {
-            if( expLeft.m_type == Expression.VALUE && expRight.m_type == Expression.VALUE )
-                return new Expression( expLeft.m_value + expRight.m_value );
-            else
-                throw new ErrorCode(ErrorCode.ERROR_CODE_12);
-        }
-
-        /// <summary>
-        /// minus operation 
-        /// </summary>
-        /// <param name="expLeft"></param>
-        /// <param name="expRight"></param>
-        /// <returns></returns>
-        protected Expression opMinus(Expression expLeft, Expression expRight)
-        {
-            if (expLeft.m_type == Expression.VALUE && expRight.m_type == Expression.VALUE)
-                return new Expression(expLeft.m_value - expRight.m_value);
-            else
-                throw new ErrorCode(ErrorCode.ERROR_CODE_12);
-        }
-
-        /// <summary>
-        /// mul 
-        /// </summary>
-        /// <param name="expLeft"></param>
-        /// <param name="expRight"></param>
-        /// <returns></returns>
-        protected Expression opMul(Expression expLeft, Expression expRight)
-        {
-            if (expLeft.m_type == Expression.VALUE && expRight.m_type == Expression.VALUE)
-                return new Expression(expLeft.m_value * expRight.m_value);
-            else
-                throw new ErrorCode(ErrorCode.ERROR_CODE_12);
-        }
-
-        /// <summary>
-        /// div
-        /// </summary>
-        /// <param name="expLeft"></param>
-        /// <param name="expRight"></param>
-        /// <returns></returns>
-        protected Expression opDiv(Expression expLeft, Expression expRight)
-        {
-            if (expLeft.m_type == Expression.VALUE && expRight.m_type == Expression.VALUE)
-                return new Expression(expLeft.m_value / expRight.m_value);
-            else
-                throw new ErrorCode(ErrorCode.ERROR_CODE_12);
-        }
-
-        /// <summary>
-        /// power 
-        /// </summary>
-        /// <param name="expLeft"></param>
-        /// <param name="expRight"></param>
-        /// <returns></returns>
-        protected Expression opPower(Expression expLeft, Expression expRight)
-        {
-            Expression result = null;
-
-            //TODO 
-
-            return result;
-        }
-
-        protected Expression opAnd(Expression expLeft, Expression expRight)
-        {
-            Expression result = null;
-
-            //TODO 
-
-            return result;
-        }
-
-        protected Expression opOr(Expression expLeft, Expression expRight)
-        {
-            Expression result = null;
-
-            //TODO 
-
-            return result;
-        }
-
-        protected Expression opEqual(Expression expLeft, Expression expRight)
-        {
-            Expression result = null;
-
-            //TODO 
-
-            return result;
-        }
-
-        protected Expression opGtr(Expression expLeft, Expression expRight)
-        {
-            if (expLeft.m_type == Expression.VALUE && expRight.m_type == Expression.VALUE)
-                return new Expression( new BaseData( expLeft.m_value > expRight.m_value ? 1 : 0 ));
-            else
-                throw new ErrorCode(ErrorCode.ERROR_CODE_12);
-        }
-
-        protected Expression opGte(Expression expLeft, Expression expRight)
-        {
-            Expression result = null;
-
-            //TODO 
-
-            return result;
-        }
-
-        protected Expression opLtr(Expression expLeft, Expression expRight)
-        {
-            if (expLeft.m_type == Expression.VALUE && expRight.m_type == Expression.VALUE)
-                return new Expression(new BaseData(expLeft.m_value < expRight.m_value ? 1 : 0));
-            else
-                throw new ErrorCode(ErrorCode.ERROR_CODE_12);
-        }
-
-        protected Expression opLte(Expression expLeft, Expression expRight)
-        {
-            Expression result = null;
-
-            //TODO 
-
-            return result;
-        }
-
-        #endregion
 
     }
 }
