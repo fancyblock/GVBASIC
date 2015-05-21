@@ -47,7 +47,7 @@ namespace GVBASIC_Compiler.Compiler
                 m_curLineNumber = tok.m_intVal;
 
                 Statement s = statement();
-                s.m_num = m_curLineNumber;
+                s.m_lineNum = m_curLineNumber;
                 m_statements.Add(s);
 
                 // filter the end of line 
@@ -136,6 +136,9 @@ namespace GVBASIC_Compiler.Compiler
                     case Token.READ:
                         ss = read();
                         break;
+                    case Token.RESTORE:
+                        ss = restore();
+                        break;
                     case Token.IF:
                         ss = ifStatement();
                         break;
@@ -168,6 +171,9 @@ namespace GVBASIC_Compiler.Compiler
                         break;
                     case Token.SIMPLE_CMD:
                         ss = simpleCommand();
+                        break;
+                    case Token.PARAM_CMD:
+                        ss = paramCommand();
                         break;
                     case Token.END:
                         ss = endStatement();
@@ -231,6 +237,18 @@ namespace GVBASIC_Compiler.Compiler
 
                 t = lookAhead();
             }
+
+            return s;
+        }
+
+        /// <summary>
+        /// restore the data area pointer
+        /// </summary>
+        /// <returns></returns>
+        protected Statement restore()
+        {
+            Statement s = new Statement(Statement.TYPE_RESTORE);
+            eatToken(Token.RESTORE);
 
             return s;
         }
@@ -830,6 +848,19 @@ namespace GVBASIC_Compiler.Compiler
             Statement s = new Statement(Statement.TYPE_SIMPLE_CMD);
 
             Token tok = eatToken(Token.SIMPLE_CMD);
+            //s.m_symbol
+
+            return s;
+        }
+
+        /// <summary>
+        /// param command 
+        /// </summary>
+        /// <returns></returns>
+        protected Statement paramCommand()
+        {
+            Statement s = new Statement(Statement.TYPE_PARAM_CMD);
+
             //TODO 
 
             return s;
@@ -842,7 +873,6 @@ namespace GVBASIC_Compiler.Compiler
         protected Statement endStatement()
         {
             Statement s = new Statement(Statement.TYPE_END);
-
             eatToken(Token.END);
 
             return s;

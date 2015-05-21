@@ -44,5 +44,14 @@ namespace GVBASIC_Compiler.Compiler
 
             return bd;
         }
+
+        /// <summary>
+        /// restore data 
+        /// </summary>
+        public void Restore()
+        {
+            m_curIndex = 0;
+        }
+
     }
 }

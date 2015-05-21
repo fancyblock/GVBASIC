@@ -73,5 +73,13 @@ namespace GVBASIC_Compiler
             if (!(lastType == BaseData.TYPE_CLOSE_TO && closeTo))
                 System.Console.Write("\n");
         }
+
+        public void Beep() { }
+        public void Cls() { }
+        public void Inverse() { }
+        public void Nromal() { }
+        public void Graph() { }
+        public void Text() { }
+
     }
 }

@@ -11,5 +11,11 @@ namespace GVBASIC_Compiler.Compiler
         void ErrorCode(string error);
         void ProgramDone();
         void Print(List<BaseData> expList);
+        void Beep();
+        void Cls();
+        void Inverse();
+        void Nromal();
+        void Graph();
+        void Text();
     }
 }

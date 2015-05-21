@@ -24,12 +24,15 @@ namespace CompilerUnitTest
                 "60 PRINT EF%                           \n" +
                 "70 PRINT A                             \n" +
                 "80 PRINT C$                            \n" +
-                "90 PRINT A + B% + C$ + D%              \n";
+                "90 PRINT A + B% + C$ + D%              \n" +
+                "100 LET V = 176                        \n" +
+                "110 PRINT V                            \n";
 
             // 20
             // 1
             // HJB
             // 3HJB17
+            // 176
 
             TestHelper.RunProgram(sourceCode);
         }
@@ -41,6 +44,7 @@ namespace CompilerUnitTest
                 "10 DATA 1,23,2.6,19.5                     \n" +
                 "20 READ A,T,F% , R%                       \n" +
                 "30 PRINT T,A,F%, R%                       \n";
+                //"40 READ CC                                \n";
 
             // 23
             // 1
@@ -88,6 +92,23 @@ namespace CompilerUnitTest
             // 3;
             // 4;
             // 5;
+
+            TestHelper.RunProgram(sourceCode);
+        }
+
+        [TestMethod]
+        public void GOTO()
+        {
+            string sourceCode =
+                "10 A = 1                            \n" +
+                "20 PRINT A                          \n" +
+                "30 A = A + 1                        \n" +
+                "40 IF A<5 GOTO 20                   \n";
+
+            // 1
+            // 2
+            // 3
+            // 4
 
             TestHelper.RunProgram(sourceCode);
         }

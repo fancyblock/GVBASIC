@@ -20,6 +20,7 @@ namespace GVBASIC_Compiler.Compiler
         protected SymbolTable m_symbolTable;
         protected Stack<LoopRecord> m_loopStack;
         protected bool m_inLoopJump;
+        protected bool m_inGotoJump;
 
         protected bool m_isRunning;
         protected int m_index;
@@ -42,6 +43,7 @@ namespace GVBASIC_Compiler.Compiler
                 { Statement.TYPE_IF, doIf },
                 { Statement.TYPE_DATA, doData },
                 { Statement.TYPE_READ, doRead },
+                { Statement.TYPE_RESTORE, doRestore },
                 { Statement.TYPE_GOTO, doGoto },
                 { Statement.TYPE_END, doEnd },
                 { Statement.TYPE_FOR_BEGIN, doForBegin },
@@ -70,6 +72,7 @@ namespace GVBASIC_Compiler.Compiler
             m_symbolTable = new SymbolTable();
             m_loopStack = new Stack<LoopRecord>();
             m_inLoopJump = false;
+            m_inGotoJump = false;
 
             m_innerFunc = new BuildinFunc();
         }
@@ -107,7 +110,7 @@ namespace GVBASIC_Compiler.Compiler
             // index the line number
             m_lineNumDic = new Dictionary<int, int>();
             for (int i = 0; i < m_statements.Count; i++)
-                m_lineNumDic.Add(m_statements[i].m_num, i);
+                m_lineNumDic.Add(m_statements[i].m_lineNum, i);
 
             try
             {
@@ -120,14 +123,16 @@ namespace GVBASIC_Compiler.Compiler
                     if (m_index >= m_statements.Count)
                         break;
 
+                    m_inGotoJump = false;
+
                     Statement s = m_statements[m_index];
-                    m_index++;
+                    m_index++;      // 这一句必须在执行语句之前，因为语句中可能有改变该值的GOTO之类的语句
                     m_executer[s.m_type](s);
                 }
             }
             catch( ErrorCode ec )
             {
-                m_apiCall.ErrorCode( "?" + ec.Message + " ERROR IN LINE " + m_statements[m_index-1].m_num);
+                m_apiCall.ErrorCode( "?" + ec.Message + " ERROR IN LINE " + m_statements[m_index-1].m_lineNum);
             }
 
             m_apiCall.ProgramDone();
@@ -145,14 +150,12 @@ namespace GVBASIC_Compiler.Compiler
 
             for( int i = 0; i < statements.Count; i++ )
             {
-                if (m_inLoopJump)
+                if (m_inLoopJump || m_inGotoJump)
                     continue;
 
+                // execute the sub statement 
                 Statement subS = statements[i];
                 m_executer[subS.m_type](subS);
-
-                if (subS.m_type == Statement.TYPE_GOTO)
-                    break;
             }
         }
 
@@ -163,6 +166,7 @@ namespace GVBASIC_Compiler.Compiler
         protected void doGoto( Statement s )
         {
             m_index = m_lineNumDic[s.m_intVal];
+            m_inGotoJump = true;
         }
 
         /// <summary>
@@ -282,7 +286,7 @@ namespace GVBASIC_Compiler.Compiler
 
             // initital the loop var 
             lr.SetLoopRecord(symbol, endValue, stepValue);
-            lr.SetBeginLine(s.m_num);
+            lr.SetBeginLine(s.m_lineNum);
 
             // init the symbol value 
             symbol.VALUE = startValue;
@@ -334,6 +338,15 @@ namespace GVBASIC_Compiler.Compiler
                 VarSymbol symbol = m_symbolTable.ResolveVar(symbolName);
                 symbol.VALUE = m_dataRegion.GetData();
             }
+        }
+
+        /// <summary>
+        /// restore 
+        /// </summary>
+        /// <param name="s"></param>
+        protected void doRestore( Statement s )
+        {
+            m_dataRegion.Restore();
         }
 
         #endregion

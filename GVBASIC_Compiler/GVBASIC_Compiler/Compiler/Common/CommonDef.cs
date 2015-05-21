@@ -109,31 +109,32 @@ namespace GVBASIC_Compiler.Compiler
     /// </summary>
     public class Statement
     {
-        public const int TYPE_STATEMENT_SET = 0;
-        public const int TYPE_BUILDIN_FUNC = 1;
-        public const int TYPE_SIMPLE_CMD = 2;
-        public const int TYPE_PARAM_CMD = 3;
-        public const int TYPE_PRINT = 4;
-        public const int TYPE_ASSIGN = 5;
-        public const int TYPE_DATA = 6;
-        public const int TYPE_READ = 7;
-        public const int TYPE_IF = 8;
-        public const int TYPE_FOR_BEGIN = 9;
-        public const int TYPE_FOR_END = 10;
-        public const int TYPE_WHILE_BEGIN = 11;
-        public const int TYPE_WHILE_END = 12;
-        public const int TYPE_ON = 13;
-        public const int TYPE_GOSUB = 14;
-        public const int TYPE_RETURN = 15;
-        public const int TYPE_POP = 16;
-        public const int TYPE_GOTO = 17;
-        public const int TYPE_DEF_FN = 18;
-        public const int TYPE_DIM = 19;
-        public const int TYPE_SWAP = 20;
-        public const int TYPE_END = 21;
+        public const int TYPE_STATEMENT_SET         = 0;
+        public const int TYPE_BUILDIN_FUNC          = 1;
+        public const int TYPE_SIMPLE_CMD            = 2;
+        public const int TYPE_PARAM_CMD             = 3;
+        public const int TYPE_PRINT                 = 4;
+        public const int TYPE_ASSIGN                = 5;
+        public const int TYPE_DATA                  = 6;
+        public const int TYPE_READ                  = 7;
+        public const int TYPE_RESTORE               = 8;
+        public const int TYPE_IF                    = 9;
+        public const int TYPE_FOR_BEGIN             = 10;
+        public const int TYPE_FOR_END               = 11;
+        public const int TYPE_WHILE_BEGIN           = 12;
+        public const int TYPE_WHILE_END             = 13;
+        public const int TYPE_ON                    = 14;
+        public const int TYPE_GOSUB                 = 15;
+        public const int TYPE_RETURN                = 16;
+        public const int TYPE_POP                   = 17;
+        public const int TYPE_GOTO                  = 18;
+        public const int TYPE_DEF_FN                = 19;
+        public const int TYPE_DIM                   = 20;
+        public const int TYPE_SWAP                  = 21;
+        public const int TYPE_END                   = 22;
 
         public int m_type;
-        public int m_num;
+        public int m_lineNum;
 
         public string m_symbol;
         public int m_intVal;

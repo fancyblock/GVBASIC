@@ -97,9 +97,10 @@ namespace GVBASIC_Compiler.Compiler
                 {"BOX", Token.PARAM_CMD},
                 {"CIRCLE", Token.PARAM_CMD},
                 {"DRAW", Token.PARAM_CMD},
+                {"ELLIPSE", Token.PARAM_CMD},
                 {"LINE", Token.PARAM_CMD},
                 {"LOCATE", Token.PARAM_CMD},
-                // inner function
+                // buildin functions
                 {"ABS", Token.FUNC},
                 {"SGN", Token.FUNC},
                 {"INT", Token.FUNC},
@@ -122,6 +123,7 @@ namespace GVBASIC_Compiler.Compiler
                 {"CVI$", Token.FUNC},
                 {"MKI$", Token.FUNC},
                 {"CVS$", Token.FUNC},
+                {"MKS$", Token.FUNC},
                 {"POS", Token.FUNC},
                 {"SPC", Token.FUNC},
                 {"TAB", Token.FUNC},
