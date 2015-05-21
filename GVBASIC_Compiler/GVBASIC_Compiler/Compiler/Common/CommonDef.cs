@@ -186,9 +186,7 @@ namespace GVBASIC_Compiler.Compiler
         public const int EXP_FUNC = 15;
         public const int EXP_USER_FUNC = 16;
 
-        public const int VAL_INT = 17;
-        public const int VAL_FLOAT = 18;
-        public const int VAL_STRING = 19;
+        public const int VALUE = 17;
 
         public const int TYPE_NEXT_LINE = 22;
         public const int TYPE_CLOSE_TO = 23;
@@ -197,9 +195,8 @@ namespace GVBASIC_Compiler.Compiler
         public Expression m_leftExp;
         public Expression m_rightExp;
         public List<Expression> m_funcParams;
-        public int m_intVal;
-        public float m_floatVal;
-        public string m_strVal;
+        public string m_symbolName;
+        public BaseData m_value;
 
         /// <summary>
         /// constructor 
@@ -210,6 +207,16 @@ namespace GVBASIC_Compiler.Compiler
             m_type = type;
             m_leftExp = null;
             m_rightExp = null;
+        }
+
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="bd"></param>
+        public Expression( BaseData bd )
+        {
+            m_type = Expression.VALUE;
+            m_value = bd;
         }
     }
 

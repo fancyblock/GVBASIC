@@ -396,8 +396,7 @@ namespace GVBASIC_Compiler.Compiler
             else
             {
                 // default step 
-                Expression step = new Expression(Expression.VAL_INT);
-                step.m_intVal = 1;
+                Expression step = new Expression(new BaseData(1));
                 forS.m_expressList.Add(step);
             }
 
@@ -778,19 +777,17 @@ namespace GVBASIC_Compiler.Compiler
             {
                 exp = new Expression(Expression.EXP_SYMBOL);
                 tok = eatToken(Token.SYMBOL);
-                exp.m_strVal = tok.m_strVal;
+                exp.m_symbolName = tok.m_strVal;
             }
             else if (tt == Token.INT)
             {
-                exp = new Expression(Expression.VAL_INT);
                 tok = eatToken(Token.INT);
-                exp.m_intVal = tok.m_intVal;
+                exp = new Expression(new BaseData(tok.m_intVal));
             }
             else if (tt == Token.FLOAT)
             {
-                exp = new Expression(Expression.VAL_FLOAT);
                 tok = eatToken(Token.FLOAT);
-                exp.m_floatVal = tok.m_floatVal;
+                exp = new Expression(new BaseData(tok.m_floatVal));
             }
             else if (tt == Token.LEFT_BRA)
             {
@@ -810,7 +807,7 @@ namespace GVBASIC_Compiler.Compiler
                 exp.m_funcParams = new List<Expression>();
                 // function name
                 tok = eatToken(Token.FUNC);
-                exp.m_strVal = tok.m_strVal;
+                exp.m_symbolName = tok.m_strVal;
                 // function parameters 
                 eatToken(Token.LEFT_BRA);
                 exp.m_funcParams.Add( expression() );
@@ -823,9 +820,8 @@ namespace GVBASIC_Compiler.Compiler
             }
             else if(tt == Token.STRING)
             {
-                exp = new Expression(Expression.VAL_STRING);
                 tok = eatToken(Token.STRING);
-                exp.m_strVal = tok.m_strVal;
+                exp = new Expression(new BaseData(tok.m_strVal));
             }
             else if( tt == Token.FN)
             {

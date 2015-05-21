@@ -198,7 +198,7 @@ namespace GVBASIC_Compiler.Compiler
             List<BaseData> dataList = new List<BaseData>();
 
             foreach( Expression exp in s.m_expressList )
-                dataList.Add(expToBaseData(exp));
+                dataList.Add(calculateExp(exp).m_value);
 
             m_apiCall.Print( dataList );
         }
@@ -210,7 +210,7 @@ namespace GVBASIC_Compiler.Compiler
         protected void doAssign( Statement s )
         {
             // calculate the expression value 
-            BaseData dat = expToBaseData(s.m_expressList[0]);
+            BaseData dat = calculateExp(s.m_expressList[0]).m_value;
 
             VarSymbol symbol = m_symbolTable.ResolveVar(s.m_symbol);
             symbol.VALUE = dat;
@@ -222,7 +222,7 @@ namespace GVBASIC_Compiler.Compiler
         /// <param name="s"></param>
         protected void doIf( Statement s )
         {
-            BaseData condition = expToBaseData(s.m_expressList[0]);
+            BaseData condition = calculateExp(s.m_expressList[0]).m_value;
 
             bool first = false;
 
@@ -283,9 +283,9 @@ namespace GVBASIC_Compiler.Compiler
                 m_loopStack.Push(lr);
             }
 
-            BaseData startValue = expToBaseData(s.m_expressList[0]);
-            BaseData endValue = expToBaseData(s.m_expressList[1]);
-            BaseData stepValue = expToBaseData(s.m_expressList[2]);
+            BaseData startValue = calculateExp(s.m_expressList[0]).m_value;
+            BaseData endValue = calculateExp(s.m_expressList[1]).m_value;
+            BaseData stepValue = calculateExp(s.m_expressList[2]).m_value;
 
             // check the value type 
             if (startValue.TYPE != BaseData.TYPE_INT && startValue.TYPE != BaseData.TYPE_FLOAT)
@@ -426,136 +426,71 @@ namespace GVBASIC_Compiler.Compiler
         #endregion
 
         /// <summary>
-        /// calculate the expression 
-        /// </summary>
-        /// <param name="exp"></param>
-        /// <returns></returns>
-        protected BaseData expToBaseData( Expression exp )
-        {
-            BaseData result = BaseData.ZERO;
-
-            exp = reduceExpression(exp);
-
-            switch( exp.m_type )
-            {
-                case Expression.VAL_INT:
-                    result = new BaseData(exp.m_intVal);
-                    break;
-                case Expression.VAL_FLOAT:
-                    result = new BaseData(exp.m_floatVal);
-                    break;
-                case Expression.VAL_STRING:
-                    result = new BaseData(exp.m_strVal);
-                    break;
-                case Expression.TYPE_CLOSE_TO:
-                    result = new BaseData(BaseData.TYPE_CLOSE_TO, 0);
-                    break;
-                case Expression.TYPE_NEXT_LINE:
-                    result = new BaseData(BaseData.TYPE_NEXT_LINE, 0);
-                    break;
-                default:
-                    throw new Exception("[Runtime]: calculateExpression, error expression type " + exp.m_type);
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// BaseData to Expression
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        protected Expression baseDataToExp( BaseData data )
-        {
-            Expression exp = null;
-
-            switch( data.TYPE )
-            {
-                case BaseData.TYPE_INT:
-                    exp = new Expression(Expression.VAL_INT);
-                    exp.m_intVal = data.INT_VAL;
-                    break;
-                case BaseData.TYPE_FLOAT:
-                    exp = new Expression(Expression.VAL_FLOAT);
-                    exp.m_floatVal = data.FLOAT_VAL;
-                    break;
-                case BaseData.TYPE_STRING:
-                    exp = new Expression(Expression.VAL_STRING);
-                    exp.m_strVal = data.STR_VAL;
-                    break;
-                case BaseData.TYPE_CLOSE_TO:
-                    exp = new Expression(Expression.TYPE_CLOSE_TO);
-                    break;
-                case BaseData.TYPE_NEXT_LINE:
-                    exp = new Expression(Expression.TYPE_NEXT_LINE);
-                    break;
-                default:
-                    break;
-            }
-
-            return exp;
-        }
-
-        /// <summary>
         /// reduce the expession 
         /// </summary>
         /// <param name="exp"></param>
         /// <returns></returns>
-        protected Expression reduceExpression( Expression exp )
+        protected Expression calculateExp( Expression exp )
         {
             Expression result = null;
+            Expression midExp = null;
 
             switch( exp.m_type )
             {
-                case Expression.VAL_FLOAT:
-                case Expression.VAL_INT:
-                case Expression.VAL_STRING:
-                case Expression.TYPE_CLOSE_TO:
-                case Expression.TYPE_NEXT_LINE:
+                case Expression.VALUE:
                     result = exp;
                     break;
+                case Expression.TYPE_CLOSE_TO:
+                    result = exp;
+                    result.m_value = new BaseData(BaseData.TYPE_CLOSE_TO, 0);
+                    break;
+                case Expression.TYPE_NEXT_LINE:
+                    result = exp;
+                    result.m_value = new BaseData(BaseData.TYPE_NEXT_LINE, 0);
+                    break;
                 case Expression.EXP_SYMBOL:
-                    VarSymbol s = m_symbolTable.ResolveVar(exp.m_strVal);
-                    result = baseDataToExp(s.VALUE);
+                    VarSymbol s = m_symbolTable.ResolveVar(exp.m_symbolName);
+                    result = new Expression( s.VALUE );
                     break;
                 case Expression.EXP_FUNC:
-                    if( m_innerFunc.HasFunc( exp.m_strVal ) )
+                    if( m_innerFunc.HasFunc( exp.m_symbolName ) )
                     {
                         List<BaseData> param = new List<BaseData>();
                         // convert the parameters 
                         foreach (Expression e in exp.m_funcParams)
-                            param.Add(expToBaseData(e));
+                            param.Add( calculateExp(e).m_value );
                         // call the function 
-                        BaseData returnVal = m_innerFunc.CallFunc(exp.m_strVal, param);
-                        result = baseDataToExp(returnVal);
+                        BaseData returnVal = m_innerFunc.CallFunc(exp.m_symbolName, param);
+                        result = new Expression(returnVal);
                     }
                     else
                     {
-                        throw new Exception("[Runtime]: reduceExpression, can not found inner function " + exp.m_strVal );
+                        throw new Exception("[Runtime]: reduceExpression, can not found inner function " + exp.m_symbolName );
                     }
                     break;
                 case Expression.EXP_USER_FUNC:
                     //TODO 
                     break;
                 case Expression.OP_NOT:
-                    result = new Expression(Expression.VAL_INT);
-                    if( exp.m_leftExp.m_type == Expression.VAL_FLOAT )
-                        result.m_intVal = (exp.m_leftExp.m_floatVal < float.Epsilon && exp.m_leftExp.m_floatVal > -float.Epsilon) ? 0 : 1;
-                    else if( exp.m_leftExp.m_type == Expression.VAL_INT)
-                        result.m_intVal = exp.m_leftExp.m_intVal == 0 ? 0 : 1;
+                    midExp = calculateExp( exp.m_leftExp );
+                    if( midExp.m_type == Expression.VALUE )
+                    {
+                        if (midExp.m_value != BaseData.ZERO)
+                            result = new Expression( new BaseData(0) );
+                        else
+                            result = new Expression( new BaseData(1) );
+                    }
                     else
+                    {
                         throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+                    }
                     break;
                 case Expression.OP_NEG:
-                    if (exp.m_leftExp.m_type == Expression.VAL_FLOAT)
+                    midExp = calculateExp(exp.m_leftExp);
+                    if (midExp.m_type == Expression.VALUE)
                     {
-                        result = new Expression(Expression.VAL_FLOAT);
-                        result.m_floatVal = -exp.m_leftExp.m_floatVal;
-                    }
-                    else if (exp.m_leftExp.m_type == Expression.VAL_INT)
-                    {
-                        result = new Expression(Expression.VAL_INT);
-                        result.m_intVal = -exp.m_leftExp.m_intVal;
+                        result = midExp;
+                        result.m_value.NegValue();
                     }
                     else
                     {
@@ -566,8 +501,8 @@ namespace GVBASIC_Compiler.Compiler
                     // binary operator 
                     if( m_binaryOperators.ContainsKey(exp.m_type) )
                     {
-                        Expression leftExp = reduceExpression(exp.m_leftExp);
-                        Expression rightExp = reduceExpression(exp.m_rightExp);
+                        Expression leftExp = calculateExp(exp.m_leftExp);
+                        Expression rightExp = calculateExp(exp.m_rightExp);
 
                         result = m_binaryOperators[exp.m_type](leftExp, rightExp);
                     }
@@ -591,47 +526,10 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns></returns>
         protected Expression opAdd( Expression expLeft, Expression expRight )
         {
-            Expression result = new Expression( binaryOperateType(expLeft.m_type, expRight.m_type) );
-
-            if( expLeft.m_type == Expression.VAL_STRING )
-            {
-                if (expRight.m_type == Expression.VAL_STRING)
-                    result.m_strVal = expLeft.m_strVal + expRight.m_strVal;
-                else if (expRight.m_type == Expression.VAL_INT)
-                    result.m_strVal = expLeft.m_strVal + expRight.m_intVal.ToString();
-                else if (expRight.m_type == Expression.VAL_FLOAT)
-                    result.m_strVal = expLeft.m_strVal + expRight.m_floatVal.ToString();
-                else
-                    throw new ErrorCode( ErrorCode.ERROR_CODE_12 );
-            }
-            else if( expLeft.m_type == Expression.VAL_INT )
-            {
-                if (expRight.m_type == Expression.VAL_STRING)
-                    result.m_strVal = expLeft.m_intVal.ToString() + expRight.m_strVal;
-                else if (expRight.m_type == Expression.VAL_INT)
-                    result.m_intVal = expLeft.m_intVal + expRight.m_intVal;
-                else if (expRight.m_type == Expression.VAL_FLOAT)
-                    result.m_floatVal = expLeft.m_intVal + expRight.m_floatVal;
-                else
-                    throw new ErrorCode(ErrorCode.ERROR_CODE_12);
-            }
-            else if( expLeft.m_type == Expression.VAL_FLOAT )
-            {
-                if (expRight.m_type == Expression.VAL_STRING)
-                    result.m_strVal = expLeft.m_floatVal.ToString() + expRight.m_strVal;
-                else if (expRight.m_type == Expression.VAL_INT)
-                    result.m_floatVal = expLeft.m_floatVal + expRight.m_intVal;
-                else if (expRight.m_type == Expression.VAL_FLOAT)
-                    result.m_floatVal = expLeft.m_floatVal + expRight.m_floatVal;
-                else
-                    throw new ErrorCode(ErrorCode.ERROR_CODE_12);
-            }
+            if( expLeft.m_type == Expression.VALUE && expRight.m_type == Expression.VALUE )
+                return new Expression( expLeft.m_value + expRight.m_value );
             else
-            {
                 throw new ErrorCode(ErrorCode.ERROR_CODE_12);
-            }
-
-            return result;
         }
 
         /// <summary>
@@ -642,30 +540,10 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns></returns>
         protected Expression opMinus(Expression expLeft, Expression expRight)
         {
-            Expression result = new Expression( binaryOperateType( expLeft.m_type, expRight.m_type ) );
-
-            if( expLeft.m_type == Expression.VAL_INT )
-            {
-                if( expRight.m_type == Expression.VAL_INT )
-                    result.m_intVal = expLeft.m_intVal - expRight.m_intVal;
-                else if( expRight.m_type == Expression.VAL_FLOAT )
-                    result.m_floatVal = expLeft.m_intVal - expRight.m_floatVal;
-                else
-                    throw new ErrorCode(ErrorCode.ERROR_CODE_12);
-            }
-            else if( expLeft.m_type == Expression.VAL_FLOAT )
-            {
-                if (expRight.m_type == Expression.VAL_INT)
-                    result.m_floatVal = expLeft.m_floatVal - expRight.m_intVal;
-                else if (expRight.m_type == Expression.VAL_FLOAT)
-                    result.m_floatVal = expLeft.m_floatVal - expRight.m_floatVal;
-            }
+            if (expLeft.m_type == Expression.VALUE && expRight.m_type == Expression.VALUE)
+                return new Expression(expLeft.m_value - expRight.m_value);
             else
-            {
                 throw new ErrorCode(ErrorCode.ERROR_CODE_12);
-            }
-
-            return result;
         }
 
         /// <summary>
@@ -676,30 +554,10 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns></returns>
         protected Expression opMul(Expression expLeft, Expression expRight)
         {
-            Expression result = null;
-
-            if (expLeft.m_type == Expression.VAL_INT)
-            {
-                if (expRight.m_type == Expression.VAL_INT)
-                    result.m_intVal = expLeft.m_intVal * expRight.m_intVal;
-                else if (expRight.m_type == Expression.VAL_FLOAT)
-                    result.m_floatVal = expLeft.m_intVal * expRight.m_floatVal;
-                else
-                    throw new ErrorCode(ErrorCode.ERROR_CODE_12);
-            }
-            else if (expLeft.m_type == Expression.VAL_FLOAT)
-            {
-                if (expRight.m_type == Expression.VAL_INT)
-                    result.m_floatVal = expLeft.m_floatVal * expRight.m_intVal;
-                else if (expRight.m_type == Expression.VAL_FLOAT)
-                    result.m_floatVal = expLeft.m_floatVal * expRight.m_floatVal;
-            }
+            if (expLeft.m_type == Expression.VALUE && expRight.m_type == Expression.VALUE)
+                return new Expression(expLeft.m_value * expRight.m_value);
             else
-            {
                 throw new ErrorCode(ErrorCode.ERROR_CODE_12);
-            }
-
-            return result;
         }
 
         /// <summary>
@@ -710,30 +568,10 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns></returns>
         protected Expression opDiv(Expression expLeft, Expression expRight)
         {
-            Expression result = null;
-
-            if (expLeft.m_type == Expression.VAL_INT)
-            {
-                if (expRight.m_type == Expression.VAL_INT)
-                    result.m_intVal = expLeft.m_intVal / expRight.m_intVal;
-                else if (expRight.m_type == Expression.VAL_FLOAT)
-                    result.m_floatVal = expLeft.m_intVal / expRight.m_floatVal;
-                else
-                    throw new ErrorCode(ErrorCode.ERROR_CODE_12);
-            }
-            else if (expLeft.m_type == Expression.VAL_FLOAT)
-            {
-                if (expRight.m_type == Expression.VAL_INT)
-                    result.m_floatVal = expLeft.m_floatVal / expRight.m_intVal;
-                else if (expRight.m_type == Expression.VAL_FLOAT)
-                    result.m_floatVal = expLeft.m_floatVal / expRight.m_floatVal;
-            }
+            if (expLeft.m_type == Expression.VALUE && expRight.m_type == Expression.VALUE)
+                return new Expression(expLeft.m_value / expRight.m_value);
             else
-            {
                 throw new ErrorCode(ErrorCode.ERROR_CODE_12);
-            }
-
-            return result;
         }
 
         /// <summary>
@@ -780,32 +618,10 @@ namespace GVBASIC_Compiler.Compiler
 
         protected Expression opGtr(Expression expLeft, Expression expRight)
         {
-            Expression result = new Expression( Expression.VAL_INT );
-
-            if( expLeft.m_type == Expression.VAL_INT )
-            {
-                if (expRight.m_type == Expression.VAL_INT)
-                    result.m_intVal = expLeft.m_intVal > expRight.m_intVal ? 1 : 0;
-                else if (expRight.m_type == Expression.VAL_FLOAT)
-                    result.m_intVal = expLeft.m_intVal > expRight.m_floatVal ? 1 : 0;
-                else
-                    throw new ErrorCode(ErrorCode.ERROR_CODE_12);
-            }
-            else if( expLeft.m_type == Expression.VAL_FLOAT )
-            {
-                if (expRight.m_type == Expression.VAL_INT)
-                    result.m_intVal = expLeft.m_floatVal > expRight.m_intVal ? 1 : 0;
-                else if (expRight.m_type == Expression.VAL_FLOAT)
-                    result.m_intVal = expLeft.m_floatVal > expRight.m_floatVal ? 1 : 0;
-                else
-                    throw new ErrorCode(ErrorCode.ERROR_CODE_12);
-            }
-            else if( expLeft.m_type == Expression.VAL_STRING )
-            {
-                //TODO 
-            }
-
-            return result;
+            if (expLeft.m_type == Expression.VALUE && expRight.m_type == Expression.VALUE)
+                return new Expression( new BaseData( expLeft.m_value > expRight.m_value ? 1 : 0 ));
+            else
+                throw new ErrorCode(ErrorCode.ERROR_CODE_12);
         }
 
         protected Expression opGte(Expression expLeft, Expression expRight)
@@ -819,32 +635,10 @@ namespace GVBASIC_Compiler.Compiler
 
         protected Expression opLtr(Expression expLeft, Expression expRight)
         {
-            Expression result = new Expression( Expression.VAL_INT );;
-
-            if (expLeft.m_type == Expression.VAL_INT)
-            {
-                if (expRight.m_type == Expression.VAL_INT)
-                    result.m_intVal = expLeft.m_intVal < expRight.m_intVal ? 1 : 0;
-                else if (expRight.m_type == Expression.VAL_FLOAT)
-                    result.m_intVal = expLeft.m_intVal < expRight.m_floatVal ? 1 : 0;
-                else
-                    throw new ErrorCode(ErrorCode.ERROR_CODE_12);
-            }
-            else if (expLeft.m_type == Expression.VAL_FLOAT)
-            {
-                if (expRight.m_type == Expression.VAL_INT)
-                    result.m_intVal = expLeft.m_floatVal < expRight.m_intVal ? 1 : 0;
-                else if (expRight.m_type == Expression.VAL_FLOAT)
-                    result.m_intVal = expLeft.m_floatVal < expRight.m_floatVal ? 1 : 0;
-                else
-                    throw new ErrorCode(ErrorCode.ERROR_CODE_12);
-            }
-            else if (expLeft.m_type == Expression.VAL_STRING)
-            {
-                //TODO 
-            }
-
-            return result;
+            if (expLeft.m_type == Expression.VALUE && expRight.m_type == Expression.VALUE)
+                return new Expression(new BaseData(expLeft.m_value < expRight.m_value ? 1 : 0));
+            else
+                throw new ErrorCode(ErrorCode.ERROR_CODE_12);
         }
 
         protected Expression opLte(Expression expLeft, Expression expRight)
@@ -857,28 +651,6 @@ namespace GVBASIC_Compiler.Compiler
         }
 
         #endregion
-
-        /// <summary>
-        /// operation type match 
-        /// </summary>
-        /// <param name="leftType"></param>
-        /// <param name="rightType"></param>
-        /// <returns></returns>
-        protected int binaryOperateType( int leftType, int rightType )
-        {
-            int type = -1;
-
-            if (leftType == Expression.VAL_STRING || rightType == Expression.VAL_STRING)
-                type = Expression.VAL_STRING;
-            else if (leftType == Expression.VAL_FLOAT || rightType == Expression.VAL_FLOAT)
-                type = Expression.VAL_FLOAT;
-            else if (leftType == Expression.VAL_INT && rightType == Expression.VAL_INT)
-                type = Expression.VAL_INT;
-            else
-                throw new ErrorCode(ErrorCode.ERROR_CODE_12);
-
-            return type;
-        }
 
     }
 }

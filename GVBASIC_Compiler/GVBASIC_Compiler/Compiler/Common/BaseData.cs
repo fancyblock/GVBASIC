@@ -121,6 +121,19 @@ namespace GVBASIC_Compiler.Compiler
         }
 
         /// <summary>
+        /// neg the int && float value 
+        /// </summary>
+        public void NegValue()
+        {
+            if (m_type == BaseData.TYPE_INT)
+                m_intVal = -m_intVal;
+            else if (m_type == BaseData.TYPE_FLOAT)
+                m_floatVal = -m_floatVal;
+            else
+                throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+        }
+
+        /// <summary>
         /// plus 
         /// </summary>
         /// <param name="lhs"></param>
@@ -156,6 +169,27 @@ namespace GVBASIC_Compiler.Compiler
             }
 
             return result;
+        }
+
+        public static BaseData operator -(BaseData lhs, BaseData rhs)
+        {
+            //TODO 
+
+            return BaseData.ZERO;
+        }
+
+        public static BaseData operator *(BaseData lhs, BaseData rhs)
+        {
+            //TODO 
+
+            return BaseData.ZERO;
+        }
+
+        public static BaseData operator /(BaseData lhs, BaseData rhs)
+        {
+            //TODO 
+
+            return BaseData.ZERO;
         }
 
         /// <summary>
@@ -220,6 +254,52 @@ namespace GVBASIC_Compiler.Compiler
             {
                 throw new ErrorCode(ErrorCode.ERROR_CODE_12);
             }
+        }
+
+        public static bool operator ==(BaseData lhs, BaseData rhs)
+        {
+            //TODO 
+
+            return false;
+        }
+
+        /// <summary>
+        /// compare 
+        /// </summary>
+        /// <param name="lhs"></param>
+        /// <param name="rhs"></param>
+        /// <returns></returns>
+        public static bool operator !=(BaseData lhs, BaseData rhs)
+        {
+            if (lhs.m_type == BaseData.TYPE_STRING && rhs.m_type == BaseData.TYPE_STRING)
+            {
+                return lhs.m_stringVal != rhs.m_stringVal;
+            }
+            else if (lhs.m_type == BaseData.TYPE_FLOAT || rhs.m_type == BaseData.TYPE_FLOAT)
+            {
+                lhs.Convert(BaseData.TYPE_FLOAT);
+                rhs.Convert(BaseData.TYPE_FLOAT);
+
+                return lhs.m_floatVal != rhs.m_floatVal;
+            }
+            else if (lhs.m_type == BaseData.TYPE_INT && rhs.m_type == BaseData.TYPE_INT)
+            {
+                return lhs.m_intVal != rhs.m_intVal;
+            }
+            else
+            {
+                throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+            }
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
         }
     }
 }
