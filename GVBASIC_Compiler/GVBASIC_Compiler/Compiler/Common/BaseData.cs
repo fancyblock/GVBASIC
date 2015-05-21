@@ -8,14 +8,14 @@ namespace GVBASIC_Compiler.Compiler
 {
     public struct BaseData
     {
-        public const int TYPE_INT = 1;
-        public const int TYPE_FLOAT = 2;
-        public const int TYPE_STRING = 3;
+        public const int TYPE_INT       = 1;
+        public const int TYPE_FLOAT     = 2;
+        public const int TYPE_STRING    = 3;
 
-        public const int TYPE_SPACE = 4;
-        public const int TYPE_TAB = 5;
+        public const int TYPE_SPACE     = 4;
+        public const int TYPE_TAB       = 5;
         public const int TYPE_NEXT_LINE = 6;
-        public const int TYPE_CLOSE_TO = 7;
+        public const int TYPE_CLOSE_TO  = 7;
 
         public static BaseData ZERO = new BaseData(0);
 
@@ -82,8 +82,6 @@ namespace GVBASIC_Compiler.Compiler
             m_floatVal = 0.0f;
             m_stringVal = val;
         }
-
-        //TODO 
 
         /// <summary>
         /// convert the data type 

@@ -11,59 +11,59 @@ namespace GVBASIC_Compiler.Compiler
     {
         public const int UNDEFINE = 0;
 
-        public const int SYMBOL = 10;                // symbol 
-        public const int FILE_NUM = 11;                // file handler
+        public const int SYMBOL = 10;                   // symbol 
+        public const int FILE_NUM = 11;                 // file handler
 
-        public const int INT = 20;                // int number
-        public const int FLOAT = 21;                // real number 
-        public const int STRING = 22;                // string 
+        public const int INT = 20;                      // int number
+        public const int FLOAT = 21;                    // real number 
+        public const int STRING = 22;                   // string 
 
-        public const int PLUS = 30;				// +
-        public const int MINUS = 31;				// -
-        public const int MUL = 32;				// *
-        public const int DIV = 33;				// /
-        public const int POWER = 34;				// ^
+        public const int PLUS = 30;				        // +
+        public const int MINUS = 31;				    // -
+        public const int MUL = 32;				        // *
+        public const int DIV = 33;				        // /
+        public const int POWER = 34;				    // ^
 
-        public const int EQUAL = 40;				// =
-        public const int GTR = 41;				// > 
-        public const int LT = 42;				// <
-        public const int GTE = 43;				// >=
-        public const int LTE = 44;				// <=
-        public const int NEG = 45;				// <>
+        public const int EQUAL = 40;				    // =
+        public const int GTR = 41;				        // > 
+        public const int LT = 42;				        // <
+        public const int GTE = 43;				        // >=
+        public const int LTE = 44;				        // <=
+        public const int NEG = 45;				        // <>
 
-        public const int AND = 50;				// AND
-        public const int OR = 51;				// OR
-        public const int NOT = 52;				// NOT
+        public const int AND = 50;				        // AND
+        public const int OR = 51;				        // OR
+        public const int NOT = 52;				        // NOT
 
-        public const int SEMI = 60;				// ;
-        public const int COMMA = 61;				// ,
-        public const int COLON = 62;				// :
-        public const int LEFT_BRA = 63;			    // (
+        public const int SEMI = 60;				        // ;
+        public const int COMMA = 61;				    // ,
+        public const int COLON = 62;				    // :
+        public const int LEFT_BRA = 63;			        // (
         public const int RIGHT_BRA = 64;			    // )
 
-        public const int LET = 70;				// LET 
-        public const int DIM = 71;				// DIM
-        public const int READ = 72;				// READ
-        public const int DATA = 73;				// DATA
-        public const int RESTORE = 74;			    // RESTORE
-        public const int GOTO = 75;				// GOTO
-        public const int IF = 76;				// IF
-        public const int THEN = 77;				// THEN
-        public const int ELSE = 78;				// ELSE 
-        public const int FOR = 79;               // FOR 
-        public const int NEXT = 80;               // NEXT
-        public const int WHILE = 81;				// WHILE
-        public const int WEND = 82;				// WEND
-        public const int TO = 83;				// TO
-        public const int STEP = 84;				// STEP
-        public const int DEF = 85;				// DEF
-        public const int FN = 86;				// FN
-        public const int GOSUB = 87;				// GOSUB
-        public const int RETURN = 88;			    // RETURN
-        public const int ON = 89;				// ON
-        public const int POP = 90;               // POP 
-        public const int REM = 91;               // REM 
-        public const int END = 92;               // END 
+        public const int LET = 70;				        // LET 
+        public const int DIM = 71;				        // DIM
+        public const int READ = 72;				        // READ
+        public const int DATA = 73;				        // DATA
+        public const int RESTORE = 74;			        // RESTORE
+        public const int GOTO = 75;				        // GOTO
+        public const int IF = 76;				        // IF
+        public const int THEN = 77;				        // THEN
+        public const int ELSE = 78;				        // ELSE 
+        public const int FOR = 79;                      // FOR 
+        public const int NEXT = 80;                     // NEXT
+        public const int WHILE = 81;			        // WHILE
+        public const int WEND = 82;				        // WEND
+        public const int TO = 83;				        // TO
+        public const int STEP = 84;				        // STEP
+        public const int DEF = 85;				        // DEF
+        public const int FN = 86;				        // FN
+        public const int GOSUB = 87;			        // GOSUB
+        public const int RETURN = 88;			        // RETURN
+        public const int ON = 89;				        // ON
+        public const int POP = 90;                      // POP 
+        public const int REM = 91;                      // REM 
+        public const int END = 92;                      // END 
 
         public const int PRINT = 100;
         public const int OPEN = 101;
@@ -78,13 +78,13 @@ namespace GVBASIC_Compiler.Compiler
         public const int INKEY = 110;
         public const int EOF = 111;
 
-        public const int FUNC = 130;               // buildin function 
+        public const int FUNC = 130;                    // buildin function 
         public const int SIMPLE_CMD = 131;
         public const int PARAM_CMD = 132;
 
-        public const int ERROR = 140;              // error 
-        public const int EOL = 141;              // end of line 
-        public const int FILE_END = 142;              // end of file
+        public const int ERROR = 140;                   // error 
+        public const int EOL = 141;                     // end of line 
+        public const int FILE_END = 142;                // end of file
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Token"/> class.
