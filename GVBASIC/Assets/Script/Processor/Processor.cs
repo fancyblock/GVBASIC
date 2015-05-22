@@ -4,17 +4,23 @@ using System.Collections;
 public class Processor : MonoBehaviour 
 {
 	public TextMode m_textMode;
+    public GraphMode m_graphMode;
 
 	// Use this for initialization
 	void Start () 
     {
-		m_textMode.ShowASCII (27);      //[TEST]
+		m_textMode.ShowASCII (0);      //[TEST]
 	}
 	
 	// Update is called once per frame
 	void Update () 
     {
 	}
+
+    void OnApplicationPause(bool pauseStatus)
+    {
+        m_textMode.CLS();
+    }
 
     /// <summary>
     /// on key up 

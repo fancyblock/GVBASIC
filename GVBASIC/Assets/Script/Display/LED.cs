@@ -7,19 +7,16 @@ using System.Collections.Generic;
 /// </summary>
 public class LED : MonoBehaviour 
 {
-    public SpriteRenderer m_spriteRender;
+    public Texture2D m_texture;
     public Color m_whiteColor;
     public Color m_blackColor;
 
-    protected Texture2D m_texture;
     protected Dictionary<int,ASCII> m_asciis;
     protected Color[] m_cleanColorData;
 
 	// Use this for initialization
 	void Awake () 
     {
-        m_texture = m_spriteRender.sprite.texture;
-
         // set clean color data 
         m_cleanColorData = new Color[12800];
         for (int i = 0; i < 12800; i++)

@@ -8,12 +8,6 @@ public class Keyboard : MonoBehaviour
 {
     public Processor m_processor;
 
-	// Use this for initialization
-	void Start () 
-    {
-        //TODO 
-	}
-
 #if UNITY_EDITOR
 
     protected Dictionary<KeyCode, KeyEnums> m_keyDic;
