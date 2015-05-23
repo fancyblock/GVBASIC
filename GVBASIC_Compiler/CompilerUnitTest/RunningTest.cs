@@ -78,7 +78,9 @@ namespace CompilerUnitTest
                 "60 PRINT \"THIS IS 60\"                    \n" +
                 "70 PRINT \"THIS IS 70\"                    \n" +
                 "80 END                                     \n" +
-                "90 PRINT 117                               ";
+                "90 PRINT 117                               \n" +
+                "100 A=5                                    \n" +
+                "110 IF A>9 THEN PRINT 77:PRINT 99          \n";
 
             // A>0
             // CCC
@@ -103,20 +105,31 @@ namespace CompilerUnitTest
                 "30 PRINT J;                                \n" +
                 "40 NEXT                                    \n" +
                 "45 PRINT \";\"                             \n" +
-                "50 NEXT                                    \n";
+                "50 NEXT                                    \n" +
+                "60 PRINT \"->\":FOR I=1 TO 3               \n" +
+                "70 PRINT I                                 \n" +
+                "80 NEXT I                                  \n";
 
             // 123;
             // 23;
             // 3;
             // 4;
             // 5;
+            // ->
+            // 1
+            // 2
+            // 3
 
             string result =
                 "123;"      + "\n" +
                 "23;"       + "\n" +
                 "3;"        + "\n" +
                 "4;"        + "\n" +
-                "5;"        + "\n";
+                "5;"        + "\n" +
+                "->"        + "\n" +
+                "1"         + "\n" +
+                "2"         + "\n" +
+                "3"         + "\n";
 
             TestHelper.TestProgram(sourceCode, result);
         }

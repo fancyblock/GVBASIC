@@ -32,7 +32,7 @@ namespace CompilerUnitTest
             // check statement
             List<Statement> statements = parser.STATEMENTS;
 
-            if (statements.Count != 8)
+            if (statements.Count != 10)
                 throw new Exception("statement count incorrect.");
 
             //TODO 
@@ -59,7 +59,7 @@ namespace CompilerUnitTest
             // check statement
             List<Statement> statements = parser.STATEMENTS;
 
-            if (statements.Count != 8)
+            if (statements.Count != 10)
                 throw new Exception("statement count incorrect.");
 
             //TODO 

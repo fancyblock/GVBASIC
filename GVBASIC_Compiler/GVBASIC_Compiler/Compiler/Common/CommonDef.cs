@@ -109,7 +109,6 @@ namespace GVBASIC_Compiler.Compiler
     /// </summary>
     public class Statement
     {
-        public const int TYPE_STATEMENT_SET         = 0;
         public const int TYPE_BUILDIN_FUNC          = 1;
         public const int TYPE_SIMPLE_CMD            = 2;
         public const int TYPE_PARAM_CMD             = 3;
@@ -140,6 +139,7 @@ namespace GVBASIC_Compiler.Compiler
         public int m_intVal;
 
         public List<Statement> m_statements;
+        public List<Statement> m_elseStatements;
         public List<Expression> m_expressList;
         public List<string> m_symbolList;
         public List<BaseData> m_dataList;

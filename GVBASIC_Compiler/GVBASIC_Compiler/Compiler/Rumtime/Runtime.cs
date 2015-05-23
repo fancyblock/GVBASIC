@@ -19,8 +19,6 @@ namespace GVBASIC_Compiler.Compiler
         protected SymbolTable m_symbolTable;
         protected Stack<ForRecord> m_forLoopStack;
         protected Stack<WhileRecord> m_whileLoopStack;
-        protected bool m_inLoopJump;
-        protected bool m_inGotoJump;
 
         protected bool m_isRunning;
         protected int m_index;
@@ -37,7 +35,6 @@ namespace GVBASIC_Compiler.Compiler
 
             m_executer = new Dictionary<int, Action<Statement>>()
             {
-                { Statement.TYPE_STATEMENT_SET, doStatements },
                 { Statement.TYPE_PRINT, doPrint },
                 { Statement.TYPE_ASSIGN, doAssign },
                 { Statement.TYPE_IF, doIf },
@@ -67,8 +64,6 @@ namespace GVBASIC_Compiler.Compiler
             m_symbolTable = new SymbolTable();
             m_forLoopStack = new Stack<ForRecord>();
             m_whileLoopStack = new Stack<WhileRecord>();
-            m_inLoopJump = false;
-            m_inGotoJump = false;
 
             m_innerFunc = new BuildinFunc();
         }
@@ -106,7 +101,10 @@ namespace GVBASIC_Compiler.Compiler
             // index the line number
             m_lineNumDic = new Dictionary<int, int>();
             for (int i = 0; i < m_statements.Count; i++)
-                m_lineNumDic.Add(m_statements[i].m_lineNum, i);
+            {
+                if (!m_lineNumDic.ContainsKey(m_statements[i].m_lineNum))
+                    m_lineNumDic.Add(m_statements[i].m_lineNum, i);
+            }
 
             try
             {
@@ -118,8 +116,6 @@ namespace GVBASIC_Compiler.Compiler
                 {
                     if (m_index >= m_statements.Count)
                         break;
-
-                    m_inGotoJump = false;
 
                     Statement s = m_statements[m_index];
                     m_index++;      // 这一句必须在执行语句之前，因为语句中可能有改变该值的GOTO之类的语句
@@ -137,32 +133,12 @@ namespace GVBASIC_Compiler.Compiler
         #region statement
 
         /// <summary>
-        /// do statement set 
-        /// </summary>
-        /// <param name="s"></param>
-        protected void doStatements( Statement s )
-        {
-            List<Statement> statements = s.m_statements;
-
-            for( int i = 0; i < statements.Count; i++ )
-            {
-                if (m_inLoopJump || m_inGotoJump)
-                    continue;
-
-                // execute the sub statement 
-                Statement subS = statements[i];
-                m_executer[subS.m_type](subS);
-            }
-        }
-
-        /// <summary>
         /// do goto statement 
         /// </summary>
         /// <param name="s"></param>
         protected void doGoto( Statement s )
         {
             m_index = m_lineNumDic[s.m_intVal];
-            m_inGotoJump = true;
         }
 
         /// <summary>
@@ -227,17 +203,15 @@ namespace GVBASIC_Compiler.Compiler
                 first = !string.IsNullOrEmpty( condition.STR_VAL );
             }
 
-            Statement exeS = null;
-
             if( first )
             {
-                exeS = s.m_statements[0];
-                m_executer[exeS.m_type](exeS);
+                foreach (Statement ss in s.m_statements)
+                    m_executer[ss.m_type](ss);
             }
-            else if (s.m_statements.Count > 1)
+            else if (s.m_elseStatements.Count > 0)
             {
-                exeS = s.m_statements[1];
-                m_executer[exeS.m_type](exeS);
+                foreach (Statement ss in s.m_elseStatements)
+                    m_executer[ss.m_type](ss);
             }
         }
 
@@ -247,12 +221,6 @@ namespace GVBASIC_Compiler.Compiler
         /// <param name="s"></param>
         protected void doForBegin( Statement s )
         {
-            if( m_inLoopJump )
-            {
-                m_inLoopJump = false;
-                return;
-            }
-
             string varName = s.m_symbol;
             VarSymbol symbol = m_symbolTable.ResolveVar(varName);
 
@@ -308,9 +276,12 @@ namespace GVBASIC_Compiler.Compiler
             }
             else
             {
-                // goto the for begin line 
+                // set the next index to the for begin line 
                 m_index = m_lineNumDic[lr.LOOP_BEGIN_LINE];
-                m_inLoopJump = true;
+                while (m_statements[m_index].m_type != Statement.TYPE_FOR_BEGIN)
+                    m_index++;
+
+                m_index++;
             }
         }
 

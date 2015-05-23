@@ -46,9 +46,12 @@ namespace GVBASIC_Compiler.Compiler
                 Token tok = eatToken(Token.INT);
                 m_curLineNumber = tok.m_intVal;
 
-                Statement s = statement();
-                s.m_lineNum = m_curLineNumber;
-                m_statements.Add(s);
+                List<Statement> statementList = statements();
+                foreach( Statement s in statementList )
+                {
+                    s.m_lineNum = m_curLineNumber;
+                    m_statements.Add(s);
+                }
 
                 // filter the end of line 
                 while (lookAhead() == Token.EOL)
@@ -108,15 +111,13 @@ namespace GVBASIC_Compiler.Compiler
         /// statement 
         /// </summary>
         /// <returns></returns>
-        protected Statement statement()
+        protected List<Statement> statements()
         {
-            Statement s = new Statement(Statement.TYPE_STATEMENT_SET);
-            s.m_statements = new List<Statement>();
-            int tt;
+            List<Statement> statements = new List<Statement>();
 
             while(true)
             {
-                tt = lookAhead();
+                int tt = lookAhead();
                 Statement ss = null;
 
                 switch (tt)
@@ -182,7 +183,7 @@ namespace GVBASIC_Compiler.Compiler
                         throw new Exception("unexpected token: " + tt.ToString() + " in line " + m_curLineNumber);
                 }
 
-                s.m_statements.Add(ss);
+                statements.Add(ss);
 
                 if( lookAhead() == Token.COLON )
                     eatToken(Token.COLON);
@@ -190,10 +191,7 @@ namespace GVBASIC_Compiler.Compiler
                     break;
             }
 
-            if (s.m_statements.Count == 1)
-                s = s.m_statements[0];
-
-            return s;
+            return statements;
         }
 
         /// <summary>
@@ -310,43 +308,52 @@ namespace GVBASIC_Compiler.Compiler
             eatToken(tt);
 
             Token tok = null;
-            Statement s = null;
+            List<Statement> s = new List<Statement>();
+            Statement ss = null;
 
             if( lookAhead() == Token.INT )
             {
                 tok = eatToken(Token.INT);
 
-                s = new Statement(Statement.TYPE_GOTO);
-                s.m_intVal = tok.m_intVal;
+                ss = new Statement(Statement.TYPE_GOTO);
+                ss.m_intVal = tok.m_intVal;
+                s.Add(ss);
             }
             else
             {
                 if (tt == Token.GOTO)
                     throw new ErrorCode("[Parser]: ifStatement, error token, number expected. in line " + m_curLineNumber);
 
-                s = statement();
+                s = statements();
             }
 
-            ifS.m_statements.Add(s);
+            ifS.m_statements = s;
 
             // else case 
             if (lookAhead() == Token.ELSE)
             {
                 eatToken( Token.ELSE );
 
+                s = new List<Statement>();
+
                 if (lookAhead() == Token.INT)
                 {
                     tok = eatToken(Token.INT);
 
-                    s = new Statement(Statement.TYPE_GOTO);
-                    s.m_intVal = tok.m_intVal;
+                    ss = new Statement(Statement.TYPE_GOTO);
+                    ss.m_intVal = tok.m_intVal;
+                    s.Add(ss);
                 }
                 else
                 {
-                    s = statement();
+                    s = statements();
                 }
 
-                ifS.m_statements.Add(s);
+                ifS.m_elseStatements = s;
+            }
+            else
+            {
+                ifS.m_elseStatements = new List<Statement>();
             }
 
             return ifS;
