@@ -134,6 +134,7 @@ namespace GVBASIC_Compiler.Compiler
 
         public int m_type;
         public int m_lineNum;
+        public int m_lineIndex;
 
         public string m_symbol;
         public int m_intVal;

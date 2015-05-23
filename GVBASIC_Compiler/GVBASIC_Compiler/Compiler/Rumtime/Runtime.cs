@@ -102,8 +102,12 @@ namespace GVBASIC_Compiler.Compiler
             m_lineNumDic = new Dictionary<int, int>();
             for (int i = 0; i < m_statements.Count; i++)
             {
-                if (!m_lineNumDic.ContainsKey(m_statements[i].m_lineNum))
-                    m_lineNumDic.Add(m_statements[i].m_lineNum, i);
+                Statement s = m_statements[i];
+
+                s.m_lineIndex = i;
+
+                if (!m_lineNumDic.ContainsKey(s.m_lineNum))
+                    m_lineNumDic.Add(s.m_lineNum, i);
             }
 
             try
@@ -250,7 +254,7 @@ namespace GVBASIC_Compiler.Compiler
 
             // initital the loop var 
             lr.SetLoopRecord(symbol, endValue, stepValue);
-            lr.SetBeginLine(s.m_lineNum);
+            lr.SetBeginIndex(s.m_lineIndex);
 
             // init the symbol value 
             symbol.VALUE = startValue;
@@ -277,7 +281,7 @@ namespace GVBASIC_Compiler.Compiler
             else
             {
                 // set the next index to the for begin line 
-                m_index = m_lineNumDic[lr.LOOP_BEGIN_LINE];
+                m_index = lr.LOOP_BEGIN_INDEX;
                 while (m_statements[m_index].m_type != Statement.TYPE_FOR_BEGIN)
                     m_index++;
 
@@ -291,7 +295,18 @@ namespace GVBASIC_Compiler.Compiler
         /// <param name="s"></param>
         protected void onWhileBegin( Statement s )
         {
+            WhileRecord wr = new WhileRecord();
+
             //TODO 
+
+            if (wr.IsLoopDone())
+            {
+                //TODO 
+            }
+            else
+            {
+                m_whileLoopStack.Push(wr);
+            }
         }
 
         /// <summary>

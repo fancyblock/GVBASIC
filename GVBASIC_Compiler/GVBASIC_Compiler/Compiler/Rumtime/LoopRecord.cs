@@ -14,7 +14,7 @@ namespace GVBASIC_Compiler.Compiler
         protected VarSymbol m_loopSymbol;
         protected BaseData m_endValue;
         protected BaseData m_stepValue;
-        protected int m_beginLine;
+        protected int m_beginIndex;
 
         /// <summary>
         /// getter of the loop var name 
@@ -24,7 +24,7 @@ namespace GVBASIC_Compiler.Compiler
         /// <summary>
         /// getter of the loop begin line 
         /// </summary>
-        public int LOOP_BEGIN_LINE { get { return m_beginLine; } }
+        public int LOOP_BEGIN_INDEX { get { return m_beginIndex; } }
 
         /// <summary>
         /// set loop record info 
@@ -45,9 +45,9 @@ namespace GVBASIC_Compiler.Compiler
         /// set for begin line 
         /// </summary>
         /// <param name="lineNum"></param>
-        public void SetBeginLine( int lineNum )
+        public void SetBeginIndex( int lineNum )
         {
-            m_beginLine = lineNum;
+            m_beginIndex = lineNum;
         }
 
         /// <summary>
@@ -80,7 +80,18 @@ namespace GVBASIC_Compiler.Compiler
     /// </summary>
     public class WhileRecord
     {
-        //TODO
+        protected Expression m_judgeExp;
+
+        /// <summary>
+        /// judge if the loop is done or not 
+        /// </summary>
+        /// <returns></returns>
+        public bool IsLoopDone()
+        {
+            //TODO
+
+            return true;
+        }
     }
 
 }
