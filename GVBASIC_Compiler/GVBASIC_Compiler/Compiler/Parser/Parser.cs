@@ -475,7 +475,31 @@ namespace GVBASIC_Compiler.Compiler
             Statement on = new Statement( Statement.TYPE_ON_GOTO );
 
             eatToken( Token.ON );
-            //TODO 
+            on.m_expressList = new List<Expression>();
+            on.m_expressList.Add(expression());
+
+            eatToken(Token.GOTO);
+
+            on.m_dataList = new List<BaseData>();
+
+            while (true)
+            {
+                int tt = lookAhead();
+                Token tok = eatToken(tt);
+
+                if( tok.m_type == Token.INT )
+                    on.m_dataList.Add(new BaseData(tok.m_intVal));
+                else if( tok.m_type == Token.FLOAT )
+                    on.m_dataList.Add(new BaseData((int)tok.m_floatVal));
+                else
+                    throw new ErrorCode(ErrorCode.ERROR_CODE_07);
+
+                tt = lookAhead();
+                if (tt == Token.COMMA)
+                    eatToken(Token.COMMA);
+                else
+                    break;
+            }
 
             return on;
         }

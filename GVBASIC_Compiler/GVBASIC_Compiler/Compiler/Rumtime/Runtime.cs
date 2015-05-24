@@ -352,7 +352,20 @@ namespace GVBASIC_Compiler.Compiler
 
         protected void onOnGoto( Statement s )
         {
-            //TODO 
+            BaseData val = calculateExp(s.m_expressList[0]).m_value;
+
+            val.Convert(BaseData.TYPE_INT);
+            int index = val.INT_VAL;
+
+            if (index <= 0 || index > s.m_dataList.Count)
+                return;
+
+            val = s.m_dataList[index-1];
+            
+            if( m_lineNumDic.ContainsKey(val.INT_VAL) )
+                m_index = m_lineNumDic[val.INT_VAL];
+            else
+                throw new ErrorCode(ErrorCode.ERROR_CODE_07);
         }
 
         protected void onGoSub( Statement s )

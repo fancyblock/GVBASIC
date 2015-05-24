@@ -191,5 +191,25 @@ namespace CompilerUnitTest
 
             TestHelper.TestProgram(sourceCode, result);
         }
+
+        [TestMethod]
+        public void OnGoto()
+        {
+            string sourceCode =
+                "10 ON ABS(3) GOTO 20,30,40,50      \n" +
+                "20 PRINT 222                       \n" +
+                "30 PRINT 333                       \n" +
+                "40 PRINT 444                       \n" +
+                "50 PRINT 555                       \n";
+
+            // 444
+            // 555
+
+            string result =
+                "444" + "\n" +
+                "555" + "\n";
+
+            TestHelper.TestProgram(sourceCode, result);
+        }
     }
 }
