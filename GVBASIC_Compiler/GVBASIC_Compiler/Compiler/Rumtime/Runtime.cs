@@ -295,13 +295,32 @@ namespace GVBASIC_Compiler.Compiler
         /// <param name="s"></param>
         protected void onWhileBegin( Statement s )
         {
-            WhileRecord wr = new WhileRecord();
+            WhileRecord wr = new WhileRecord( s.m_expressList[0], s.m_lineIndex );
 
-            //TODO 
-
-            if (wr.IsLoopDone())
+            if (wr.IsLoopDone( calculateExp ))
             {
-                //TODO 
+                int whileCnt = 0;
+                // skip to the wend next line 
+                for (; ; )
+                {
+                    Statement statement = m_statements[m_index];
+
+                    if (statement.m_type == Statement.TYPE_WHILE_BEGIN)
+                    {
+                        whileCnt++;
+                    }
+                    else if (statement.m_type == Statement.TYPE_WHILE_END)
+                    {
+                        if (whileCnt == 0)
+                            break;
+                        else
+                            whileCnt--;
+                    }
+
+                    m_index++;
+                }
+
+                m_index++;
             }
             else
             {
@@ -315,7 +334,20 @@ namespace GVBASIC_Compiler.Compiler
         /// <param name="s"></param>
         protected void onWhileEnd( Statement s )
         {
-            //TODO 
+            if (m_whileLoopStack.Count <= 0)
+                throw new ErrorCode(ErrorCode.ERROR_CODE_17);
+
+            WhileRecord wr = m_whileLoopStack.Peek();
+
+            if( wr.IsLoopDone( calculateExp ) )
+            {
+                m_whileLoopStack.Pop();
+            }
+            else
+            {
+                m_index = wr.LOOP_BEGIN_INDEX;
+                m_index++;
+            }
         }
 
         protected void onOnGoto( Statement s )

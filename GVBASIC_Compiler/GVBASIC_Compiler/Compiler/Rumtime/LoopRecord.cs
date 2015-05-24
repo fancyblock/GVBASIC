@@ -81,16 +81,47 @@ namespace GVBASIC_Compiler.Compiler
     public class WhileRecord
     {
         protected Expression m_judgeExp;
+        protected int m_beginIndex;
+
+        /// <summary>
+        /// getter of the begin index 
+        /// </summary>
+        public int LOOP_BEGIN_INDEX { get { return m_beginIndex; } }
+
+        /// <summary>
+        /// constrcutor
+        /// </summary>
+        /// <param name="exp"></param>
+        public WhileRecord( Expression exp, int beginIndex )
+        {
+            m_judgeExp = exp;
+            m_beginIndex = beginIndex;
+        }
 
         /// <summary>
         /// judge if the loop is done or not 
         /// </summary>
         /// <returns></returns>
-        public bool IsLoopDone()
+        public bool IsLoopDone( Func<Expression,Expression> calcExp )
         {
-            //TODO
+            BaseData dat = calcExp(m_judgeExp).m_value;
 
-            return true;
+            if( dat.TYPE == BaseData.TYPE_STRING )
+            {
+                return string.IsNullOrEmpty(dat.STR_VAL);
+            }
+            else if( dat.TYPE == BaseData.TYPE_INT )
+            {
+                return dat.INT_VAL == 0;
+            }
+            else if( dat.TYPE == BaseData.TYPE_FLOAT )
+            {
+                return dat.FLOAT_VAL == 0.0f;
+            }
+            else
+            {
+                throw new ErrorCode(ErrorCode.ERROR_CODE_02);
+            }
         }
     }
 

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace GVBASIC_Compiler.Compiler
 {
@@ -171,9 +169,24 @@ namespace GVBASIC_Compiler.Compiler
 
         public static BaseData operator -(BaseData lhs, BaseData rhs)
         {
-            //TODO 
+            BaseData result;
 
-            return BaseData.ZERO;
+            if (lhs.m_type == BaseData.TYPE_FLOAT || rhs.m_type == BaseData.TYPE_FLOAT)
+            {
+                lhs.Convert(BaseData.TYPE_FLOAT);
+                rhs.Convert(BaseData.TYPE_FLOAT);
+                result = new BaseData(lhs.m_floatVal - rhs.m_floatVal);
+            }
+            else if (lhs.m_type == BaseData.TYPE_INT && rhs.m_type == BaseData.TYPE_INT)
+            {
+                result = new BaseData(lhs.m_intVal - rhs.m_intVal);
+            }
+            else
+            {
+                throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+            }
+
+            return result;
         }
 
         public static BaseData operator *(BaseData lhs, BaseData rhs)
@@ -256,9 +269,25 @@ namespace GVBASIC_Compiler.Compiler
 
         public static bool operator ==(BaseData lhs, BaseData rhs)
         {
-            //TODO 
+            if (lhs.m_type == BaseData.TYPE_STRING && rhs.m_type == BaseData.TYPE_STRING)
+            {
+                return lhs.m_stringVal == rhs.m_stringVal;
+            }
+            else if (lhs.m_type == BaseData.TYPE_FLOAT || rhs.m_type == BaseData.TYPE_FLOAT)
+            {
+                lhs.Convert(BaseData.TYPE_FLOAT);
+                rhs.Convert(BaseData.TYPE_FLOAT);
 
-            return false;
+                return Math.Abs(lhs.m_floatVal - rhs.m_floatVal) <= float.Epsilon;
+            }
+            else if (lhs.m_type == BaseData.TYPE_INT && rhs.m_type == BaseData.TYPE_INT)
+            {
+                return lhs.m_intVal == rhs.m_intVal;
+            }
+            else
+            {
+                throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+            }
         }
 
         /// <summary>
@@ -278,7 +307,7 @@ namespace GVBASIC_Compiler.Compiler
                 lhs.Convert(BaseData.TYPE_FLOAT);
                 rhs.Convert(BaseData.TYPE_FLOAT);
 
-                return lhs.m_floatVal != rhs.m_floatVal;
+                return Math.Abs( lhs.m_floatVal - rhs.m_floatVal ) > float.Epsilon;
             }
             else if (lhs.m_type == BaseData.TYPE_INT && rhs.m_type == BaseData.TYPE_INT)
             {

@@ -165,14 +165,29 @@ namespace CompilerUnitTest
                 "20 WHILE A > 0                      \n" +
                 "30 PRINT A                          \n" +
                 "40 A=A-1                            \n" +
-                "50 WEND                             ";
+                "50 B=3                              \n" +
+                "60 WHILE B<6                        \n" +
+                "70 PRINT B;                         \n" +
+                "80 B=B+1                            \n" +
+                "90 WEND                             \n" +
+                "100 WEND                            \n" +
+                "110 WHILE 0                         \n" +
+                "120 WHILE 1                         \n" +
+                "130 PRINT 111                       \n" +
+                "140 WEND                            \n" +
+                "150 PRINT 222                       \n" +
+                "160 WEND                            ";
 
-            //
+            // 3
+            // 3452
+            // 3451
+            // 345
 
             string result =
-                "3" + "\n" +
-                "2" + "\n" +
-                "1" + "\n";
+                "3"     + "\n" +
+                "3452"  + "\n" +
+                "3451"  + "\n" +
+                "345";
 
             TestHelper.TestProgram(sourceCode, result);
         }
