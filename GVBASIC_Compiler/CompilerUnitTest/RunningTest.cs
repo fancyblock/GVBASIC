@@ -121,15 +121,15 @@ namespace CompilerUnitTest
             // 3
 
             string result =
-                "123;"      + "\n" +
-                "23;"       + "\n" +
-                "3;"        + "\n" +
-                "4;"        + "\n" +
-                "5;"        + "\n" +
-                "->"        + "\n" +
-                "1"         + "\n" +
-                "2"         + "\n" +
-                "3"         + "\n";
+                "123;" + "\n" +
+                "23;" + "\n" +
+                "3;" + "\n" +
+                "4;" + "\n" +
+                "5;" + "\n" +
+                "->" + "\n" +
+                "1" + "\n" +
+                "2" + "\n" +
+                "3" + "\n";
 
             TestHelper.TestProgram(sourceCode, result);
         }
@@ -184,9 +184,9 @@ namespace CompilerUnitTest
             // 345
 
             string result =
-                "3"     + "\n" +
-                "3452"  + "\n" +
-                "3451"  + "\n" +
+                "3" + "\n" +
+                "3452" + "\n" +
+                "3451" + "\n" +
                 "345";
 
             TestHelper.TestProgram(sourceCode, result);
@@ -234,15 +234,55 @@ namespace CompilerUnitTest
             // sub
 
             string result =
-                "TEST GOSUB" + "\n" +
-                "1"          + "\n" +
-                "sub"        + "\n" +
-                "2"          + "\n" +
-                "sub"        + "\n" +
-                "3"          + "\n" +
-                "sub"        + "\n";
+                "TEST GOSUB"        + "\n" +
+                "1"                 + "\n" +
+                "sub"               + "\n" +
+                "2"                 + "\n" +
+                "sub"               + "\n" +
+                "3"                 + "\n" +
+                "sub"               + "\n";
 
             TestHelper.TestProgram(sourceCode, result);
+        }
+
+        [TestMethod]
+        public void DefFn()
+        {
+            string code =
+                "10 X=17                        \n" +
+                "20 DEF FN AA(X)=X+ABS(X)       \n" +
+                "30 DEF FN BB(X)=X+FN AA(X)     \n" +
+                "40 PRINT FN AA(2)              \n" +
+                "50 PRINT FN BB(7)              \n" +
+                "60 AA=7                        \n" +
+                "70 PRINT AA                    \n" +
+                "80 PRINT FN AA(AA)             \n" +
+                "90 PRINT AA                    \n" +
+                "100 X=66                       \n" +
+                "100 PRINT X                    \n" +
+                "110 PRINT FN AA(19)            \n" +
+                "120 PRINT X                    \n";
+
+            // 4
+            // 21
+            // 7
+            // 14
+            // 7
+            // 66
+            // 38
+            // 66
+
+            string result =
+                "4"         + "\n" +
+                "21"        + "\n" +
+                "7"         + "\n" +
+                "14"        + "\n" +
+                "7"         + "\n" +
+                "66"        + "\n" +
+                "38"        + "\n" +
+                "66"        + "\n";
+
+            TestHelper.TestProgram(code, result);
         }
     }
 }

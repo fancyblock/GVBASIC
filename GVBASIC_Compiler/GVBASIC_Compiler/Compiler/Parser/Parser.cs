@@ -170,6 +170,12 @@ namespace GVBASIC_Compiler.Compiler
                     case Token.POP:
                         ss = popStatement();
                         break;
+                    case Token.DIM:
+                        ss = dimStatement();
+                        break;
+                    case Token.DEF:
+                        ss = defFnStatement();
+                        break;
                     case Token.SIMPLE_CMD:
                         ss = simpleCommand();
                         break;
@@ -551,6 +557,51 @@ namespace GVBASIC_Compiler.Compiler
             return popStatement;
         }
 
+        protected Statement dimStatement()
+        {
+            Statement dimStatement = new Statement(Statement.TYPE_DIM);
+            eatToken(Token.DIM);
+
+            //TODO 
+
+            return dimStatement;
+        }
+
+        protected Statement defFnStatement()
+        {
+            Statement fnStatement = new Statement(Statement.TYPE_DEF_FN);
+
+            eatToken(Token.DEF);
+            eatToken(Token.FN);
+
+            Token tok = eatToken(Token.SYMBOL);
+
+            if (tok.m_strVal.EndsWith("%"))
+                throw new ErrorCode(ErrorCode.ERROR_CODE_02);
+            else if (tok.m_strVal.EndsWith("$"))
+                throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+
+            fnStatement.m_symbol = tok.m_strVal;
+
+            eatToken(Token.LEFT_BRA);
+            tok = eatToken(Token.SYMBOL);
+
+            if (tok.m_strVal.EndsWith("%"))
+                throw new ErrorCode(ErrorCode.ERROR_CODE_02);
+            else if (tok.m_strVal.EndsWith("$"))
+                throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+
+            fnStatement.m_paramSymbol = tok.m_strVal;
+
+            eatToken(Token.RIGHT_BRA);
+            eatToken(Token.EQUAL);
+
+            fnStatement.m_expressList = new List<Expression>();
+            fnStatement.m_expressList.Add(expression());
+
+            return fnStatement;
+        }
+
         /// <summary>
         /// normal assignment 
         /// </summary>
@@ -867,7 +918,13 @@ namespace GVBASIC_Compiler.Compiler
             {
                 exp = new Expression(Expression.EXP_USER_FUNC);
                 eatToken(Token.FN);
-                //TODO 
+                tok = eatToken(Token.SYMBOL);
+                exp.m_symbolName = tok.m_strVal;
+
+                eatToken(Token.LEFT_BRA);
+                exp.m_funcParams = new List<Expression>();
+                exp.m_funcParams.Add(expression());
+                eatToken(Token.RIGHT_BRA);
             }
             else if( tt == Token.INKEY )
             {
