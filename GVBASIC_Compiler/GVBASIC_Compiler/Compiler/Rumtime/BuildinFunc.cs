@@ -34,6 +34,10 @@ namespace GVBASIC_Compiler.Compiler
                 {"RND", RND},
                 // string function 
                 {"", ABS},
+                // display function 
+                {"1", ABS},
+                // file function
+                {"2", ABS},
             };
         }
         
