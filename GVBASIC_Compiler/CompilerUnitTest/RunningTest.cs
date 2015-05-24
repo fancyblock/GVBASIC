@@ -211,5 +211,38 @@ namespace CompilerUnitTest
 
             TestHelper.TestProgram(sourceCode, result);
         }
+
+        [TestMethod]
+        public void GoSub()
+        {
+            string sourceCode =
+                "10 PRINT \"TEST GOSUB\"            \n" +
+                "20 FOR I=1 TO 3                    \n" +
+                "30 PRINT I                         \n" +
+                "40 GOSUB 70                        \n" +
+                "50 NEXT                            \n" +
+                "60 END                             \n" +
+                "70 PRINT \"sub\"                   \n" +
+                "80 RETURN                          \n";
+
+            // TEST GOSUB
+            // 1
+            // sub
+            // 2
+            // sub
+            // 3
+            // sub
+
+            string result =
+                "TEST GOSUB" + "\n" +
+                "1"          + "\n" +
+                "sub"        + "\n" +
+                "2"          + "\n" +
+                "sub"        + "\n" +
+                "3"          + "\n" +
+                "sub"        + "\n";
+
+            TestHelper.TestProgram(sourceCode, result);
+        }
     }
 }

@@ -513,7 +513,16 @@ namespace GVBASIC_Compiler.Compiler
             Statement gosub = new Statement( Statement.TYPE_GOSUB );
 
             eatToken( Token.GOSUB );
-            //TODO 
+
+            int tt = lookAhead();
+            Token tok = eatToken(tt);
+
+            if( tt == Token.INT )
+                gosub.m_intVal = tok.m_intVal;
+            else if( tt == Token.FLOAT)
+                gosub.m_intVal = (int)tok.m_floatVal;
+            else
+                throw new ErrorCode(ErrorCode.ERROR_CODE_07);
 
             return gosub;
         }

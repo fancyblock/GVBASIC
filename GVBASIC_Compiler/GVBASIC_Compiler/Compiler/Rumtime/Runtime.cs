@@ -19,6 +19,7 @@ namespace GVBASIC_Compiler.Compiler
         protected SymbolTable m_symbolTable;
         protected Stack<ForRecord> m_forLoopStack;
         protected Stack<WhileRecord> m_whileLoopStack;
+        protected Stack<int> m_goSubStack;
 
         protected bool m_isRunning;
         protected int m_index;
@@ -64,6 +65,7 @@ namespace GVBASIC_Compiler.Compiler
             m_symbolTable = new SymbolTable();
             m_forLoopStack = new Stack<ForRecord>();
             m_whileLoopStack = new Stack<WhileRecord>();
+            m_goSubStack = new Stack<int>();
 
             m_innerFunc = new BuildinFunc();
         }
@@ -370,17 +372,29 @@ namespace GVBASIC_Compiler.Compiler
 
         protected void onGoSub( Statement s )
         {
-            //TODO 
+            m_index = m_lineNumDic[s.m_intVal];
+            m_goSubStack.Push(s.m_lineIndex);
         }
 
         protected void onReturn( Statement s )
         {
-            //TODO 
+            if (m_goSubStack.Count > 0)
+            {
+                m_index = m_goSubStack.Pop();
+                m_index++;
+            }
+            else
+            {
+                throw new ErrorCode(ErrorCode.ERROR_CODE_18);
+            }
         }
 
         protected void onPop( Statement s )
         {
-            //TODO 
+            if (m_goSubStack.Count > 0)
+                m_goSubStack.Pop();
+            else
+                throw new ErrorCode(ErrorCode.ERROR_CODE_18);
         }
 
         protected void onDefFn( Statement s )
