@@ -13,6 +13,7 @@ namespace GVBASIC_Compiler.Compiler
     public class Symbol
     {
         public const int VAR    = 1;
+        public const int ARRAY  = 2;
         public const int FUNC   = 3;
 
         protected string m_name;
@@ -41,9 +42,9 @@ namespace GVBASIC_Compiler.Compiler
         /// </summary>
         /// <param name="type"></param>
         /// <param name="bd"></param>
-        public VarSymbol( int type, string name, BaseData bd )
+        public VarSymbol( string name, BaseData bd )
         {
-            m_type = type;
+            m_type = Symbol.VAR;
             m_name = name;
 
             VALUE = bd;
@@ -82,11 +83,44 @@ namespace GVBASIC_Compiler.Compiler
     }
 
     /// <summary>
+    /// array symbol 
+    /// </summary>
+    public class ArraySymbol:Symbol
+    {
+        //TODO 
+    }
+
+    /// <summary>
     /// function symbol 
     /// </summary>
     public class FunSymbol : Symbol
     {
-        //TODO 
+        protected Expression m_exp;
+
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="name"></param>
+        /// <param name="exp"></param>
+        public FunSymbol( string name, Expression exp )
+        {
+            m_type = Symbol.FUNC;
+            m_name = name;
+
+            m_exp = exp;
+        }
+
+        /// <summary>
+        /// getter of the expression 
+        /// </summary>
+        public Expression EXP
+        {
+            get
+            {
+                return m_exp;
+            }
+        }
     }
 
 }

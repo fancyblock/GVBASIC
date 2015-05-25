@@ -57,7 +57,6 @@ namespace GVBASIC_Compiler.Compiler
                 { Statement.TYPE_SWAP, onSwap },
                 { Statement.TYPE_SIMPLE_CMD, onSimpleCmd },
                 { Statement.TYPE_PARAM_CMD, onParamCmd },
-                //TODO 
             };
 
             // initial the context 
@@ -399,7 +398,7 @@ namespace GVBASIC_Compiler.Compiler
 
         protected void onDefFn( Statement s )
         {
-            //TODO 
+            m_symbolTable.Define(new FunSymbol(s.m_symbol, s.m_expressList[0]));
         }
 
         protected void onDim( Statement s )
@@ -494,7 +493,12 @@ namespace GVBASIC_Compiler.Compiler
                     result = new Expression(returnVal);
                     break;
                 case Expression.EXP_USER_FUNC:
-                    //TODO 
+                    string funcName = exp.m_symbolName;
+                    FunSymbol func = m_symbolTable.ResolveFunc(funcName);
+                    Expression funcParam = exp.m_funcParams[0];
+                    BaseData paramVal = calculateExp(funcParam).m_value;
+                    m_symbolTable.Define(new VarSymbol(CommonDef.FN_PARAM_SYMBOL, paramVal));
+                    result = calculateExp(func.EXP);
                     break;
                 case Expression.OP_NOT:
                     midExp = calculateExp( exp.m_leftExp );

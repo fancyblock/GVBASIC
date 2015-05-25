@@ -591,13 +591,17 @@ namespace GVBASIC_Compiler.Compiler
             else if (tok.m_strVal.EndsWith("$"))
                 throw new ErrorCode(ErrorCode.ERROR_CODE_12);
 
-            fnStatement.m_paramSymbol = tok.m_strVal;
+            string paramSymbol = tok.m_strVal;
 
             eatToken(Token.RIGHT_BRA);
             eatToken(Token.EQUAL);
 
             fnStatement.m_expressList = new List<Expression>();
-            fnStatement.m_expressList.Add(expression());
+            Expression fnExp = expression();
+            // 用一个通用参数名代替公式中出现的参数符号名
+            replaceSymbolName(fnExp, paramSymbol, CommonDef.FN_PARAM_SYMBOL);
+
+            fnStatement.m_expressList.Add(fnExp);
 
             return fnStatement;
         }
@@ -973,6 +977,28 @@ namespace GVBASIC_Compiler.Compiler
             eatToken(Token.END);
 
             return s;
+        }
+
+        /// <summary>
+        /// replace symbol name in the expression 
+        /// </summary>
+        /// <param name="exp"></param>
+        protected void replaceSymbolName( Expression exp, string oldName, string newName )
+        {
+            if ( exp.m_type == Expression.EXP_SYMBOL && exp.m_symbolName == oldName)
+                exp.m_symbolName = newName;
+
+            if( exp.m_funcParams != null)
+            {
+                foreach (Expression e in exp.m_funcParams)
+                    replaceSymbolName(e, oldName, newName);
+            }
+
+            if (exp.m_leftExp != null)
+                replaceSymbolName(exp.m_leftExp, oldName, newName);
+
+            if (exp.m_rightExp != null)
+                replaceSymbolName(exp.m_rightExp, oldName, newName);
         }
 
     }

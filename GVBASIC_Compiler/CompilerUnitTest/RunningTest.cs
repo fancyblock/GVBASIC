@@ -261,7 +261,8 @@ namespace CompilerUnitTest
                 "100 X=66                       \n" +
                 "100 PRINT X                    \n" +
                 "110 PRINT FN AA(19)            \n" +
-                "120 PRINT X                    \n";
+                "120 PRINT X                    \n" +
+                "130 PRINT FN AA( FN BB(17))    \n";
 
             // 4
             // 21
@@ -271,6 +272,7 @@ namespace CompilerUnitTest
             // 66
             // 38
             // 66
+            // 102
 
             string result =
                 "4"         + "\n" +
@@ -280,7 +282,8 @@ namespace CompilerUnitTest
                 "7"         + "\n" +
                 "66"        + "\n" +
                 "38"        + "\n" +
-                "66"        + "\n";
+                "66"        + "\n" +
+                "102"       + "\n";
 
             TestHelper.TestProgram(code, result);
         }

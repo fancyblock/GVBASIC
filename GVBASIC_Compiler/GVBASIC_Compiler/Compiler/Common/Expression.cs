@@ -43,6 +43,16 @@ namespace GVBASIC_Compiler.Compiler
         public BaseData m_value;
 
         /// <summary>
+        /// default constructor 
+        /// </summary>
+        public Expression()
+        {
+            m_leftExp = null;
+            m_rightExp = null;
+            m_funcParams = null;
+        }
+
+        /// <summary>
         /// constructor 
         /// </summary>
         /// <param name="type"></param>
@@ -51,6 +61,7 @@ namespace GVBASIC_Compiler.Compiler
             m_type = type;
             m_leftExp = null;
             m_rightExp = null;
+            m_funcParams = null;
         }
 
         /// <summary>
@@ -60,6 +71,9 @@ namespace GVBASIC_Compiler.Compiler
         public Expression(BaseData bd)
         {
             m_type = Expression.VALUE;
+            m_leftExp = null;
+            m_rightExp = null;
+            m_funcParams = null;
             m_value = bd;
         }
     }

@@ -33,6 +33,18 @@ namespace GVBASIC_Compiler.Compiler
         }
 
         /// <summary>
+        /// define a function 
+        /// </summary>
+        /// <param name="sym"></param>
+        public void Define( FunSymbol sym )
+        {
+            if (m_funSymbolDic.ContainsKey(sym.NAME))
+                m_funSymbolDic[sym.NAME] = sym;
+            else
+                m_funSymbolDic.Add(sym.NAME, sym);
+        }
+
+        /// <summary>
         /// return a symbol 
         /// </summary>
         /// <param name="name"></param>
@@ -46,15 +58,28 @@ namespace GVBASIC_Compiler.Compiler
             VarSymbol symbol = null;
 
             if (name.EndsWith("%"))
-                symbol = new VarSymbol(Symbol.VAR, name, new BaseData(0));
+                symbol = new VarSymbol( name, new BaseData(0));
             else if (name.EndsWith("$"))
-                symbol = new VarSymbol(Symbol.VAR, name, new BaseData(""));
+                symbol = new VarSymbol( name, new BaseData(""));
             else
-                symbol = new VarSymbol(Symbol.VAR, name, new BaseData(0.0f));
+                symbol = new VarSymbol( name, new BaseData(0.0f));
 
             m_varSymbolDic.Add(name, symbol);
 
             return symbol;
+        }
+
+        /// <summary>
+        /// resolve func
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public FunSymbol ResolveFunc( string name )
+        {
+            if (m_funSymbolDic.ContainsKey(name))
+                return m_funSymbolDic[name];
+            else
+                throw new ErrorCode(ErrorCode.ERROR_CODE_16);
         }
 
     }
