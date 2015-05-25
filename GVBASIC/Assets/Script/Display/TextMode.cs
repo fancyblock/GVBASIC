@@ -14,10 +14,26 @@ public class TextMode : MonoBehaviour
 	protected int m_curPosY;
 	protected bool m_inverseMode;
 
-	// Use this for initialization
-	void Start () 
+    /// <summary>
+    /// initial 
+    /// </summary>
+    void Awake()
     {
-	}
+        // init buffer 
+        m_displayBuffer = new int[TEXT_CNT_WIDTH, TEXT_CNT_HEIGHT];
+        for (int i = 0; i < TEXT_CNT_WIDTH; i++)
+        {
+            for (int j = 0; j < TEXT_CNT_HEIGHT; j++)
+                m_displayBuffer[i, j] = 0;
+        }
+
+        // reset the cursor 
+        m_curPosX = 0;
+        m_curPosY = 0;
+
+        // reset the inverse mode 
+        m_inverseMode = false;
+    }
 	
 	// Update is called once per frame
 	void Update () 
@@ -33,23 +49,7 @@ public class TextMode : MonoBehaviour
         m_otherMode.enabled = false;
         this.enabled = true;
 
-		// init buffer 
-		m_displayBuffer = new int[TEXT_CNT_WIDTH, TEXT_CNT_HEIGHT];
-		for( int i = 0; i < TEXT_CNT_WIDTH; i++ )
-		{
-			for( int j = 0; j < TEXT_CNT_HEIGHT; j++ )
-				m_displayBuffer [i, j] = 0;
-		}
-
-		// reset the cursor 
-		m_curPosX = 0;
-		m_curPosY = 0;
-
-		// reset the inverse mode 
-		m_inverseMode = false;
-
         //TODO 
-
     }
 
     /// <summary>

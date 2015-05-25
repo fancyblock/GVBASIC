@@ -9,17 +9,8 @@ public class Processor : MonoBehaviour
 	// Use this for initialization
 	void Start () 
     {
+        m_textMode.CLS();
 		m_textMode.ShowASCII (0);      //[TEST]
 	}
-	
-	// Update is called once per frame
-	void Update () 
-    {
-	}
-
-    void OnApplicationPause(bool pauseStatus)
-    {
-        m_textMode.CLS();
-    }
 
 }

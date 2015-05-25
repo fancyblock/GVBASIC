@@ -6,16 +6,6 @@ public class GraphMode : MonoBehaviour
     public LED m_led;
     public TextMode m_otherMode;
 
-	// Use this for initialization
-	void Start () 
-    {	
-	}
-	
-	// Update is called once per frame
-	void Update () 
-    {
-	}
-
     /// <summary>
     /// active this mode    [GRAPH]
     /// </summary>
