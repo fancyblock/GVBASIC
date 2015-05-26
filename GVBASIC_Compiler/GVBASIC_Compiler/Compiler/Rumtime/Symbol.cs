@@ -87,7 +87,19 @@ namespace GVBASIC_Compiler.Compiler
     /// </summary>
     public class ArraySymbol:Symbol
     {
+        protected List<int> m_dimension;
         //TODO 
+
+        /// <summary>
+        /// constructor 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="dimension"></param>
+        public ArraySymbol( string name, List<int> dimension )
+        {
+            m_type = Symbol.ARRAY;
+            m_dimension = dimension;
+        }
     }
 
     /// <summary>

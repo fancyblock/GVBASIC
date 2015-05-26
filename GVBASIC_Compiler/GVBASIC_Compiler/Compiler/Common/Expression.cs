@@ -40,6 +40,7 @@ namespace GVBASIC_Compiler.Compiler
         public Expression m_leftExp;
         public Expression m_rightExp;
         public List<Expression> m_funcParams;
+        public List<int> m_arrayIndexs;
         public string m_symbolName;
         public BaseData m_value;
 

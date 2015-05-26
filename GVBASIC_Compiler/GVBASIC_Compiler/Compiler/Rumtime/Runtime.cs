@@ -403,7 +403,7 @@ namespace GVBASIC_Compiler.Compiler
 
         protected void onDim( Statement s )
         {
-            //TODO 
+            m_symbolTable.Define(new ArraySymbol(s.m_symbol, s.m_arrayDimension));
         }
                 
         protected void onSwap( Statement s )
@@ -482,6 +482,9 @@ namespace GVBASIC_Compiler.Compiler
                 case Expression.EXP_SYMBOL:
                     VarSymbol s = m_symbolTable.ResolveVar(exp.m_symbolName);
                     result = new Expression( s.VALUE );
+                    break;
+                case Expression.EXP_ARRAY_SYMBOL:
+                    //TODO 
                     break;
                 case Expression.EXP_FUNC:
                     List<BaseData> param = new List<BaseData>();

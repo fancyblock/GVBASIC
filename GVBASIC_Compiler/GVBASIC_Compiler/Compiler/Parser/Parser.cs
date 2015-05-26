@@ -565,8 +565,31 @@ namespace GVBASIC_Compiler.Compiler
             Token tok = eatToken(Token.SYMBOL);
             dimStatement.m_symbol = tok.m_strVal;
 
+            dimStatement.m_arrayDimension = new List<int>();
+            BaseData bd;
+
             eatToken(Token.LEFT_BRA);
-            //TODO 
+
+            while (true)
+            {
+                int tt = lookAhead();
+                tok = eatToken(tt);
+
+                if (tt == Token.INT)
+                    bd = new BaseData(tok.m_intVal);
+                else if (tt == Token.FLOAT)
+                    bd = new BaseData(tok.m_floatVal);
+                else
+                    throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+                bd.Convert(BaseData.TYPE_INT);
+
+                dimStatement.m_arrayDimension.Add(bd.INT_VAL);
+
+                if (lookAhead() == Token.COMMA)
+                    eatToken(Token.COMMA);
+                else
+                    break;
+            }
             eatToken(Token.RIGHT_BRA);
 
             return dimStatement;
@@ -620,10 +643,18 @@ namespace GVBASIC_Compiler.Compiler
             Statement s = new Statement(Statement.TYPE_ASSIGN);
 
             Token t = eatToken(Token.SYMBOL);
-            eatToken(Token.EQUAL);
 
-            s.m_symbol = t.m_strVal;
-            s.m_expressList = new List<Expression>() { expression() };
+            if (lookAhead() == Token.LEFT_BRA)
+            {
+                //TODO 
+            }
+            else
+            {
+                eatToken(Token.EQUAL);
+
+                s.m_symbol = t.m_strVal;
+                s.m_expressList = new List<Expression>() { expression() };
+            }
 
             return s;
         }
@@ -639,10 +670,18 @@ namespace GVBASIC_Compiler.Compiler
             eatToken(Token.LET);
 
             Token t = eatToken(Token.SYMBOL);
-            eatToken(Token.EQUAL);
 
-            s.m_symbol = t.m_strVal;
-            s.m_expressList = new List<Expression>() { expression() };
+            if (lookAhead() == Token.LEFT_BRA)
+            {
+                //TODO 
+            }
+            else
+            {
+                eatToken(Token.EQUAL);
+
+                s.m_symbol = t.m_strVal;
+                s.m_expressList = new List<Expression>() { expression() };
+            }
 
             return s;
         }
@@ -882,7 +921,27 @@ namespace GVBASIC_Compiler.Compiler
                     tok = eatToken(Token.SYMBOL);
                     exp.m_symbolName = tok.m_strVal;
                     eatToken(Token.LEFT_BRA);
-                    //TODO 
+                    BaseData bd;
+                    exp.m_arrayIndexs = new List<int>();
+                    while (true)
+                    {
+                        int ttt = lookAhead();
+                        tok = eatToken(ttt);
+
+                        if (ttt == Token.INT)
+                            bd = new BaseData(tok.m_intVal);
+                        else if (ttt == Token.FLOAT)
+                            bd = new BaseData(tok.m_floatVal);
+                        else
+                            throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+                        bd.Convert(BaseData.TYPE_INT);
+                        exp.m_arrayIndexs.Add(bd.INT_VAL);
+                        if (lookAhead() == Token.COMMA)
+                            eatToken(Token.COMMA);
+                        else
+                            break;
+                    }
+                    eatToken(Token.RIGHT_BRA);
                 }
                 else
                 {

@@ -149,6 +149,7 @@ namespace GVBASIC_Compiler.Compiler
         public List<Expression> m_expressList;
         public List<string> m_symbolList;
         public List<BaseData> m_dataList;
+        public List<int> m_arrayDimension;
 
         /// <summary>
         /// constructor

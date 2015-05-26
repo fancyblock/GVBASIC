@@ -10,6 +10,7 @@ namespace GVBASIC_Compiler.Compiler
     {
         protected Dictionary<string, VarSymbol> m_varSymbolDic;
         protected Dictionary<string, FunSymbol> m_funSymbolDic;
+        protected Dictionary<string, ArraySymbol> m_arraySymbolDic;
 
         /// <summary>
         /// constructor 
@@ -18,6 +19,7 @@ namespace GVBASIC_Compiler.Compiler
         {
             m_varSymbolDic = new Dictionary<string, VarSymbol>();
             m_funSymbolDic = new Dictionary<string, FunSymbol>();
+            m_arraySymbolDic = new Dictionary<string, ArraySymbol>();
         }
 
         /// <summary>
@@ -30,6 +32,18 @@ namespace GVBASIC_Compiler.Compiler
                 m_varSymbolDic[sym.NAME] = sym;
             else
                 m_varSymbolDic.Add(sym.NAME, sym); 
+        }
+
+        /// <summary>
+        /// define a array 
+        /// </summary>
+        /// <param name="sym"></param>
+        public void Define( ArraySymbol sym )
+        {
+            if (m_arraySymbolDic.ContainsKey(sym.NAME))
+                m_arraySymbolDic[sym.NAME] = sym;
+            else
+                m_arraySymbolDic.Add(sym.NAME, sym);
         }
 
         /// <summary>
@@ -65,6 +79,24 @@ namespace GVBASIC_Compiler.Compiler
                 symbol = new VarSymbol( name, new BaseData(0.0f));
 
             m_varSymbolDic.Add(name, symbol);
+
+            return symbol;
+        }
+
+        /// <summary>
+        /// resolve array 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public ArraySymbol ResolveArray( string name )
+        {
+            if (m_arraySymbolDic.ContainsKey(name))
+                return m_arraySymbolDic[name];
+
+            // create a new 
+            ArraySymbol symbol = null;
+
+            //TODO 
 
             return symbol;
         }
