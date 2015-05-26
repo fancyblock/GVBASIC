@@ -562,7 +562,12 @@ namespace GVBASIC_Compiler.Compiler
             Statement dimStatement = new Statement(Statement.TYPE_DIM);
             eatToken(Token.DIM);
 
+            Token tok = eatToken(Token.SYMBOL);
+            dimStatement.m_symbol = tok.m_strVal;
+
+            eatToken(Token.LEFT_BRA);
             //TODO 
+            eatToken(Token.RIGHT_BRA);
 
             return dimStatement;
         }
@@ -870,9 +875,21 @@ namespace GVBASIC_Compiler.Compiler
 
             if (tt == Token.SYMBOL)
             {
-                exp = new Expression(Expression.EXP_SYMBOL);
-                tok = eatToken(Token.SYMBOL);
-                exp.m_symbolName = tok.m_strVal;
+                if (lookAhead(1) == Token.LEFT_BRA)
+                {
+                    // array 
+                    exp = new Expression(Expression.EXP_ARRAY_SYMBOL);
+                    tok = eatToken(Token.SYMBOL);
+                    exp.m_symbolName = tok.m_strVal;
+                    eatToken(Token.LEFT_BRA);
+                    //TODO 
+                }
+                else
+                {
+                    exp = new Expression(Expression.EXP_SYMBOL);
+                    tok = eatToken(Token.SYMBOL);
+                    exp.m_symbolName = tok.m_strVal;
+                }
             }
             else if (tt == Token.INT)
             {

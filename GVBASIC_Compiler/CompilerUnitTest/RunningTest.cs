@@ -287,5 +287,20 @@ namespace CompilerUnitTest
 
             TestHelper.TestProgram(code, result);
         }
+
+        [TestMethod]
+        public void DimArray()
+        {
+            string code =
+                "10 DIM A(10)                       \n" +
+                "20 PRINT A(10)                     ";
+
+            //
+
+            string result =
+                "0" + "\n";
+
+            TestHelper.TestProgram(code, result);
+        }
     }
 }
