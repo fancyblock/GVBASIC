@@ -98,6 +98,7 @@ namespace GVBASIC_Compiler.Compiler
         public ArraySymbol( string name, List<int> dimension )
         {
             m_type = Symbol.ARRAY;
+            m_name = name;
             m_dimension = dimension;
         }
     }
