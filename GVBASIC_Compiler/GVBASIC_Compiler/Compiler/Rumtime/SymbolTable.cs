@@ -88,15 +88,24 @@ namespace GVBASIC_Compiler.Compiler
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public ArraySymbol ResolveArray( string name )
+        public ArraySymbol ResolveArray( string name, List<int> indexs )
         {
             if (m_arraySymbolDic.ContainsKey(name))
                 return m_arraySymbolDic[name];
 
-            // create a new 
-            ArraySymbol symbol = null;
+            List<int> ranges = new List<int>();
 
-            //TODO 
+            foreach( int index in indexs )
+            {
+                if (index >= 10)
+                    throw new ErrorCode(ErrorCode.ERROR_CODE_08);
+
+                ranges.Add(10);
+            }
+
+            // create a new 
+            ArraySymbol symbol = new ArraySymbol(name, ranges);
+            m_arraySymbolDic.Add(name, symbol);
 
             return symbol;
         }

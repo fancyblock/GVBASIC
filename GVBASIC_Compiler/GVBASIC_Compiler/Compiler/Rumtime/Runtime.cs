@@ -178,8 +178,16 @@ namespace GVBASIC_Compiler.Compiler
             // calculate the expression value 
             BaseData dat = calculateExp(s.m_expressList[0]).m_value;
 
-            VarSymbol symbol = m_symbolTable.ResolveVar(s.m_symbol);
-            symbol.VALUE = dat;
+            if( s.m_arrayDimension == null )
+            {
+                VarSymbol symbol = m_symbolTable.ResolveVar(s.m_symbol);
+                symbol.VALUE = dat;
+            }
+            else
+            {
+                ArraySymbol arrSymbol = m_symbolTable.ResolveArray(s.m_symbol, s.m_arrayDimension);
+                arrSymbol.SetValue(s.m_arrayDimension, dat);
+            }
         }
 
         /// <summary>
@@ -484,7 +492,8 @@ namespace GVBASIC_Compiler.Compiler
                     result = new Expression( s.VALUE );
                     break;
                 case Expression.EXP_ARRAY_SYMBOL:
-                    //TODO 
+                    ArraySymbol arr = m_symbolTable.ResolveArray(exp.m_symbolName, exp.m_arrayIndexs);
+                    result = new Expression(arr.GetValue( exp.m_arrayIndexs));
                     break;
                 case Expression.EXP_FUNC:
                     List<BaseData> param = new List<BaseData>();

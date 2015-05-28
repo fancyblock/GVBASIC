@@ -294,12 +294,15 @@ namespace CompilerUnitTest
             string code =
                 "10 DIM A(10)                       \n" +
                 "20 A(1) = 17                       \n" +
-                "30 PRINT A(1)                      \n";
+                "30 PRINT A(1)                      \n" +
+                "40 B(2,7) = 888                    \n" +
+                "50 PRINT B(2,7) + A(1)             \n";
 
-            //
+            // 17
+            // 905
 
             string result =
-                "0" + "\n";
+                "17" + "\n";
 
             TestHelper.TestProgram(code, result);
         }

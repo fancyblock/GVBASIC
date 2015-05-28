@@ -100,6 +100,33 @@ namespace GVBASIC_Compiler.Compiler
             m_type = Symbol.ARRAY;
             m_name = name;
             m_dimension = dimension;
+
+            if (dimension.Count > 2)
+                throw new ErrorCode(ErrorCode.ERROR_CODE_06);
+
+            //TODO 
+        }
+
+        /// <summary>
+        /// set value 
+        /// </summary>
+        /// <param name="indexs"></param>
+        /// <param name="val"></param>
+        public void SetValue( List<int> indexs, BaseData val )
+        {
+            //TODO 
+        }
+
+        /// <summary>
+        /// get value 
+        /// </summary>
+        /// <param name="indexs"></param>
+        /// <returns></returns>
+        public BaseData GetValue( List<int> indexs )
+        {
+            //TODO 
+
+            return BaseData.ZERO;
         }
     }
 
