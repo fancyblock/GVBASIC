@@ -143,6 +143,7 @@ namespace GVBASIC_Compiler.Compiler
 
         public string m_symbol;
         public int m_intVal;
+        public Expression m_exp;
 
         public List<Statement> m_statements;
         public List<Statement> m_elseStatements;

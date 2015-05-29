@@ -176,17 +176,18 @@ namespace GVBASIC_Compiler.Compiler
         protected void doAssign( Statement s )
         {
             // calculate the expression value 
-            BaseData dat = calculateExp(s.m_expressList[0]).m_value;
+            BaseData dat = calculateExp(s.m_exp).m_value;
 
-            if( s.m_arrayDimension == null )
+            if( s.m_expressList == null )
             {
                 VarSymbol symbol = m_symbolTable.ResolveVar(s.m_symbol);
                 symbol.VALUE = dat;
             }
             else
             {
-                ArraySymbol arrSymbol = m_symbolTable.ResolveArray(s.m_symbol, s.m_arrayDimension);
-                arrSymbol.SetValue(s.m_arrayDimension, dat);
+                List<int> indexs = expressListToIndexs(s.m_expressList);
+                ArraySymbol arrSymbol = m_symbolTable.ResolveArray(s.m_symbol, indexs);
+                arrSymbol.SetValue(indexs, dat);
             }
         }
 
@@ -492,8 +493,9 @@ namespace GVBASIC_Compiler.Compiler
                     result = new Expression( s.VALUE );
                     break;
                 case Expression.EXP_ARRAY_SYMBOL:
-                    ArraySymbol arr = m_symbolTable.ResolveArray(exp.m_symbolName, exp.m_arrayIndexs);
-                    result = new Expression(arr.GetValue( exp.m_arrayIndexs));
+                    List<int> indexs = expressListToIndexs(exp.m_funcParams);
+                    ArraySymbol arr = m_symbolTable.ResolveArray(exp.m_symbolName, indexs);
+                    result = new Expression(arr.GetValue(indexs));
                     break;
                 case Expression.EXP_FUNC:
                     List<BaseData> param = new List<BaseData>();
@@ -603,6 +605,26 @@ namespace GVBASIC_Compiler.Compiler
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// expression list to indexs 
+        /// </summary>
+        /// <param name="expList"></param>
+        /// <returns></returns>
+        protected List<int> expressListToIndexs( List<Expression> expList )
+        {
+            List<int> indexs = new List<int>();
+            
+            foreach( Expression exp in expList)
+            {
+                BaseData bd = calculateExp(exp).m_value;
+                bd.Convert(BaseData.TYPE_INT);
+
+                indexs.Add(bd.INT_VAL);
+            }
+
+            return indexs;
         }
 
     }
