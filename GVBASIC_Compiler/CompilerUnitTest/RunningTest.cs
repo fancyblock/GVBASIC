@@ -296,13 +296,22 @@ namespace CompilerUnitTest
                 "20 A(1) = 17                       \n" +
                 "30 PRINT A(1)                      \n" +
                 "40 B(2,7) = 888                    \n" +
-                "50 PRINT B(2,7) + A(1)             \n";
+                "50 PRINT B(2,7) + A(1)             \n" +
+                "60 FOR I=1 TO 7                    \n" +
+                "70 FOR J=1 TO 5                    \n" +
+                "80 F$(I,J) = I + \",\" + J         \n" +
+                "90 NEXT                            \n" +
+                "100 NEXT                           \n" +
+                "110 PRINT F$(3,4)                  \n";
 
             // 17
             // 905
+            // 3,4
 
             string result =
-                "17" + "\n";
+                "17"            + "\n" +
+                "905"           + "\n" +
+                "3,4"           + "\n";
 
             TestHelper.TestProgram(code, result);
         }

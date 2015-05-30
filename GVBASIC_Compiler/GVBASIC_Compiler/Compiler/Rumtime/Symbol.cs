@@ -88,7 +88,8 @@ namespace GVBASIC_Compiler.Compiler
     public class ArraySymbol:Symbol
     {
         protected List<int> m_dimension;
-        //TODO 
+        protected BaseData[] m_data;
+        protected int m_dataType;
 
         /// <summary>
         /// constructor 
@@ -104,7 +105,18 @@ namespace GVBASIC_Compiler.Compiler
             if (dimension.Count > 2)
                 throw new ErrorCode(ErrorCode.ERROR_CODE_06);
 
-            //TODO 
+            if (m_name.EndsWith("%"))
+                m_dataType = BaseData.TYPE_INT;
+            else if (m_name.EndsWith("$"))
+                m_dataType = BaseData.TYPE_STRING;
+            else
+                m_dataType = BaseData.TYPE_FLOAT;
+
+            int count = 1;
+            foreach (int d in m_dimension)
+                count *= d;
+
+            m_data = new BaseData[count];
         }
 
         /// <summary>
@@ -114,7 +126,21 @@ namespace GVBASIC_Compiler.Compiler
         /// <param name="val"></param>
         public void SetValue( List<int> indexs, BaseData val )
         {
-            //TODO 
+            if (indexs.Count != m_dimension.Count)
+                throw new ErrorCode(ErrorCode.ERROR_CODE_08);
+
+            val.Convert(m_dataType);
+
+            int index = 0;
+
+            int factor = 1;
+            for (int i = m_dimension.Count - 1; i >= 0; i-- )
+            {
+                index += factor * indexs[i];
+                factor *= m_dimension[i];
+            }
+
+            m_data[index] = val;
         }
 
         /// <summary>
@@ -124,9 +150,16 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns></returns>
         public BaseData GetValue( List<int> indexs )
         {
-            //TODO 
+            int index = 0;
 
-            return BaseData.ZERO;
+            int factor = 1;
+            for (int i = m_dimension.Count - 1; i >= 0; i--)
+            {
+                index += factor * indexs[i];
+                factor *= m_dimension[i];
+            }
+
+            return m_data[index];
         }
     }
 
