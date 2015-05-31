@@ -1,3 +1,0 @@
-yacc -dv gvbasic.y
-lex gvbasic.l
-cc lex.yy.c y.tab.c -o gvbasic
