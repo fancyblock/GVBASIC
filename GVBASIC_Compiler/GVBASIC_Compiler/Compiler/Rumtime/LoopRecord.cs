@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GVBASIC_Compiler.Compiler
 {
@@ -59,15 +56,9 @@ namespace GVBASIC_Compiler.Compiler
             m_loopSymbol.VALUE = m_loopSymbol.VALUE + m_stepValue;
 
             if (m_stepValue > BaseData.ZERO)
-            {
-                if (m_loopSymbol.VALUE > m_endValue)
-                    return true;
-            }
+                if (m_loopSymbol.VALUE > m_endValue)        return true;
             else if (m_stepValue < BaseData.ZERO)
-            {
-                if (m_loopSymbol.VALUE < m_endValue)
-                    return true;
-            }
+                if (m_loopSymbol.VALUE < m_endValue)        return true;
 
             return false;
         }
@@ -107,21 +98,13 @@ namespace GVBASIC_Compiler.Compiler
             BaseData dat = calcExp(m_judgeExp).m_value;
 
             if( dat.TYPE == BaseData.TYPE_STRING )
-            {
                 return string.IsNullOrEmpty(dat.STR_VAL);
-            }
             else if( dat.TYPE == BaseData.TYPE_INT )
-            {
                 return dat.INT_VAL == 0;
-            }
             else if( dat.TYPE == BaseData.TYPE_FLOAT )
-            {
                 return dat.FLOAT_VAL == 0.0f;
-            }
             else
-            {
                 throw new ErrorCode(ErrorCode.ERROR_CODE_02);
-            }
         }
     }
 
