@@ -417,7 +417,41 @@ namespace GVBASIC_Compiler.Compiler
                 
         protected void onSwap( Statement s )
         {
-            //TODO 
+            Expression exp1 = s.m_expressList[0];
+            Expression exp2 = s.m_expressList[1];
+
+            BaseData dat1 = calculateExp(exp1).m_value;
+            BaseData dat2 = calculateExp(exp2).m_value;
+
+            List<int> indexs;
+
+            if( exp1.m_type == Expression.EXP_SYMBOL )
+            {
+                m_symbolTable.ResolveVar(exp1.m_symbolName).VALUE = dat2;
+            }
+            else if (exp1.m_type == Expression.EXP_ARRAY_SYMBOL)
+            {
+                indexs = expressListToIndexs(exp1.m_funcParams);
+                m_symbolTable.ResolveArray(exp1.m_symbolName, indexs ).SetValue(indexs,dat2);
+            }
+            else
+            {
+                throw new ErrorCode(ErrorCode.ERROR_CODE_02);
+            }
+
+            if (exp2.m_type == Expression.EXP_SYMBOL)
+            {
+                m_symbolTable.ResolveVar(exp2.m_symbolName).VALUE = dat1;
+            }
+            else if (exp2.m_type == Expression.EXP_ARRAY_SYMBOL)
+            {
+                indexs = expressListToIndexs(exp2.m_funcParams);
+                m_symbolTable.ResolveArray(exp2.m_symbolName, indexs).SetValue(indexs, dat1);
+            }
+            else
+            {
+                throw new ErrorCode(ErrorCode.ERROR_CODE_02);
+            }
         }
 
         protected void onSimpleCmd( Statement s )

@@ -176,6 +176,9 @@ namespace GVBASIC_Compiler.Compiler
                     case Token.DEF:
                         ss = defFnStatement();
                         break;
+                    case Token.SWAP:
+                        ss = swapStatement();
+                        break;
                     case Token.SIMPLE_CMD:
                         ss = simpleCommand();
                         break;
@@ -609,6 +612,24 @@ namespace GVBASIC_Compiler.Compiler
             fnStatement.m_expressList.Add(fnExp);
 
             return fnStatement;
+        }
+
+        /// <summary>
+        /// swap two vars
+        /// </summary>
+        /// <returns></returns>
+        protected Statement swapStatement()
+        {
+            Statement s = new Statement(Statement.TYPE_SWAP);
+
+            eatToken(Token.SWAP);
+            s.m_expressList = new List<Expression>();
+
+            s.m_expressList.Add(expression());
+            eatToken(Token.COMMA);
+            s.m_expressList.Add(expression());
+
+            return s;
         }
 
         /// <summary>

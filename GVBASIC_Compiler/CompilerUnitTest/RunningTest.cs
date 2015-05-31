@@ -315,5 +315,31 @@ namespace CompilerUnitTest
 
             TestHelper.TestProgram(code, result);
         }
+
+        [TestMethod]
+        public void SwapVar()
+        {
+            string code =
+                "10 A=7:B=9                         \n" +
+                "20 SWAP A,B                        \n" +
+                "30 PRINT A,B                       \n" +
+                "40 C(2,3) = 77                     \n" +
+                "50 I=2                             \n" +
+                "60 SWAP A, C(I,I+1)                \n" +
+                "70 PRINT C(2,3),A                  \n";
+
+            // 9
+            // 7
+            // 9
+            // 77
+
+            string result =
+                "9"             + "\n" +
+                "7"             + "\n" +
+                "9"             + "\n" +
+                "77"            + "\n";
+
+            TestHelper.TestProgram(code, result);
+        }
     }
 }

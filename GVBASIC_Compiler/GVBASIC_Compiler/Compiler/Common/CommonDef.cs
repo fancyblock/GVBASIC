@@ -69,6 +69,7 @@ namespace GVBASIC_Compiler.Compiler
         public const int POP = 90;                      // POP 
         public const int REM = 91;                      // REM 
         public const int END = 92;                      // END 
+        public const int SWAP = 93;                     // SWAP
 
         public const int PRINT = 100;
         public const int OPEN = 101;
