@@ -50,10 +50,10 @@ public class LED : MonoBehaviour
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <param name="ascii"></param>
-    public void DrawLetter( int x, int y, int ascii, bool reverse )
+    public void DrawLetter( int x, int y, int ascii, bool inverse )
     {
-        if( reverse )
-            m_texture.SetPixels(x, y, ASCII.WIDTH, ASCII.HEIGHT, m_asciis[ascii].m_reverseColor);
+        if( inverse )
+            m_texture.SetPixels(x, y, ASCII.WIDTH, ASCII.HEIGHT, m_asciis[ascii].m_inverseColor);
         else
             m_texture.SetPixels(x, y, ASCII.WIDTH, ASCII.HEIGHT, m_asciis[ascii].m_color);
     }

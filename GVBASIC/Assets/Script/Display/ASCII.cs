@@ -11,7 +11,7 @@ public class ASCII
 
     public int m_asciiCode;
     public Color[] m_color;
-    public Color[] m_reverseColor;
+    public Color[] m_inverseColor;
 
     /// <summary>
     /// constructor 
@@ -21,27 +21,27 @@ public class ASCII
     {
         m_asciiCode = asciiCode;
         m_color = new Color[128];
-        m_reverseColor = new Color[128];
+        m_inverseColor = new Color[128];
         int[] dotMatrix = getDotMatrix(asciiCode);
 
         int k = 0;
-        for( int i = 0; i < 16; i++ )
+        for (int i = 0; i < HEIGHT; i++)
         {
             int line = dotMatrix[i];
 
-            for( int j = 0; j < 8; j++ )
+            for (int j = 0; j < WIDTH; j++)
             {
                 bool isBlack = ( line >> (7-j) & 0x01 ) == 1 ? true : false;
 
                 if( isBlack )
                 {
                     m_color[k] = black;
-                    m_reverseColor[k] = white;
+                    m_inverseColor[k] = white;
                 }
                 else
                 {
                     m_color[k] = white;
-                    m_reverseColor[k] = black;
+                    m_inverseColor[k] = black;
                 }
 
                 k++;

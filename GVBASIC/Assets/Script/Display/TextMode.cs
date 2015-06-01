@@ -33,29 +33,25 @@ public class TextMode : MonoBehaviour
         // reset the inverse mode 
         m_inverseMode = false;
     }
-	
-	// Update is called once per frame
-	void Update () 
+
+    void Start()
     {
-		//TODO 
-	}
+        DrawChar(0, 0, 65);
+        DrawChar(0, 1, 97);
+        DrawChar(0, 2, 77);
+        DrawChar(0, 3, 111);
+        DrawChar(0, 4, 109);
+    }
 
     /// <summary>
-    /// show ASCII 
+    /// draw a char 
     /// </summary>
-    /// <param name="offset"></param>
-	//[TEMP]
-    public void ShowASCII( int offset )
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="chr"></param>
+    public void DrawChar( int x, int y, int chr )
     {
-        for( int i = 0; i < 100; i++ )
-        {
-            int letter = i + offset;
-
-            int x = (i % 20) * 8;
-            int y = i/20 * 16;
-
-            m_led.DrawLetter(x, y, letter, false);
-        }
+        m_led.DrawLetter( x*ASCII.WIDTH, y*ASCII.HEIGHT, chr, m_inverseMode);
     }
 
     /// <summary>
@@ -93,33 +89,6 @@ public class TextMode : MonoBehaviour
     {
 		m_curPosX = x;
 		m_curPosY = y;
-    }
-
-    /// <summary>
-    /// print string        [PRINT]
-    /// </summary>
-    /// <param name="str"></param>
-    public void Print( string str )
-    {
-        //TODO 
-    }
-
-    /// <summary>
-    /// print n spaces      [SPC]
-    /// </summary>
-    /// <param name="n"></param>
-    public void PrintSpace( int n )
-    {
-        //TODO 
-    }
-
-    /// <summary>
-    /// move the locate     [TAB]
-    /// </summary>
-    /// <param name="n"></param>
-    public void Tab( int n )
-    {
-        //TODO 
     }
 
 }
