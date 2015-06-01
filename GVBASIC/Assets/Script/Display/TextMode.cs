@@ -7,7 +7,6 @@ public class TextMode : MonoBehaviour
 	public int TEXT_CNT_HEIGHT = 5;
 
     public LED m_led;
-    public GraphMode m_otherMode;
 
 	protected int[,] m_displayBuffer;
 	protected int m_curPosX;
@@ -40,17 +39,6 @@ public class TextMode : MonoBehaviour
     {
 		//TODO 
 	}
-
-    /// <summary>
-    /// active this mode    [TEXT]
-    /// </summary>
-    public void SetActive()
-    {
-        m_otherMode.enabled = false;
-        this.enabled = true;
-
-        //TODO 
-    }
 
     /// <summary>
     /// show ASCII 
@@ -115,8 +103,6 @@ public class TextMode : MonoBehaviour
     {
         //TODO 
     }
-
-    //TODO 
 
     /// <summary>
     /// print n spaces      [SPC]

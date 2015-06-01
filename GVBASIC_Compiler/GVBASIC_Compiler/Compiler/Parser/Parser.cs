@@ -1002,7 +1002,7 @@ namespace GVBASIC_Compiler.Compiler
             Statement s = new Statement(Statement.TYPE_SIMPLE_CMD);
 
             Token tok = eatToken(Token.SIMPLE_CMD);
-            //s.m_symbol
+            s.m_symbol = tok.m_strVal;
 
             return s;
         }
@@ -1016,6 +1016,7 @@ namespace GVBASIC_Compiler.Compiler
             Statement s = new Statement(Statement.TYPE_PARAM_CMD);
 
             Token tok = eatToken(Token.PARAM_CMD);
+            s.m_symbol = tok.m_strVal;
             //TODO 
 
             return s;
