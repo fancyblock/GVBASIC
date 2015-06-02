@@ -2,7 +2,7 @@
 using System;
 using System.Collections;
 
-public class TextMode : MonoBehaviour 
+public class TextDisplay : MonoBehaviour 
 {
 	public int TEXT_AREA_WIDTH = 20;
 	public int TEXT_AREA_HEIGHT = 5;
@@ -27,11 +27,6 @@ public class TextMode : MonoBehaviour
 
         // reset the inverse mode 
         m_inverseMode = false;
-    }
-
-    void Start()
-    {
-        DrawText(3, 0, "Hejiabin1985,Hahahaha\nhaa");
     }
 
     /// <summary>
@@ -108,7 +103,7 @@ public class TextMode : MonoBehaviour
     /// <summary>
     /// clean the screen    [CLS]
     /// </summary>
-    public void CLS()
+    public void Clean()
     {
         m_led.CleanScreen();
     }
