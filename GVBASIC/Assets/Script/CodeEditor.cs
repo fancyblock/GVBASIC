@@ -7,12 +7,15 @@ using System.Text;
 public class CodeEditor : MonoBehaviour 
 {
     public TextDisplay m_textDisplay;
+    public float m_flashInterval;
 
     protected List<StringBuilder> m_buffer;
     protected int m_curLine;
     protected int m_curIndex;
 
     protected bool m_isInsertMode;
+
+    protected float m_timer;
 
 	// Use this for initialization
 	void Start () 
@@ -24,12 +27,28 @@ public class CodeEditor : MonoBehaviour
         m_curIndex = 0;
 
         m_isInsertMode = false;
+
+        m_timer = 0.0f;
 	}
 	
 	// Update is called once per frame
 	void Update () 
     {
+        int chr = 0;
+
+        StringBuilder sb = m_buffer[m_curLine];
+        if( m_curIndex < sb.Length )
+            chr = sb[m_curIndex];
+
+        int x = 0;
+        int y = m_curIndex % Defines.TEXT_AREA_WIDTH;
         //TODO 
+
+        // update timer 
+        m_timer += Time.deltaTime;
+
+        if (m_timer > m_flashInterval)
+            m_timer = 0.0f;
 	}
 
     /// <summary>
@@ -101,19 +120,17 @@ public class CodeEditor : MonoBehaviour
 
         StringBuilder sb = m_buffer[m_curLine];
         if( m_curIndex < sb.Length )
-        {
             sb[m_curIndex] = (char)chr;
-        }
         else
-        {
             sb.Insert(m_curIndex, (char)chr);
-        }
 
         m_curIndex++;
     }
 
     protected void refreshLED()
     {
+        m_textDisplay.Clean();
+
         foreach( StringBuilder sb in m_buffer )
         {
             m_textDisplay.DrawText(0, 0, sb.ToString());
