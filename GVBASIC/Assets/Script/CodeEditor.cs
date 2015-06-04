@@ -56,9 +56,11 @@ public class CodeEditor : MonoBehaviour
                 onMoveCursor(key);
                 break;
             default:
-                onChar();
+                onChar(key);
                 break;
         }
+
+        refreshLED();
     }
 
     
@@ -77,9 +79,31 @@ public class CodeEditor : MonoBehaviour
         //TODO 
     }
 
-    protected void onChar()
+    protected void onChar( KeyCode key )
     {
-        //TODO 
+        int chr = (int)key;
+        if (chr < 0 || chr >= 128)
+            return;
+
+        StringBuilder sb = m_buffer[m_curLine];
+        if( m_curIndex < sb.Length )
+        {
+            sb[m_curIndex] = (char)chr;
+        }
+        else
+        {
+            sb.Insert(m_curIndex, (char)chr);
+        }
+
+        m_curIndex++;
+    }
+
+    protected void refreshLED()
+    {
+        foreach( StringBuilder sb in m_buffer )
+        {
+            m_textDisplay.DrawText(0, 0, sb.ToString());
+        }
     }
 
 }
