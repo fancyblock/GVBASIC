@@ -11,7 +11,7 @@ public class Keyboard : MonoBehaviour
         if (!Input.anyKeyDown)
             return;
 
-        for (KeyCode k = KeyCode.None; k < KeyCode.Home; k++)
+        for (KeyCode k = KeyCode.None; k <= KeyCode.Home; k++)
         {
             if (Input.GetKeyDown(k))
             {

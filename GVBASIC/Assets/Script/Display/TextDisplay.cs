@@ -52,10 +52,22 @@ public class TextDisplay : MonoBehaviour
     /// <param name="chr"></param>
     public void DrawChar( int x, int y, int chr )
     {
+        DrawChar(x, y, chr, m_inverseMode);
+    }
+
+    /// <summary>
+    /// draw char 
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="chr"></param>
+    /// <param name="inverse"></param>
+    public void DrawChar( int x, int y, int chr, bool inverse )
+    {
         if (x < 0 || y < 0 || x >= TEXT_AREA_WIDTH || y >= TEXT_AREA_HEIGHT)
             throw new Exception("[TextMode]: DrawChar, out of space.");
 
-        m_led.DrawLetter( x*ASCII.WIDTH, y*ASCII.HEIGHT, chr, m_inverseMode);
+        m_led.DrawLetter(x * ASCII.WIDTH, y * ASCII.HEIGHT, chr, inverse);
     }
 
     /// <summary>

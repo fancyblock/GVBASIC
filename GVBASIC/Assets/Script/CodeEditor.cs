@@ -40,6 +40,9 @@ public class CodeEditor : MonoBehaviour
     {
         switch( key )
         {
+            case KeyCode.Home:
+                onClearAll();
+                break;
             case KeyCode.Return:
                 onEnter();
                 break;
@@ -64,6 +67,17 @@ public class CodeEditor : MonoBehaviour
     }
 
     
+    protected void onClearAll()
+    {
+        m_buffer.Clear();
+        m_buffer.Add(new StringBuilder());
+        
+        m_curLine = 0;
+        m_curIndex = 0;
+
+        m_textDisplay.Clean();
+    }
+
     protected void onEnter()
     {
         //TODO 
@@ -103,6 +117,7 @@ public class CodeEditor : MonoBehaviour
         foreach( StringBuilder sb in m_buffer )
         {
             m_textDisplay.DrawText(0, 0, sb.ToString());
+            //TODO 
         }
     }
 
