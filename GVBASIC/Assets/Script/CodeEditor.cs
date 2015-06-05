@@ -40,9 +40,26 @@ public class CodeEditor : MonoBehaviour
         if( m_curIndex < sb.Length )
             chr = sb[m_curIndex];
 
-        int x = 0;
-        int y = m_curIndex % Defines.TEXT_AREA_WIDTH;
-        //TODO 
+        int x = m_curIndex % Defines.TEXT_AREA_WIDTH;
+        int y = 0;
+
+        for (int i = 0; i <= m_curLine; i++ )
+        {
+            if( i != m_curLine)
+            {
+                //TODO 
+            }
+            else
+            {
+                y += m_curIndex / Defines.TEXT_AREA_WIDTH;
+            }
+        }
+
+        // draw the flash char 
+        if (m_timer > m_flashInterval * 0.5f)
+            m_textDisplay.DrawChar(x, y, chr, true);
+        else
+            m_textDisplay.DrawChar(x, y, chr, false);
 
         // update timer 
         m_timer += Time.deltaTime;
