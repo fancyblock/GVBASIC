@@ -46,13 +46,9 @@ public class CodeEditor : MonoBehaviour
         for (int i = 0; i <= m_curLine; i++ )
         {
             if( i != m_curLine)
-            {
-                //TODO 
-            }
+                y += Mathf.CeilToInt( (float)m_buffer[i].Length / (float)Defines.TEXT_AREA_WIDTH );
             else
-            {
                 y += m_curIndex / Defines.TEXT_AREA_WIDTH;
-            }
         }
 
         // draw the flash char 
@@ -121,12 +117,45 @@ public class CodeEditor : MonoBehaviour
 
     protected void onDel()
     {
-        //TODO 
+        StringBuilder sb = m_buffer[m_curLine];
+
+        if (sb.Length == 0)
+            return;
+
+        if( m_curIndex < sb.Length )
+        {
+            sb.Remove(m_curIndex, 1);
+        }
+        else
+        {
+            sb.Remove(sb.Length - 1, 1);
+            m_curIndex--;
+        }
     }
 
     protected void onMoveCursor( KeyCode dir )
     {
-        //TODO 
+        StringBuilder sb = null;
+
+        if( dir == KeyCode.LeftArrow )
+        {
+            if (m_curIndex > 0)
+                m_curIndex--;
+        }
+        else if( dir == KeyCode.RightArrow)
+        {
+            sb = m_buffer[m_curLine];
+            if (m_curIndex < sb.Length)
+                m_curIndex++;
+        }
+        else if( dir == KeyCode.UpArrow )
+        {
+            //TODO 
+        }
+        else if( dir == KeyCode.DownArrow )
+        {
+            //TODO 
+        }
     }
 
     protected void onChar( KeyCode key )
@@ -137,9 +166,9 @@ public class CodeEditor : MonoBehaviour
 
         StringBuilder sb = m_buffer[m_curLine];
         if( m_curIndex < sb.Length )
-            sb[m_curIndex] = (char)chr;
+            sb[m_curIndex] = (char)chr;             // replace 
         else
-            sb.Insert(m_curIndex, (char)chr);
+            sb.Insert(m_curIndex, (char)chr);       // add to the end of line 
 
         m_curIndex++;
     }
@@ -148,10 +177,11 @@ public class CodeEditor : MonoBehaviour
     {
         m_textDisplay.Clean();
 
+        int y = 0;
         foreach( StringBuilder sb in m_buffer )
         {
-            m_textDisplay.DrawText(0, 0, sb.ToString());
-            //TODO 
+            m_textDisplay.DrawText(0, y, sb.ToString());
+            y += Mathf.CeilToInt((float)sb.Length / (float)Defines.TEXT_AREA_WIDTH);
         }
     }
 
