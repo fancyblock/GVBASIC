@@ -4,10 +4,12 @@ using System.Collections.Generic;
 using System.Text;
 
 
+/// <summary>
+/// code editor 
+/// </summary>
 public class CodeEditor : MonoBehaviour 
 {
     public TextDisplay m_textDisplay;
-    public float m_flashInterval;
 
     protected List<StringBuilder> m_buffer;
     protected int m_curLine;
@@ -15,53 +17,13 @@ public class CodeEditor : MonoBehaviour
 
     protected bool m_isInsertMode;
 
-    protected float m_timer;
-
 	// Use this for initialization
 	void Start () 
     {
         m_buffer = new List<StringBuilder>();
-        m_buffer.Add(new StringBuilder());
+        onClearAll();
 
-        m_curLine = 0;
-        m_curIndex = 0;
-
-        m_isInsertMode = false;
-
-        m_timer = 0.0f;
-	}
-	
-	// Update is called once per frame
-	void Update () 
-    {
-        int chr = 0;
-
-        StringBuilder sb = m_buffer[m_curLine];
-        if( m_curIndex < sb.Length )
-            chr = sb[m_curIndex];
-
-        int x = m_curIndex % Defines.TEXT_AREA_WIDTH;
-        int y = 0;
-
-        for (int i = 0; i <= m_curLine; i++ )
-        {
-            if( i != m_curLine)
-                y += Mathf.CeilToInt( (float)m_buffer[i].Length / (float)Defines.TEXT_AREA_WIDTH );
-            else
-                y += m_curIndex / Defines.TEXT_AREA_WIDTH;
-        }
-
-        // draw the flash char 
-        if (m_timer > m_flashInterval * 0.5f)
-            m_textDisplay.DrawChar(x, y, chr, true);
-        else
-            m_textDisplay.DrawChar(x, y, chr, false);
-
-        // update timer 
-        m_timer += Time.deltaTime;
-
-        if (m_timer > m_flashInterval)
-            m_timer = 0.0f;
+        m_textDisplay.Refresh();
 	}
 
     /// <summary>
@@ -108,6 +70,7 @@ public class CodeEditor : MonoBehaviour
         m_curIndex = 0;
 
         m_textDisplay.Clean();
+        m_textDisplay.SetCursor(true, 0, 0);
     }
 
     protected void onEnter()
@@ -183,6 +146,20 @@ public class CodeEditor : MonoBehaviour
             m_textDisplay.DrawText(0, y, sb.ToString());
             y += Mathf.CeilToInt((float)sb.Length / (float)Defines.TEXT_AREA_WIDTH);
         }
+
+        int x = m_curIndex % Defines.TEXT_AREA_WIDTH;
+        y = 0;
+
+        for (int i = 0; i <= m_curLine; i++)
+        {
+            if (i != m_curLine)
+                y += Mathf.CeilToInt((float)m_buffer[i].Length / (float)Defines.TEXT_AREA_WIDTH);
+            else
+                y += m_curIndex / Defines.TEXT_AREA_WIDTH;
+        }
+
+        m_textDisplay.SetCursor(true, x, y);
+        m_textDisplay.Refresh();
     }
 
 }
