@@ -75,7 +75,7 @@ public class CodeEditor : MonoBehaviour
 
     protected void onEnter()
     {
-        //TODO 
+        onMoveCursor(KeyCode.DownArrow);
     }
 
     protected void onDel()
@@ -83,7 +83,25 @@ public class CodeEditor : MonoBehaviour
         LineInfo li = m_buffer[m_curLine];
 
         if (li.LENGTH == 0)
+        {
+            if( m_buffer.Count > 1 )
+            {
+                m_buffer.Remove(li);
+
+                if( m_curLine >= m_buffer.Count )
+                {
+                    // 光标移至删除行的上一行
+                    m_curLine--;
+                    m_curIndex = m_buffer[m_curLine].GetLastLineIndex(m_curIndex % Defines.TEXT_AREA_WIDTH);
+                }
+                else
+                {
+                    // 光标移至删除行的下一行
+                    m_curIndex = m_buffer[m_curLine].GetFirstLineIndex(m_curIndex % Defines.TEXT_AREA_WIDTH);
+                }
+            }
             return;
+        }
 
         if( m_curIndex < li.LENGTH )
         {
@@ -98,7 +116,7 @@ public class CodeEditor : MonoBehaviour
 
     protected void onMoveCursor( KeyCode dir )
     {
-        LineInfo li = null;
+        LineInfo li = m_buffer[m_curLine];;
 
         if( dir == KeyCode.LeftArrow )
         {
@@ -107,7 +125,6 @@ public class CodeEditor : MonoBehaviour
         }
         else if( dir == KeyCode.RightArrow)
         {
-            li = m_buffer[m_curLine];
             if (m_curIndex < li.LENGTH)
                 m_curIndex++;
         }
@@ -122,13 +139,31 @@ public class CodeEditor : MonoBehaviour
                 if( m_curLine > 0 )
                 {
                     m_curLine--;
-                    //TODO  
+                    m_curIndex = m_buffer[m_curLine].GetLastLineIndex(m_curIndex);
                 }
             }
         }
         else if( dir == KeyCode.DownArrow )
         {
-            //TODO 
+            if( m_curIndex + Defines.TEXT_AREA_WIDTH < li.LENGTH )
+            {
+                m_curIndex += Defines.TEXT_AREA_WIDTH;
+            }
+            else
+            {
+                if( m_curLine == m_buffer.Count - 1 )
+                {
+                    // 插入新行  
+                    m_buffer.Add(new LineInfo());
+                    m_curLine = m_buffer.Count - 1;
+                    m_curIndex = 0;
+                }
+                else
+                {
+                    m_curLine++;
+                    m_curIndex = m_buffer[m_curLine].GetFirstLineIndex(m_curIndex % Defines.TEXT_AREA_WIDTH);
+                }
+            }
         }
     }
 

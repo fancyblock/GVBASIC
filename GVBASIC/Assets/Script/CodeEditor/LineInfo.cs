@@ -69,4 +69,34 @@ public class LineInfo
             m_buffer.Insert(index, chr);       // add to the end of line 
     }
 
+    /// <summary>
+    /// TODO 
+    /// </summary>
+    /// <param name="index"></param>
+    /// <returns></returns>
+    public int GetLastLineIndex( int index )
+    {
+        int idx = 0;
+
+        idx = m_buffer.Length % Defines.TEXT_AREA_WIDTH;
+        if (idx >= index)
+            idx = index;
+
+        idx += (m_buffer.Length / Defines.TEXT_AREA_WIDTH) * Defines.TEXT_AREA_WIDTH;
+
+        return idx;
+    }
+
+    public int GetFirstLineIndex( int index )
+    {
+        int idx = 0;
+
+        if (m_buffer.Length > index)
+            idx = index;
+        else
+            idx = m_buffer.Length - 1;
+
+        return idx;
+    }
+
 }
