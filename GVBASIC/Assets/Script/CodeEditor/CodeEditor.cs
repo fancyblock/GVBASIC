@@ -113,7 +113,18 @@ public class CodeEditor : MonoBehaviour
         }
         else if( dir == KeyCode.UpArrow )
         {
-            //TODO 
+            if (m_curIndex >= Defines.TEXT_AREA_WIDTH)
+            {
+                m_curIndex -= Defines.TEXT_AREA_WIDTH;
+            }
+            else
+            {
+                if( m_curLine > 0 )
+                {
+                    m_curLine--;
+                    //TODO  
+                }
+            }
         }
         else if( dir == KeyCode.DownArrow )
         {
