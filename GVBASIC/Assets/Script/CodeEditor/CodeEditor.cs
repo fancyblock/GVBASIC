@@ -11,7 +11,7 @@ public class CodeEditor : MonoBehaviour
 {
     public TextDisplay m_textDisplay;
 
-    protected List<StringBuilder> m_buffer;
+    protected List<LineInfo> m_buffer;
     protected int m_curLine;
     protected int m_curIndex;
 
@@ -20,7 +20,7 @@ public class CodeEditor : MonoBehaviour
 	// Use this for initialization
 	void Start () 
     {
-        m_buffer = new List<StringBuilder>();
+        m_buffer = new List<LineInfo>();
         onClearAll();
 
         m_textDisplay.Refresh();
@@ -64,7 +64,7 @@ public class CodeEditor : MonoBehaviour
     protected void onClearAll()
     {
         m_buffer.Clear();
-        m_buffer.Add(new StringBuilder());
+        m_buffer.Add(new LineInfo());
         
         m_curLine = 0;
         m_curIndex = 0;
@@ -80,25 +80,25 @@ public class CodeEditor : MonoBehaviour
 
     protected void onDel()
     {
-        StringBuilder sb = m_buffer[m_curLine];
+        LineInfo li = m_buffer[m_curLine];
 
-        if (sb.Length == 0)
+        if (li.LENGTH == 0)
             return;
 
-        if( m_curIndex < sb.Length )
+        if( m_curIndex < li.LENGTH )
         {
-            sb.Remove(m_curIndex, 1);
+            li.Remove(m_curIndex);
         }
         else
         {
-            sb.Remove(sb.Length - 1, 1);
+            li.Remove(m_curIndex - 1);
             m_curIndex--;
         }
     }
 
     protected void onMoveCursor( KeyCode dir )
     {
-        StringBuilder sb = null;
+        LineInfo li = null;
 
         if( dir == KeyCode.LeftArrow )
         {
@@ -107,8 +107,8 @@ public class CodeEditor : MonoBehaviour
         }
         else if( dir == KeyCode.RightArrow)
         {
-            sb = m_buffer[m_curLine];
-            if (m_curIndex < sb.Length)
+            li = m_buffer[m_curLine];
+            if (m_curIndex < li.LENGTH)
                 m_curIndex++;
         }
         else if( dir == KeyCode.UpArrow )
@@ -127,11 +127,8 @@ public class CodeEditor : MonoBehaviour
         if (chr < 0 || chr >= 128)
             return;
 
-        StringBuilder sb = m_buffer[m_curLine];
-        if( m_curIndex < sb.Length )
-            sb[m_curIndex] = (char)chr;             // replace 
-        else
-            sb.Insert(m_curIndex, (char)chr);       // add to the end of line 
+        LineInfo li = m_buffer[m_curLine];
+        li.SetChar(m_curIndex, (char)chr);
 
         m_curIndex++;
     }
@@ -140,25 +137,25 @@ public class CodeEditor : MonoBehaviour
     {
         m_textDisplay.Clean();
 
+        // 绘制文本行
         int y = 0;
-        foreach( StringBuilder sb in m_buffer )
+        foreach( LineInfo li in m_buffer )
         {
-            m_textDisplay.DrawText(0, y, sb.ToString());
-            y += Mathf.CeilToInt((float)sb.Length / (float)Defines.TEXT_AREA_WIDTH);
+            m_textDisplay.DrawText(0, y, li.TEXT);
+            y += li.LINE_COUNT;
         }
 
+        // 计算光标位置
         int x = m_curIndex % Defines.TEXT_AREA_WIDTH;
         y = 0;
 
-        for (int i = 0; i <= m_curLine; i++)
-        {
-            if (i != m_curLine)
-                y += Mathf.CeilToInt((float)m_buffer[i].Length / (float)Defines.TEXT_AREA_WIDTH);
-            else
-                y += m_curIndex / Defines.TEXT_AREA_WIDTH;
-        }
+        for (int i = 0; i < m_curLine; i++)
+            y += m_buffer[i].LINE_COUNT;
+        y += m_curIndex / Defines.TEXT_AREA_WIDTH;
 
+        // 设置光标
         m_textDisplay.SetCursor(true, x, y);
+        // 刷新
         m_textDisplay.Refresh();
     }
 
