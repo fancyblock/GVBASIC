@@ -15,6 +15,7 @@ public enum KCode
     DoubleQuote = 34,
     Hash = 35,
     Dollar = 36,
+    Percent = 37,
     Ampersand = 38,
     Quote = 39,
     LeftParen = 40,
@@ -100,6 +101,8 @@ public enum KCode
     x_l = 120,
     y_l = 121,
     z_l = 122,
+    leftBrace = 123,
+    rightBrace = 125,
     wavy = 126,
     Delete = 127,
 
