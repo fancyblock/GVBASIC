@@ -16,6 +16,7 @@ public class CodeEditor : MonoBehaviour
     protected int m_curIndex;
 
     protected bool m_isInsertMode;
+    protected int m_lineOffset;
 
 	// Use this for initialization
 	void Start () 
@@ -38,7 +39,7 @@ public class CodeEditor : MonoBehaviour
                 onClearAll();
                 break;
             case KeyCode.Return:
-                onEnter();
+                onMoveCursor(KeyCode.DownArrow);
                 break;
             case KeyCode.Delete:
                 onDel();
@@ -69,13 +70,10 @@ public class CodeEditor : MonoBehaviour
         m_curLine = 0;
         m_curIndex = 0;
 
+        m_lineOffset = 0;
+
         m_textDisplay.Clean();
         m_textDisplay.SetCursor(true, 0, 0);
-    }
-
-    protected void onEnter()
-    {
-        onMoveCursor(KeyCode.DownArrow);
     }
 
     protected void onDel()
@@ -154,12 +152,16 @@ public class CodeEditor : MonoBehaviour
                 if( m_curLine == m_buffer.Count - 1 )
                 {
                     // 插入新行  
-                    m_buffer.Add(new LineInfo());
-                    m_curLine = m_buffer.Count - 1;
-                    m_curIndex = 0;
+                    if (m_buffer[m_curLine].LENGTH > 0)
+                    {
+                        m_buffer.Add(new LineInfo());
+                        m_curLine = m_buffer.Count - 1;
+                        m_curIndex = 0;
+                    }
                 }
                 else
                 {
+                    // 移至下一行
                     m_curLine++;
                     m_curIndex = m_buffer[m_curLine].GetFirstLineIndex(m_curIndex % Defines.TEXT_AREA_WIDTH);
                 }
@@ -183,24 +185,36 @@ public class CodeEditor : MonoBehaviour
     {
         m_textDisplay.Clean();
 
-        // 绘制文本行
-        int y = 0;
-        foreach( LineInfo li in m_buffer )
-        {
-            m_textDisplay.DrawText(0, y, li.TEXT);
-            y += li.LINE_COUNT;
-        }
-
-        // 计算光标位置
+        // 计算光标新位置
         int x = m_curIndex % Defines.TEXT_AREA_WIDTH;
-        y = 0;
+        int y = 0;
 
         for (int i = 0; i < m_curLine; i++)
             y += m_buffer[i].LINE_COUNT;
         y += m_curIndex / Defines.TEXT_AREA_WIDTH;
+        
+        // 光标超出范围，滚动屏幕
+        if( ( y + m_lineOffset ) < 0 )
+            m_lineOffset -= (y + m_lineOffset);
+        else if ( ( y + m_lineOffset ) >= Defines.TEXT_AREA_HEIGHT)
+            m_lineOffset -= ( y + m_lineOffset - Defines.TEXT_AREA_HEIGHT + 1 );
 
         // 设置光标
-        m_textDisplay.SetCursor(true, x, y);
+        m_textDisplay.SetCursor(true, x, y + m_lineOffset);
+
+        // 绘制文本行
+        y = 0;
+        foreach (LineInfo li in m_buffer)
+        {
+            int yStartPos = y + m_lineOffset;
+            int yEndPos = yStartPos + li.LENGTH - 1;
+
+            if ( !((yStartPos < 0 && yEndPos < 0) || (yStartPos >= Defines.TEXT_AREA_HEIGHT && yEndPos >= Defines.TEXT_AREA_HEIGHT)) )
+                m_textDisplay.DrawText(0, yStartPos, li.TEXT);
+
+            y += li.LINE_COUNT;
+        }
+
         // 刷新
         m_textDisplay.Refresh();
     }

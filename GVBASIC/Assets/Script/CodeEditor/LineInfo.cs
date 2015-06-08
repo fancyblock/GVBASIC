@@ -43,7 +43,12 @@ public class LineInfo
     {
         get
         {
-            return Mathf.CeilToInt((float)m_buffer.Length / (float)Defines.TEXT_AREA_WIDTH);
+            int len = m_buffer.Length;
+
+            if (len == 0)
+                return 1;
+
+            return Mathf.CeilToInt((float)len / (float)Defines.TEXT_AREA_WIDTH);
         }
     }
 
@@ -93,6 +98,8 @@ public class LineInfo
 
         if (m_buffer.Length > index)
             idx = index;
+        else if (m_buffer.Length == 0)
+            idx = 0;
         else
             idx = m_buffer.Length - 1;
 

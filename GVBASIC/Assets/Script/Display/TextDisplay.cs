@@ -92,9 +92,6 @@ public class TextDisplay : MonoBehaviour
     /// <param name="str"></param>
     public void DrawText( int x, int y, string str )
     {
-        if (x < 0 || y < 0 || x >= Defines.TEXT_AREA_WIDTH || y >= Defines.TEXT_AREA_HEIGHT)
-            throw new Exception("[TextMode]: DrawChar, out of space.");
-
         foreach( char c in str )
         {
             bool nextLine = false;
@@ -105,7 +102,8 @@ public class TextDisplay : MonoBehaviour
             }
             else
             {
-                m_buffer[x, y] = c;
+                if ( !(x < 0 || y < 0 || x >= Defines.TEXT_AREA_WIDTH || y >= Defines.TEXT_AREA_HEIGHT) )
+                    m_buffer[x, y] = c;
 
                 x++;
                 if (x >= Defines.TEXT_AREA_WIDTH)
