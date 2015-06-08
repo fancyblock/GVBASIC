@@ -567,9 +567,9 @@ namespace GVBASIC_Compiler.Compiler
             Token tok = eatToken(Token.SYMBOL);
             dimStatement.m_symbol = tok.m_strVal;
 
-            eatToken(Token.LEFT_BRA);
+            eatToken(Token.LEFT_PAREN);
             dimStatement.m_arrayDimension = numberList();
-            eatToken(Token.RIGHT_BRA);
+            eatToken(Token.RIGHT_PAREN);
 
             return dimStatement;
         }
@@ -590,7 +590,7 @@ namespace GVBASIC_Compiler.Compiler
 
             fnStatement.m_symbol = tok.m_strVal;
 
-            eatToken(Token.LEFT_BRA);
+            eatToken(Token.LEFT_PAREN);
             tok = eatToken(Token.SYMBOL);
 
             if (tok.m_strVal.EndsWith("%"))
@@ -600,7 +600,7 @@ namespace GVBASIC_Compiler.Compiler
 
             string paramSymbol = tok.m_strVal;
 
-            eatToken(Token.RIGHT_BRA);
+            eatToken(Token.RIGHT_PAREN);
             eatToken(Token.EQUAL);
 
             fnStatement.m_expressList = new List<Expression>();
@@ -641,11 +641,11 @@ namespace GVBASIC_Compiler.Compiler
 
             Token t = eatToken(Token.SYMBOL);
 
-            if (lookAhead() == Token.LEFT_BRA)
+            if (lookAhead() == Token.LEFT_PAREN)
             {
-                eatToken(Token.LEFT_BRA);
+                eatToken(Token.LEFT_PAREN);
                 s.m_expressList = expressList();
-                eatToken(Token.RIGHT_BRA);
+                eatToken(Token.RIGHT_PAREN);
             }
 
             eatToken(Token.EQUAL);
@@ -668,11 +668,11 @@ namespace GVBASIC_Compiler.Compiler
 
             Token t = eatToken(Token.SYMBOL);
 
-            if (lookAhead() == Token.LEFT_BRA)
+            if (lookAhead() == Token.LEFT_PAREN)
             {
-                eatToken(Token.LEFT_BRA);
+                eatToken(Token.LEFT_PAREN);
                 s.m_expressList = expressList();
-                eatToken(Token.RIGHT_BRA);
+                eatToken(Token.RIGHT_PAREN);
             }
 
             eatToken(Token.EQUAL);
@@ -911,15 +911,15 @@ namespace GVBASIC_Compiler.Compiler
 
             if (tt == Token.SYMBOL)
             {
-                if (lookAhead(1) == Token.LEFT_BRA)
+                if (lookAhead(1) == Token.LEFT_PAREN)
                 {
                     // array 
                     exp = new Expression(Expression.EXP_ARRAY_SYMBOL);
                     tok = eatToken(Token.SYMBOL);
                     exp.m_symbolName = tok.m_strVal;
-                    eatToken(Token.LEFT_BRA);
+                    eatToken(Token.LEFT_PAREN);
                     exp.m_funcParams = expressList();
-                    eatToken(Token.RIGHT_BRA);
+                    eatToken(Token.RIGHT_PAREN);
                 }
                 else
                 {
@@ -938,11 +938,11 @@ namespace GVBASIC_Compiler.Compiler
                 tok = eatToken(Token.FLOAT);
                 exp = new Expression(new BaseData(tok.m_floatVal));
             }
-            else if (tt == Token.LEFT_BRA)
+            else if (tt == Token.LEFT_PAREN)
             {
-                eatToken(Token.LEFT_BRA);
+                eatToken(Token.LEFT_PAREN);
                 exp = expression();
-                eatToken(Token.RIGHT_BRA);
+                eatToken(Token.RIGHT_PAREN);
             }
             else if( tt == Token.MINUS)
             {
@@ -958,14 +958,14 @@ namespace GVBASIC_Compiler.Compiler
                 tok = eatToken(Token.FUNC);
                 exp.m_symbolName = tok.m_strVal;
                 // function parameters 
-                eatToken(Token.LEFT_BRA);
+                eatToken(Token.LEFT_PAREN);
                 exp.m_funcParams.Add( expression() );
                 while( lookAhead() == Token.COMMA )
                 {
                     eatToken(Token.COMMA);
                     exp.m_funcParams.Add(expression());
                 }
-                eatToken(Token.RIGHT_BRA);
+                eatToken(Token.RIGHT_PAREN);
             }
             else if(tt == Token.STRING)
             {
@@ -979,10 +979,10 @@ namespace GVBASIC_Compiler.Compiler
                 tok = eatToken(Token.SYMBOL);
                 exp.m_symbolName = tok.m_strVal;
 
-                eatToken(Token.LEFT_BRA);
+                eatToken(Token.LEFT_PAREN);
                 exp.m_funcParams = new List<Expression>();
                 exp.m_funcParams.Add(expression());
-                eatToken(Token.RIGHT_BRA);
+                eatToken(Token.RIGHT_PAREN);
             }
             else if( tt == Token.INKEY )
             {

@@ -33,7 +33,7 @@ namespace CompilerUnitTest
             Token.PLUS, Token.MINUS, Token.MUL, Token.DIV, Token.POWER,
             Token.EQUAL, Token.GTR, Token.LT, Token.GTE, Token.LTE, Token.NEG,
             Token.AND, Token.OR, Token.NOT,
-            Token.SEMI, Token.COMMA, Token.COLON, Token.LEFT_BRA, Token.RIGHT_BRA,
+            Token.SEMI, Token.COMMA, Token.COLON, Token.LEFT_PAREN, Token.RIGHT_PAREN,
             Token.LET, Token.DIM, Token.READ, Token.DATA, Token.RESTORE, Token.GOTO,
             Token.IF, Token.THEN, Token.ELSE, Token.FOR, Token.NEXT,
             Token.WHILE, Token.WEND, Token.TO, Token.STEP,

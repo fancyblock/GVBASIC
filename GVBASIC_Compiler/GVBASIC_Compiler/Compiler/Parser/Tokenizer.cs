@@ -453,11 +453,11 @@ namespace GVBASIC_Compiler.Compiler
                     }
                     else if( buffer[0] == '(' )
                     {
-                        tok.m_type = Token.LEFT_BRA;
+                        tok.m_type = Token.LEFT_PAREN;
                     }
                     else if( buffer[0] == ')' )
                     {
-                        tok.m_type = Token.RIGHT_BRA;
+                        tok.m_type = Token.RIGHT_PAREN;
                     }
                     break;
                 case LexStatus.eSymbol:

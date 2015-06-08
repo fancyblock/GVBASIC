@@ -43,8 +43,8 @@ namespace GVBASIC_Compiler.Compiler
         public const int SEMI = 60;				        // ;
         public const int COMMA = 61;				    // ,
         public const int COLON = 62;				    // :
-        public const int LEFT_BRA = 63;			        // (
-        public const int RIGHT_BRA = 64;			    // )
+        public const int LEFT_PAREN = 63;			    // (
+        public const int RIGHT_PAREN = 64;			    // )
 
         public const int LET = 70;				        // LET 
         public const int DIM = 71;				        // DIM
