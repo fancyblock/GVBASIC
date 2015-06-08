@@ -31,26 +31,26 @@ public class CodeEditor : MonoBehaviour
     /// key input 
     /// </summary>
     /// <param name="key"></param>
-    public void Input( KeyCode key )
+    public void Input( KCode key )
     {
         switch( key )
         {
-            case KeyCode.Home:
+            case KCode.Home:
                 onClearAll();
                 break;
-            case KeyCode.Return:
-                onMoveCursor(KeyCode.DownArrow);
+            case KCode.Return:
+                onMoveCursor(KCode.DownArrow);
                 break;
-            case KeyCode.Delete:
+            case KCode.Delete:
                 onDel();
                 break;
-            case KeyCode.Insert:
+            case KCode.Insert:
                 m_isInsertMode = !m_isInsertMode;
                 break;
-            case KeyCode.UpArrow:
-            case KeyCode.DownArrow:
-            case KeyCode.LeftArrow:
-            case KeyCode.RightArrow:
+            case KCode.UpArrow:
+            case KCode.DownArrow:
+            case KCode.LeftArrow:
+            case KCode.RightArrow:
                 onMoveCursor(key);
                 break;
             default:
@@ -112,21 +112,21 @@ public class CodeEditor : MonoBehaviour
         }
     }
 
-    protected void onMoveCursor( KeyCode dir )
+    protected void onMoveCursor( KCode dir )
     {
         LineInfo li = m_buffer[m_curLine];;
 
-        if( dir == KeyCode.LeftArrow )
+        if( dir == KCode.LeftArrow )
         {
             if (m_curIndex > 0)
                 m_curIndex--;
         }
-        else if( dir == KeyCode.RightArrow)
+        else if( dir == KCode.RightArrow)
         {
             if (m_curIndex < li.LENGTH)
                 m_curIndex++;
         }
-        else if( dir == KeyCode.UpArrow )
+        else if( dir == KCode.UpArrow )
         {
             if (m_curIndex >= Defines.TEXT_AREA_WIDTH)
             {
@@ -141,7 +141,7 @@ public class CodeEditor : MonoBehaviour
                 }
             }
         }
-        else if( dir == KeyCode.DownArrow )
+        else if( dir == KCode.DownArrow )
         {
             if( m_curIndex + Defines.TEXT_AREA_WIDTH < li.LENGTH )
             {
@@ -169,7 +169,7 @@ public class CodeEditor : MonoBehaviour
         }
     }
 
-    protected void onChar( KeyCode key )
+    protected void onChar( KCode key )
     {
         int chr = (int)key;
         if (chr < 0 || chr >= 128)

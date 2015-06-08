@@ -4,7 +4,7 @@ using System.Collections;
 
 public class Key : MonoBehaviour 
 {
-    public KeyCode m_key;
+    public KCode m_key;
 
     protected Keyboard m_keyboard;
 
