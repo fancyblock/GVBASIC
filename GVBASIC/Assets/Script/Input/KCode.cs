@@ -110,17 +110,10 @@ public enum KCode
     DownArrow = 274,
     RightArrow = 275,
     LeftArrow = 276,
+
     Insert = 277,
     Home = 278,
     End = 279,
-    Numlock = 300,
     CapsLock = 301,
-    LeftWindows = 311,
-    RightWindows = 312,
-    AltGr = 313,
-    Help = 315,
-    Print = 316,
-    SysReq = 317,
-    Break = 318,
     Menu = 319,
 }
