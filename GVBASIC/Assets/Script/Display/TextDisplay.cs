@@ -90,7 +90,7 @@ public class TextDisplay : MonoBehaviour
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <param name="str"></param>
-    public void DrawText( int x, int y, string str )
+    public void DrawText( int x, int y, string str, bool inverse = false )
     {
         foreach( char c in str )
         {
@@ -102,8 +102,11 @@ public class TextDisplay : MonoBehaviour
             }
             else
             {
-                if ( !(x < 0 || y < 0 || x >= Defines.TEXT_AREA_WIDTH || y >= Defines.TEXT_AREA_HEIGHT) )
+                if (!(x < 0 || y < 0 || x >= Defines.TEXT_AREA_WIDTH || y >= Defines.TEXT_AREA_HEIGHT))
+                {
                     m_buffer[x, y] = c;
+                    m_inverseBuffer[x, y] = inverse;
+                }
 
                 x++;
                 if (x >= Defines.TEXT_AREA_WIDTH)

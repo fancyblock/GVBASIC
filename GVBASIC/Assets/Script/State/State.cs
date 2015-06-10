@@ -12,8 +12,11 @@ public class State : MonoBehaviour
 	{
         m_stateMgr = GetComponentInParent<StateMgr>();
         m_stateMgr.AddState(this);
+
+        onInit();
 	}
 
+    public virtual void onInit() { }
     public virtual void onSwitchIn() { }
     public virtual void onSwitchOut() { }
 

@@ -51,6 +51,9 @@ public class CodeEditor : State
             case KCode.RightArrow:
                 onMoveCursor(key);
                 break;
+            case KCode.Escape:
+                m_stateMgr.GotoState(StateEnums.eStateMenu);
+                return;
             default:
                 onChar(key);
                 break;
