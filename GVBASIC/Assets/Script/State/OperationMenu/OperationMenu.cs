@@ -1,17 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class OperationMenu : MonoBehaviour 
+public class OperationMenu : State 
 {
     public TextDisplay m_textDisplay;
 
-	// Use this for initialization
-	void Start () 
-	{
-	}
-	
-	// Update is called once per frame
-	void Update () 
-	{
-	}
+    public override void onSwitchIn()
+    {
+        //TODO 
+    }
+
+    public override void onInput(KCode key)
+    {
+        //TODO 
+    }
+
 }

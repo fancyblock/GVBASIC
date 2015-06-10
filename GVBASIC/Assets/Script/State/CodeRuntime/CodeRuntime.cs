@@ -1,18 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CodeRuntime : MonoBehaviour 
+public class CodeRuntime : State 
 {
     public TextDisplay m_textDisplay;
     public GraphDisplay m_graphDisplay;
 
-	// Use this for initialization
-	void Start () 
-	{
-	}
-	
-	// Update is called once per frame
-	void Update () 
-	{
-	}
+    public override void onSwitchIn()
+    {
+        //TODO 
+    }
+
+    public override void onInput(KCode key)
+    {
+        //TODO 
+    }
+
 }

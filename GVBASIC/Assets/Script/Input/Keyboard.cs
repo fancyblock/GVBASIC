@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Keyboard : MonoBehaviour 
 {
-    public CodeEditor m_editor;
+    public StateMgr m_stateMgr;
 	
 #if UNITY_EDITOR
 	// Update is called once per frame
@@ -16,7 +16,7 @@ public class Keyboard : MonoBehaviour
         {
             if (Input.GetKeyDown( (KeyCode)k))
             {
-                m_editor.Input(k);
+                m_stateMgr.Input(k);
                 break;
             }
         }
@@ -29,6 +29,6 @@ public class Keyboard : MonoBehaviour
     /// <param name="key"></param>
     public void SendKey( KCode key )
     {
-        m_editor.Input(key);
+        m_stateMgr.Input(key);
     }
 }

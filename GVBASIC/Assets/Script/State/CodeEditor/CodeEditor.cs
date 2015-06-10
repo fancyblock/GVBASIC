@@ -7,11 +7,11 @@ using System.Text;
 /// <summary>
 /// code editor 
 /// </summary>
-public class CodeEditor : MonoBehaviour 
+public class CodeEditor : State 
 {
     public TextDisplay m_textDisplay;
 
-    protected List<LineInfo> m_buffer;
+    protected List<LineInfo> m_buffer = new List<LineInfo>();
     protected int m_curLine;
     protected int m_curIndex;
 
@@ -19,11 +19,9 @@ public class CodeEditor : MonoBehaviour
     protected int m_lineOffset;
 
 	// Use this for initialization
-	void Start () 
+    public override void onSwitchIn() 
     {
-        m_buffer = new List<LineInfo>();
         onClearAll();
-
         m_textDisplay.Refresh();
 	}
 
@@ -31,7 +29,7 @@ public class CodeEditor : MonoBehaviour
     /// key input 
     /// </summary>
     /// <param name="key"></param>
-    public void Input( KCode key )
+    public override void onInput(KCode key)
     {
         switch( key )
         {
