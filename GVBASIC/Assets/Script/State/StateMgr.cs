@@ -15,8 +15,12 @@ public class StateMgr : MonoBehaviour
 {
     public StateEnums m_startState;
 
+    public string CUR_SOURCE_CODE { set; get; }
+
+
+    protected State m_curState = null;
     protected Dictionary<StateEnums, State> m_stateDic = new Dictionary<StateEnums, State>();
-    public State m_curState = null;
+
 
 	// Use this for initialization
 	void Start () 

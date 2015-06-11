@@ -13,7 +13,14 @@ public class CodeRuntime : State
 
     public override void onInput(KCode key)
     {
-        //TODO 
+        switch(key)
+        {
+            case KCode.Escape:
+                m_stateMgr.GotoState(StateEnums.eStateMenu);
+                return;
+            default:
+                break;
+        }
     }
 
 }

@@ -14,15 +14,10 @@ public class OperationMenu : State
     public override void onInit()
     {
         m_itemList.Add("New File..");
-        m_itemList.Add("file 1");
-        m_itemList.Add("file 2");
-        m_itemList.Add("file 3");
-        m_itemList.Add("file 4");
-        m_itemList.Add("file 5");
-        m_itemList.Add("file 6");
-        m_itemList.Add("file 7");
-        m_itemList.Add("file 8");
-        m_itemList.Add("file 9");
+        
+        // load file list 
+        foreach (string code in CodeMgr.SharedInstance.BAS_LIST)
+            m_itemList.Add(code);
     }
 
     public override void onSwitchIn()
@@ -84,15 +79,14 @@ public class OperationMenu : State
         if( index == 0 )
         {
             // create a new file 
-            //TODO 
-
+            m_stateMgr.CUR_SOURCE_CODE = "";
             m_stateMgr.GotoState(StateEnums.eStateEditor);
         }
         else
         {
             // run the code file 
-
-            //TODO 
+            m_stateMgr.CUR_SOURCE_CODE = CodeMgr.SharedInstance.GetCode(m_itemList[m_curItemIdx]);
+            m_stateMgr.GotoState(StateEnums.eStateRunner);
         }
     }
 
