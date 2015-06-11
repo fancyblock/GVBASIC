@@ -14,6 +14,15 @@ public class OperationMenu : State
     public override void onInit()
     {
         m_itemList.Add("New File..");
+        m_itemList.Add("file 1");
+        m_itemList.Add("file 2");
+        m_itemList.Add("file 3");
+        m_itemList.Add("file 4");
+        m_itemList.Add("file 5");
+        m_itemList.Add("file 6");
+        m_itemList.Add("file 7");
+        m_itemList.Add("file 8");
+        m_itemList.Add("file 9");
     }
 
     public override void onSwitchIn()
@@ -53,7 +62,13 @@ public class OperationMenu : State
 
     protected void refreshList( int index )
     {
-        m_curItemIdx = 0;
+        m_curItemIdx = index;
+
+        // update the offset 
+        if( m_curItemIdx - m_lineOffset >= Defines.TEXT_AREA_HEIGHT )
+            m_lineOffset = m_curItemIdx - Defines.TEXT_AREA_HEIGHT + 1;
+        else if( m_curItemIdx - m_lineOffset < 0 )
+            m_lineOffset = m_curItemIdx ;
 
         m_textDisplay.Clean();
 
