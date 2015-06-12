@@ -10,8 +10,6 @@ using System.Text;
 /// </summary>
 public class CodeEditor : State 
 {
-    public TextDisplay m_textDisplay;
-
     protected List<LineInfo> m_buffer = new List<LineInfo>();
     protected int m_curLine;
     protected int m_curIndex;

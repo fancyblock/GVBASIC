@@ -5,8 +5,6 @@ using System.Collections.Generic;
 
 public class OperationMenu : State 
 {
-    public TextDisplay m_textDisplay;
-
     protected int m_curItemIdx;
     protected List<string> m_itemList = new List<string>();
     protected int m_lineOffset;

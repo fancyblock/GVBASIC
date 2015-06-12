@@ -4,6 +4,8 @@ using System.Collections;
 public class State : MonoBehaviour 
 {
     public StateEnums m_stateType;
+    public TextDisplay m_textDisplay;
+
 
     protected StateMgr m_stateMgr;
 
