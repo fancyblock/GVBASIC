@@ -31,6 +31,14 @@ public class StateMgr : MonoBehaviour
 	}
 
     /// <summary>
+    /// update 
+    /// </summary>
+    void Update()
+    {
+        m_curState.onUpdate();
+    }
+
+    /// <summary>
     /// input 
     /// </summary>
     /// <param name="key"></param>

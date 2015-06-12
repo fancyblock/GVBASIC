@@ -21,6 +21,7 @@ public class State : MonoBehaviour
     public virtual void onInit() { }
     public virtual void onSwitchIn() { }
     public virtual void onSwitchOut() { }
+    public virtual void onUpdate() { }
 
     /// <summary>
     /// input inject 
