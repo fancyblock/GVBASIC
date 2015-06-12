@@ -55,7 +55,8 @@ public class CodeEditor : State
                 onMoveCursor(key);
                 break;
             case KCode.Escape:
-                m_stateMgr.GotoState(StateEnums.eStateMenu);
+                exportCode();
+                m_stateMgr.GotoState(StateEnums.eStateSaveCode);
                 return;
             default:
                 onChar(key);
@@ -238,6 +239,18 @@ public class CodeEditor : State
 
         // 刷新
         m_textDisplay.Refresh();
+    }
+
+    protected void exportCode()
+    {
+        StringBuilder code = new StringBuilder();
+
+        foreach( LineInfo li in m_buffer )
+        {
+            code.AppendLine(li.TEXT);
+        }
+
+        m_stateMgr.CUR_SOURCE_CODE = code.ToString();
     }
 
 }

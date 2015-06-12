@@ -11,17 +11,17 @@ public class OperationMenu : State
 
     public override void onInit()
     {
-        m_itemList.Add("New File..");
-        
-        // load file list 
-        foreach (string code in CodeMgr.SharedInstance.BAS_LIST)
-            m_itemList.Add(code);
-
-        CodeMgr.SharedInstance.SaveSourceCode("TEST.BAS", "10 PRINT \"HELLO WORLD!\"");
     }
 
     public override void onSwitchIn()
     {
+        m_itemList.Clear();
+        m_itemList.Add("New File..");
+
+        // load file list 
+        foreach (string code in CodeMgr.SharedInstance.BAS_LIST)
+            m_itemList.Add(code);
+
         m_textDisplay.SetCursor(false);
         m_lineOffset = 0;
 
@@ -83,6 +83,7 @@ public class OperationMenu : State
         if( m_curItemIdx == 0 )
         {
             // create a new file 
+            m_stateMgr.CUR_CODE_FILE_NAME = "NEW FILE.BAS";
             m_stateMgr.CUR_SOURCE_CODE = "";
             m_stateMgr.GotoState(StateEnums.eStateEditor);
         }
@@ -99,7 +100,10 @@ public class OperationMenu : State
         if (m_curItemIdx == 0)
             return;
 
-        m_stateMgr.CUR_SOURCE_CODE = CodeMgr.SharedInstance.GetSourceCode(m_itemList[m_curItemIdx]);
+        string fileName = m_itemList[m_curItemIdx];
+
+        m_stateMgr.CUR_CODE_FILE_NAME = fileName;
+        m_stateMgr.CUR_SOURCE_CODE = CodeMgr.SharedInstance.GetSourceCode(fileName);
         m_stateMgr.GotoState(StateEnums.eStateEditor);
     }
 

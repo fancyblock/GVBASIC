@@ -16,6 +16,7 @@ public class StateMgr : MonoBehaviour
 {
     public StateEnums m_startState;
 
+    public string CUR_CODE_FILE_NAME { set; get; }
     public string CUR_SOURCE_CODE { set; get; }
 
 
