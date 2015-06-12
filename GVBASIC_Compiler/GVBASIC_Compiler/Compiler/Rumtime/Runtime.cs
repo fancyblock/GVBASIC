@@ -108,28 +108,46 @@ namespace GVBASIC_Compiler.Compiler
                     m_lineNumDic.Add(s.m_lineNum, i);
             }
 
+            m_isRunning = true;
+            m_index = 0;
+        }
+
+        /// <summary>
+        /// run program step by step 
+        /// </summary>
+        /// <returns></returns>
+        public bool Step()
+        {
+            bool done = false;
+
             try
             {
-                m_isRunning = true;
-                m_index = 0;
-
                 // execute statements 
-                while (m_isRunning)
+                if (m_isRunning)
                 {
                     if (m_index >= m_statements.Count)
-                        break;
-
-                    Statement s = m_statements[m_index];
-                    m_index++;      // 这一句必须在执行语句之前，因为语句中可能有改变该值的GOTO之类的语句
-                    m_executer[s.m_type](s);
+                    {
+                        m_isRunning = false;
+                    }
+                    else
+                    {
+                        Statement s = m_statements[m_index];
+                        m_index++;      // 这一句必须在执行语句之前，因为语句中可能有改变该值的GOTO之类的语句
+                        m_executer[s.m_type](s);
+                    }
+                }
+                else
+                {
+                    m_apiCall.ProgramDone();
+                    done = true;
                 }
             }
-            catch( ErrorCode ec )
+            catch (ErrorCode ec)
             {
-                m_apiCall.ErrorCode( "?" + ec.Message + " ERROR IN LINE " + m_statements[m_index-1].m_lineNum);
+                m_apiCall.ErrorCode("?" + ec.Message + " ERROR IN LINE " + m_statements[m_index - 1].m_lineNum);
             }
 
-            m_apiCall.ProgramDone();
+            return done;
         }
 
         #region statement

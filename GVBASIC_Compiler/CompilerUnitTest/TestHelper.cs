@@ -24,6 +24,8 @@ namespace CompilerUnitTest
             rt.SetAPI(api);
             rt.Run();
 
+            while (!rt.Step()) ;
+
             return api;
         }
 
