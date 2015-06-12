@@ -21,7 +21,9 @@ public class CodeEditor : State
     public override void onSwitchIn() 
     {
         onClearAll();
-        readCode(m_stateMgr.CUR_SOURCE_CODE);
+
+        if( !string.IsNullOrEmpty( m_stateMgr.CUR_SOURCE_CODE ))
+            readCode(m_stateMgr.CUR_SOURCE_CODE);
 
         refreshLED();
 	}
