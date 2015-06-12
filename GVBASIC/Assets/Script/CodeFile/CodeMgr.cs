@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 
 
 public class CodeMgr 
@@ -28,7 +30,21 @@ public class CodeMgr
     {
         get
         {
-            return new List<string>() { "test.bas" };
+            string[] files = Directory.GetFiles( Application.persistentDataPath, "*.BAS");
+            List<string> basList = new List<string>();
+
+            foreach( string fileName in files )
+            {
+                int idx1 = fileName.LastIndexOf('/');
+                int idx2 = fileName.LastIndexOf('\\');
+
+                if (idx1 > idx2)
+                    basList.Add(fileName.Substring(idx1 + 1));
+                else
+                    basList.Add(fileName.Substring(idx2 + 1));
+            }
+
+            return basList;
         }
     }
 
@@ -37,11 +53,29 @@ public class CodeMgr
     /// </summary>
     /// <param name="fileName"></param>
     /// <returns></returns>
-    public string GetCode( string fileName )
+    public string GetSourceCode( string fileName )
     {
-        //TODO 
+        string code = null;
 
-        return "";
+        using( StreamReader sr = new StreamReader(Application.persistentDataPath + "/" + fileName) )
+        {
+            code = sr.ReadToEnd();
+        }
+
+        return code;
+    }
+
+    /// <summary>
+    /// save source code 
+    /// </summary>
+    /// <param name="fileName"></param>
+    /// <param name="sourceCode"></param>
+    public void SaveSourceCode( string fileName, string sourceCode )
+    {
+        using( StreamWriter sw = new StreamWriter(Application.persistentDataPath + "/" + fileName ))
+        {
+            sw.Write(sourceCode);
+        }
     }
 
 }

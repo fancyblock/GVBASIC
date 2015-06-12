@@ -18,6 +18,8 @@ public class OperationMenu : State
         // load file list 
         foreach (string code in CodeMgr.SharedInstance.BAS_LIST)
             m_itemList.Add(code);
+
+        CodeMgr.SharedInstance.SaveSourceCode("TEST.BAS", "10 PRINT \"HELLO WORLD!\"");
     }
 
     public override void onSwitchIn()
@@ -85,7 +87,7 @@ public class OperationMenu : State
         else
         {
             // run the code file 
-            m_stateMgr.CUR_SOURCE_CODE = CodeMgr.SharedInstance.GetCode(m_itemList[m_curItemIdx]);
+            m_stateMgr.CUR_SOURCE_CODE = CodeMgr.SharedInstance.GetSourceCode(m_itemList[m_curItemIdx]);
             m_stateMgr.GotoState(StateEnums.eStateRunner);
         }
     }
