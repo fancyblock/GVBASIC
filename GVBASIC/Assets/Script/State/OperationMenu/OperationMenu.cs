@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class OperationMenu : State 
 {
     protected int m_curItemIdx;
-    protected List<string> m_itemList = new List<string>();
+    protected List<string> m_itemList;
     protected int m_lineOffset;
 
     public override void onInit()
@@ -15,12 +15,6 @@ public class OperationMenu : State
 
     public override void onSwitchIn()
     {
-        m_itemList.Clear();
-
-        // load file list 
-        foreach (string code in CodeMgr.SharedInstance.BAS_LIST)
-            m_itemList.Add(code);
-
         m_textDisplay.SetCursor(false);
         m_lineOffset = 0;
 
@@ -44,10 +38,7 @@ public class OperationMenu : State
                 break;
             case KCode.Delete:
             case KCode.F2:
-                if( m_curItemIdx > 0 )
-                {
-                    //TODO 
-                }
+                deleteCurrentFile();
                 break;
             case KCode.F1:
                 createNewFile();
@@ -64,6 +55,7 @@ public class OperationMenu : State
     protected void refreshList( int index )
     {
         m_curItemIdx = index;
+        m_itemList = CodeMgr.SharedInstance.BAS_LIST;
 
         // update the offset 
         if( m_curItemIdx - m_lineOffset >= Defines.TEXT_AREA_HEIGHT )
@@ -86,6 +78,24 @@ public class OperationMenu : State
         m_stateMgr.CUR_CODE_FILE_NAME = "";
         m_stateMgr.CUR_SOURCE_CODE = "";
         m_stateMgr.GotoState(StateEnums.eStateEditor);
+    }
+
+    protected void deleteCurrentFile()
+    {
+        List<string> baseList = CodeMgr.SharedInstance.BAS_LIST;
+
+        if (baseList.Count == 0)
+            return;
+
+        string fileName = baseList[m_curItemIdx];
+        CodeMgr.SharedInstance.DeleteSourceCode(fileName);
+
+        if (m_curItemIdx >= (baseList.Count - 1))
+            m_curItemIdx--;
+        if (m_curItemIdx < 0)
+            m_curItemIdx = 0;
+
+        refreshList(m_curItemIdx);
     }
 
     protected void executeItem()

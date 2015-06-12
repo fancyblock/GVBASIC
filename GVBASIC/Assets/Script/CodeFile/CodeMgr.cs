@@ -78,4 +78,11 @@ public class CodeMgr
         }
     }
 
+    public void DeleteSourceCode( string fileName )
+    {
+        string path = Application.persistentDataPath + "/" + fileName;
+
+        if (File.Exists(path))
+            File.Delete(path);
+    }
 }
