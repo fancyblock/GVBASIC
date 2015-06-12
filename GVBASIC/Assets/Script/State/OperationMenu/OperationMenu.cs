@@ -43,13 +43,17 @@ public class OperationMenu : State
                     refreshList(m_curItemIdx + 1);
                 break;
             case KCode.Return:
-                executeItem(m_curItemIdx);
+                executeItem();
                 break;
             case KCode.Delete:
+            case KCode.F2:
                 if( m_curItemIdx > 0 )
                 {
                     //TODO 
                 }
+                break;
+            case KCode.F4:
+                editFile();
                 break;
             default:
                 break;
@@ -76,9 +80,9 @@ public class OperationMenu : State
         m_textDisplay.Refresh();
     }
 
-    protected void executeItem( int index )
+    protected void executeItem()
     {
-        if( index == 0 )
+        if( m_curItemIdx == 0 )
         {
             // create a new file 
             m_stateMgr.CUR_SOURCE_CODE = "";
@@ -90,6 +94,15 @@ public class OperationMenu : State
             m_stateMgr.CUR_SOURCE_CODE = CodeMgr.SharedInstance.GetSourceCode(m_itemList[m_curItemIdx]);
             m_stateMgr.GotoState(StateEnums.eStateRunner);
         }
+    }
+
+    protected void editFile()
+    {
+        if (m_curItemIdx == 0)
+            return;
+
+        m_stateMgr.CUR_SOURCE_CODE = CodeMgr.SharedInstance.GetSourceCode(m_itemList[m_curItemIdx]);
+        m_stateMgr.GotoState(StateEnums.eStateEditor);
     }
 
 }

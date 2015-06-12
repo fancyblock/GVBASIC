@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 
@@ -22,7 +23,9 @@ public class CodeEditor : State
     public override void onSwitchIn() 
     {
         onClearAll();
-        m_textDisplay.Refresh();
+        readCode(m_stateMgr.CUR_SOURCE_CODE);
+
+        refreshLED();
 	}
 
     /// <summary>
@@ -75,6 +78,23 @@ public class CodeEditor : State
 
         m_textDisplay.Clean();
         m_textDisplay.SetCursor(true, 0, 0);
+    }
+
+    protected void readCode( string code )
+    {
+        m_buffer.Clear();
+
+        using( StringReader sr = new StringReader(code) )
+        {
+            string codeLine = sr.ReadLine();
+
+            while( codeLine != null )
+            {
+                m_buffer.Add(new LineInfo( codeLine ));
+                codeLine = sr.ReadLine();
+            }
+        }
+        
     }
 
     protected void onDel()

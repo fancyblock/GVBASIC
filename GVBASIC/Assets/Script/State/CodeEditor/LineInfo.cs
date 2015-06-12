@@ -15,6 +15,15 @@ public class LineInfo
     }
 
     /// <summary>
+    /// constructor 
+    /// </summary>
+    /// <param name="lineStr"></param>
+    public LineInfo( string lineStr )
+    {
+        m_buffer = new StringBuilder(lineStr);
+    }
+
+    /// <summary>
     /// getter of the length 
     /// </summary>
     public int LENGTH
