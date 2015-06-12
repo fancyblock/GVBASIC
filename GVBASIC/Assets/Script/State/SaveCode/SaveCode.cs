@@ -4,20 +4,23 @@ using System.Text;
 
 public class SaveCode : State 
 {
-    protected StringBuilder m_fileName;
+    protected LineInfo m_fileName;
     protected int m_curInputIndex;
 
     public override void onInit() 
     {
-        m_fileName = new StringBuilder();
+        m_fileName = new LineInfo();
     }
 
     public override void onSwitchIn() 
     {
         string pureBasName = m_stateMgr.CUR_CODE_FILE_NAME;
-        pureBasName = pureBasName.Substring(0, pureBasName.Length - 4);
 
-        m_fileName = new StringBuilder(pureBasName);
+        // remove the extesion name
+        if( !string.IsNullOrEmpty(pureBasName) )
+            pureBasName = pureBasName.Substring(0, pureBasName.Length - 4);
+
+        m_fileName = new LineInfo(pureBasName);
         m_curInputIndex = 0;
 
         m_textDisplay.Clean();
@@ -32,10 +35,13 @@ public class SaveCode : State
     {
         switch(key)
         {
-            case KCode.Return:
-                CodeMgr.SharedInstance.SaveSourceCode(m_fileName.ToString() + ".BAS", m_stateMgr.CUR_SOURCE_CODE);
+            case KCode.Escape:
                 m_stateMgr.GotoState(StateEnums.eStateMenu);
-                break;
+                return;
+            case KCode.Return:
+                CodeMgr.SharedInstance.SaveSourceCode(m_fileName.TEXT + ".BAS", m_stateMgr.CUR_SOURCE_CODE);
+                m_stateMgr.GotoState(StateEnums.eStateMenu);
+                return;
             case KCode.LeftArrow:
             case KCode.RightArrow:
                 onMoveCursor(key);
@@ -44,20 +50,23 @@ public class SaveCode : State
                 onChar(key);
                 break;
         }
+
+        refresh();
     }
 
 
     protected void onChar( KCode key )
     {
         // limit the file name length 
-        if (m_fileName.Length >= Defines.TEXT_AREA_WIDTH - 2)
+        if (m_fileName.LENGTH >= Defines.TEXT_AREA_WIDTH - 4)
             return;
 
         int chr = (int)key;
         if (chr < 0 || chr >= 128)
             return;
 
-        //TODO 
+        m_fileName.SetChar(m_curInputIndex, (char)chr);
+        m_curInputIndex++;
     }
 
     protected void onMoveCursor( KCode dir )
@@ -69,8 +78,18 @@ public class SaveCode : State
         }
         else if( dir == KCode.RightArrow )
         {
-            //TODO 
+            if (m_curInputIndex < m_fileName.LENGTH)
+                m_curInputIndex++;
         }
+    }
+
+    protected void refresh()
+    {
+        m_textDisplay.Clean();
+        m_textDisplay.DrawText(0, 0, "Input file name:");
+        m_textDisplay.DrawText(0, 1, m_fileName.TEXT);
+        m_textDisplay.SetCursor(true, m_curInputIndex, 1);
+        m_textDisplay.Refresh();
     }
 
 }

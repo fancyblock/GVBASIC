@@ -16,7 +16,6 @@ public class OperationMenu : State
     public override void onSwitchIn()
     {
         m_itemList.Clear();
-        m_itemList.Add("New File..");
 
         // load file list 
         foreach (string code in CodeMgr.SharedInstance.BAS_LIST)
@@ -50,6 +49,9 @@ public class OperationMenu : State
                     //TODO 
                 }
                 break;
+            case KCode.F1:
+                createNewFile();
+                break;
             case KCode.F4:
                 editFile();
                 break;
@@ -78,28 +80,23 @@ public class OperationMenu : State
         m_textDisplay.Refresh();
     }
 
+    protected void createNewFile()
+    {
+        // create a new file 
+        m_stateMgr.CUR_CODE_FILE_NAME = "";
+        m_stateMgr.CUR_SOURCE_CODE = "";
+        m_stateMgr.GotoState(StateEnums.eStateEditor);
+    }
+
     protected void executeItem()
     {
-        if( m_curItemIdx == 0 )
-        {
-            // create a new file 
-            m_stateMgr.CUR_CODE_FILE_NAME = "NEW FILE.BAS";
-            m_stateMgr.CUR_SOURCE_CODE = "";
-            m_stateMgr.GotoState(StateEnums.eStateEditor);
-        }
-        else
-        {
-            // run the code file 
-            m_stateMgr.CUR_SOURCE_CODE = CodeMgr.SharedInstance.GetSourceCode(m_itemList[m_curItemIdx]);
-            m_stateMgr.GotoState(StateEnums.eStateRunner);
-        }
+        // run the code file 
+        m_stateMgr.CUR_SOURCE_CODE = CodeMgr.SharedInstance.GetSourceCode(m_itemList[m_curItemIdx]);
+        m_stateMgr.GotoState(StateEnums.eStateRunner);
     }
 
     protected void editFile()
     {
-        if (m_curItemIdx == 0)
-            return;
-
         string fileName = m_itemList[m_curItemIdx];
 
         m_stateMgr.CUR_CODE_FILE_NAME = fileName;
