@@ -16,6 +16,9 @@ public class Keyboard : MonoBehaviour
         {
             if (Input.GetKeyDown( (KeyCode)k))
             {
+                if ( (int)k >= 97 && (int)k <= 122)
+                    k -= 32;
+
                 m_stateMgr.Input(k);
                 break;
             }

@@ -5,7 +5,7 @@ using GVBASIC_Compiler.Compiler;
 
 public class CodeRuntime : State 
 {
-    public GraphDisplay m_graphDisplay;
+    public EmuAPI m_emuAPI;
 
     protected Runtime m_runtime;
 
@@ -14,12 +14,11 @@ public class CodeRuntime : State
         // run the code 
         Tokenizer tokenizer = new Tokenizer( m_stateMgr.CUR_SOURCE_CODE );
         Parser parser = new Parser(tokenizer);
-        EmuAPI api = GetComponent<EmuAPI>();
 
         parser.Parsing();
 
         m_runtime = new Runtime(parser);
-        m_runtime.SetAPI(api);
+        m_runtime.SetAPI(m_emuAPI);
         m_runtime.Run();
     }
 
