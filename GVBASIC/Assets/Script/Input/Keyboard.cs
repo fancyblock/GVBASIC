@@ -16,6 +16,7 @@ public class Keyboard : MonoBehaviour
         {
             if (Input.GetKeyDown( (KeyCode)k))
             {
+                // 小写字母转换成大写字母
                 if ( (int)k >= 97 && (int)k <= 122)
                     k -= 32;
 
