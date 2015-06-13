@@ -34,33 +34,38 @@ public class CodeEditor : State
     /// <param name="key"></param>
     public override void onInput(KCode key)
     {
-        switch( key )
+        int newIndex = m_buffer[m_curLine].KeyInput(key, m_curIndex);
+        if (newIndex >= 0)
         {
-            case KCode.Home:
-                onClearAll();
-                break;
-            case KCode.Return:
-                onMoveCursor(KCode.DownArrow);
-                break;
-            case KCode.Delete:
-                onDel();
-                break;
-            case KCode.Insert:
-                m_isInsertMode = !m_isInsertMode;
-                break;
-            case KCode.UpArrow:
-            case KCode.DownArrow:
-            case KCode.LeftArrow:
-            case KCode.RightArrow:
-                onMoveCursor(key);
-                break;
-            case KCode.Escape:
-                exportCode();
-                m_stateMgr.GotoState(StateEnums.eStateSaveCode);
-                return;
-            default:
-                onChar(key);
-                break;
+            m_curIndex = newIndex;
+        }
+        else
+        {
+            switch (key)
+            {
+                case KCode.Home:
+                    onClearAll();
+                    break;
+                case KCode.Return:
+                    onMoveCursor(KCode.DownArrow);
+                    break;
+                case KCode.Delete:
+                    onDel();
+                    break;
+                case KCode.Insert:
+                    m_isInsertMode = !m_isInsertMode;
+                    break;
+                case KCode.UpArrow:
+                case KCode.DownArrow:
+                    onMoveCursor(key);
+                    break;
+                case KCode.Escape:
+                    exportCode();
+                    m_stateMgr.GotoState(StateEnums.eStateSaveCode);
+                    return;
+                default:
+                    break;
+            }
         }
 
         refreshLED();
@@ -102,105 +107,53 @@ public class CodeEditor : State
     {
         LineInfo li = m_buffer[m_curLine];
 
-        if (li.LENGTH == 0)
+        if (m_buffer.Count > 1)
         {
-            if( m_buffer.Count > 1 )
+            m_buffer.Remove(li);
+
+            if (m_curLine >= m_buffer.Count)
             {
-                m_buffer.Remove(li);
-
-                if( m_curLine >= m_buffer.Count )
-                {
-                    // 光标移至删除行的上一行
-                    m_curLine--;
-                    m_curIndex = m_buffer[m_curLine].GetLastLineIndex(m_curIndex % Defines.TEXT_AREA_WIDTH);
-                }
-                else
-                {
-                    // 光标移至删除行的下一行
-                    m_curIndex = m_buffer[m_curLine].GetFirstLineIndex(m_curIndex % Defines.TEXT_AREA_WIDTH);
-                }
+                // 光标移至删除行的上一行
+                m_curLine--;
+                m_curIndex = m_buffer[m_curLine].GetLastLineIndex(m_curIndex % Defines.TEXT_AREA_WIDTH);
             }
-            return;
-        }
-
-        if( m_curIndex < li.LENGTH )
-        {
-            li.Remove(m_curIndex);
-        }
-        else
-        {
-            li.Remove(m_curIndex - 1);
-            m_curIndex--;
+            else
+            {
+                // 光标移至删除行的下一行
+                m_curIndex = m_buffer[m_curLine].GetFirstLineIndex(m_curIndex % Defines.TEXT_AREA_WIDTH);
+            }
         }
     }
 
     protected void onMoveCursor( KCode dir )
     {
-        LineInfo li = m_buffer[m_curLine];;
-
-        if( dir == KCode.LeftArrow )
+        if( dir == KCode.UpArrow )
         {
-            if (m_curIndex > 0)
-                m_curIndex--;
-        }
-        else if( dir == KCode.RightArrow)
-        {
-            if (m_curIndex < li.LENGTH)
-                m_curIndex++;
-        }
-        else if( dir == KCode.UpArrow )
-        {
-            if (m_curIndex >= Defines.TEXT_AREA_WIDTH)
+            if (m_curLine > 0)
             {
-                m_curIndex -= Defines.TEXT_AREA_WIDTH;
-            }
-            else
-            {
-                if( m_curLine > 0 )
-                {
-                    m_curLine--;
-                    m_curIndex = m_buffer[m_curLine].GetLastLineIndex(m_curIndex);
-                }
+                m_curLine--;
+                m_curIndex = m_buffer[m_curLine].GetLastLineIndex(m_curIndex);
             }
         }
         else if( dir == KCode.DownArrow )
         {
-            if( m_curIndex + Defines.TEXT_AREA_WIDTH < li.LENGTH )
+            if (m_curLine == m_buffer.Count - 1)
             {
-                m_curIndex += Defines.TEXT_AREA_WIDTH;
+                // 插入新行  
+                if (m_buffer[m_curLine].LENGTH > 0)
+                {
+                    m_buffer.Add(new LineInfo());
+                    m_curLine = m_buffer.Count - 1;
+                    m_curIndex = 0;
+                }
             }
             else
             {
-                if( m_curLine == m_buffer.Count - 1 )
-                {
-                    // 插入新行  
-                    if (m_buffer[m_curLine].LENGTH > 0)
-                    {
-                        m_buffer.Add(new LineInfo());
-                        m_curLine = m_buffer.Count - 1;
-                        m_curIndex = 0;
-                    }
-                }
-                else
-                {
-                    // 移至下一行
-                    m_curLine++;
-                    m_curIndex = m_buffer[m_curLine].GetFirstLineIndex(m_curIndex % Defines.TEXT_AREA_WIDTH);
-                }
+                // 移至下一行
+                m_curLine++;
+                m_curIndex = m_buffer[m_curLine].GetFirstLineIndex(m_curIndex % Defines.TEXT_AREA_WIDTH);
             }
         }
-    }
-
-    protected void onChar( KCode key )
-    {
-        int chr = (int)key;
-        if (chr < 0 || chr >= 128)
-            return;
-
-        LineInfo li = m_buffer[m_curLine];
-        li.SetChar(m_curIndex, (char)chr);
-
-        m_curIndex++;
     }
 
     protected void refreshLED()

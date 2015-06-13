@@ -62,6 +62,79 @@ public class LineInfo
     }
 
     /// <summary>
+    /// key input 
+    /// </summary>
+    /// <param name="key"></param>
+    /// <param name="curIndex"></param>
+    /// <returns></returns>
+    public int KeyInput( KCode key, int curIndex )
+    {
+        // move the cursor 
+        int newIndex = curIndex;
+
+        if (key == KCode.LeftArrow)
+        {
+            if (curIndex > 0)
+                newIndex = curIndex - 1;
+        }
+        else if (key == KCode.RightArrow)
+        {
+            if (curIndex < LENGTH)
+                newIndex = curIndex + 1;
+        }
+        else if( key == KCode.UpArrow )
+        {
+            if (curIndex >= Defines.TEXT_AREA_WIDTH)
+                newIndex = curIndex - Defines.TEXT_AREA_WIDTH;
+            else
+                newIndex = -1;
+        }
+        else if( key == KCode.DownArrow)
+        {
+            if (curIndex + Defines.TEXT_AREA_WIDTH < LENGTH)
+                newIndex = curIndex + Defines.TEXT_AREA_WIDTH;
+            else
+                newIndex = -1;
+        }
+        else if( key == KCode.Delete )
+        {
+            if( LENGTH > 0 )
+            {
+                if (curIndex < LENGTH)
+                {
+                    Remove(curIndex);
+                }
+                else
+                {
+                    Remove(curIndex - 1);
+                    newIndex = curIndex - 1;
+                }
+            }
+            else
+            {
+                newIndex = -1;
+            }
+        }
+        else
+        {
+            int chr = (int)key;
+
+            // don't process this key input
+            if (chr < 0 || chr >= 127 || key == KCode.Return || key == KCode.Escape)
+            {
+                newIndex = -1;
+            }
+            else
+            {
+                SetChar(curIndex, (char)chr);
+                newIndex = curIndex + 1;
+            }
+        }
+
+        return newIndex;
+    }
+
+    /// <summary>
     /// remove index 
     /// </summary>
     /// <param name="index"></param>

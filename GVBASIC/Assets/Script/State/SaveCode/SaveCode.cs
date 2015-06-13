@@ -5,7 +5,7 @@ using System.Text;
 public class SaveCode : State 
 {
     protected LineInfo m_fileName;
-    protected int m_curInputIndex;
+    protected int m_curIndex;
 
     public override void onInit() 
     {
@@ -21,7 +21,7 @@ public class SaveCode : State
             pureBasName = pureBasName.Substring(0, pureBasName.Length - 4);
 
         m_fileName = new LineInfo(pureBasName);
-        m_curInputIndex = 0;
+        m_curIndex = 0;
 
         m_textDisplay.Clean();
         m_textDisplay.DrawText(0, 0, "Input file name:");
@@ -33,54 +33,28 @@ public class SaveCode : State
 
     public override void onInput(KCode key) 
     {
-        switch(key)
+        int newIndex = m_fileName.KeyInput(key, m_curIndex);
+        if (newIndex >= 0)
         {
-            case KCode.Escape:
-                m_stateMgr.GotoState(StateEnums.eStateMenu);
-                return;
-            case KCode.Return:
-                CodeMgr.SharedInstance.SaveSourceCode(m_fileName.TEXT + ".BAS", m_stateMgr.CUR_SOURCE_CODE);
-                m_stateMgr.GotoState(StateEnums.eStateMenu);
-                return;
-            case KCode.LeftArrow:
-            case KCode.RightArrow:
-                onMoveCursor(key);
-                break;
-            default:
-                onChar(key);
-                break;
+            m_curIndex = newIndex;
+        }
+        else
+        {
+            switch (key)
+            {
+                case KCode.Escape:
+                    m_stateMgr.GotoState(StateEnums.eStateMenu);
+                    return;
+                case KCode.Return:
+                    CodeMgr.SharedInstance.SaveSourceCode(m_fileName.TEXT + ".BAS", m_stateMgr.CUR_SOURCE_CODE);
+                    m_stateMgr.GotoState(StateEnums.eStateMenu);
+                    return;
+                default:
+                    break;
+            }
         }
 
         refresh();
-    }
-
-
-    protected void onChar( KCode key )
-    {
-        // limit the file name length 
-        if (m_fileName.LENGTH >= Defines.TEXT_AREA_WIDTH - 4)
-            return;
-
-        int chr = (int)key;
-        if (chr < 0 || chr >= 128)
-            return;
-
-        m_fileName.SetChar(m_curInputIndex, (char)chr);
-        m_curInputIndex++;
-    }
-
-    protected void onMoveCursor( KCode dir )
-    {
-        if( dir == KCode.LeftArrow )
-        {
-            if (m_curInputIndex > 0)
-                m_curInputIndex--;
-        }
-        else if( dir == KCode.RightArrow )
-        {
-            if (m_curInputIndex < m_fileName.LENGTH)
-                m_curInputIndex++;
-        }
     }
 
     protected void refresh()
@@ -88,7 +62,7 @@ public class SaveCode : State
         m_textDisplay.Clean();
         m_textDisplay.DrawText(0, 0, "Input file name:");
         m_textDisplay.DrawText(0, 1, m_fileName.TEXT);
-        m_textDisplay.SetCursor(true, m_curInputIndex, 1);
+        m_textDisplay.SetCursor(true, m_curIndex, 1);
         m_textDisplay.Refresh();
     }
 
