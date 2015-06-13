@@ -31,6 +31,10 @@ namespace GVBASIC_Compiler
             throw new Exception(error);
         }
 
+        public void ProgramStart()
+        {
+        }
+
         /// <summary>
         /// program runing done 
         /// </summary>

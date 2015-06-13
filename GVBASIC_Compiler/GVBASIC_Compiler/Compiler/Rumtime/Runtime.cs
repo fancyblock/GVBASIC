@@ -110,6 +110,8 @@ namespace GVBASIC_Compiler.Compiler
 
             m_isRunning = true;
             m_index = 0;
+
+            m_apiCall.ProgramStart();
         }
 
         /// <summary>

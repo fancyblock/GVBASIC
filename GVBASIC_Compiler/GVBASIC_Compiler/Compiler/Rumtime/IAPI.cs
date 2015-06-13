@@ -6,6 +6,7 @@ namespace GVBASIC_Compiler.Compiler
     public interface IAPI
     {
         void ErrorCode(string error);
+        void ProgramStart();
         void ProgramDone();
 
         void Print(List<BaseData> expList);
