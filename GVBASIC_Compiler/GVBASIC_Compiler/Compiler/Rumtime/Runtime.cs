@@ -124,7 +124,7 @@ namespace GVBASIC_Compiler.Compiler
             }
             catch( ErrorCode ec )
             {
-                m_apiCall.ErrorCode("?" + ec.Message + " ERROR IN LINE " + m_parser.CUR_LINE_NUM);
+                m_apiCall.ErrorCode("?" + ec.Message + " ERROR IN " + m_parser.CUR_LINE_NUM);
             }
         }
 
@@ -160,7 +160,7 @@ namespace GVBASIC_Compiler.Compiler
             }
             catch (ErrorCode ec)
             {
-                m_apiCall.ErrorCode("?" + ec.Message + " ERROR IN LINE " + m_statements[m_index - 1].m_lineNum);
+                m_apiCall.ErrorCode("?" + ec.Message + " ERROR IN " + m_statements[m_index - 1].m_lineNum);
             }
 
             return done;

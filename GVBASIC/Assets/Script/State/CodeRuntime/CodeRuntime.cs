@@ -14,10 +14,8 @@ public class CodeRuntime : State
         // run the code 
         Tokenizer tokenizer = new Tokenizer( m_stateMgr.CUR_SOURCE_CODE );
         Parser parser = new Parser(tokenizer);
-
-        parser.Parsing();
-
         m_runtime = new Runtime(parser);
+
         m_runtime.SetAPI(m_emuAPI);
         m_runtime.Run();
     }
