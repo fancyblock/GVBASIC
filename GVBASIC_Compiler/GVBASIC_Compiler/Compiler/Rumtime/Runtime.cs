@@ -8,6 +8,8 @@ namespace GVBASIC_Compiler.Compiler
     /// </summary>
     public class Runtime
     {
+        protected Parser m_parser;
+
         protected List<Statement> m_statements;
         protected Dictionary<int, Action<Statement>> m_executer;
         protected Dictionary<int, int> m_lineNumDic;
@@ -29,7 +31,7 @@ namespace GVBASIC_Compiler.Compiler
         /// </summary>
         public Runtime(Parser parser)
         {
-            m_statements = parser.STATEMENTS;
+            m_parser = parser;
 
             m_executer = new Dictionary<int, Action<Statement>>()
             {
@@ -82,36 +84,48 @@ namespace GVBASIC_Compiler.Compiler
         /// </summary>
         public void Run()
         {
-            // process the data statement 
-            List<Statement> removeList = new List<Statement>();
-            foreach( Statement s in m_statements )
+            try
             {
-                if( s.m_type == Statement.TYPE_DATA )
+                // generate the IR
+                m_parser.Parsing();
+
+                m_statements = m_parser.STATEMENTS;
+
+                // process the data statement 
+                List<Statement> removeList = new List<Statement>();
+                foreach (Statement s in m_statements)
                 {
-                    doData(s);
-                    removeList.Add(s);
+                    if (s.m_type == Statement.TYPE_DATA)
+                    {
+                        doData(s);
+                        removeList.Add(s);
+                    }
                 }
-            }
-            // remove the data statments
-            foreach (Statement s in removeList)
-                m_statements.Remove(s);
+                // remove the data statments
+                foreach (Statement s in removeList)
+                    m_statements.Remove(s);
 
-            // index the line number
-            m_lineNumDic = new Dictionary<int, int>();
-            for (int i = 0; i < m_statements.Count; i++)
+                // index the line number
+                m_lineNumDic = new Dictionary<int, int>();
+                for (int i = 0; i < m_statements.Count; i++)
+                {
+                    Statement s = m_statements[i];
+
+                    s.m_lineIndex = i;
+
+                    if (!m_lineNumDic.ContainsKey(s.m_lineNum))
+                        m_lineNumDic.Add(s.m_lineNum, i);
+                }
+
+                m_isRunning = true;
+                m_index = 0;
+
+                m_apiCall.ProgramStart();
+            }
+            catch( ErrorCode ec )
             {
-                Statement s = m_statements[i];
-
-                s.m_lineIndex = i;
-
-                if (!m_lineNumDic.ContainsKey(s.m_lineNum))
-                    m_lineNumDic.Add(s.m_lineNum, i);
+                m_apiCall.ErrorCode("?" + ec.Message + " ERROR IN LINE " + m_parser.CUR_LINE_NUM);
             }
-
-            m_isRunning = true;
-            m_index = 0;
-
-            m_apiCall.ProgramStart();
         }
 
         /// <summary>

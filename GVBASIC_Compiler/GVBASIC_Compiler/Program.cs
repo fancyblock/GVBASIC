@@ -24,15 +24,12 @@ namespace GVBASIC_Compiler
 
             // lex  
             Tokenizer tok = new Tokenizer(sourceCode);
-
             // parser 
             Parser parser = new Parser(tok);
-            // generate the IR
-            parser.Parsing();
-
-            // run 
+            // runtime
             Runtime rt = new Runtime(parser);
             rt.SetAPI(new DebugAPI());
+
             rt.Run();
 
             // wait for key press 

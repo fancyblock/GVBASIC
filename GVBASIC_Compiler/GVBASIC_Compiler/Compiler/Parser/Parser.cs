@@ -13,7 +13,7 @@ namespace GVBASIC_Compiler.Compiler
         protected int m_curTokenIndex;
 
         protected List<Statement> m_statements;
-        protected int m_curLineNumber;
+        protected int m_curLineNumber = 10;
 
         /// <summary>
         /// constructor 
@@ -56,14 +56,17 @@ namespace GVBASIC_Compiler.Compiler
                 while (lookAhead() == Token.EOL)
                     eatToken(Token.EOL);
             }
-
-            // parse done 
         }
 
         /// <summary>
         /// getter of all the statements 
         /// </summary>
         public List<Statement> STATEMENTS { get { return m_statements; } }
+
+        /// <summary>
+        /// getter of the current line number
+        /// </summary>
+        public int CUR_LINE_NUM { get { return m_curLineNumber; } }
 
 
 
@@ -188,7 +191,7 @@ namespace GVBASIC_Compiler.Compiler
                         ss = endStatement();
                         break;
                     default:
-                        throw new Exception("unexpected token: " + tt.ToString() + " in line " + m_curLineNumber);
+                        throw new ErrorCode(ErrorCode.ERROR_CODE_02);
                 }
 
                 statements.Add(ss);
@@ -282,7 +285,7 @@ namespace GVBASIC_Compiler.Compiler
                 else if (t == Token.STRING)
                     s.m_dataList.Add(new BaseData(tok.m_strVal));
                 else
-                    throw new Exception("Error token in line " + m_curLineNumber + ", INT, FLOAT, STRING excepted." );
+                    throw new ErrorCode(ErrorCode.ERROR_CODE_02);
 
                 t = lookAhead();
 
@@ -330,7 +333,7 @@ namespace GVBASIC_Compiler.Compiler
             else
             {
                 if (tt == Token.GOTO)
-                    throw new ErrorCode("[Parser]: ifStatement, error token, number expected. in line " + m_curLineNumber);
+                    throw new ErrorCode(ErrorCode.ERROR_CODE_02);
 
                 s = statements();
             }

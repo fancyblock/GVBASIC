@@ -16,12 +16,11 @@ namespace CompilerUnitTest
         {
             Tokenizer tokenizer = new Tokenizer(code);
             Parser parser = new Parser(tokenizer);
-            DebugAPI api = new DebugAPI();
-
-            parser.Parsing();
-
             Runtime rt = new Runtime(parser);
+
+            DebugAPI api = new DebugAPI();
             rt.SetAPI(api);
+
             rt.Run();
 
             while (!rt.Step()) ;
