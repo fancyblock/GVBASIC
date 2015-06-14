@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class OperationMenu : State 
 {
     protected int m_curItemIdx;
-    protected List<string> m_itemList;
+    protected List<LineInfo> m_itemList;
     protected int m_lineOffset;
 
     public override void onInit()
@@ -55,7 +55,10 @@ public class OperationMenu : State
     protected void refreshList( int index )
     {
         m_curItemIdx = index;
-        m_itemList = CodeMgr.SharedInstance.BAS_LIST;
+        m_itemList = new List<LineInfo>();
+        
+        foreach( string fn in CodeMgr.SharedInstance.BAS_LIST)
+            m_itemList.Add( new LineInfo(fn));
 
         // update the offset 
         if( m_curItemIdx - m_lineOffset >= Defines.TEXT_AREA_HEIGHT )
@@ -66,8 +69,11 @@ public class OperationMenu : State
         m_textDisplay.Clean();
 
         int y = 0;
-        for (int i = m_lineOffset; i < m_itemList.Count; i++ )
-            m_textDisplay.DrawText(0, y++, m_itemList[i], i == m_curItemIdx);
+        for (int i = m_lineOffset; i < m_itemList.Count; i++)
+        {
+            m_textDisplay.DrawText(0, y, m_itemList[i].TEXT, i == m_curItemIdx);
+            y += m_itemList[i].LINE_COUNT;
+        }
 
         m_textDisplay.Refresh();
     }
@@ -101,13 +107,13 @@ public class OperationMenu : State
     protected void executeItem()
     {
         // run the code file 
-        m_stateMgr.CUR_SOURCE_CODE = CodeMgr.SharedInstance.GetSourceCode(m_itemList[m_curItemIdx]);
+        m_stateMgr.CUR_SOURCE_CODE = CodeMgr.SharedInstance.GetSourceCode(m_itemList[m_curItemIdx].TEXT);
         m_stateMgr.GotoState(StateEnums.eStateRunner);
     }
 
     protected void editFile()
     {
-        string fileName = m_itemList[m_curItemIdx];
+        string fileName = m_itemList[m_curItemIdx].TEXT;
 
         m_stateMgr.CUR_CODE_FILE_NAME = fileName;
         m_stateMgr.CUR_SOURCE_CODE = CodeMgr.SharedInstance.GetSourceCode(fileName);
