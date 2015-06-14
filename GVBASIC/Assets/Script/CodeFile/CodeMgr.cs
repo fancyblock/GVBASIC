@@ -58,9 +58,7 @@ public class CodeMgr
         string code = null;
 
         using( StreamReader sr = new StreamReader(Application.persistentDataPath + "/" + fileName) )
-        {
             code = sr.ReadToEnd();
-        }
 
         return code;
     }
@@ -73,9 +71,7 @@ public class CodeMgr
     public void SaveSourceCode( string fileName, string sourceCode )
     {
         using( StreamWriter sw = new StreamWriter(Application.persistentDataPath + "/" + fileName ))
-        {
             sw.Write(sourceCode);
-        }
     }
 
     public void DeleteSourceCode( string fileName )

@@ -26,24 +26,12 @@ public class LineInfo
     /// <summary>
     /// getter of the length 
     /// </summary>
-    public int LENGTH
-    {
-        get
-        {
-            return m_buffer.Length;
-        }
-    }
+    public int LENGTH { get { return m_buffer.Length; } }
 
     /// <summary>
     /// getter of the text 
     /// </summary>
-    public string TEXT
-    {
-        get
-        {
-            return m_buffer.ToString();
-        }
-    }
+    public string TEXT { get { return m_buffer.ToString(); } }
 
     /// <summary>
     /// count of line 

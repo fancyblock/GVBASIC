@@ -119,10 +119,6 @@ public enum KCode
     F2 = 283,
     F3 = 284,
     F4 = 285,
-    F5 = 286,
-    F6 = 287,
-    F7 = 288,
-    F8 = 289,
 
     CapsLock = 301,
     Menu = 319,

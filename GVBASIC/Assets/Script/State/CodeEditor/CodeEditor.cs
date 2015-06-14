@@ -119,7 +119,7 @@ public class CodeEditor : State
             }
             else
             {
-                // 光标移至删除行的下一行
+                // 光标不动（自动指向删除行的下一行）
                 m_curIndex = m_buffer[m_curLine].GetFirstLineIndex(m_curIndex % Defines.TEXT_AREA_WIDTH);
             }
         }
@@ -199,9 +199,7 @@ public class CodeEditor : State
         StringBuilder code = new StringBuilder();
 
         foreach( LineInfo li in m_buffer )
-        {
             code.AppendLine(li.TEXT);
-        }
 
         m_stateMgr.CUR_SOURCE_CODE = code.ToString();
     }
