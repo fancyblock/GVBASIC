@@ -66,8 +66,8 @@ public class TextDisplay : MonoBehaviour
         if (m_hasCursor == false)
             m_inverseBuffer[m_cursorX, m_cursorY] = false;
 
-        m_cursorX = x;
-        m_cursorY = y;
+        m_cursorX = x % Defines.TEXT_AREA_WIDTH;
+        m_cursorY = y + x / Defines.TEXT_AREA_WIDTH;
     }
 
     /// <summary>
