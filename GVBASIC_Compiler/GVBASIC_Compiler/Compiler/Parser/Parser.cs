@@ -93,8 +93,8 @@ namespace GVBASIC_Compiler.Compiler
             Token curTok = m_tokenBuff[m_curTokenIndex];
 
             // token type error exception 
-            if( curTok.m_type != tok )
-                throw new Exception("Error token type " + curTok.m_type.ToString() + " in line " + m_curLineNumber + ",  " + tok.ToString() + " expected. ");
+            if (curTok.m_type != tok)
+                throw new ErrorCode(ErrorCode.ERROR_CODE_02);
 
             // add new token to the buffer
             m_tokenBuff[m_curTokenIndex] = m_tokenizer.GetToken();
