@@ -149,7 +149,7 @@ public class EmuAPI : MonoBehaviour, IAPI
     /// <summary>
     /// normal mode 
     /// </summary>
-    public void Nromal() 
+    public void Normal() 
     {
         //TODO 
     }
