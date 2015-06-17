@@ -8,6 +8,7 @@ public class EmuAPI : MonoBehaviour, IAPI
     public CodeRuntime m_codeRuntime;
     public TextDisplay m_textDisplay;
     public GraphDisplay m_graphDisplay;
+    public LED m_led;
 
     protected int m_status;
 
@@ -120,7 +121,13 @@ public class EmuAPI : MonoBehaviour, IAPI
         m_textDisplay.Refresh();
     }
 
-    public void Beep() { }
+    /// <summary>
+    /// play a beep sound 
+    /// </summary>
+    public void Beep() 
+    {
+        //TODO 
+    }
 
     /// <summary>
     /// clean the screen 
@@ -131,13 +138,55 @@ public class EmuAPI : MonoBehaviour, IAPI
         m_textDisplay.Refresh();
     }
 
+    /// <summary>
+    /// inverse mode 
+    /// </summary>
     public void Inverse() 
     {
         //TODO 
     }
 
-    public void Nromal() { }
-    public void Graph() { }
-    public void Text() { }
-    public int Inkey() { return 0; }
+    /// <summary>
+    /// normal mode 
+    /// </summary>
+    public void Nromal() 
+    {
+        //TODO 
+    }
+
+    /// <summary>
+    /// switch to graph mode 
+    /// </summary>
+    public void Graph() 
+    {
+        m_textDisplay.enabled = false;
+        m_graphDisplay.enabled = true;
+
+        m_led.CleanScreen();
+    }
+
+    /// <summary>
+    /// text mode 
+    /// </summary>
+    public void Text() 
+    {
+        m_textDisplay.enabled = true;
+        m_graphDisplay.enabled = false;
+
+        m_led.CleanScreen();
+
+        m_textDisplay.SetCursor(true);
+    }
+
+    /// <summary>
+    /// get a inkey 
+    /// </summary>
+    /// <returns></returns>
+    public int Inkey() 
+    {
+        //TODO 
+
+        return 0;
+    }
+
 }

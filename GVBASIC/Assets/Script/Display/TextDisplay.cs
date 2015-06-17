@@ -2,7 +2,7 @@
 using System;
 using System.Collections;
 
-public class TextDisplay : MonoBehaviour 
+public class TextDisplay : MonoBehaviour
 {
     public LED m_led;
     public float m_cursorInterval;
