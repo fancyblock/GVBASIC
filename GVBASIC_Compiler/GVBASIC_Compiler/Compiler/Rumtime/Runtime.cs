@@ -487,7 +487,20 @@ namespace GVBASIC_Compiler.Compiler
 
         protected void onSimpleCmd( Statement s )
         {
-            //TODO 
+            if (s.m_symbol == "BEEP")
+                m_apiCall.Beep();
+            else if (s.m_symbol == "CLS")
+                m_apiCall.Cls();
+            else if (s.m_symbol == "INVERSE")
+                m_apiCall.Inverse();
+            else if (s.m_symbol == "NORMAL")
+                m_apiCall.Normal();
+            else if (s.m_symbol == "GRAPH")
+                m_apiCall.Graph();
+            else if (s.m_symbol == "TEXT")
+                m_apiCall.Text();
+            else
+                throw new ErrorCode(ErrorCode.ERROR_CODE_02);
         }
 
         protected void onParamCmd( Statement s )

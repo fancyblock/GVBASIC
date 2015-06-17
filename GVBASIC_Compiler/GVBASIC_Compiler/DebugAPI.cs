@@ -113,7 +113,7 @@ namespace GVBASIC_Compiler
         public void Beep() { }
         public void Cls() { }
         public void Inverse() { }
-        public void Nromal() { }
+        public void Normal() { }
         public void Graph() { }
         public void Text() { }
 

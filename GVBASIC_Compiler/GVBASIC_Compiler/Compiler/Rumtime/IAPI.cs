@@ -13,7 +13,7 @@ namespace GVBASIC_Compiler.Compiler
         void Beep();
         void Cls();
         void Inverse();
-        void Nromal();
+        void Normal();
         void Graph();
         void Text();
         int Inkey();
