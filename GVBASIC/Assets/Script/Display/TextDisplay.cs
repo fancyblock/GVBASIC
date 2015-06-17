@@ -13,6 +13,8 @@ public class TextDisplay : MonoBehaviour
     protected bool m_hasCursor;
     protected int m_cursorX;
     protected int m_cursorY;
+    protected int m_lastTextX;
+    protected int m_lastTextY;
     protected float m_timer;
 
     /// <summary>
@@ -28,6 +30,8 @@ public class TextDisplay : MonoBehaviour
         // no cursor 
         m_cursorX = 0;
         m_cursorY = 0;
+        m_lastTextX = 0;
+        m_lastTextY = 0;
         m_hasCursor = false;
         m_timer = 0.0f;
     }
@@ -69,6 +73,18 @@ public class TextDisplay : MonoBehaviour
         m_cursorX = x % Defines.TEXT_AREA_WIDTH;
         m_cursorY = y + x / Defines.TEXT_AREA_WIDTH;
     }
+
+    /// <summary>
+    /// getter && setter of the cursor 
+    /// </summary>
+    public int CURSOR_X { get { return m_cursorX; } }
+    public int CURSOR_Y { get { return m_cursorY; } }
+
+    /// <summary>
+    /// getter of the last text position 
+    /// </summary>
+    public int LAST_TEXT_X { get { return m_lastTextX; } }
+    public int LAST_TEXT_Y { get { return m_lastTextY; } }
 
     /// <summary>
     /// refresh the display 
@@ -117,9 +133,50 @@ public class TextDisplay : MonoBehaviour
             {
                 x = 0;
                 y ++;
+            }
+        }
 
-                if (y >= Defines.TEXT_AREA_HEIGHT)
-                    break;
+        m_lastTextX = x;
+        m_lastTextY = y;
+    }
+
+    /// <summary>
+    /// roll up 
+    /// </summary>
+    /// <param name="lineCnt"></param>
+    public void RollUp( int lineCnt )
+    {
+        if (lineCnt <= 0)
+            return;
+
+        if( lineCnt > Defines.TEXT_AREA_HEIGHT )
+        {
+            Clean();
+            return;
+        }
+
+        // move the lines
+        for( int i = Defines.TEXT_AREA_HEIGHT - 1; i > 0; i-- )
+        {
+            int destLine = i - lineCnt;
+
+            if (destLine < 0)
+                break;
+
+            for( int j = 0; j < Defines.TEXT_AREA_WIDTH; j++ )
+            {
+                m_buffer[j, destLine] = m_buffer[j, i];
+                m_inverseBuffer[j, destLine] = m_inverseBuffer[j, i];
+            }
+        }
+
+        // clean the new line 
+        for( int i = 0; i < Defines.TEXT_AREA_WIDTH; i++ )
+        {
+            for (int j = Defines.TEXT_AREA_HEIGHT - lineCnt; j < Defines.TEXT_AREA_HEIGHT; j++ )
+            {
+                m_buffer[i, j] = 0;
+                m_inverseBuffer[i, j] = false;
             }
         }
     }

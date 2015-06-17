@@ -49,6 +49,9 @@ public class EmuAPI : MonoBehaviour, IAPI
         bool closeTo = false;
         string output = null;
 
+        int cursorX = m_textDisplay.CURSOR_X;
+        int cursorY = m_textDisplay.CURSOR_Y;
+
         foreach (BaseData dat in expList)
         {
             output = "";
@@ -83,21 +86,56 @@ public class EmuAPI : MonoBehaviour, IAPI
                     break;
             }
 
-            //m_textDisplay.DrawText()
-            //System.Console.Write(output);
+            m_textDisplay.DrawText(cursorX, cursorY, output);
+
+            // set the new cursor position 
+            cursorX = m_textDisplay.LAST_TEXT_X;
+            cursorY = m_textDisplay.LAST_TEXT_Y;
+
+            if( cursorY >= Defines.TEXT_AREA_HEIGHT )
+            {
+                m_textDisplay.RollUp( cursorY - Defines.TEXT_AREA_HEIGHT + 1 );
+                cursorY = Defines.TEXT_AREA_HEIGHT - 1;
+            }
+
+            m_textDisplay.SetCursor(true, cursorX, cursorY);
 
             lastType = dat.TYPE;
         }
 
         if (!(lastType == BaseData.TYPE_CLOSE_TO && closeTo))
         {
-            //System.Console.Write("\n");
+            cursorX = 0;
+            cursorY++;
+
+            if (cursorY >= Defines.TEXT_AREA_HEIGHT)
+            {
+                m_textDisplay.RollUp(cursorY - Defines.TEXT_AREA_HEIGHT + 1);
+                cursorY = Defines.TEXT_AREA_HEIGHT - 1;
+            }
+
+            m_textDisplay.SetCursor(true, cursorX, cursorY);
         }
+
+        m_textDisplay.Refresh();
     }
 
     public void Beep() { }
-    public void Cls() { }
-    public void Inverse() { }
+
+    /// <summary>
+    /// clean the screen 
+    /// </summary>
+    public void Cls() 
+    {
+        m_textDisplay.Clean();
+        m_textDisplay.Refresh();
+    }
+
+    public void Inverse() 
+    {
+        //TODO 
+    }
+
     public void Nromal() { }
     public void Graph() { }
     public void Text() { }
