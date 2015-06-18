@@ -1020,7 +1020,8 @@ namespace GVBASIC_Compiler.Compiler
 
             Token tok = eatToken(Token.PARAM_CMD);
             s.m_symbol = tok.m_strVal;
-            //TODO 
+
+            s.m_expressList = expressList();
 
             return s;
         }

@@ -122,6 +122,16 @@ public class EmuAPI : MonoBehaviour, IAPI
     }
 
     /// <summary>
+    /// set the cursor 
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    public void Locate(int x, int y)
+    {
+        m_textDisplay.SetCursor(true, x-1, y-1);
+    }
+
+    /// <summary>
     /// play a beep sound 
     /// </summary>
     public void Beep() 
@@ -187,6 +197,79 @@ public class EmuAPI : MonoBehaviour, IAPI
         //TODO 
 
         return 0;
+    }
+
+    /// <summary>
+    /// play music 
+    /// </summary>
+    /// <param name="sound"></param>
+    public void Play(string sound)
+    {
+        //TODO 
+    }
+
+    /// <summary>
+    /// draw a box 
+    /// </summary>
+    /// <param name="x0"></param>
+    /// <param name="y0"></param>
+    /// <param name="x1"></param>
+    /// <param name="y1"></param>
+    /// <param name="fill"></param>
+    /// <param name="type"></param>
+    public void Box(int x0, int y0, int x1, int y1, int fill, int type)
+    {
+        //TODO 
+    }
+
+    /// <summary>
+    /// draw a circle 
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="fill"></param>
+    /// <param name="type"></param>
+    public void Circle(int x, int y, int fill, int type)
+    {
+        //TODO 
+    }
+
+    /// <summary>
+    /// draw a point 
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="type"></param>
+    public void Draw(int x, int y, int type)
+    {
+        //TODO 
+    }
+
+    /// <summary>
+    /// draw a ellipse 
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <param name="fill"></param>
+    /// <param name="type"></param>
+    public void Ellipse(int x, int y, int a, int b, int fill, int type)
+    {
+        //TODO 
+    }
+
+    /// <summary>
+    /// draw a line 
+    /// </summary>
+    /// <param name="x0"></param>
+    /// <param name="y0"></param>
+    /// <param name="x1"></param>
+    /// <param name="y1"></param>
+    /// <param name="type"></param>
+    public void Line(int x0, int y0, int x1, int y1, int type)
+    {
+        //TODO 
     }
 
 }

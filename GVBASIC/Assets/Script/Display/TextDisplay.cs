@@ -67,8 +67,7 @@ public class TextDisplay : MonoBehaviour
     {
         m_hasCursor = show;
 
-        if (m_hasCursor == false)
-            m_inverseBuffer[m_cursorX, m_cursorY] = false;
+        m_led.DrawLetter(m_cursorX * ASCII.WIDTH, m_cursorY * ASCII.HEIGHT, m_buffer[m_cursorX, m_cursorY], m_inverseBuffer[m_cursorX,m_cursorY]);
 
         m_cursorX = x % Defines.TEXT_AREA_WIDTH;
         m_cursorY = y + x / Defines.TEXT_AREA_WIDTH;

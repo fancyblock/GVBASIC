@@ -505,7 +505,26 @@ namespace GVBASIC_Compiler.Compiler
 
         protected void onParamCmd( Statement s )
         {
-            //TODO 
+            if( s.m_symbol == "PLAY" )
+            {
+                //TODO 
+            }
+            else
+            {
+                List<int> indexs = expressListToIndexs(s.m_expressList);
+
+                if( s.m_symbol == "LOCATE" )
+                {
+                    if (indexs.Count != 2)
+                        throw new ErrorCode(ErrorCode.ERROR_CODE_02);
+
+                    m_apiCall.Locate(indexs[0], indexs[1]);
+                }
+                else if( s.m_symbol == "" )
+                {
+                    //TODO 
+                }
+            }
         }
 
         /// <summary>

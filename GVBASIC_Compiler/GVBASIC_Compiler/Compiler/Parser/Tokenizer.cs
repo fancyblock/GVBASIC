@@ -130,6 +130,7 @@ namespace GVBASIC_Compiler.Compiler
                 {"TAB", Token.FUNC},
                 {"EOF", Token.FUNC},
                 {"LOF", Token.FUNC},
+                {"PEEK", Token.FUNC},
             };
 
             m_sourceCode = source;
