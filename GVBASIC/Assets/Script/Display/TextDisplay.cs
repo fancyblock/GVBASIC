@@ -156,12 +156,12 @@ public class TextDisplay : MonoBehaviour
         }
 
         // move the lines
-        for( int i = Defines.TEXT_AREA_HEIGHT - 1; i > 0; i-- )
+        for (int i = 1; i <= Defines.TEXT_AREA_HEIGHT - 1; i++)
         {
             int destLine = i - lineCnt;
 
             if (destLine < 0)
-                break;
+                continue;
 
             for( int j = 0; j < Defines.TEXT_AREA_WIDTH; j++ )
             {
