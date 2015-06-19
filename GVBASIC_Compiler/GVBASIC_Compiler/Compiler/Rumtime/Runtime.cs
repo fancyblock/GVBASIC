@@ -507,7 +507,15 @@ namespace GVBASIC_Compiler.Compiler
         {
             if( s.m_symbol == "PLAY" )
             {
-                //TODO 
+                if( s.m_expressList.Count != 1 )
+                    throw new ErrorCode(ErrorCode.ERROR_CODE_02);
+
+                BaseData bd = calculateExp(s.m_expressList[0]).m_value;
+
+                if (bd.TYPE != BaseData.TYPE_STRING)
+                    throw new ErrorCode(ErrorCode.ERROR_CODE_02);
+
+                m_apiCall.Play(bd.STR_VAL);
             }
             else
             {
@@ -520,9 +528,56 @@ namespace GVBASIC_Compiler.Compiler
 
                     m_apiCall.Locate(indexs[0], indexs[1]);
                 }
-                else if( s.m_symbol == "" )
+                else if( s.m_symbol == "BOX" )
                 {
-                    //TODO 
+                    if (indexs.Count == 4)
+                        m_apiCall.Box(indexs[0], indexs[1], indexs[2], indexs[3], 0, 1);
+                    else if( indexs.Count == 5 )
+                        m_apiCall.Box(indexs[0], indexs[1], indexs[2], indexs[3], indexs[4], 1);
+                    else if( indexs.Count == 6 )
+                        m_apiCall.Box(indexs[0], indexs[1], indexs[2], indexs[3], indexs[4], indexs[5]);
+                    else
+                        throw new ErrorCode(ErrorCode.ERROR_CODE_02);
+                }
+                else if (s.m_symbol == "DRAW")
+                {
+                    if (indexs.Count == 2)
+                        m_apiCall.Draw(indexs[0], indexs[1], 1);
+                    else if (indexs.Count == 3)
+                        m_apiCall.Draw(indexs[0], indexs[1], indexs[2]);
+                    else
+                        throw new ErrorCode(ErrorCode.ERROR_CODE_02);
+                }
+                else if( s.m_symbol == "CIRCLE")
+                {
+                    if (indexs.Count == 3)
+                        m_apiCall.Circle(indexs[0], indexs[1], indexs[2], 0, 1);
+                    else if (indexs.Count == 4)
+                        m_apiCall.Circle(indexs[0], indexs[1], indexs[2], indexs[3], 0);
+                    else if (indexs.Count == 5)
+                        m_apiCall.Circle(indexs[0], indexs[1], indexs[2], indexs[3], indexs[4]);
+                    else
+                        throw new ErrorCode(ErrorCode.ERROR_CODE_02);
+                }
+                else if( s.m_symbol == "ELLIPSE")
+                {
+                    if (indexs.Count == 4)
+                        m_apiCall.Ellipse(indexs[0], indexs[1], indexs[2], indexs[3], 0, 1);
+                    else if (indexs.Count == 5)
+                        m_apiCall.Ellipse(indexs[0], indexs[1], indexs[2], indexs[3], indexs[4], 1);
+                    else if (indexs.Count == 6)
+                        m_apiCall.Ellipse(indexs[0], indexs[1], indexs[2], indexs[3], indexs[4], indexs[5]);
+                    else
+                        throw new ErrorCode(ErrorCode.ERROR_CODE_02);
+                }
+                else if (s.m_symbol == "LINE")
+                {
+                    if (indexs.Count == 4)
+                        m_apiCall.Line(indexs[0], indexs[1], indexs[2], indexs[3], 1);
+                    else if (indexs.Count == 5)
+                        m_apiCall.Line(indexs[0], indexs[1], indexs[2], indexs[3], indexs[4]);
+                    else
+                        throw new ErrorCode(ErrorCode.ERROR_CODE_02);
                 }
             }
         }

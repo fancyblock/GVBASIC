@@ -119,7 +119,7 @@ namespace GVBASIC_Compiler
         public void Locate(int x, int y) { }
         public void Play(string sound) { }
         public void Box(int x0, int y0, int x1, int y1, int fill, int type) { }
-        public void Circle(int x, int y, int fill, int type) { }
+        public void Circle(int x, int y, int r, int fill, int type) { }
         public void Draw(int x, int y, int type) { }          // draw point 
         public void Ellipse(int x, int y, int a, int b, int fill, int type) { }
         public void Line(int x0, int y0, int x1, int y1, int type) { }
