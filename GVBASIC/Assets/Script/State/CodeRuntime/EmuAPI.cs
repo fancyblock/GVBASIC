@@ -229,7 +229,7 @@ public class EmuAPI : MonoBehaviour, IAPI
     /// <param name="y"></param>
     /// <param name="fill"></param>
     /// <param name="type"></param>
-    public void Circle(int x, int y, int fill, int type)
+    public void Circle(int x, int y, int r, int fill, int type)
     {
         //TODO 
     }
@@ -242,7 +242,7 @@ public class EmuAPI : MonoBehaviour, IAPI
     /// <param name="type"></param>
     public void Draw(int x, int y, int type)
     {
-        //TODO 
+        m_graphDisplay.DrawPixel(x, y, type == 1);
     }
 
     /// <summary>

@@ -18,6 +18,9 @@ public class CodeRuntime : State
 
         m_runtime.SetAPI(m_emuAPI);
         m_runtime.Run();
+
+        m_emuAPI.Text();
+        m_emuAPI.Locate(1, 1);
     }
 
     public override void onInput(KCode key)
