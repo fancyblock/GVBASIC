@@ -25,6 +25,9 @@ public class CodeEditor : State
         if( !string.IsNullOrEmpty( m_stateMgr.CUR_SOURCE_CODE ))
             readCode(m_stateMgr.CUR_SOURCE_CODE);
 
+        m_textDisplay.enabled = true;
+        m_textDisplay.SetCursor(true);
+
         refreshLED();
 	}
 
