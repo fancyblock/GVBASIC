@@ -752,8 +752,11 @@ namespace GVBASIC_Compiler.Compiler
                 case Expression.OP_LESS_EQ:
                     //TODO
                     break;
+                case Expression.EXP_INKEY:
+                    result = new Expression( new BaseData( m_apiCall.Inkey() ));
+                    break;
                 default:
-                    throw new Exception("[Runtime]: calculate, no this expression type: " + exp.m_type);
+                    throw new ErrorCode(ErrorCode.ERROR_CODE_02);
             }
 
             return result;

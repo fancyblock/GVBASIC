@@ -989,7 +989,7 @@ namespace GVBASIC_Compiler.Compiler
             }
             else if( tt == Token.INKEY )
             {
-                exp = new Expression(Expression.EXP_FUNC);
+                exp = new Expression(Expression.EXP_INKEY);
                 eatToken(Token.INKEY);
             }
 

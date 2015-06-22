@@ -18,7 +18,6 @@ namespace GVBASIC_Compiler.Compiler
             // initial the functions 
             m_funcDic = new Dictionary<string, Func<List<BaseData>, BaseData>>()
             {
-                {"INKEY$", INKEY},
                 // math function 
                 {"ABS", ABS},
                 {"SGN", SGN},
@@ -72,13 +71,6 @@ namespace GVBASIC_Compiler.Compiler
 
 
         #region inner functions
-
-        protected BaseData INKEY( List<BaseData> param )
-        {
-            BaseData ret = new BaseData( m_iapi.Inkey() );
-
-            return ret;
-        }
 
         protected BaseData ABS( List<BaseData> param )
         {

@@ -30,8 +30,9 @@ namespace GVBASIC_Compiler.Compiler
         public const int EXP_ARRAY_SYMBOL = 15;
         public const int EXP_FUNC       = 16;
         public const int EXP_USER_FUNC  = 17;
+        public const int EXP_INKEY      = 18;
 
-        public const int VALUE          = 18;
+        public const int VALUE          = 19;
 
         public const int TYPE_NEXT_LINE = 22;
         public const int TYPE_CLOSE_TO  = 23;

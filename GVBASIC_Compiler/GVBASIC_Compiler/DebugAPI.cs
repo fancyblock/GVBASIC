@@ -103,11 +103,11 @@ namespace GVBASIC_Compiler
             }
         }
 
-        public int Inkey()
+        public string Inkey()
         {
             //TODO 
 
-            return 13;
+            return "0";
         }
 
         public void Beep() { }

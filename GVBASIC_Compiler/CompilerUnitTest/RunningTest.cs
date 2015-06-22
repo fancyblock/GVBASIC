@@ -341,5 +341,18 @@ namespace CompilerUnitTest
 
             TestHelper.TestProgram(code, result);
         }
+
+        [TestMethod]
+        public void Inkey()
+        {
+            string code = 
+                "10 A$ = INKEY$                     \n" +
+                "20 PRINT A$                        \n";
+
+            string result = 
+                "";
+
+            TestHelper.TestProgram(code, result );
+        }
     }
 }
