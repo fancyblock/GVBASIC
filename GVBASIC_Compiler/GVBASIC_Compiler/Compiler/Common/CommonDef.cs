@@ -142,6 +142,8 @@ namespace GVBASIC_Compiler.Compiler
         public int m_lineNum;
         public int m_lineIndex;
 
+        public int m_inkeyCnt;
+
         public string m_symbol;
         public int m_intVal;
         public Expression m_exp;
@@ -156,7 +158,10 @@ namespace GVBASIC_Compiler.Compiler
         /// <summary>
         /// constructor
         /// </summary>
-        public Statement() { }
+        public Statement() 
+        {
+            m_inkeyCnt = 0;
+        }
 
         /// <summary>
         /// constructor
@@ -165,6 +170,7 @@ namespace GVBASIC_Compiler.Compiler
         public Statement(int type)
         {
             m_type = type;
+            m_inkeyCnt = 0;
         }
     }
 

@@ -12,6 +12,8 @@ public class EmuAPI : MonoBehaviour, IAPI
 
     protected int m_status;
 
+    protected List<char> m_inkeyBuff;
+
     /// <summary>
     /// show error code 
     /// </summary>
@@ -34,6 +36,8 @@ public class EmuAPI : MonoBehaviour, IAPI
     {
         m_textDisplay.Clean();
         m_textDisplay.Refresh();
+
+        m_inkeyBuff = new List<char>();
     }
 
     /// <summary>
@@ -189,14 +193,37 @@ public class EmuAPI : MonoBehaviour, IAPI
     }
 
     /// <summary>
+    /// pause the program and waitting for key press 
+    /// </summary>
+    public void WaittingInkey()
+    {
+        m_codeRuntime.WaittingInput();
+    }
+
+    public void InjectKey( KCode key )
+    {
+        if (key < KCode.Delete)
+            m_inkeyBuff.Add((char)key);
+        else
+            m_inkeyBuff.Add(' ');
+    }
+
+    /// <summary>
     /// get a inkey 
     /// </summary>
     /// <returns></returns>
-    public int Inkey() 
+    public string Inkey() 
     {
-        //TODO 
+        char c = m_inkeyBuff[0];
+        // remove the return key 
+        m_inkeyBuff.RemoveAt(0);
 
-        return 0;
+        return c.ToString(); ;
+    }
+
+    public void CleanInkeyBuff()
+    {
+        m_inkeyBuff.Clear();
     }
 
     /// <summary>

@@ -110,6 +110,9 @@ namespace GVBASIC_Compiler
             return "0";
         }
 
+        public void WaittingInkey() { }
+        public void CleanInkeyBuff() { }
+
         public void Beep() { }
         public void Cls() { }
         public void Inverse() { }

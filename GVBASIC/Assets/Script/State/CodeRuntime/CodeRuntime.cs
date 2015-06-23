@@ -8,6 +8,7 @@ public class CodeRuntime : State
     public EmuAPI m_emuAPI;
 
     protected Runtime m_runtime;
+    protected bool m_waittingInputMode;
 
     public override void onSwitchIn()
     {
@@ -16,6 +17,7 @@ public class CodeRuntime : State
         Parser parser = new Parser(tokenizer);
         m_runtime = new Runtime(parser);
 
+        m_waittingInputMode = false;
         m_runtime.SetAPI(m_emuAPI);
         m_runtime.Run();
 
@@ -31,6 +33,11 @@ public class CodeRuntime : State
                 m_stateMgr.GotoState(StateEnums.eStateMenu);
                 return;
             default:
+                if (m_waittingInputMode)
+                {
+                    m_emuAPI.InjectKey(key);
+                    m_waittingInputMode = false;
+                }
                 break;
         }
     }
@@ -40,7 +47,16 @@ public class CodeRuntime : State
     /// </summary>
     public override void onUpdate() 
     {
-        m_runtime.Step();
+        if( !m_waittingInputMode )
+            m_runtime.Step();
+    }
+
+    /// <summary>
+    /// enter waitting input mode 
+    /// </summary>
+    public void WaittingInput()
+    {
+        m_waittingInputMode = true;
     }
 
 }

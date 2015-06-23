@@ -194,6 +194,9 @@ namespace GVBASIC_Compiler.Compiler
                         throw new ErrorCode(ErrorCode.ERROR_CODE_02);
                 }
 
+                // process the ss and count the INKEY$
+                countInkey(ss);
+
                 statements.Add(ss);
 
                 if( lookAhead() == Token.COLON )
@@ -203,6 +206,68 @@ namespace GVBASIC_Compiler.Compiler
             }
 
             return statements;
+        }
+
+        /// <summary>
+        /// 计算该语句中INKEY$的调用次数
+        /// </summary>
+        /// <param name="statement"></param>
+        protected void countInkey( Statement statement )
+        {
+            int cnt = 0;
+
+            if (statement.m_exp != null)
+                cnt += expInkeyCount(statement.m_exp);
+
+            if (statement.m_expressList != null)
+            {
+                foreach (Expression exp in statement.m_expressList)
+                    cnt += expInkeyCount(exp);
+            }
+
+            // 统计if语句中确定部分的INKEY$
+            if( statement.m_statements != null )
+            {
+                foreach (Statement s in statement.m_statements)
+                {
+                    countInkey(s);
+                    cnt += s.m_inkeyCnt;
+                }
+            }
+
+            // 统计if语句中else部分的INKEY$
+            if( statement.m_elseStatements != null )
+            {
+                foreach( Statement s in statement.m_elseStatements )
+                {
+                    countInkey(s);
+                    cnt += s.m_inkeyCnt;
+                }
+            }
+
+            statement.m_inkeyCnt = cnt;
+        }
+
+        protected int expInkeyCount( Expression exp )
+        {
+            if (exp.m_type == Expression.EXP_INKEY)
+                return 1;
+
+            int cnt = 0;
+
+            if (exp.m_leftExp != null)
+                cnt += expInkeyCount(exp.m_leftExp);
+
+            if (exp.m_rightExp != null)
+                cnt += expInkeyCount(exp.m_rightExp);
+
+            if( exp.m_funcParams != null )
+            {
+                foreach (Expression e in exp.m_funcParams)
+                    cnt += expInkeyCount(e);
+            }
+
+            return cnt;
         }
 
         /// <summary>

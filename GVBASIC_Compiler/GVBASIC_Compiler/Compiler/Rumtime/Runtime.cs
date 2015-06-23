@@ -23,6 +23,10 @@ namespace GVBASIC_Compiler.Compiler
         protected bool m_isRunning;
         protected int m_index;
 
+        protected bool m_inInkeyStatement;
+        protected int m_restInkeyCount;
+        protected Statement m_inkeyStatement;
+
         protected BuildinFunc m_innerFunc;
         protected IAPI m_apiCall;
 
@@ -119,6 +123,7 @@ namespace GVBASIC_Compiler.Compiler
 
                 m_isRunning = true;
                 m_index = 0;
+                m_inInkeyStatement = false;
 
                 m_apiCall.ProgramStart();
             }
@@ -138,24 +143,46 @@ namespace GVBASIC_Compiler.Compiler
 
             try
             {
-                // execute statements 
-                if (m_isRunning)
+                // 处理语句中带有需要等待输入的情况
+                if (m_inInkeyStatement)
                 {
-                    if (m_index >= m_statements.Count)
+                    if (m_restInkeyCount > 0)
                     {
-                        m_isRunning = false;
+                        m_apiCall.WaittingInkey();
+                        m_restInkeyCount--;
                     }
                     else
                     {
-                        Statement s = m_statements[m_index];
-                        m_index++;      // 这一句必须在执行语句之前，因为语句中可能有改变该值的GOTO之类的语句
-                        m_executer[s.m_type](s);
+                        m_executer[m_inkeyStatement.m_type](m_inkeyStatement);
+                        m_inInkeyStatement = false;
+                        m_apiCall.CleanInkeyBuff();
                     }
                 }
                 else
                 {
-                    m_apiCall.ProgramDone();
-                    done = true;
+                    // execute statements 
+                    if (m_isRunning)
+                    {
+                        if (m_index >= m_statements.Count)
+                        {
+                            m_isRunning = false;
+                        }
+                        else
+                        {
+                            Statement s = m_statements[m_index];
+                            m_index++;      // 这一句必须在执行语句之前，因为语句中可能有改变该值的GOTO之类的语句
+
+                            if (s.m_inkeyCnt > 0)
+                                executeInkeyStatement(s);
+                            else
+                                m_executer[s.m_type](s);
+                        }
+                    }
+                    else
+                    {
+                        m_apiCall.ProgramDone();
+                        done = true;
+                    }
                 }
             }
             catch (ErrorCode ec)
@@ -164,6 +191,14 @@ namespace GVBASIC_Compiler.Compiler
             }
 
             return done;
+        }
+
+        
+        protected void executeInkeyStatement( Statement s )
+        {
+            m_inInkeyStatement = true;
+            m_restInkeyCount = s.m_inkeyCnt;
+            m_inkeyStatement = s;
         }
 
         #region statement
@@ -724,13 +759,13 @@ namespace GVBASIC_Compiler.Compiler
                     //TODO 
                     break;
                 case Expression.OP_AND:
-                    //TODO
+                    //TODO 
                     break;
                 case Expression.OP_OR:
-                    //TODO
+                    //TODO 
                     break;
                 case Expression.OP_EQUAL:
-                    //TODO
+                    //TODO 
                     break;
                 case Expression.OP_GREATER:
                     expLeft = calculateExp(exp.m_leftExp);
@@ -740,7 +775,7 @@ namespace GVBASIC_Compiler.Compiler
                     result = new Expression( new BaseData( expLeft.m_value > expRight.m_value ? 1 : 0 ) );
                     break;
                 case Expression.OP_GREATER_EQU:
-                    //TODO
+                    //TODO 
                     break;
                 case Expression.OP_LESS:
                     expLeft = calculateExp(exp.m_leftExp);
@@ -750,7 +785,7 @@ namespace GVBASIC_Compiler.Compiler
                     result = new Expression( new BaseData( expLeft.m_value < expRight.m_value ? 1 : 0 ) );
                     break;
                 case Expression.OP_LESS_EQ:
-                    //TODO
+                    //TODO 
                     break;
                 case Expression.EXP_INKEY:
                     result = new Expression( new BaseData( m_apiCall.Inkey() ));
