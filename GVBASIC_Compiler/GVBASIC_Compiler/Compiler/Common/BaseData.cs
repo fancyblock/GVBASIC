@@ -191,16 +191,132 @@ namespace GVBASIC_Compiler.Compiler
 
         public static BaseData operator *(BaseData lhs, BaseData rhs)
         {
-            //TODO 
+            BaseData result;
 
-            return BaseData.ZERO;
+            if (lhs.m_type == BaseData.TYPE_FLOAT || rhs.m_type == BaseData.TYPE_FLOAT)
+            {
+                lhs.Convert(BaseData.TYPE_FLOAT);
+                rhs.Convert(BaseData.TYPE_FLOAT);
+                result = new BaseData(lhs.m_floatVal * rhs.m_floatVal);
+            }
+            else if (lhs.m_type == BaseData.TYPE_INT && rhs.m_type == BaseData.TYPE_INT)
+            {
+                result = new BaseData(lhs.m_intVal * rhs.m_intVal);
+            }
+            else
+            {
+                throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+            }
+
+            return result;
         }
 
         public static BaseData operator /(BaseData lhs, BaseData rhs)
         {
-            //TODO 
+            BaseData result;
 
-            return BaseData.ZERO;
+            if (lhs.m_type == BaseData.TYPE_FLOAT || rhs.m_type == BaseData.TYPE_FLOAT)
+            {
+                lhs.Convert(BaseData.TYPE_FLOAT);
+                rhs.Convert(BaseData.TYPE_FLOAT);
+                result = new BaseData(lhs.m_floatVal / rhs.m_floatVal);
+            }
+            else if (lhs.m_type == BaseData.TYPE_INT && rhs.m_type == BaseData.TYPE_INT)
+            {
+                result = new BaseData( (float)lhs.m_intVal / (float)rhs.m_intVal);
+            }
+            else
+            {
+                throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// power 
+        /// </summary>
+        /// <param name="lhs"></param>
+        /// <param name="rhs"></param>
+        /// <returns></returns>
+        public static BaseData operator ^(BaseData lhs, BaseData rhs )
+        {
+            BaseData result;
+
+            if (lhs.m_type == BaseData.TYPE_FLOAT || rhs.m_type == BaseData.TYPE_FLOAT)
+            {
+                lhs.Convert(BaseData.TYPE_FLOAT);
+                rhs.Convert(BaseData.TYPE_FLOAT);
+                result = new BaseData( (float)Math.Pow( lhs.m_floatVal, rhs.m_floatVal ));
+            }
+            else if (lhs.m_type == BaseData.TYPE_INT && rhs.m_type == BaseData.TYPE_INT)
+            {
+                result = new BaseData((int)Math.Pow(lhs.m_floatVal, rhs.m_floatVal));
+            }
+            else
+            {
+                throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+            }
+
+            return result;
+        }
+
+        public static BaseData operator &(BaseData lhs, BaseData rhs)
+        {
+            BaseData result;
+
+            if (lhs.m_type == BaseData.TYPE_FLOAT || rhs.m_type == BaseData.TYPE_FLOAT)
+            {
+                lhs.Convert(BaseData.TYPE_FLOAT);
+                rhs.Convert(BaseData.TYPE_FLOAT);
+
+                if (lhs.m_floatVal == 0 || rhs.m_floatVal == 0)
+                    result = new BaseData(0);
+                else
+                    result = new BaseData(1);
+            }
+            else if (lhs.m_type == BaseData.TYPE_INT && rhs.m_type == BaseData.TYPE_INT)
+            {
+                if (lhs.m_intVal == 0 || rhs.m_intVal == 0)
+                    result = new BaseData(0);
+                else
+                    result = new BaseData(1);
+            }
+            else
+            {
+                throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+            }
+
+            return result;
+        }
+
+        public static BaseData operator |(BaseData lhs, BaseData rhs)
+        {
+            BaseData result;
+
+            if (lhs.m_type == BaseData.TYPE_FLOAT || rhs.m_type == BaseData.TYPE_FLOAT)
+            {
+                lhs.Convert(BaseData.TYPE_FLOAT);
+                rhs.Convert(BaseData.TYPE_FLOAT);
+
+                if (lhs.m_floatVal == 0 && rhs.m_floatVal == 0)
+                    result = new BaseData(0);
+                else
+                    result = new BaseData(1);
+            }
+            else if (lhs.m_type == BaseData.TYPE_INT && rhs.m_type == BaseData.TYPE_INT)
+            {
+                if (lhs.m_intVal == 0 && rhs.m_intVal == 0)
+                    result = new BaseData(0);
+                else
+                    result = new BaseData(1);
+            }
+            else
+            {
+                throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -228,6 +344,58 @@ namespace GVBASIC_Compiler.Compiler
             else if (lhs.m_type == BaseData.TYPE_INT && rhs.m_type == BaseData.TYPE_INT)
             {
                 return lhs.m_intVal > rhs.m_intVal;
+            }
+            else
+            {
+                throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+            }
+        }
+
+        public static bool operator >=(BaseData lhs, BaseData rhs)
+        {
+            if (lhs.m_type == BaseData.TYPE_STRING || rhs.m_type == BaseData.TYPE_STRING)
+            {
+                lhs.Convert(BaseData.TYPE_STRING);
+                rhs.Convert(BaseData.TYPE_STRING);
+
+                return lhs.m_stringVal.CompareTo(rhs.m_stringVal) >= 0;
+            }
+            else if (lhs.m_type == BaseData.TYPE_FLOAT || rhs.m_type == BaseData.TYPE_FLOAT)
+            {
+                lhs.Convert(BaseData.TYPE_FLOAT);
+                rhs.Convert(BaseData.TYPE_FLOAT);
+
+                return lhs.m_floatVal >= rhs.m_floatVal;
+            }
+            else if (lhs.m_type == BaseData.TYPE_INT && rhs.m_type == BaseData.TYPE_INT)
+            {
+                return lhs.m_intVal >= rhs.m_intVal;
+            }
+            else
+            {
+                throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+            }
+        }
+
+        public static bool operator <=(BaseData lhs, BaseData rhs)
+        {
+            if (lhs.m_type == BaseData.TYPE_STRING || rhs.m_type == BaseData.TYPE_STRING)
+            {
+                lhs.Convert(BaseData.TYPE_STRING);
+                rhs.Convert(BaseData.TYPE_STRING);
+
+                return lhs.m_stringVal.CompareTo(rhs.m_stringVal) <= 0;
+            }
+            else if (lhs.m_type == BaseData.TYPE_FLOAT || rhs.m_type == BaseData.TYPE_FLOAT)
+            {
+                lhs.Convert(BaseData.TYPE_FLOAT);
+                rhs.Convert(BaseData.TYPE_FLOAT);
+
+                return lhs.m_floatVal <= rhs.m_floatVal;
+            }
+            else if (lhs.m_type == BaseData.TYPE_INT && rhs.m_type == BaseData.TYPE_INT)
+            {
+                return lhs.m_intVal <= rhs.m_intVal;
             }
             else
             {

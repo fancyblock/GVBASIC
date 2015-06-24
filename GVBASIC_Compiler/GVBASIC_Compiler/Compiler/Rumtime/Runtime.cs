@@ -727,68 +727,52 @@ namespace GVBASIC_Compiler.Compiler
                         throw new ErrorCode(ErrorCode.ERROR_CODE_12);
                     }
                     break;
-                case Expression.OP_ADD:
-                    expLeft = calculateExp(exp.m_leftExp);
-                    expRight = calculateExp(exp.m_rightExp);
-                    if (expLeft.m_type != Expression.VALUE || expRight.m_type != Expression.VALUE)
-                        throw new ErrorCode(ErrorCode.ERROR_CODE_12);
-                    result = new Expression(expLeft.m_value + expRight.m_value);
-                    break;
-                case Expression.OP_MINUS:
-                    expLeft = calculateExp(exp.m_leftExp);
-                    expRight = calculateExp(exp.m_rightExp);
-                    if (expLeft.m_type != Expression.VALUE || expRight.m_type != Expression.VALUE)
-                        throw new ErrorCode(ErrorCode.ERROR_CODE_12);
-                    result = new Expression(expLeft.m_value - expRight.m_value);
-                    break;
-                case Expression.OP_MUL:
-                    expLeft = calculateExp(exp.m_leftExp);
-                    expRight = calculateExp(exp.m_rightExp);
-                    if (expLeft.m_type != Expression.VALUE || expRight.m_type != Expression.VALUE)
-                        throw new ErrorCode(ErrorCode.ERROR_CODE_12);
-                    result = new Expression(expLeft.m_value * expRight.m_value);
-                    break;
-                case Expression.OP_DIV:
-                    expLeft = calculateExp(exp.m_leftExp);
-                    expRight = calculateExp(exp.m_rightExp);
-                    if (expLeft.m_type != Expression.VALUE || expRight.m_type != Expression.VALUE)
-                        throw new ErrorCode(ErrorCode.ERROR_CODE_12);
-                    result = new Expression(expLeft.m_value / expRight.m_value);
-                    break;
-                case Expression.OP_POWER:
-                    //TODO 
-                    break;
-                case Expression.OP_AND:
-                    //TODO 
-                    break;
-                case Expression.OP_OR:
-                    //TODO 
-                    break;
-                case Expression.OP_EQUAL:
-                    //TODO 
-                    break;
-                case Expression.OP_GREATER:
-                    expLeft = calculateExp(exp.m_leftExp);
-                    expRight = calculateExp(exp.m_rightExp);
-                    if (expLeft.m_type != Expression.VALUE || expRight.m_type != Expression.VALUE)
-                        throw new ErrorCode(ErrorCode.ERROR_CODE_12);
-                    result = new Expression( new BaseData( expLeft.m_value > expRight.m_value ? 1 : 0 ) );
-                    break;
-                case Expression.OP_GREATER_EQU:
-                    //TODO 
-                    break;
-                case Expression.OP_LESS:
-                    expLeft = calculateExp(exp.m_leftExp);
-                    expRight = calculateExp(exp.m_rightExp);
-                    if (expLeft.m_type != Expression.VALUE || expRight.m_type != Expression.VALUE)
-                        throw new ErrorCode(ErrorCode.ERROR_CODE_12);
-                    result = new Expression( new BaseData( expLeft.m_value < expRight.m_value ? 1 : 0 ) );
-                    break;
-                case Expression.OP_LESS_EQ:
-                    //TODO 
-                    break;
                 case Expression.EXP_INKEY:
-                    result = new Expression( new BaseData( m_apiCall.Inkey() ));
+                    result = new Expression(new BaseData(m_apiCall.Inkey()));
+                    break;
+                // 二元运算符
+                case Expression.OP_ADD:
+                case Expression.OP_MINUS:
+                case Expression.OP_MUL:
+                case Expression.OP_DIV:
+                case Expression.OP_POWER:
+                case Expression.OP_AND:
+                case Expression.OP_OR:
+                case Expression.OP_EQUAL:
+                case Expression.OP_GREATER:
+                case Expression.OP_GREATER_EQU:
+                case Expression.OP_LESS:
+                case Expression.OP_LESS_EQ:
+                    // check the value 
+                    expLeft = calculateExp(exp.m_leftExp);
+                    expRight = calculateExp(exp.m_rightExp);
+                    if (expLeft.m_type != Expression.VALUE || expRight.m_type != Expression.VALUE)
+                        throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+
+                    if( exp.m_type == Expression.OP_ADD )
+                        result = new Expression(expLeft.m_value + expRight.m_value);
+                    else if( exp.m_type == Expression.OP_MINUS )
+                        result = new Expression(expLeft.m_value - expRight.m_value);
+                    else if( exp.m_type == Expression.OP_MUL)
+                        result = new Expression(expLeft.m_value * expRight.m_value);
+                    else if( exp.m_type == Expression.OP_DIV)
+                        result = new Expression(expLeft.m_value / expRight.m_value);
+                    else if( exp.m_type == Expression.OP_POWER)
+                        result = new Expression(expLeft.m_value ^ expRight.m_value);
+                    else if( exp.m_type == Expression.OP_AND)
+                        result = new Expression(expLeft.m_value & expRight.m_value);
+                    else if( exp.m_type == Expression.OP_OR)
+                        result = new Expression(expLeft.m_value | expRight.m_value);
+                    else if( exp.m_type == Expression.OP_EQUAL)
+                        result = new Expression(expLeft.m_value == expRight.m_value ? 1 : 0 );
+                    else if( exp.m_type == Expression.OP_GREATER)
+                        result = new Expression( new BaseData( expLeft.m_value > expRight.m_value ? 1 : 0 ) );
+                    else if( exp.m_type == Expression.OP_GREATER_EQU)
+                        result = new Expression( new BaseData( expLeft.m_value >= expRight.m_value ? 1 : 0 ) );
+                    else if( exp.m_type == Expression.OP_LESS)
+                        result = new Expression(new BaseData(expLeft.m_value < expRight.m_value ? 1 : 0));
+                    else if( exp.m_type == Expression.OP_LESS_EQ)
+                        result = new Expression(new BaseData(expLeft.m_value <= expRight.m_value ? 1 : 0));
                     break;
                 default:
                     throw new ErrorCode(ErrorCode.ERROR_CODE_02);

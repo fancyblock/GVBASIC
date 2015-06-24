@@ -354,5 +354,57 @@ namespace CompilerUnitTest
 
             TestHelper.TestProgram(code, result );
         }
+
+        [TestMethod]
+        public void Power()
+        {
+            string code =
+                "10 A=2^3                           \n" +
+                "20 PRINT A                         \n" +
+                "30 PRINT 2^0.5                     \n" +
+                "40 PRINT 7+6^3-2                   \n";
+
+            string result =
+                "8"                                     + "\n" +
+                ((float)Math.Pow(2,0.5)).ToString()     + "\n" +
+                "221"                                   + "\n";
+
+            TestHelper.TestProgram(code, result);
+        }
+
+        [TestMethod]
+        public void MathOperator()
+        {
+            string code =
+                "10 PRINT 12+7*3-6/4                        \n" +
+                "20 PRINT 7/2-6*1                           \n" +
+                "30 C=1-(7.2*3+8-6/5)+7-(7*(2-4)+44/3-2)    \n" +
+                "40 PRINT C^2                               \n";
+
+            string result =
+                "31.5" + "\n" +
+                "-2.5" + "\n" +
+                "363.5378" + "\n";
+
+            TestHelper.TestProgram(code, result);
+        }
+
+        [TestMethod]
+        public void BoolLogic()
+        {
+            string code =
+                "10 A= 1                                    \n" +
+                "20 B= 2                                    \n" +
+                "30 R= 3                                    \n" +
+                "40 C = A>B AND R<A                         \n" +
+                "50 PRINT C                                 \n" +
+                "60 PRINT A<B OR R<A                        \n";
+
+            string result =
+                "0" + "\n" +
+                "1" + "\n";
+
+            TestHelper.TestProgram(code, result);
+        }
     }
 }
