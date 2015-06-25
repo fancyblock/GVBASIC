@@ -251,7 +251,20 @@ public class EmuAPI : MonoBehaviour, IAPI
     /// <param name="type"></param>
     public void Box(int x0, int y0, int x1, int y1, int fill, int type)
     {
-        //TODO 
+        bool set = type == 1;
+
+        if( fill == 1 )
+        {
+            m_led.DrawBox(x0, y0, x1 - x0 + 1, y1 - y0 + 1, set);
+        }
+        else
+        // 画一个矩形框 (中空)
+        {
+            m_led.DrawBox(x0, y0, x1 - x0 + 1, 1, set);
+            m_led.DrawBox(x0, y1, x1 - x0 + 1, 1, set);
+            m_led.DrawBox(x0, y0, 1, y1 - y0 + 1, set);
+            m_led.DrawBox(x1, y0, 1, y1 - y0 + 1, set);
+        }
     }
 
     /// <summary>

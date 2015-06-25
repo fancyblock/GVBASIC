@@ -509,8 +509,6 @@ namespace GVBASIC_Compiler.Compiler
         }
 
 
-        //------------------------ private functions ------------------------ 
-
         /// <summary>
         /// skip characters to next line 
         /// </summary>
@@ -578,7 +576,7 @@ namespace GVBASIC_Compiler.Compiler
         /// <returns></returns>
         protected bool isWhiteChar( char c )
         {
-            if( c == ' ' || c == '\t' || c == '\r' )
+            if( c == ' ' || c == '\t' || c == '\r' || c == '\b' )
                 return true;
 
             return false;

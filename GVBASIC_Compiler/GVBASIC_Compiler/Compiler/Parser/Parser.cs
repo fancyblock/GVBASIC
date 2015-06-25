@@ -1057,6 +1057,10 @@ namespace GVBASIC_Compiler.Compiler
                 exp = new Expression(Expression.EXP_INKEY);
                 eatToken(Token.INKEY);
             }
+            else
+            {
+                throw new ErrorCode(ErrorCode.ERROR_CODE_02);
+            }
 
             return exp;
         }

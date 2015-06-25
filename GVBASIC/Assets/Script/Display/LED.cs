@@ -13,15 +13,22 @@ public class LED : MonoBehaviour
 
     protected Dictionary<int,ASCII> m_asciis;
     protected Color[] m_cleanColorData;
+    protected Color[] m_soildColorData;
 
 	// Use this for initialization
 	void Awake () 
     {
         // set clean color data 
         m_cleanColorData = new Color[12800];
-        for (int i = 0; i < 12800; i++)
-            m_cleanColorData[i] = m_whiteColor;
+        m_soildColorData = new Color[12800];
 
+        for (int i = 0; i < 12800; i++)
+        {
+            m_cleanColorData[i] = m_whiteColor;
+            m_soildColorData[i] = m_blackColor;
+        }
+
+        // 初始化字符表 
         initASCIITable();
         
         CleanScreen();
@@ -42,6 +49,21 @@ public class LED : MonoBehaviour
     public void SetPixel( int x, int y, bool set )
     {
         m_texture.SetPixel(x, y, set ? m_blackColor : m_whiteColor);
+    }
+
+    /// <summary>
+    /// draw box 
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="width"></param>
+    /// <param name="height"></param>
+    /// <param name="set"></param>
+    public void DrawBox( int x, int y, int width, int height, bool set )
+    {
+        Color[] color = set ? m_soildColorData : m_cleanColorData;
+
+        m_texture.SetPixels(x, y, width, height, color);
     }
 
     /// <summary>
