@@ -135,6 +135,11 @@ public class EmuAPI : MonoBehaviour, IAPI
         m_textDisplay.SetCursor(true, x-1, y-1);
     }
 
+    public int CursorX()
+    {
+        return m_textDisplay.CURSOR_X;
+    }
+
     /// <summary>
     /// play a beep sound 
     /// </summary>

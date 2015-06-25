@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
+
 
 namespace GVBASIC_Compiler.Compiler
 {
@@ -31,9 +33,22 @@ namespace GVBASIC_Compiler.Compiler
                 {"LOG", LOG},
                 {"RND", RND},
                 // string function 
-                {"", ABS},
+                {"ASC", ASC},
+                {"LEN", LEN},
+                {"CHR$", CHR},
+                {"LEFT$", LEFT},
+                {"MID$", MID},
+                {"RIGHT$", RIGHT},
+                {"STR$", STR},
+                {"VAL", VAL},
+                {"CVI$", CVI},
+                {"MKI$", MKI},
+                {"CVS$", CVS},
+                {"MKS$", MKS},
                 // display function 
-                {"1", ABS},
+                {"POS", POS},
+                {"SPC", SPC},
+                {"TAB", TAB},
                 // file function
                 {"2", ABS},
             };
@@ -241,6 +256,122 @@ namespace GVBASIC_Compiler.Compiler
             return ret;
         }
 
+        protected BaseData ASC( List<BaseData> param )
+        {
+            //TODO 
+
+            return BaseData.ZERO;
+        }
+
+        protected BaseData LEN(List<BaseData> param)
+        {
+            //TODO 
+
+            return BaseData.ZERO;
+        }
+
+        protected BaseData CHR(List<BaseData> param)
+        {
+            //TODO 
+
+            return BaseData.ZERO;
+        }
+
+        protected BaseData LEFT(List<BaseData> param)
+        {
+            //TODO 
+
+            return BaseData.ZERO;
+        }
+
+        protected BaseData MID(List<BaseData> param)
+        {
+            //TODO 
+
+            return BaseData.ZERO;
+        }
+
+        protected BaseData RIGHT(List<BaseData> param)
+        {
+            //TODO 
+
+            return BaseData.ZERO;
+        }
+
+        protected BaseData STR(List<BaseData> param)
+        {
+            //TODO 
+
+            return BaseData.ZERO;
+        }
+
+        protected BaseData VAL(List<BaseData> param)
+        {
+            //TODO 
+
+            return BaseData.ZERO;
+        }
+
+        protected BaseData CVI(List<BaseData> param)
+        {
+            //TODO 
+
+            return BaseData.ZERO;
+        }
+
+        protected BaseData MKI(List<BaseData> param)
+        {
+            //TODO 
+
+            return BaseData.ZERO;
+        }
+
+        protected BaseData CVS(List<BaseData> param)
+        {
+            //TODO 
+
+            return BaseData.ZERO;
+        }
+
+        protected BaseData MKS(List<BaseData> param)
+        {
+            //TODO 
+
+            return BaseData.ZERO;
+        }
+
+        protected BaseData POS( List<BaseData> param )
+        {
+            if (param.Count != 1)
+                throw new ErrorCode(ErrorCode.ERROR_CODE_02);
+
+            BaseData res = new BaseData(m_iapi.CursorX());
+
+            return res;
+        }
+
+        protected BaseData SPC(List<BaseData> param)
+        {
+            if (param.Count != 1)
+                throw new ErrorCode(ErrorCode.ERROR_CODE_02);
+
+            if (param[0].TYPE != BaseData.TYPE_INT)
+                throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < param[0].INT_VAL; i++)
+                sb.Append(' ');
+
+            return new BaseData(sb.ToString());
+        }
+
+        protected BaseData TAB(List<BaseData> param)
+        {
+            //TODO 
+
+            return BaseData.ZERO;
+        }
 
         #endregion
 

@@ -11,6 +11,7 @@ namespace GVBASIC_Compiler.Compiler
 
         void Print(List<BaseData> expList);
         void Locate(int x, int y);
+        int CursorX();  // 得到光标的水平位置
         void Beep();
         void Cls();
         void Inverse();

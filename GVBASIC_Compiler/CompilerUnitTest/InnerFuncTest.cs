@@ -40,5 +40,17 @@ namespace CompilerUnitTest
 
             TestHelper.RunProgram(sourceCode);
         }
+
+        [TestMethod]
+        public void SPC()
+        {
+            string code =
+                "10 PRINT \"A\"+SPC(3)+99               \n";
+
+            string result =
+                "A   99"    + "\n";
+
+            TestHelper.TestProgram(code, result);
+        }
     }
 }

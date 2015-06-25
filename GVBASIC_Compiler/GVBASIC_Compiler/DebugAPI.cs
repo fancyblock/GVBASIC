@@ -120,6 +120,7 @@ namespace GVBASIC_Compiler
         public void Graph() { }
         public void Text() { }
         public void Locate(int x, int y) { }
+        public int CursorX() { return 0; }
         public void Play(string sound) { }
         public void Box(int x0, int y0, int x1, int y1, int fill, int type) { }
         public void Circle(int x, int y, int r, int fill, int type) { }
