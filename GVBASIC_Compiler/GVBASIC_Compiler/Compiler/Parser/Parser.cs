@@ -56,6 +56,9 @@ namespace GVBASIC_Compiler.Compiler
                 while (lookAhead() == Token.EOL)
                     eatToken(Token.EOL);
             }
+
+            // sort the statement by line number
+            m_statements.Sort((a, b) => { return a.m_lineNum - b.m_lineNum; });
         }
 
         /// <summary>
