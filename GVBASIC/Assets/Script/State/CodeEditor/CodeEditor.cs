@@ -38,6 +38,7 @@ public class CodeEditor : State
     public override void onInput(KCode key)
     {
         int newIndex = m_buffer[m_curLine].KeyInput(key, m_curIndex);
+
         if (newIndex >= 0)
         {
             m_curIndex = newIndex;
@@ -50,9 +51,10 @@ public class CodeEditor : State
                     onClearAll();
                     break;
                 case KCode.Return:
-                    onMoveCursor(KCode.DownArrow);
+                    onReturn();
                     break;
                 case KCode.Delete:
+                case KCode.Backspace:
                     onDel();
                     break;
                 case KCode.Insert:
@@ -140,22 +142,35 @@ public class CodeEditor : State
         }
         else if( dir == KCode.DownArrow )
         {
-            if (m_curLine == m_buffer.Count - 1)
-            {
-                // 插入新行  
-                if (m_buffer[m_curLine].LENGTH > 0)
-                {
-                    m_buffer.Add(new LineInfo());
-                    m_curLine = m_buffer.Count - 1;
-                    m_curIndex = 0;
-                }
-            }
-            else
+            if (m_curLine < m_buffer.Count - 1)
             {
                 // 移至下一行
                 m_curLine++;
                 m_curIndex = m_buffer[m_curLine].GetFirstLineIndex(m_curIndex % Defines.TEXT_AREA_WIDTH);
             }
+        }
+    }
+
+    /// <summary>
+    /// 回车
+    /// </summary>
+    protected void onReturn()
+    {
+        if (m_curLine == m_buffer.Count - 1)
+        {
+            // 插入新行  
+            if (m_buffer[m_curLine].LENGTH > 0)
+            {
+                m_buffer.Add(new LineInfo());
+                m_curLine = m_buffer.Count - 1;
+                m_curIndex = 0;
+            }
+        }
+        else
+        {
+            // 移至下一行
+            m_curLine++;
+            m_curIndex = m_buffer[m_curLine].GetFirstLineIndex(m_curIndex % Defines.TEXT_AREA_WIDTH);
         }
     }
 
