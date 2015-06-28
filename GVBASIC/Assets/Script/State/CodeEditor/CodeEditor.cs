@@ -105,7 +105,6 @@ public class CodeEditor : State
                 codeLine = sr.ReadLine();
             }
         }
-        
     }
 
     protected void onDel()
@@ -149,6 +148,9 @@ public class CodeEditor : State
                 m_curIndex = m_buffer[m_curLine].GetFirstLineIndex(m_curIndex % Defines.TEXT_AREA_WIDTH);
             }
         }
+
+        // 代码按行号排序
+        sortCode();
     }
 
     /// <summary>
@@ -172,6 +174,9 @@ public class CodeEditor : State
             m_curLine++;
             m_curIndex = m_buffer[m_curLine].GetFirstLineIndex(m_curIndex % Defines.TEXT_AREA_WIDTH);
         }
+
+        // 代码按行号排序
+        sortCode();
     }
 
     protected void refreshLED()
@@ -220,6 +225,14 @@ public class CodeEditor : State
             code.AppendLine(li.TEXT);
 
         m_stateMgr.CUR_SOURCE_CODE = code.ToString();
+    }
+
+    /// <summary>
+    /// 刷新源代码，按行号排序
+    /// </summary>
+    protected void sortCode()
+    {
+        //TODO 
     }
 
 }
