@@ -684,6 +684,7 @@ namespace GVBASIC_Compiler.Compiler
                     ArraySymbol arr = m_symbolTable.ResolveArray(exp.m_symbolName, indexs);
                     result = new Expression(arr.GetValue(indexs));
                     break;
+                // 内置函数
                 case Expression.EXP_FUNC:
                     List<BaseData> param = new List<BaseData>();
                     // convert the parameters 
@@ -693,6 +694,7 @@ namespace GVBASIC_Compiler.Compiler
                     BaseData returnVal = m_innerFunc.CallFunc(exp.m_symbolName, param);
                     result = new Expression(returnVal);
                     break;
+                // 用户自定义函数 
                 case Expression.EXP_USER_FUNC:
                     string funcName = exp.m_symbolName;
                     FunSymbol func = m_symbolTable.ResolveFunc(funcName);

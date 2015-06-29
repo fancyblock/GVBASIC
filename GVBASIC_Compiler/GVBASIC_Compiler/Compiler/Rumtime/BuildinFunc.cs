@@ -50,7 +50,7 @@ namespace GVBASIC_Compiler.Compiler
                 {"SPC", SPC},
                 {"TAB", TAB},
                 // file function
-                {"2", ABS},
+                {"--", ABS},
             };
         }
         
@@ -368,9 +368,15 @@ namespace GVBASIC_Compiler.Compiler
 
         protected BaseData TAB(List<BaseData> param)
         {
-            //TODO 
+            if (param.Count != 1)
+                throw new ErrorCode(ErrorCode.ERROR_CODE_02);
 
-            return BaseData.ZERO;
+            if (param[0].TYPE != BaseData.TYPE_INT)
+                throw new ErrorCode(ErrorCode.ERROR_CODE_12);
+
+            BaseData bd = new BaseData(BaseData.TYPE_TAB, param[0].INT_VAL);
+
+            return bd;
         }
 
         #endregion
