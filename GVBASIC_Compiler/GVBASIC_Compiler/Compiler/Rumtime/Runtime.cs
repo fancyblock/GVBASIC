@@ -58,6 +58,7 @@ namespace GVBASIC_Compiler.Compiler
                 { Statement.TYPE_DEF_FN, onDefFn },
                 { Statement.TYPE_DIM, onDim },
                 { Statement.TYPE_SWAP, onSwap },
+                { Statement.TYPE_INPUT, onInput },
                 { Statement.TYPE_SIMPLE_CMD, onSimpleCmd },
                 { Statement.TYPE_PARAM_CMD, onParamCmd },
             };
@@ -143,7 +144,7 @@ namespace GVBASIC_Compiler.Compiler
 
             try
             {
-                // 处理语句中带有需要等待输入的情况
+                // 处理语句中带有需要等待输入一个按键的情况
                 if (m_inInkeyStatement)
                 {
                     if (m_restInkeyCount > 0)
@@ -174,6 +175,8 @@ namespace GVBASIC_Compiler.Compiler
 
                             if (s.m_inkeyCnt > 0)
                                 executeInkeyStatement(s);
+                            else if (s.m_type == Statement.TYPE_INPUT)
+                                executeInputStatement(s);
                             else
                                 m_executer[s.m_type](s);
                         }
@@ -199,6 +202,11 @@ namespace GVBASIC_Compiler.Compiler
             m_inInkeyStatement = true;
             m_restInkeyCount = s.m_inkeyCnt;
             m_inkeyStatement = s;
+        }
+
+        protected void executeInputStatement( Statement s )
+        {
+            //TODO  
         }
 
         #region statement
@@ -518,6 +526,11 @@ namespace GVBASIC_Compiler.Compiler
             {
                 throw new ErrorCode(ErrorCode.ERROR_CODE_02);
             }
+        }
+
+        protected void onInput( Statement s )
+        {
+            //TODO 
         }
 
         protected void onSimpleCmd( Statement s )

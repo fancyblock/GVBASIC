@@ -184,6 +184,9 @@ namespace GVBASIC_Compiler.Compiler
                     case Token.SWAP:
                         ss = swapStatement();
                         break;
+                    case Token.INPUT:
+                        ss = inputStatement();
+                        break;
                     case Token.SIMPLE_CMD:
                         ss = simpleCommand();
                         break;
@@ -698,6 +701,15 @@ namespace GVBASIC_Compiler.Compiler
             s.m_expressList.Add(expression());
             eatToken(Token.COMMA);
             s.m_expressList.Add(expression());
+
+            return s;
+        }
+
+        protected Statement inputStatement()
+        {
+            Statement s = new Statement(Statement.TYPE_INPUT);
+
+            s.m_expressList = expressList();
 
             return s;
         }

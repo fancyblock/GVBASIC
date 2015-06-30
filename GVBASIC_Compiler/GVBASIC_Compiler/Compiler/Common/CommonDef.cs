@@ -136,7 +136,8 @@ namespace GVBASIC_Compiler.Compiler
         public const int TYPE_DEF_FN                = 19;
         public const int TYPE_DIM                   = 20;
         public const int TYPE_SWAP                  = 21;
-        public const int TYPE_END                   = 22;
+        public const int TYPE_INPUT                 = 22;
+        public const int TYPE_END                   = 23;
 
         public int m_type;
         public int m_lineNum;
