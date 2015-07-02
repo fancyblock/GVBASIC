@@ -12,6 +12,8 @@ namespace GVBASIC_Compiler
         protected StringBuilder m_outputBuff;
         protected string m_output;
 
+        protected int m_inkeyBufferCount;
+
         public DebugAPI()
         {
             m_outputBuff = new StringBuilder();
@@ -33,6 +35,7 @@ namespace GVBASIC_Compiler
 
         public void ProgramStart()
         {
+            m_inkeyBufferCount = 0;
         }
 
         /// <summary>
@@ -103,15 +106,15 @@ namespace GVBASIC_Compiler
             }
         }
 
+        public void AskInkey(int count) { m_inkeyBufferCount = count; }
+        public int InkeyBufferCount() { return m_inkeyBufferCount; }
+
         public string Inkey()
         {
-            //TODO 
+            m_inkeyBufferCount--;
 
             return "0";
         }
-
-        public void WaittingInkey() { }
-        public void CleanInkeyBuff() { }
 
         public void Beep() { }
         public void Cls() { }

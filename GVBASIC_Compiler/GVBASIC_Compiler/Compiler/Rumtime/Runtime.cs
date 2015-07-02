@@ -23,10 +23,6 @@ namespace GVBASIC_Compiler.Compiler
         protected bool m_isRunning;
         protected int m_index;
 
-        protected bool m_inInkeyStatement;
-        protected int m_restInkeyCount;
-        protected Statement m_inkeyStatement;
-
         protected BuildinFunc m_innerFunc;
         protected IAPI m_apiCall;
 
@@ -124,7 +120,6 @@ namespace GVBASIC_Compiler.Compiler
 
                 m_isRunning = true;
                 m_index = 0;
-                m_inInkeyStatement = false;
 
                 m_apiCall.ProgramStart();
             }
@@ -144,48 +139,33 @@ namespace GVBASIC_Compiler.Compiler
 
             try
             {
-                // 处理语句中带有需要等待输入一个按键的情况
-                if (m_inInkeyStatement)
+                // execute statements 
+                if (m_isRunning)
                 {
-                    if (m_restInkeyCount > 0)
+                    if (m_index >= m_statements.Count)
                     {
-                        m_apiCall.WaittingInkey();
-                        m_restInkeyCount--;
+                        m_isRunning = false;
                     }
                     else
                     {
-                        m_executer[m_inkeyStatement.m_type](m_inkeyStatement);
-                        m_inInkeyStatement = false;
-                        m_apiCall.CleanInkeyBuff();
+                        Statement s = m_statements[m_index];
+
+                        // 是否需要获取Inkey输入
+                        if (s.m_inkeyCnt > 0 && m_apiCall.InkeyBufferCount() == 0)
+                        {
+                            m_apiCall.AskInkey(s.m_inkeyCnt);
+                        }
+                        else
+                        {
+                            m_index++;                  // 这一句必须在执行语句之前，因为语句中可能有改变该值的GOTO之类的语句
+                            m_executer[s.m_type](s);
+                        }
                     }
                 }
                 else
                 {
-                    // execute statements 
-                    if (m_isRunning)
-                    {
-                        if (m_index >= m_statements.Count)
-                        {
-                            m_isRunning = false;
-                        }
-                        else
-                        {
-                            Statement s = m_statements[m_index];
-                            m_index++;      // 这一句必须在执行语句之前，因为语句中可能有改变该值的GOTO之类的语句
-
-                            if (s.m_inkeyCnt > 0)
-                                executeInkeyStatement(s);
-                            else if (s.m_type == Statement.TYPE_INPUT)
-                                executeInputStatement(s);
-                            else
-                                m_executer[s.m_type](s);
-                        }
-                    }
-                    else
-                    {
-                        m_apiCall.ProgramDone();
-                        done = true;
-                    }
+                    m_apiCall.ProgramDone();
+                    done = true;
                 }
             }
             catch (ErrorCode ec)
@@ -194,14 +174,6 @@ namespace GVBASIC_Compiler.Compiler
             }
 
             return done;
-        }
-
-        
-        protected void executeInkeyStatement( Statement s )
-        {
-            m_inInkeyStatement = true;
-            m_restInkeyCount = s.m_inkeyCnt;
-            m_inkeyStatement = s;
         }
 
         protected void executeInputStatement( Statement s )

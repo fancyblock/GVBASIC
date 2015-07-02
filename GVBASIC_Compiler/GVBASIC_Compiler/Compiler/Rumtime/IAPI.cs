@@ -24,9 +24,8 @@ namespace GVBASIC_Compiler.Compiler
         void Draw(int x, int y, int type);          // draw point 
         void Ellipse(int x, int y, int a, int b, int fill, int type);
         void Line(int x0, int y0, int x1, int y1, int type);
+        void AskInkey(int count);
+        int InkeyBufferCount();
         string Inkey();
-        void WaittingInkey();
-        void CleanInkeyBuff();
-
     }
 }
