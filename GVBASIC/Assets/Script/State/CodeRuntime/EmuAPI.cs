@@ -13,6 +13,7 @@ public class EmuAPI : MonoBehaviour, IAPI
     protected int m_status;
 
     protected List<char> m_inkeyBuff;
+    protected List<string> m_inputBuff;
 
     /// <summary>
     /// show error code 
@@ -38,6 +39,7 @@ public class EmuAPI : MonoBehaviour, IAPI
         m_textDisplay.Refresh();
 
         m_inkeyBuff = new List<char>();
+        m_inputBuff = new List<string>();
     }
 
     /// <summary>
@@ -202,9 +204,9 @@ public class EmuAPI : MonoBehaviour, IAPI
         m_codeRuntime.GetInkey(count);
     }
 
-    public int InkeyBufferCount()
+    public bool HasInkeyBuffer()
     {
-        return m_inkeyBuff.Count;
+        return m_inkeyBuff.Count > 0;
     }
 
     /// <summary>
@@ -226,6 +228,29 @@ public class EmuAPI : MonoBehaviour, IAPI
             m_inkeyBuff.Add((char)kcode);
         else
             m_inkeyBuff.Add(' ');
+    }
+
+    public bool HasInputBuffer()
+    {
+        return m_inputBuff.Count > 0;
+    }
+
+    public void AskInput(int count)
+    {
+        m_codeRuntime.GetInput(count);
+    }
+
+    public string Input()
+    {
+        string str = m_inputBuff[0];
+        m_inputBuff.RemoveAt(0);
+
+        return str;
+    }
+
+    public void AppendInkey(string str)
+    {
+        m_inputBuff.Add(str);
     }
 
     /// <summary>

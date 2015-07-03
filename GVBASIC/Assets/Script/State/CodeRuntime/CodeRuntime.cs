@@ -15,7 +15,7 @@ public class CodeRuntime : State
     protected int m_status;
 
     protected int m_inkeyCount;
-
+    protected int m_inputCount;
 
     public override void onSwitchIn()
     {
@@ -84,6 +84,12 @@ public class CodeRuntime : State
     {
         m_inkeyCount = count;
         m_status = STATUS_INKEY;
+    }
+
+    public void GetInput( int count )
+    {
+        m_inputCount = count;
+        m_status = STATUS_INPUT;
     }
 
 }
