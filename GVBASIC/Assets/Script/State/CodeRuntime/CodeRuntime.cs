@@ -5,10 +5,17 @@ using GVBASIC_Compiler.Compiler;
 
 public class CodeRuntime : State 
 {
+    protected const int STATUS_RUNNING  = 1;
+    protected const int STATUS_INKEY    = 2;
+    protected const int STATUS_INPUT    = 3;
+
     public EmuAPI m_emuAPI;
 
     protected Runtime m_runtime;
-    protected bool m_waittingInputMode;
+    protected int m_status;
+
+    protected int m_inkeyCount;
+
 
     public override void onSwitchIn()
     {
@@ -17,7 +24,8 @@ public class CodeRuntime : State
         Parser parser = new Parser(tokenizer);
         m_runtime = new Runtime(parser);
 
-        m_waittingInputMode = false;
+        m_status = STATUS_RUNNING;
+
         m_runtime.SetAPI(m_emuAPI);
         m_runtime.Run();
 
@@ -27,17 +35,25 @@ public class CodeRuntime : State
 
     public override void onInput(KCode key)
     {
-        switch(key)
+        if( key == KCode.Escape )
         {
-            case KCode.Escape:
-                m_stateMgr.GotoState(StateEnums.eStateMenu);
-                return;
+            m_stateMgr.GotoState(StateEnums.eStateMenu);
+            return;
+        }
+
+        switch(m_status)
+        {
+            case STATUS_INKEY:
+                m_emuAPI.AppendInkey(key);
+                m_inkeyCount--;
+
+                if (m_inkeyCount <= 0)
+                    m_status = STATUS_RUNNING;
+                break;
+            case STATUS_INPUT:
+                //TODO 
+                break;
             default:
-                if (m_waittingInputMode)
-                {
-                    m_emuAPI.InjectKey(key);
-                    m_waittingInputMode = false;
-                }
                 break;
         }
     }
@@ -47,16 +63,27 @@ public class CodeRuntime : State
     /// </summary>
     public override void onUpdate() 
     {
-        if( !m_waittingInputMode )
-            m_runtime.Step();
+        switch( m_status )
+        {
+            case STATUS_RUNNING:
+                m_runtime.Step();
+                break;
+            case STATUS_INKEY:
+                break;
+            case STATUS_INPUT:
+                break;
+            default:
+                break;
+        }
     }
 
     /// <summary>
     /// enter waitting input mode 
     /// </summary>
-    public void WaittingInput()
+    public void GetInkey( int count )
     {
-        m_waittingInputMode = true;
+        m_inkeyCount = count;
+        m_status = STATUS_INKEY;
     }
 
 }

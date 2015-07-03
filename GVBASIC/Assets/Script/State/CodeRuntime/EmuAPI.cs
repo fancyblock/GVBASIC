@@ -197,20 +197,14 @@ public class EmuAPI : MonoBehaviour, IAPI
         m_textDisplay.SetCursor(true);
     }
 
-    /// <summary>
-    /// pause the program and waitting for key press 
-    /// </summary>
-    public void WaittingInkey()
+    public void AskInkey(int count)
     {
-        m_codeRuntime.WaittingInput();
+        m_codeRuntime.GetInkey(count);
     }
 
-    public void InjectKey( KCode key )
+    public int InkeyBufferCount()
     {
-        if (key < KCode.Delete)
-            m_inkeyBuff.Add((char)key);
-        else
-            m_inkeyBuff.Add(' ');
+        return m_inkeyBuff.Count;
     }
 
     /// <summary>
@@ -226,9 +220,12 @@ public class EmuAPI : MonoBehaviour, IAPI
         return c.ToString(); ;
     }
 
-    public void CleanInkeyBuff()
+    public void AppendInkey( KCode kcode )
     {
-        m_inkeyBuff.Clear();
+        if (kcode < KCode.Delete)
+            m_inkeyBuff.Add((char)kcode);
+        else
+            m_inkeyBuff.Add(' ');
     }
 
     /// <summary>
