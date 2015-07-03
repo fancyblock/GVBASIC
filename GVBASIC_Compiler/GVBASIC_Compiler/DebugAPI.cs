@@ -13,6 +13,7 @@ namespace GVBASIC_Compiler
         protected string m_output;
 
         protected int m_inkeyBufferCount;
+        protected int m_inputBufferCount;
 
         public DebugAPI()
         {
@@ -36,6 +37,7 @@ namespace GVBASIC_Compiler
         public void ProgramStart()
         {
             m_inkeyBufferCount = 0;
+            m_inputBufferCount = 0;
         }
 
         /// <summary>
@@ -107,11 +109,20 @@ namespace GVBASIC_Compiler
         }
 
         public void AskInkey(int count) { m_inkeyBufferCount = count; }
-        public int InkeyBufferCount() { return m_inkeyBufferCount; }
+        public bool HasInkeyBuffer() { return m_inkeyBufferCount > 0; }
 
         public string Inkey()
         {
             m_inkeyBufferCount--;
+
+            return "0";
+        }
+
+        public bool HasInputBuffer() { return m_inputBufferCount > 0; }
+        public void AskInput(int count) { m_inputBufferCount = count; }
+        public string Input()
+        {
+            m_inputBufferCount--;
 
             return "0";
         }

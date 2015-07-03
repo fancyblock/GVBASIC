@@ -25,7 +25,10 @@ namespace GVBASIC_Compiler.Compiler
         void Ellipse(int x, int y, int a, int b, int fill, int type);
         void Line(int x0, int y0, int x1, int y1, int type);
         void AskInkey(int count);
-        int InkeyBufferCount();
+        bool HasInkeyBuffer();
         string Inkey();
+        bool HasInputBuffer();
+        void AskInput(int count);
+        string Input();
     }
 }

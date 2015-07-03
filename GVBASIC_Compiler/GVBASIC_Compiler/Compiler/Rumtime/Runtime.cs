@@ -151,9 +151,13 @@ namespace GVBASIC_Compiler.Compiler
                         Statement s = m_statements[m_index];
 
                         // 是否需要获取Inkey输入
-                        if (s.m_inkeyCnt > 0 && m_apiCall.InkeyBufferCount() == 0)
+                        if (s.m_inkeyCnt > 0 && !m_apiCall.HasInkeyBuffer())
                         {
                             m_apiCall.AskInkey(s.m_inkeyCnt);
+                        }
+                        else if( s.m_type == Statement.TYPE_INPUT && !m_apiCall.HasInputBuffer())
+                        {
+                            m_apiCall.AskInput(s.m_expressList.Count);
                         }
                         else
                         {
@@ -502,7 +506,12 @@ namespace GVBASIC_Compiler.Compiler
 
         protected void onInput( Statement s )
         {
-            //TODO 
+            List<Expression> varList = s.m_expressList;
+
+            foreach( Expression exp in varList )
+            {
+                //TODO 
+            }
         }
 
         protected void onSimpleCmd( Statement s )
