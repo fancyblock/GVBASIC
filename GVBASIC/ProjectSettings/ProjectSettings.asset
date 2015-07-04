@@ -124,7 +124,7 @@ PlayerSettings:
   AndroidKeyaliasName: 4
   AndroidTVCompatibility: 0
   AndroidIsGame: 0
-  androidEnableBanner: 1
+  androidEnableBanner: 0
   m_AndroidBanners:
   - width: 320
     height: 180
@@ -138,11 +138,11 @@ PlayerSettings:
       m_Size: 128
   - m_BuildTarget: Android
     m_Icons:
-    - m_Icon: {fileID: 0}
+    - m_Icon: {fileID: 2800000, guid: 9a258b8bea95ed64099a2634106d954f, type: 3}
       m_Size: 192
     - m_Icon: {fileID: 0}
       m_Size: 144
-    - m_Icon: {fileID: 2800000, guid: 10b6188500f6e7146a6559b936324a9c, type: 3}
+    - m_Icon: {fileID: 2800000, guid: 9a258b8bea95ed64099a2634106d954f, type: 3}
       m_Size: 96
     - m_Icon: {fileID: 0}
       m_Size: 72
