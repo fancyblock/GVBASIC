@@ -216,6 +216,8 @@ namespace GVBASIC_Compiler.Compiler
         public const string ERROR_CODE_33 = "FILE TOO LONG";
         public const string ERROR_CODE_34 = "FILE REOPEN";
 
+        public const string ERROR_CODE_35 = "REENTER";              // INPUT 输入错误错误
+
         /// <summary>
         /// constructor 
         /// </summary>

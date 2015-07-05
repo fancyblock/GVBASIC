@@ -155,6 +155,7 @@ namespace GVBASIC_Compiler.Compiler
                         {
                             m_apiCall.AskInkey(s.m_inkeyCnt);
                         }
+                        // 是否需要获取INPUT输入
                         else if( s.m_type == Statement.TYPE_INPUT && !m_apiCall.HasInputBuffer())
                         {
                             m_apiCall.AskInput(s.m_expressList.Count);
@@ -178,11 +179,6 @@ namespace GVBASIC_Compiler.Compiler
             }
 
             return done;
-        }
-
-        protected void executeInputStatement( Statement s )
-        {
-            //TODO  
         }
 
         #region statement
@@ -507,10 +503,28 @@ namespace GVBASIC_Compiler.Compiler
         protected void onInput( Statement s )
         {
             List<Expression> varList = s.m_expressList;
+            string input = null;
 
             foreach( Expression exp in varList )
             {
-                //TODO 
+                input = m_apiCall.Input();
+                BaseData dat = BaseData.Parser(input);
+
+                if( exp.m_type == Expression.EXP_SYMBOL )
+                {
+                    VarSymbol symbol = m_symbolTable.ResolveVar(exp.m_symbolName);
+                    symbol.VALUE = dat;
+                }
+                else if( exp.m_type == Expression.EXP_ARRAY_SYMBOL )
+                {
+                    List<int> indexs = expressListToIndexs(exp.m_funcParams);
+                    ArraySymbol arrSymbol = m_symbolTable.ResolveArray(exp.m_symbolName, indexs);
+                    arrSymbol.SetValue(indexs, dat);
+                }
+                else
+                {
+                    throw new ErrorCode(ErrorCode.ERROR_CODE_02);
+                }
             }
         }
 

@@ -63,18 +63,8 @@ public class CodeRuntime : State
     /// </summary>
     public override void onUpdate() 
     {
-        switch( m_status )
-        {
-            case STATUS_RUNNING:
-                m_runtime.Step();
-                break;
-            case STATUS_INKEY:
-                break;
-            case STATUS_INPUT:
-                break;
-            default:
-                break;
-        }
+        if (m_status == STATUS_RUNNING)
+            m_runtime.Step();
     }
 
     /// <summary>

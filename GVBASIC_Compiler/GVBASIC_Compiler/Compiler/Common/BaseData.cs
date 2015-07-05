@@ -33,6 +33,24 @@ namespace GVBASIC_Compiler.Compiler
 
 
         /// <summary>
+        /// 解析文本
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        static public BaseData Parser( string text )
+        {
+            float floatVal;
+            int intVal;
+
+            if(float.TryParse(text,out floatVal))
+                return new BaseData(floatVal);
+            else if( int.TryParse(text, out intVal))
+                return new BaseData(intVal);
+            
+            return new BaseData(text);
+        }
+
+        /// <summary>
         /// special type constructor
         /// </summary>
         /// <param name="type"></param>
