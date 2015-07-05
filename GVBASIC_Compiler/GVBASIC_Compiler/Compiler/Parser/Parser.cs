@@ -709,6 +709,7 @@ namespace GVBASIC_Compiler.Compiler
         {
             Statement s = new Statement(Statement.TYPE_INPUT);
 
+            eatToken(Token.INPUT);
             s.m_expressList = expressList();
 
             return s;

@@ -248,7 +248,7 @@ public class EmuAPI : MonoBehaviour, IAPI
         return str;
     }
 
-    public void AppendInkey(string str)
+    public void AppendInput(string str)
     {
         m_inputBuff.Add(str);
     }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Text;
 using GVBASIC_Compiler.Compiler;
 
 
@@ -16,6 +17,8 @@ public class CodeRuntime : State
 
     protected int m_inkeyCount;
     protected int m_inputCount;
+
+    protected StringBuilder m_inputBuff;
 
     public override void onSwitchIn()
     {
@@ -46,12 +49,28 @@ public class CodeRuntime : State
             case STATUS_INKEY:
                 m_emuAPI.AppendInkey(key);
                 m_inkeyCount--;
-
+                // 输入完毕退出
                 if (m_inkeyCount <= 0)
                     m_status = STATUS_RUNNING;
                 break;
             case STATUS_INPUT:
-                //TODO 
+                if( key == KCode.Return )
+                {
+                    // 一个输入完毕
+                    m_emuAPI.AppendInput(m_inputBuff.ToString());
+                    m_inputCount--;
+
+                    // 全部输入完毕
+                    if (m_inputCount <= 0)
+                        m_status = STATUS_RUNNING;
+                    else
+                        m_inputBuff = new StringBuilder();
+                }
+                else
+                {
+                    if( key < KCode.Delete )
+                        m_inputBuff.Append((char)key);
+                }
                 break;
             default:
                 break;
@@ -80,6 +99,8 @@ public class CodeRuntime : State
     {
         m_inputCount = count;
         m_status = STATUS_INPUT;
+
+        m_inputBuff = new StringBuilder();
     }
 
 }
