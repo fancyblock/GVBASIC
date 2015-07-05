@@ -60,6 +60,10 @@ public class CodeRuntime : State
                     m_emuAPI.AppendInput(m_inputBuff.ToString());
                     m_inputCount--;
 
+                    // 显示换行
+                    m_textDisplay.DrawText(m_textDisplay.CURSOR_X, m_textDisplay.CURSOR_Y, ((char)key).ToString());
+                    m_textDisplay.SetCursor(true, m_textDisplay.LAST_TEXT_X, m_textDisplay.LAST_TEXT_Y);
+
                     // 全部输入完毕
                     if (m_inputCount <= 0)
                         m_status = STATUS_RUNNING;
@@ -68,8 +72,13 @@ public class CodeRuntime : State
                 }
                 else
                 {
-                    if( key < KCode.Delete )
+                    if (key < KCode.Delete)
+                    {
                         m_inputBuff.Append((char)key);
+                        // 显示该字符 
+                        m_textDisplay.DrawText(m_textDisplay.CURSOR_X, m_textDisplay.CURSOR_Y, ((char)key).ToString());
+                        m_textDisplay.SetCursor(true, m_textDisplay.LAST_TEXT_X, m_textDisplay.LAST_TEXT_Y);
+                    }
                 }
                 break;
             default:
@@ -101,6 +110,8 @@ public class CodeRuntime : State
         m_status = STATUS_INPUT;
 
         m_inputBuff = new StringBuilder();
+        m_textDisplay.DrawText(m_textDisplay.CURSOR_X, m_textDisplay.CURSOR_Y, "?");
+        m_textDisplay.SetCursor(true,m_textDisplay.LAST_TEXT_X, m_textDisplay.LAST_TEXT_Y);
     }
 
 }
