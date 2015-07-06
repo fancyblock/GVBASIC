@@ -510,6 +510,10 @@ namespace GVBASIC_Compiler.Compiler
                 input = m_apiCall.Input();
                 BaseData dat = BaseData.Parser(input);
 
+                // 转换为字符串
+                if (exp.m_symbolName.EndsWith("$"))
+                    dat.Convert(BaseData.TYPE_STRING);
+
                 if( exp.m_type == Expression.EXP_SYMBOL )
                 {
                     VarSymbol symbol = m_symbolTable.ResolveVar(exp.m_symbolName);
