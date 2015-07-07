@@ -61,7 +61,7 @@ public class CodeRuntime : State
                     m_inputCount--;
 
                     // 显示换行
-                    m_textDisplay.DrawText(m_textDisplay.CURSOR_X, m_textDisplay.CURSOR_Y, ((char)key).ToString());
+                    m_textDisplay.DrawText(m_textDisplay.CURSOR_X, m_textDisplay.CURSOR_Y, "\n");
                     m_textDisplay.SetCursor(true, m_textDisplay.LAST_TEXT_X, m_textDisplay.LAST_TEXT_Y);
 
                     // 全部输入完毕
@@ -69,6 +69,11 @@ public class CodeRuntime : State
                         m_status = STATUS_RUNNING;
                     else
                         m_inputBuff = new StringBuilder();
+                }
+                else if( key == KCode.Backspace )
+                {
+                    // 删除一个字符 
+                    //TODO 
                 }
                 else
                 {
