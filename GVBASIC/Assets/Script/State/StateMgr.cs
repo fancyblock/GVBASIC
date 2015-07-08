@@ -16,6 +16,9 @@ public class StateMgr : MonoBehaviour
 {
     public StateEnums m_startState;
 
+    public TextDisplay m_textDisplay;
+    public GraphDisplay m_graphDisplay;
+
     public string CUR_CODE_FILE_NAME { set; get; }
     public string CUR_SOURCE_CODE { set; get; }
 
@@ -67,6 +70,28 @@ public class StateMgr : MonoBehaviour
 
         m_curState = m_stateDic[aimState];
         m_curState.onSwitchIn();
+    }
+
+    /// <summary>
+    /// 切换至图形模式（不带光标）
+    /// </summary>
+    public void GraphMode()
+    {
+        m_graphDisplay.enabled = true;
+        m_textDisplay.enabled = false;
+
+        m_graphDisplay.Clear();
+    }
+
+    /// <summary>
+    /// 切换至文本模式（带光标）
+    /// </summary>
+    public void TextMode()
+    {
+        m_graphDisplay.enabled = false;
+        m_textDisplay.enabled = true;
+
+        m_textDisplay.Clear();
     }
 
 }

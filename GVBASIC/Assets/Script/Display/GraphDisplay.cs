@@ -16,6 +16,14 @@ public class GraphDisplay : MonoBehaviour
 	}
 
     /// <summary>
+    /// 清屏
+    /// </summary>
+    public void Clear()
+    {
+        m_led.CleanScreen();
+    }
+
+    /// <summary>
     /// set pixel 
     /// </summary>
     /// <param name="x"></param>
