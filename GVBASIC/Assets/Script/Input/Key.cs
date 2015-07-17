@@ -14,8 +14,8 @@ public class Key : MonoBehaviour
         m_keyboard = GetComponentInParent<Keyboard>();
 
         // add event listener 
-        Button btn = GetComponent<Button>();
-        btn.onClick.AddListener(onKeyDown);
+        UIButton btn = GetComponent<UIButton>();
+        btn.onClick.Add(new EventDelegate(onKeyDown));
 	}
 
     /// <summary>
