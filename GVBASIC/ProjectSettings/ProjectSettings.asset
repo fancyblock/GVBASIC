@@ -19,7 +19,7 @@ PlayerSettings:
   defaultScreenWidthWeb: 960
   defaultScreenHeightWeb: 600
   m_RenderingPath: 1
-  m_MobileRenderingPath: 1
+  m_MobileRenderingPath: 0
   m_ActiveColorSpace: 0
   m_MTRendering: 1
   m_MobileMTRendering: 1
@@ -34,7 +34,7 @@ PlayerSettings:
   allowedAutorotateToLandscapeLeft: 1
   useOSAutorotation: 1
   use32BitDisplayBuffer: 1
-  disableDepthAndStencilBuffers: 0
+  disableDepthAndStencilBuffers: 1
   defaultIsFullScreen: 0
   defaultIsNativeResolution: 1
   runInBackground: 1
@@ -72,7 +72,7 @@ PlayerSettings:
     16:9: 1
     Others: 1
   bundleIdentifier: com.fancyblock.gvbasic
-  bundleVersion: 0.1
+  bundleVersion: 0.3
   preloadedAssets: []
   metroEnableIndependentInputSource: 0
   metroEnableLowLatencyPresentationAPI: 0
@@ -135,7 +135,7 @@ PlayerSettings:
   m_BuildTargetIcons:
   - m_BuildTarget: 
     m_Icons:
-    - m_Icon: {fileID: 2800000, guid: 10b6188500f6e7146a6559b936324a9c, type: 3}
+    - m_Icon: {fileID: 2800000, guid: 9a258b8bea95ed64099a2634106d954f, type: 3}
       m_Size: 128
   - m_BuildTarget: Android
     m_Icons:
