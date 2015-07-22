@@ -6,18 +6,15 @@ using System.Collections.Generic;
 public class OperationMenu : State 
 {
     protected int m_curItemIdx;
-    protected List<LineInfo> m_itemList;
+    protected List<string> m_basList;
     protected int m_lineOffset;
-
-    public override void onInit()
-    {
-    }
 
     public override void onSwitchIn()
     {
-        m_textDisplay.SetCursor(false);
+        GraphMode();
         m_lineOffset = 0;
 
+        readFileList();
         refreshList(0);
     }
 
@@ -30,17 +27,20 @@ public class OperationMenu : State
                     refreshList(m_curItemIdx - 1);
                 break;
             case KCode.DownArrow:
-                if (m_curItemIdx < m_itemList.Count - 1)
+                if (m_curItemIdx < m_basList.Count - 1)
                     refreshList(m_curItemIdx + 1);
                 break;
             case KCode.Return:
                 executeItem();
                 break;
-            case KCode.Delete:
             case KCode.F2:
+                // 弹出确认删除的提示
+                //TODO 
                 deleteCurrentFile();
                 break;
             case KCode.F1:
+                // 弹出确认创建的提示
+                //TODO 
                 createNewFile();
                 break;
             case KCode.F4:
@@ -52,30 +52,34 @@ public class OperationMenu : State
     }
 
 
+    protected void readFileList()
+    {
+        m_basList = new List<string>();
+
+        foreach (string basFileName in CodeMgr.SharedInstance.BAS_LIST)
+            m_basList.Add(basFileName);
+    }
+
     protected void refreshList( int index )
     {
         m_curItemIdx = index;
-        m_itemList = new List<LineInfo>();
         
-        foreach( string fn in CodeMgr.SharedInstance.BAS_LIST)
-            m_itemList.Add( new LineInfo(fn));
-
         // update the offset 
         if( m_curItemIdx - m_lineOffset >= Defines.TEXT_AREA_HEIGHT )
             m_lineOffset = m_curItemIdx - Defines.TEXT_AREA_HEIGHT + 1;
         else if( m_curItemIdx - m_lineOffset < 0 )
             m_lineOffset = m_curItemIdx ;
 
-        m_textDisplay.Clean();
+        m_stateMgr.m_textDisplay.Clear();
 
         int y = 0;
-        for (int i = m_lineOffset; i < m_itemList.Count; i++)
+        for (int i = m_lineOffset; i < m_basList.Count; i++)
         {
-            m_textDisplay.DrawText(0, y, m_itemList[i].TEXT, i == m_curItemIdx);
-            y += m_itemList[i].LINE_COUNT;
+            m_stateMgr.m_textDisplay.DrawText(0, y, m_basList[i], i == m_curItemIdx);
+            y++;
         }
 
-        m_textDisplay.Refresh();
+        m_stateMgr.m_textDisplay.Refresh();
     }
 
     protected void createNewFile()
@@ -101,19 +105,20 @@ public class OperationMenu : State
         if (m_curItemIdx < 0)
             m_curItemIdx = 0;
 
+        readFileList();
         refreshList(m_curItemIdx);
     }
 
     protected void executeItem()
     {
         // run the code file 
-        m_stateMgr.CUR_SOURCE_CODE = CodeMgr.SharedInstance.GetSourceCode(m_itemList[m_curItemIdx].TEXT);
+        m_stateMgr.CUR_SOURCE_CODE = CodeMgr.SharedInstance.GetSourceCode(m_basList[m_curItemIdx]);
         m_stateMgr.GotoState(StateEnums.eStateRunner);
     }
 
     protected void editFile()
     {
-        string fileName = m_itemList[m_curItemIdx].TEXT;
+        string fileName = m_basList[m_curItemIdx];
 
         m_stateMgr.CUR_CODE_FILE_NAME = fileName;
         m_stateMgr.CUR_SOURCE_CODE = CodeMgr.SharedInstance.GetSourceCode(fileName);

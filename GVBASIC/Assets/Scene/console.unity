@@ -15870,7 +15870,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 298a5d1c77e3f21449c894ee3f31d93a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_startState: 0
   m_textDisplay: {fileID: 1709264630}
   m_graphDisplay: {fileID: 1709264629}
 --- !u!114 &1709264629

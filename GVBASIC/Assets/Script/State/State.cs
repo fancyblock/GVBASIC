@@ -4,8 +4,6 @@ using System.Collections;
 public class State : MonoBehaviour 
 {
     public StateEnums m_stateType;
-    public TextDisplay m_textDisplay;
-
 
     protected StateMgr m_stateMgr;
 
@@ -18,15 +16,23 @@ public class State : MonoBehaviour
         onInit();
 	}
 
+    public StateMgr MGR { get { return m_stateMgr; } }
+
     public virtual void onInit() { }
     public virtual void onSwitchIn() { }
     public virtual void onSwitchOut() { }
     public virtual void onUpdate() { }
-
-    /// <summary>
-    /// input inject 
-    /// </summary>
-    /// <param name="key"></param>
     public virtual void onInput( KCode key ) {}
+
+
+    public void GraphMode()
+    {
+        MGR.GraphMode();
+    }
+
+    public void TextMode()
+    {
+        MGR.TextMode();
+    }
 
 }

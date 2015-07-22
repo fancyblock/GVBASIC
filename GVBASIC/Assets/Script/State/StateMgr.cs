@@ -14,8 +14,6 @@ public enum StateEnums
 
 public class StateMgr : MonoBehaviour 
 {
-    public StateEnums m_startState;
-
     public TextDisplay m_textDisplay;
     public GraphDisplay m_graphDisplay;
 
@@ -30,7 +28,7 @@ public class StateMgr : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
-        GotoState(m_startState);
+        GotoState(StateEnums.eStateMenu);
 	}
 
     /// <summary>
@@ -65,10 +63,13 @@ public class StateMgr : MonoBehaviour
     /// <param name="aimState"></param>
     public void GotoState( StateEnums aimState )
     {
+        // 切出前一个状态
         if (m_curState != null)
             m_curState.onSwitchOut();
 
         m_curState = m_stateDic[aimState];
+
+        // 切入新状态
         m_curState.onSwitchIn();
     }
 
