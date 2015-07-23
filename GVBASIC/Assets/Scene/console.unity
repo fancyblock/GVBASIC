@@ -8047,9 +8047,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_codeRuntime: {fileID: 918612422}
-  m_textDisplay: {fileID: 0}
-  m_graphDisplay: {fileID: 0}
-  m_led: {fileID: 0}
+  m_textDisplay: {fileID: 1709264630}
+  m_graphDisplay: {fileID: 1709264629}
+  m_led: {fileID: 267660185}
 --- !u!1 &923772153
 GameObject:
   m_ObjectHideFlags: 0
