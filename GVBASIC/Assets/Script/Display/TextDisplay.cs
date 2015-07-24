@@ -10,11 +10,9 @@ public class TextDisplay : MonoBehaviour
 	protected int[,] m_buffer;
     protected bool[,] m_inverseBuffer;
 
-    protected bool m_hasCursor;
     protected int m_cursorX;
     protected int m_cursorY;
-    protected int m_lastTextX;
-    protected int m_lastTextY;
+
     protected float m_timer;
 
     /// <summary>
@@ -25,14 +23,11 @@ public class TextDisplay : MonoBehaviour
         // init buffer 
         m_buffer = new int[Defines.TEXT_AREA_WIDTH, Defines.TEXT_AREA_HEIGHT];
         m_inverseBuffer = new bool[Defines.TEXT_AREA_WIDTH, Defines.TEXT_AREA_HEIGHT];
-        Clean();
+        Clear();
 
-        // no cursor 
+        // cursor position 
         m_cursorX = 0;
         m_cursorY = 0;
-        m_lastTextX = 0;
-        m_lastTextY = 0;
-        m_hasCursor = false;
         m_timer = 0.0f;
     }
 
@@ -41,32 +36,27 @@ public class TextDisplay : MonoBehaviour
     /// </summary>
     void Update ()
     {
-        if( m_hasCursor )
-        {
-            // draw the flash char 
-            if (m_timer > m_cursorInterval * 0.5f)
-                m_led.DrawLetter(m_cursorX * ASCII.WIDTH, m_cursorY * ASCII.HEIGHT, m_buffer[m_cursorX, m_cursorY], true);
-            else
-                m_led.DrawLetter(m_cursorX * ASCII.WIDTH, m_cursorY * ASCII.HEIGHT, m_buffer[m_cursorX, m_cursorY], false);
+        // draw the flash char 
+        if (m_timer > m_cursorInterval * 0.5f)
+            m_led.DrawLetter(m_cursorX * ASCII.WIDTH, m_cursorY * ASCII.HEIGHT, m_buffer[m_cursorX, m_cursorY], true);
+        else
+            m_led.DrawLetter(m_cursorX * ASCII.WIDTH, m_cursorY * ASCII.HEIGHT, m_buffer[m_cursorX, m_cursorY], false);
 
-            // update timer 
-            m_timer += Time.deltaTime;
+        // update timer 
+        m_timer += Time.deltaTime;
 
-            if (m_timer > m_cursorInterval)
-                m_timer = 0.0f;
-        }
+        if (m_timer > m_cursorInterval)
+            m_timer = 0.0f;
     }
     
     /// <summary>
-    /// set cursor 
+    /// 设置光标位置（0，0）为左上角
     /// </summary>
     /// <param name="show"></param>
     /// <param name="x"></param>
     /// <param name="y"></param>
-    public void SetCursor( bool show, int x = 0, int y = 0 )
+    public void SetCursor( int x, int y )
     {
-        m_hasCursor = show;
-
         m_led.DrawLetter(m_cursorX * ASCII.WIDTH, m_cursorY * ASCII.HEIGHT, m_buffer[m_cursorX, m_cursorY], m_inverseBuffer[m_cursorX,m_cursorY]);
 
         m_cursorX = x % Defines.TEXT_AREA_WIDTH;
@@ -78,12 +68,6 @@ public class TextDisplay : MonoBehaviour
     /// </summary>
     public int CURSOR_X { get { return m_cursorX; } }
     public int CURSOR_Y { get { return m_cursorY; } }
-
-    /// <summary>
-    /// getter of the last text position 
-    /// </summary>
-    public int LAST_TEXT_X { get { return m_lastTextX; } }
-    public int LAST_TEXT_Y { get { return m_lastTextY; } }
 
     /// <summary>
     /// refresh the display 
@@ -134,9 +118,6 @@ public class TextDisplay : MonoBehaviour
                 y ++;
             }
         }
-
-        m_lastTextX = x;
-        m_lastTextY = y;
     }
 
     /// <summary>
@@ -150,7 +131,7 @@ public class TextDisplay : MonoBehaviour
 
         if( lineCnt > Defines.TEXT_AREA_HEIGHT )
         {
-            Clean();
+            Clear();
             return;
         }
 
@@ -183,8 +164,11 @@ public class TextDisplay : MonoBehaviour
     /// <summary>
     /// clean the screen
     /// </summary>
-    public void Clean()
+    public void Clear()
     {
+        m_cursorX = 0;
+        m_cursorY = 0;
+
         for (int i = 0; i < Defines.TEXT_AREA_WIDTH; i++)
         {
             for (int j = 0; j < Defines.TEXT_AREA_HEIGHT; j++)

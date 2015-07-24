@@ -61,8 +61,8 @@ public class CodeRuntime : State
                     m_inputCount--;
 
                     // 显示换行
-                    m_textDisplay.DrawText(m_textDisplay.CURSOR_X, m_textDisplay.CURSOR_Y, "\n");
-                    m_textDisplay.SetCursor(true, m_textDisplay.LAST_TEXT_X, m_textDisplay.LAST_TEXT_Y);
+                    m_stateMgr.m_textDisplay.DrawText(m_stateMgr.m_textDisplay.CURSOR_X, m_stateMgr.m_textDisplay.CURSOR_Y, "\n");
+                    m_stateMgr.m_textDisplay.SetCursor(0, 0);
 
                     // 全部输入完毕
                     if (m_inputCount <= 0)
@@ -73,7 +73,11 @@ public class CodeRuntime : State
                 else if( key == KCode.Backspace )
                 {
                     // 删除一个字符 
-                    //TODO 
+                    if( m_inputCount > 0 )
+                    {
+                        //TODO 
+                        m_inputCount--;
+                    }
                 }
                 else
                 {
@@ -81,8 +85,8 @@ public class CodeRuntime : State
                     {
                         m_inputBuff.Append((char)key);
                         // 显示该字符 
-                        m_textDisplay.DrawText(m_textDisplay.CURSOR_X, m_textDisplay.CURSOR_Y, ((char)key).ToString());
-                        m_textDisplay.SetCursor(true, m_textDisplay.LAST_TEXT_X, m_textDisplay.LAST_TEXT_Y);
+                        m_stateMgr.m_textDisplay.DrawText(m_stateMgr.m_textDisplay.CURSOR_X, m_stateMgr.m_textDisplay.CURSOR_Y, ((char)key).ToString());
+                        m_stateMgr.m_textDisplay.SetCursor(0, 0);
                     }
                 }
                 break;
@@ -115,8 +119,8 @@ public class CodeRuntime : State
         m_status = STATUS_INPUT;
 
         m_inputBuff = new StringBuilder();
-        m_textDisplay.DrawText(m_textDisplay.CURSOR_X, m_textDisplay.CURSOR_Y, "?");
-        m_textDisplay.SetCursor(true,m_textDisplay.LAST_TEXT_X, m_textDisplay.LAST_TEXT_Y);
+        m_stateMgr.m_textDisplay.DrawText(m_stateMgr.m_textDisplay.CURSOR_X, m_stateMgr.m_textDisplay.CURSOR_Y, "?");
+        m_stateMgr.m_textDisplay.SetCursor(0, 0);
     }
 
 }

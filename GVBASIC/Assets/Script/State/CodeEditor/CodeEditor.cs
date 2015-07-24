@@ -22,13 +22,13 @@ public class CodeEditor : State
     {
         onClearAll();
 
+        // 新建一个空文件还是读取已有文件 
         if( !string.IsNullOrEmpty( m_stateMgr.CUR_SOURCE_CODE ))
             readCode(m_stateMgr.CUR_SOURCE_CODE);
 
-        m_textDisplay.enabled = true;
-        m_textDisplay.SetCursor(true);
+        m_stateMgr.TextMode();
 
-        refreshLED();
+        refresh();
 	}
 
     /// <summary>
@@ -73,7 +73,7 @@ public class CodeEditor : State
             }
         }
 
-        refreshLED();
+        refresh();
     }
 
     
@@ -86,9 +86,6 @@ public class CodeEditor : State
         m_curIndex = 0;
 
         m_lineOffset = 0;
-
-        m_textDisplay.Clean();
-        m_textDisplay.SetCursor(true, 0, 0);
     }
 
     protected void readCode( string code )
@@ -179,9 +176,9 @@ public class CodeEditor : State
         sortCode();
     }
 
-    protected void refreshLED()
+    protected void refresh()
     {
-        m_textDisplay.Clean();
+        m_stateMgr.m_textDisplay.Clear();
 
         // 计算光标新位置
         int x = m_curIndex % Defines.TEXT_AREA_WIDTH;
@@ -198,7 +195,7 @@ public class CodeEditor : State
             m_lineOffset -= ( y + m_lineOffset - Defines.TEXT_AREA_HEIGHT + 1 );
 
         // 设置光标
-        m_textDisplay.SetCursor(true, x, y + m_lineOffset);
+        m_stateMgr.m_textDisplay.SetCursor(x, y + m_lineOffset);
 
         // 绘制文本行
         y = 0;
@@ -208,13 +205,13 @@ public class CodeEditor : State
             int yEndPos = yStartPos + li.LENGTH - 1;
 
             if ( !((yStartPos < 0 && yEndPos < 0) || (yStartPos >= Defines.TEXT_AREA_HEIGHT && yEndPos >= Defines.TEXT_AREA_HEIGHT)) )
-                m_textDisplay.DrawText(0, yStartPos, li.TEXT);
+                m_stateMgr.m_textDisplay.DrawText(0, yStartPos, li.TEXT);
 
             y += li.LINE_COUNT;
         }
 
         // 刷新
-        m_textDisplay.Refresh();
+        m_stateMgr.m_textDisplay.Refresh();
     }
 
     protected void exportCode()

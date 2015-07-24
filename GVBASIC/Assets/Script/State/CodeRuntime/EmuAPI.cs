@@ -21,8 +21,7 @@ public class EmuAPI : MonoBehaviour, IAPI
     /// <param name="error"></param>
     public void ErrorCode(string error) 
     {
-        m_textDisplay.Clean();
-        m_textDisplay.SetCursor(false);
+        m_textDisplay.Clear();
 
         m_textDisplay.DrawText(0, 0, error);
         m_textDisplay.Refresh();
@@ -35,7 +34,7 @@ public class EmuAPI : MonoBehaviour, IAPI
     /// </summary>
     public void ProgramStart() 
     {
-        m_textDisplay.Clean();
+        m_textDisplay.Clear();
         m_textDisplay.Refresh();
 
         m_inkeyBuff = new List<char>();
@@ -96,8 +95,8 @@ public class EmuAPI : MonoBehaviour, IAPI
             m_textDisplay.DrawText(cursorX, cursorY, output);
 
             // set the new cursor position 
-            cursorX = m_textDisplay.LAST_TEXT_X;
-            cursorY = m_textDisplay.LAST_TEXT_Y;
+            cursorX = 0;
+            cursorY = 0;
 
             if( cursorY >= Defines.TEXT_AREA_HEIGHT )
             {
@@ -105,7 +104,7 @@ public class EmuAPI : MonoBehaviour, IAPI
                 cursorY = Defines.TEXT_AREA_HEIGHT - 1;
             }
 
-            m_textDisplay.SetCursor(true, cursorX, cursorY);
+            m_textDisplay.SetCursor(cursorX, cursorY);
 
             lastType = dat.TYPE;
         }
@@ -121,7 +120,7 @@ public class EmuAPI : MonoBehaviour, IAPI
                 cursorY = Defines.TEXT_AREA_HEIGHT - 1;
             }
 
-            m_textDisplay.SetCursor(true, cursorX, cursorY);
+            m_textDisplay.SetCursor(cursorX, cursorY);
         }
 
         m_textDisplay.Refresh();
@@ -134,7 +133,7 @@ public class EmuAPI : MonoBehaviour, IAPI
     /// <param name="y"></param>
     public void Locate(int x, int y)
     {
-        m_textDisplay.SetCursor(true, x-1, y-1);
+        m_textDisplay.SetCursor( x-1, y-1);
     }
 
     public int CursorX()
@@ -155,7 +154,7 @@ public class EmuAPI : MonoBehaviour, IAPI
     /// </summary>
     public void Cls() 
     {
-        m_textDisplay.Clean();
+        m_textDisplay.Clear();
         m_textDisplay.Refresh();
     }
 
@@ -180,10 +179,7 @@ public class EmuAPI : MonoBehaviour, IAPI
     /// </summary>
     public void Graph() 
     {
-        m_textDisplay.enabled = false;
-        m_graphDisplay.enabled = true;
-
-        m_led.CleanScreen();
+        m_codeRuntime.MGR.GraphMode();
     }
 
     /// <summary>
@@ -191,12 +187,7 @@ public class EmuAPI : MonoBehaviour, IAPI
     /// </summary>
     public void Text() 
     {
-        m_textDisplay.enabled = true;
-        m_graphDisplay.enabled = false;
-
-        m_led.CleanScreen();
-
-        m_textDisplay.SetCursor(true);
+        m_codeRuntime.MGR.TextMode();
     }
 
     public void AskInkey(int count)

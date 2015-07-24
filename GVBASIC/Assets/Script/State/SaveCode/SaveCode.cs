@@ -23,12 +23,12 @@ public class SaveCode : State
         m_fileName = new LineInfo(pureBasName);
         m_curIndex = 0;
 
-        m_textDisplay.Clean();
-        m_textDisplay.DrawText(0, 0, "Input file name:");
-        m_textDisplay.DrawText(0, 1, pureBasName);
-        m_textDisplay.Refresh();
+        m_stateMgr.m_textDisplay.Clear();
+        m_stateMgr.m_textDisplay.DrawText(0, 0, "Input file name:");
+        m_stateMgr.m_textDisplay.DrawText(0, 1, pureBasName);
+        m_stateMgr.m_textDisplay.Refresh();
 
-        m_textDisplay.SetCursor(true, 0, 1);
+        m_stateMgr.m_textDisplay.SetCursor(0,1);
     }
 
     public override void onInput(KCode key) 
@@ -59,11 +59,11 @@ public class SaveCode : State
 
     protected void refresh()
     {
-        m_textDisplay.Clean();
-        m_textDisplay.DrawText(0, 0, "Input file name:");
-        m_textDisplay.DrawText(0, 1, m_fileName.TEXT);
-        m_textDisplay.SetCursor(true, m_curIndex, 1);
-        m_textDisplay.Refresh();
+        m_stateMgr.m_textDisplay.Clear();
+        m_stateMgr.m_textDisplay.DrawText(0, 0, "Input file name:");
+        m_stateMgr.m_textDisplay.DrawText(0, 1, m_fileName.TEXT);
+        m_stateMgr.m_textDisplay.SetCursor(m_curIndex,1);
+        m_stateMgr.m_textDisplay.Refresh();
     }
 
 }
