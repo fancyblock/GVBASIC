@@ -21,12 +21,11 @@ public class CodeEditor : State
     public override void onSwitchIn() 
     {
         onClearAll();
+        m_stateMgr.TextMode();
 
         // 新建一个空文件还是读取已有文件 
         if( !string.IsNullOrEmpty( m_stateMgr.CUR_SOURCE_CODE ))
             readCode(m_stateMgr.CUR_SOURCE_CODE);
-
-        m_stateMgr.TextMode();
 
         refresh();
 	}
