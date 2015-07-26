@@ -5,6 +5,7 @@ using System.Collections;
 public class Key : MonoBehaviour 
 {
     public KCode m_key;
+    public UILabel m_txtKeyDisplay;
 
     protected Keyboard m_keyboard;
 
@@ -26,4 +27,14 @@ public class Key : MonoBehaviour
         m_keyboard.SendKey(m_key);
     }
 	
+    /// <summary>
+    /// 设置键
+    /// </summary>
+    /// <param name="kcode"></param>
+    public void SetKeyCode( KCode kcode )
+    {
+        m_key = kcode;
+        m_txtKeyDisplay.text = ((char)m_key).ToString();
+    }
+
 }
