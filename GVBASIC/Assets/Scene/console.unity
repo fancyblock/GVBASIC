@@ -6018,7 +6018,7 @@ GameObject:
   - 4: {fileID: 663308379}
   - 114: {fileID: 663308380}
   m_Layer: 0
-  m_Name: OperationMenu
+  m_Name: CodeList
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7196,7 +7196,7 @@ Transform:
   m_GameObject: {fileID: 798068145}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: .00540540554, y: .00540540554, z: .00540540554}
+  m_LocalScale: {x: .00625000009, y: .00625000009, z: .00625000009}
   m_Children:
   - {fileID: 14711193}
   m_Father: {fileID: 0}
@@ -10826,7 +10826,7 @@ GameObject:
   - 4: {fileID: 1136983129}
   - 114: {fileID: 1136983130}
   m_Layer: 0
-  m_Name: SaveCode
+  m_Name: CodeSaver
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

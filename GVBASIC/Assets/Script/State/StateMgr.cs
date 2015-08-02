@@ -5,10 +5,10 @@ using System.Collections.Generic;
 
 public enum StateEnums
 {
-    eStateMenu,
+    eStateList,
     eStateEditor,
     eStateRunner,
-    eStateSaveCode,
+    eStateSaver,
 }
 
 
@@ -28,7 +28,7 @@ public class StateMgr : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
-        GotoState(StateEnums.eStateMenu);
+        GotoState(StateEnums.eStateList);
 	}
 
     /// <summary>

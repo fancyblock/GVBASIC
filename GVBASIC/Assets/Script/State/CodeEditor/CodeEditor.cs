@@ -65,7 +65,7 @@ public class CodeEditor : State
                     break;
                 case KCode.Escape:
                     exportCode();
-                    m_stateMgr.GotoState(StateEnums.eStateSaveCode);
+                    m_stateMgr.GotoState(StateEnums.eStateSaver);
                     return;
                 default:
                     break;

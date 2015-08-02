@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 
-public class OperationMenu : State 
+public class CodeList : State 
 {
     protected int m_curItemIdx;
     protected List<string> m_basList;

@@ -40,7 +40,7 @@ public class CodeRuntime : State
     {
         if( key == KCode.Escape )
         {
-            m_stateMgr.GotoState(StateEnums.eStateMenu);
+            m_stateMgr.GotoState(StateEnums.eStateList);
             return;
         }
 

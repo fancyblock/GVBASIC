@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Text;
 
-public class SaveCode : State 
+public class CodeSaver : State 
 {
     protected LineInfo m_fileName;
     protected int m_curIndex;
@@ -43,11 +43,11 @@ public class SaveCode : State
             switch (key)
             {
                 case KCode.Escape:
-                    m_stateMgr.GotoState(StateEnums.eStateMenu);
+                    m_stateMgr.GotoState(StateEnums.eStateList);
                     return;
                 case KCode.Return:
                     CodeMgr.SharedInstance.SaveSourceCode(m_fileName.TEXT + ".BAS", m_stateMgr.CUR_SOURCE_CODE);
-                    m_stateMgr.GotoState(StateEnums.eStateMenu);
+                    m_stateMgr.GotoState(StateEnums.eStateList);
                     return;
                 default:
                     break;
