@@ -35,13 +35,27 @@ public class CodeList : State
                 break;
             case KCode.F2:
                 // 弹出确认删除的提示
-                //TODO 
-                deleteCurrentFile();
+                m_stateMgr.ShowMessageBox("Delete file",
+                    () =>
+                    {
+                        deleteCurrentFile();
+                    },
+                    () =>
+                    {
+                        refreshList(m_curItemIdx);
+                    });
                 break;
             case KCode.F1:
                 // 弹出确认创建的提示
-                //TODO 
-                createNewFile();
+                m_stateMgr.ShowMessageBox("Create new file",
+                    () =>
+                    {
+                        createNewFile();
+                    },
+                    () =>
+                    {
+                        refreshList(m_curItemIdx);
+                    });
                 break;
             case KCode.F4:
                 editFile();

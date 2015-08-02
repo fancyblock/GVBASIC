@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -21,13 +22,18 @@ public class StateMgr : MonoBehaviour
     public string CUR_SOURCE_CODE { set; get; }
 
 
-    protected State m_curState = null;
     protected Dictionary<StateEnums, State> m_stateDic = new Dictionary<StateEnums, State>();
 
+    protected State m_curState = null;
+    protected bool m_inMsgBox;
+    protected Action m_yesAction;
+    protected Action m_noAction;
 
 	// Use this for initialization
 	void Start () 
 	{
+        m_inMsgBox = false;
+
         GotoState(StateEnums.eStateList);
 	}
 
@@ -45,7 +51,14 @@ public class StateMgr : MonoBehaviour
     /// <param name="key"></param>
     public void Input( KCode key )
     {
-        m_curState.onInput(key);
+        if (m_inMsgBox)
+        {
+            //TODO 
+        }
+        else
+        {
+            m_curState.onInput(key);
+        }
     }
 
     /// <summary>
@@ -93,6 +106,22 @@ public class StateMgr : MonoBehaviour
         m_textDisplay.enabled = true;
 
         m_textDisplay.Clear();
+    }
+
+    /// <summary>
+    /// 显示选择框，只有是和否两种选择
+    /// </summary>
+    /// <param name="msg"></param>
+    /// <param name="yes"></param>
+    /// <param name="no"></param>
+    public void ShowMessageBox( string msg, Action yes, Action no )
+    {
+        m_inMsgBox = true;
+
+        m_yesAction = yes;
+        m_noAction = no;
+
+        //TODO 
     }
 
 }

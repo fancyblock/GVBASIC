@@ -27,12 +27,12 @@ public class State : MonoBehaviour
 
     public void GraphMode()
     {
-        MGR.GraphMode();
+        m_stateMgr.GraphMode();
     }
 
     public void TextMode()
     {
-        MGR.TextMode();
+        m_stateMgr.TextMode();
     }
 
 }
