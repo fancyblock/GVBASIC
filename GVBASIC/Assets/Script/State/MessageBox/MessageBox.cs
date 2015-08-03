@@ -9,6 +9,7 @@ public class MessageBox : MonoBehaviour
     public GameObject m_focusNo;
 
     protected bool m_isShow;
+    protected bool m_yes;
 
 	// Use this for initialization
 	void Awake () 
@@ -31,8 +32,7 @@ public class MessageBox : MonoBehaviour
         m_txtMsg.text = msg;
 
         // 默认选择yes
-        m_focusYes.SetActive(true);
-        m_focusNo.SetActive(false);
+        focosOn(true);
 
         gameObject.SetActive(true);
         m_isShow = true;
@@ -48,27 +48,47 @@ public class MessageBox : MonoBehaviour
         switch(key)
         {
             case KCode.LeftArrow:
-                m_focusYes.SetActive(true);
-                m_focusNo.SetActive(false);
+                focosOn(true);
                 break;
             case KCode.RightArrow:
-                m_focusYes.SetActive(false);
-                m_focusNo.SetActive(true);
+                focosOn(false);
                 break;
             case KCode.Y:
             case KCode.y_l:
-                //TODO 
+                focosOn(true);
+                confirmSelect();
                 break;
             case KCode.N:
             case KCode.n_l:
-                //TODO 
+                focosOn(false);
+                confirmSelect();
                 break;
             case KCode.Return:
-                //TODO 
+                confirmSelect();
                 break;
             default:
                 break;
         }
+    }
+
+
+    /// <summary>
+    /// 确认选择 
+    /// </summary>
+    protected void confirmSelect()
+    {
+        //TODO 
+    }
+
+    /// <summary>
+    /// 焦点在哪个按钮上
+    /// </summary>
+    /// <param name="yes"></param>
+    protected void focosOn( bool yes )
+    {
+        m_focusYes.SetActive(yes);
+        m_focusNo.SetActive(!yes);
+        m_yes = yes;
     }
 
 }
