@@ -18,6 +18,8 @@ public class StateMgr : MonoBehaviour
     public TextDisplay m_textDisplay;
     public GraphDisplay m_graphDisplay;
 
+    public MessageBox m_msgBox;
+
     public string CUR_CODE_FILE_NAME { set; get; }
     public string CUR_SOURCE_CODE { set; get; }
 
@@ -25,15 +27,10 @@ public class StateMgr : MonoBehaviour
     protected Dictionary<StateEnums, State> m_stateDic = new Dictionary<StateEnums, State>();
 
     protected State m_curState = null;
-    protected bool m_inMsgBox;
-    protected Action m_yesAction;
-    protected Action m_noAction;
 
 	// Use this for initialization
 	void Start () 
 	{
-        m_inMsgBox = false;
-
         GotoState(StateEnums.eStateList);
 	}
 
@@ -51,9 +48,9 @@ public class StateMgr : MonoBehaviour
     /// <param name="key"></param>
     public void Input( KCode key )
     {
-        if (m_inMsgBox)
+        if ( m_msgBox.IS_SHOW )
         {
-            //TODO 
+            m_msgBox.onInput(key);
         }
         else
         {
@@ -116,12 +113,7 @@ public class StateMgr : MonoBehaviour
     /// <param name="no"></param>
     public void ShowMessageBox( string msg, Action yes, Action no )
     {
-        m_inMsgBox = true;
-
-        m_yesAction = yes;
-        m_noAction = no;
-
-        //TODO 
+        m_msgBox.Show( msg, yes, no );
     }
 
 }

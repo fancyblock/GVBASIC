@@ -47,7 +47,7 @@ public class CodeList : State
                 break;
             case KCode.F1:
                 // 弹出确认创建的提示
-                m_stateMgr.ShowMessageBox("Create new file",
+                m_stateMgr.ShowMessageBox("Create file",
                     () =>
                     {
                         createNewFile();
