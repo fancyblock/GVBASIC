@@ -14991,6 +14991,8 @@ MonoBehaviour:
   m_txtMsg: {fileID: 510961049}
   m_focusYes: {fileID: 1028762973}
   m_focusNo: {fileID: 1367444073}
+  m_btnYes: {fileID: 1282228442}
+  m_btnNo: {fileID: 1070617470}
 --- !u!1 &1468494188
 GameObject:
   m_ObjectHideFlags: 0

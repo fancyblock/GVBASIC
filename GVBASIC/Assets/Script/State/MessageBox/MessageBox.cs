@@ -7,9 +7,13 @@ public class MessageBox : MonoBehaviour
     public UILabel m_txtMsg;
     public GameObject m_focusYes;
     public GameObject m_focusNo;
+    public UISprite m_btnYes;
+    public UISprite m_btnNo;
 
     protected bool m_isShow;
     protected bool m_yes;
+    protected Action m_yesCallback;
+    protected Action m_noCallback;
 
 	// Use this for initialization
 	void Awake () 
@@ -30,9 +34,14 @@ public class MessageBox : MonoBehaviour
     public void Show( string msg, Action yes, Action no )
     {
         m_txtMsg.text = msg;
+        m_yesCallback = yes;
+        m_noCallback = no;
 
         // 默认选择yes
         focosOn(true);
+
+        m_btnYes.color = Color.white;
+        m_btnNo.color = Color.white;
 
         gameObject.SetActive(true);
         m_isShow = true;
@@ -77,7 +86,12 @@ public class MessageBox : MonoBehaviour
     /// </summary>
     protected void confirmSelect()
     {
-        //TODO 
+        if (m_yes)
+            m_btnYes.color = Color.gray;
+        else
+            m_btnNo.color = Color.gray;
+
+        Invoke("_confirmSelect", 0.12f);
     }
 
     /// <summary>
@@ -89,6 +103,18 @@ public class MessageBox : MonoBehaviour
         m_focusYes.SetActive(yes);
         m_focusNo.SetActive(!yes);
         m_yes = yes;
+    }
+
+
+    protected void _confirmSelect()
+    {
+        gameObject.SetActive(false);
+        m_isShow = false;
+
+        if (m_yes)
+            m_yesCallback();
+        else
+            m_noCallback();
     }
 
 }
