@@ -10,18 +10,11 @@ public class MessageBox : MonoBehaviour
     public UISprite m_btnYes;
     public UISprite m_btnNo;
 
-    protected bool m_isShow;
+    protected bool m_isShow = false;
     protected bool m_yes;
     protected Action m_yesCallback;
     protected Action m_noCallback;
 
-	// Use this for initialization
-	void Awake () 
-	{
-        m_isShow = false;
-
-        gameObject.SetActive(false);
-	}
 
     /// <summary>
     /// 是否显示
