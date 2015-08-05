@@ -1517,6 +1517,7 @@ Transform:
   - {fileID: 267660184}
   - {fileID: 1133273485}
   - {fileID: 1453556228}
+  - {fileID: 2092516691}
   m_Father: {fileID: 14711193}
   m_RootOrder: 1
 --- !u!1 &178959062
@@ -3517,6 +3518,84 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Size: {x: 32, y: 38}
+--- !u!1 &344576020
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 344576021}
+  - 114: {fileID: 344576022}
+  m_Layer: 5
+  m_Name: Bg
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &344576021
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 344576020}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 826581638}
+  m_RootOrder: 0
+--- !u!114 &344576022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 344576020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 360
+  mHeight: 180
+  mDepth: 0
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: 2
+  mType: 1
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11464074, guid: d27dbcba57ffbeb4aaae738afb583e21, type: 2}
+  mSpriteName: button_9
+  mFillCenter: 1
 --- !u!1 &373403953
 GameObject:
   m_ObjectHideFlags: 0
@@ -6421,6 +6500,212 @@ MonoBehaviour:
   mMaxLineHeight: 0
   mLineWidth: 0
   mMultiline: 1
+--- !u!1 &689427439
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 689427440}
+  - 114: {fileID: 689427441}
+  m_Layer: 5
+  m_Name: Info
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &689427440
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 689427439}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -146, y: 72, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 826581638}
+  m_RootOrder: 1
+--- !u!114 &689427441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 689427439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9d0b5f3bbe925a408bd595c79d0bf63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 0
+  mWidth: 291
+  mHeight: 13356
+  mDepth: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .0217879601
+  keepCrispWhenShrunk: 1
+  mTrueTypeFont: {fileID: 4028824154787511821, guid: 0000000000000000d000000000000000,
+    type: 0}
+  mFont: {fileID: 0}
+  mText: "[GVBASIC\u5E2E\u52A9]\r\n\r\n----- \u7B26\u53F7\u5B9A\u4E49 -----\r\n%\t\t\u6574\u5F62\u53D8\u91CF\r\n$\t\t\u5B57\u7B26\u4E32\r\n+\t\t\u52A0\u6CD5\u8FD0\u7B97\u7B26\r\n-\t\t\u51CF\u6CD5\u8FD0\u7B97\u7B26\r\n*\t\t\u4E58\u6CD5\u8FD0\u7B97\u7B26\r\n/\t\t\u9664\u6CD5\u8FD0\u7B97\u7B26\r\n^\t\t\u4E58\u65B9\u8FD0\u7B97\u7B26\r\n>\t\t\u5927\u4E8E\r\n<\t\t\u5C0F\u4E8E\r\n=\t\t\u7B49\u4E8E\r\n>=\t\t\u5927\u4E8E\u6216\u7B49\u4E8E\r\n<=\t\t\u5C0F\u4E8E\u6216\u7B49\u4E8E\r\n<>\t\t\u4E0D\u7B49\u4E8E\r\nAND\t\t\u903B\u8F91\u4E0E\r\nOR\t\t\u903B\u8F91\u6216\r\nNOT\t\t\u903B\u8F91\u975E\r\n\r\n\r\n-----
+    \u8BED\u53E5\u5206\u7C7B -----\r\n\u51FD\u6570:\r\nSIN,COS,TAN,LOG,EXP,SQR,ABS,INT,SGN,RND,LEFT$,RIGHT$,MID$,ASC,CHR$,LEN,SPC,TAB,STR$,MKI$,MKS$,CVI$,CVS$,VAL,POS,LOF,EOF\r\n\u8BED\u53E5:\r\nTEXT,GRAPH,NORMAL,INVERSE,LOCATE,READ,DATA,DEF,FN,DIM,END,FOR...TO...STEP,NEXT,ON...GOTO,GOTO,LET,IF...THEN...ELSE,CALL,INPUT,PRINT,REM,RESTORE,RESUME,RETURN,POP,STOP,CONT,WHILE...WEND,SWAP,BEEP,PLAY,DRAW,LINE,BOX,CIRCLE,ELLIPSE,OPEN,CLOSE,WRITE,FIELD,GET,PUT,LSET,RSET,INKEY$\r\n\r\n\r\n-----
+    \u8BED\u6CD5\u89C4\u5219 -----\r\n\u53D8\u91CF\u540D\u6700\u957F:\t16\r\n\u5B57\u7B26\u4E32\u6700\u957F:\t255\r\n\u6570\u7EC4\u7EF4\u6570:\t255\r\n\u6574\u578B\u53D8\u91CF\u8303\u56F4:\r\n\t-32768,32768\r\n\u5B9E\u578B\u53D8\u91CF\u8303\u56F4:\r\n
+    \ -1E+38,1E+38\r\n\u6700\u5927\u884C\u53F7:\t9999\r\n\r\n\r\n------ \u529F\u80FD\u952E
+    ------\r\nF1\t\t\u6DFB\u52A0\u65B0\u6587\u4EF6\r\nF2\t\t\u5220\u9664\u6587\u4EF6\r\nF4\t\t\u4FEE\u6539\u6587\u4EF6\r\n\u8F93\u5165\t\u6267\u884C\u6587\u4EF6\r\n\r\n\r\n-----\u51FA\u9519\u4EE3\u7801-----\r\n01.\tNEXT
+    WITHOUT FOR:\r\nNEXT\u8BED\u53E5\u6CA1\u6709\u5BF9\u5E94\u7684FOR\u8BED\u53E5,\u6216\u662F\u4E8C\u8005\u53D8\u91CF\u4E0D\u5BF9\u5E94\u3002\r\n\r\n02.\tSYNTAX:\r\n\u8BED\u6CD5\u9519\u8BEF,\u5982\u4E0D\u76F8\u7B26\u7684\u62EC\u53F7,\u62FC\u5199\u9519\u4E86\u547D\u4EE4\u548C\u8BED\u53E5,\u6216\u4E0D\u6B63\u786E\u7684\u6807\u70B9\u7B26\u53F7\u3002\r\n\r\n03.\tOUT
+    OF DATA:\r\n\u8D85\u8FC7\u6570\u636E\u533A\u7684\u8303\u56F4,READ\u8BED\u53E5\u5DF2\u8BFB\u5B8CDATA\u8BED\u53E5\u4E2D\u7684\u6240\u6709\u6570\u636E,\u5DF2\u65E0\u6570\u636E\u53EF\u4F9BREAD\u8BED\u53E5\u8BFB\u3002\r\n\r\n04.\tILLEGAL
+    QUANTITY:\r\n\u975E\u6CD5\u7684\u529F\u80FD\u8C03\u7528,\u51FA\u73B0\u4E00\u4E2A\u4E0D\u5408\u6CD5\u7684\u53C2\u6570\u88AB\u4F20\u9001\u5230\u7CFB\u7EDF\u51FD\u6570\u4E2D\u53BB\u3002\r\n\r\n05.\tOVERFLOW:\r\n\u6EA2\u51FA,\u6570\u503C\u592A\u5927,\u8D85\u8FC7\u4E86GV
+    BASIC\u5141\u8BB8\u7684\u8303\u56F4\u3002\r\n\r\n06.\tOUT OF MEMORY:\r\n\u8BB0\u5FC6\u4F53\u6EA2\u51FA,\u7A0B\u5E8F\u592A\u5927,\u6709\u8FC7\u591A\u7684FOR\u5FAA\u73AF\u6216GOSUB,\u8FC7\u591A\u7684\u53D8\u91CF\u3002\r\n\r\n07.\tUNDEF'D
+    STATEMENT\r\n:\u672A\u5B9A\u4E49\u884C\u53F7,\u5728\u8BED\u53E5\u6216\u547D\u4EE4\u4E2D\u5E94\u7528\u4E86\u7A0B\u5E8F\u4E2D\u4E0D\u5B58\u5728\u7684\u884C\u53F7\u3002\r\n\r\n08.\tBAD
+    SUBSCRIPT:\r\n\u4E0B\u6807\u6708\u7ED3,\u7528\u6237\u4F7F\u7528\u4E86\u9519\u8BEF\u7684\u6570\u7EC4\u5143\u7D20,\u6216\u4F7F\u7528\u4E86\u9519\u8BEF\u7684\u4E0B\u6807\u503C\u3002\r\n\r\n09.\tREDIM'D
+    ARRAY:\r\n\u91CD\u590D\u5B9A\u4E49\u6570\u7EC4\u3002\r\n\r\n10.\tDIVISION BY ZERO:\r\n\u88AB\u96F6\u9664\u3002\r\n\r\n11.\tILLEGAL
+    DIRECT:\r\n\u975E\u6CD5\u7684\u76F4\u63A5\u547D\u4EE4\r\n\r\n12.\tTYPE MISMATCH:\r\n\u7C7B\u578B\u4E0D\u76F8\u7B26\r\n\r\n13.\tSTRING
+    TOO LONG:\r\n\u5B57\u7B26\u4E32\u592A\u957F\r\n\r\n14.\tFORMULA TOO COMPLEX:\r\n\u5B57\u7B26\u4E32\u5F0F\u5B50\u592A\u590D\u6742\r\n\r\n15.\tCAN'T
+    CONTINUE:\r\n\u4E0D\u80FD\u7EE7\u7EED\u8FD0\u884C\r\n\r\n16.\tUNDEF'D FUNCTION:\r\n\u672A\u5B9A\u4E49\u7528\u6237\u81EA\u5B9A\u4E49\u51FD\u6570\r\n\r\n17.\tWEND
+    WITHOUT WHILE:\r\n\u6709WEND\u8BED\u53E5\u65E0WHILE\u8BED\u53E5\u3002\r\n\r\n18.\tRETURN
+    WITHOUT GOSUB:\r\n\u6709RETURN\u8BED\u53E5\u65E0GOSUB\u8BED\u53E5\u3002\r\n\r\n19.\tOUT
+    OF SPACE:\r\n\u7A7A\u95F4\u4E0D\u8DB3\r\n\r\n20.\tFILE CREATE:\r\n\u6587\u4EF6\u521B\u5EFA\u9519\u8BEF\u3002\r\n\r\n21.\tFILE
+    OPEN:\r\n\u6587\u4EF6\u6253\u5F00\u9519\u8BEF\u3002\r\n\r\n22.\tFILE CLOSE:\r\n\u6587\u4EF6\u5173\u95ED\u9519\u8BEF\u3002\r\n\r\n23.\tFILE
+    READ:\r\n\u8BFB\u6587\u4EF6\u9519\u8BEF\u3002\r\n\r\n24.\tFILE WRITE:\r\n\u5199\u6587\u4EF6\u9519\u8BEF\u3002\r\n\r\n25.\tFILE
+    DELETE:\r\n\u5220\u9664\u6587\u4EF6\u9519\u8BEF\u3002\r\n\r\n26.\tFILE NOT EXIST:\r\n\u6587\u4EF6\u4E0D\u5B58\u5728\u3002\r\n\r\n27.\tRECORD
+    NUMBER:\r\n\u8BB0\u5F55\u53F7\u9519\u8BEF\u3002\r\n\r\n28.\tFILE NUMBER:\r\n\u6587\u4EF6\u53F7\u9519\u8BEF\u3002\r\n\r\n29.\tFILE
+    MODE:\r\n\u6587\u4EF6\u6A21\u5F0F\u9519\u8BEF\u3002\r\n\r\n30.\tSAME FILE EXIST:\r\n\u6709\u540C\u540D\u6587\u4EF6\u5B58\u5728\u3002\r\n\r\n31.\tFILE
+    LENGTH READ:\r\n\u8BFB\u6587\u4EF6\u957F\u5EA6\u9519\u8BEF\u3002\r\n\r\n32.\tILLEGAL
+    FILE NAME:\r\n\u975E\u6CD5\u6587\u4EF6\u540D\u3002\r\n\r\n33.\tFILE TOO LONG:\r\n\u6570\u636E\u6587\u4EF6\u8D85\u957F\u3002\r\n\r\n34.\tFILE
+    REOPEN:\r\n\u6587\u4EF6\u91CD\u6253\u5F00\u9519\u8BEF\u3002\r\n\r\n\r\n-----ASCII\u7801\u8868-----\r\n\r\n\u7565\u3002\r\n\r\n\r\n[\u7D22\u5F15]\r\n\r\n\r\nABS\t\t\u53D6\u7EDD\u5BF9\u503C\r\n\u7528\u6CD5:\tABS(exp)\r\n\u5982:\r\n]10
+    A=ABS(35*-4)\r\n]20 PRINT A\r\n]30 END\r\n\u8FD0\u884C\r\n140\r\n]\r\n\r\nAND\t\t\u903B\u8F91\u4E0E\r\n\u7528\u6CD5:\tAND\r\n\u5982:\r\n]20\tIF
+    A>0 AND A<1 THEN PRINT A\r\n\r\nASC \t\u6C42ASCII\u7801\r\n\u7528\u6CD5:\tASC(s$)\r\n*\u6C42\u53D6\u5B57\u7B26\u4E32s$\u4E2D\u7684\u7B2C\u4E00\u4E2A\u5B57\u7B26\u7684ASCII\u7801\r\n\r\nATN\t\t\u53CD\u6B63\u5207\u503C\r\n\u7528\u6CD5:\tANT(exp)\r\n\r\nBEEP\t\u5587\u53ED\u53D1\u58F0\r\n\u7528\u6CD5:\tBEEP\r\n\r\nBOX\t\t\u753B\u77E9\u5F62\r\n\u7528\u6CD5:\tBOX
+    X0,Y0,X1,Y1,FILL,TYPE\r\n*FILL=1 \u586B\u5145\r\n*FILL=0 \u4E0D\u586B\u5145\r\n*TYPE=1
+    \u753B\u77E9\u5F62\r\n*TYPE=0 \u6E05\u77E9\u5F62\r\n\u5982:\r\n]10 GRAPH\r\n]20
+    BOX 10,10,40,40\r\n]40 END\r\n\r\nCHR$ \t\u53D6\u5B57\u7B26\r\n\u7528\u6CD5:\tCHR$(n)\r\n*\u6C42ASCII\u7801\u4E3An\u7684\u5B57\u7B26\r\n\r\nCIRCLE\t\u753B\u5706\r\n\u7528\u6CD5:\tCIRCLE
+    X0,Y0,R,FILL,TYPE\r\n*FILL=1 \u586B\u5145\r\n*FILL=0 \u4E0D\u586B\u5145\r\n*TYPE=1
+    \u753B\u5706\r\n*TYPE=0 \u6E05\u5706\r\n\u5982:\r\n]10 GRAPH\r\n]30 CIRCLE 80,40,30,1\r\n]40
+    END\r\n\r\nCLOSE\t\u5173\u95ED\u6570\u636E\u6587\u4EF6\r\n\u7528\u6CD5:\tCLOSE
+    #filenum%\r\n\r\nCLS \t\u6E05\u5C4F\r\n\u7528\u6CD5:\tCLS\r\n\r\nCOS \t\u4F59\u5F26\u503C\r\n\u7528\u6CD5:\tCOS(exp)\r\n\r\nCVI$\t\u4E8C\u8FDB\u5236\u4E32(2byte)\u8F6C\u4E3A\u6574\u6570\r\n\u7528\u6CD5:\tCVI$(s$)\r\n\u5982:\r\n]40
+    A%=CVI$(\"10\")\r\n\r\nCVS$\t\u4E8C\u8FDB\u5236\u4E32(5byte)\u8F6C\u4E3A\u5B9E\u6570\r\n\u7528\u6CD5:\tCVS$(s$)\r\n\u5982:\r\n]30
+    LSET A$=MKS$(1.445)\r\n]40 A=CVS$(A$)\r\n\r\nDATA \t\u7F6E\u6570\u636E\u533A\u6570\u636E\r\n\u7528\u6CD5:\tDATA
+    dat1,dat2,dat3...\r\n*\u76F8\u5173\u8BED\u53E5 READ\r\n\r\nDEF FN \t\u81EA\u5B9A\u4E49\u51FD\u6570\r\n\u7528\u6CD5:\tDEF
+    FN \u51FD\u6570\u540D=\u8868\u8FBE\u5F0F\r\n\u5982:\r\n]10 DEF FN A(W)=2*W+W\r\n]20
+    PRINT FN A(23)\r\n]30 DEF FN B(X)=4+3\r\n]40 G = FN B(23)\r\n]50 PRINT G\r\n]60
+    DEF FN A(Y)=FN B(Z)+Y\r\n]70 PRINT FN A(G)\r\n]80 END\r\n\u8FD0\u884C\r\n69\r\n7\r\n14\r\n]\r\n\r\nDIM\t\t\u6570\u7EC4\u5B9A\u4E49\r\n\u7528\u6CD5:\tDIM\u6570\u7EC4\u540D(N1,N2,N3...)\r\n*\u8BF4\u660E\u6570\u7EC4\u7EF4\u6570\u5E76\u5206\u914D\u7A7A\u95F4,\u6CA1\u6709\u7ECF\u8FC7DIM\u8BF4\u660E\u7684\u6570\u7EC4\u4E0B\u6807\u8BBE\u5B9A\u6700\u5927\u503C\u662F10\u3002\r\n\r\nDRAW\t\u753B\u70B9\r\n\u7528\u6CD5:\tDRAW
+    X,Y,TYPE\r\n*TYPE=1 \u753B\u70B9\r\n*TYPE=0 \u6E05\u70B9\r\n\r\nELLIPSE\t\u753B\u692D\u5706\r\n\u7528\u6CD5:\tELLIPSE
+    X0,Y0,A,B,FILL,TYPE\r\n*FILL=1 \u586B\u5145\r\n*FILL=0 \u4E0D\u586B\u5145\r\n*TYPE=1
+    \u753B\u692D\u5706\r\n*TYPE=0 \u6E05\u692D\u5706\r\n\u5982:\r\n]10 GRAPH\r\n]20
+    ELLIPSE 80,40,60,30,1\r\n]40 END\r\n\r\nIF...THEN/(GOTO)...ELSE \u6761\u4EF6\u5224\u65AD\r\n\u7528\u6CD5:\r\nIF...THEN
+    n ,IF...GOTO n \u6761\u4EF6\u6210\u7ACB\u65F6\u8DF3\u5230n\u884C\u5904\u6267\u884C;\u6761\u4EF6\u4E0D\u6210\u7ACB\u65F6\u63A5\u7740\u4E0B\u4E00\u884C\u6267\u884C\u3002\r\nIF...THEN
+    n ELSE... , IF...GOTO n ELSE... \u6761\u4EF6\u6210\u7ACB\u65F6\u63D0\u5230n\u884C\u5904\u6267\u884C;\u6761\u4EF6\u4E0D\u6210\u7ACB\u65F6\u6267\u884CELSE\u540E\u7684\u8BED\u53E5,\u63A5\u7740\u6267\u884C\u4E0B\u4E00\u884C\u3002\r\n\u5982:\r\n]10
+    N=1\r\n]20 PRINT N,SQR(N)\r\n]30 N=N+1\r\n]40 IF N<=4 THEN GOTO 20\r\n]50 END\r\n]\r\n\r\nEND\t\t\u7A0B\u5E8F\u7ED3\u675F\r\n\u7528\u6CD5:\tEND\r\n\u5982:\r\n]10
+    LET N=2008-1999\r\n]20 R=0.09\r\n]30 LET AAL=100*(1+R)^N\r\n]40 PRINT \"AAL=\";AAL\r\n]50
+    END\r\n\r\nEOF\t\t\u987A\u5E8F\u6587\u4EF6\u662F\u5426\u7ED3\u675F,\u672A\u7ED3\u675F\u8FD4\u56DE0\r\n\u7528\u6CD5:\tEOF(filenum%)\r\n\u5982:\r\n]50
+    IF EOF(1) THEN PRINT \"FILE END\"\r\n\r\nEXP \te\u7684n\u6B21\u65B9\r\n\u7528\u6CD5:\r\nEXP
+    (x)\r\n* e\u7684x\u6B21\u65B9\u503C\r\n\r\nFIELD \t\u6307\u5B9A\u7F13\u51B2\u533A\u5927\u5C0F\u5206\u914D\u7F13\u51B2\u533A\u53D8\u91CF\r\n\u7528\u6CD5:\r\nFIELD
+    #filenum%, width% AS var1$[,width% AS var2$]...\r\n\u5982:\r\n]40 FIELD #1,2 AS
+    A$, 3 AS B$\r\n\r\nFOR...TO...STEP... NEXT \u5FAA\u73AF\u63A7\u5236\r\n\u7528\u6CD5:\r\nFOR...TO...\r\n...\r\nNEXT\r\n\u5982:\r\n]10
+    FOR I=5 TO 1 STEP -1\r\n]20 PRINT I\r\n]30 NEXT I\r\n]40 END\r\n]\r\n\r\nGET\t\t\u4ECE\u6307\u5B9A\u6587\u4EF6\u8BFB\u53D6\u6307\u5B9A\u8BB0\u5F55\u653E\u5165\u7F13\u51B2\u533A\r\n\u7528\u6CD5:\tGET
+    #filenum%, recordnum%\r\n\u5982:\r\n]40 GET #1, 1\r\n\r\nGOSUB \t\u8DF3\u8F6C\u5B50\u7A0B\u5E8F\r\n\u7528\u6CD5:\tGOSUB
+    \u884C\u53F7\r\n*\u7A0B\u5E8F\u8DF3\u8F6C\u5230\u4EE5\u6307\u5B9A\u884C\u53F7\u5F00\u59CB\u7684\u5B50\u7A0B\u5E8F\u8FD0\u884C,\u9047\u5230RETURN\u8BED\u53E5\u65F6\u5C31\u8FD4\u56DE\u5230GOSUB\u7684\u4E0B\u6761\u8BED\u53E5\u63A5\u7740\u8FD0\u884C\u3002\r\n\u5982:\r\n]10
+    GOSUB 100\r\n]20 IF X>0 THEN PRINT X ELSE PRINT \"ERR\"\r\n]30 END\r\n]100 INPUT
+    X\r\n]110 RETURN\r\n\u8FD0\u884C\r\n?45\r\n45\r\n]\r\n\r\nGOTO\t\u65E0\u6761\u4EF6\u8DF3\u8F6C\r\n\u7528\u6CD5:\tGOTO
+    \u884C\u53F7\r\n*\u7A0B\u5E8F\u8DF3\u8F6C\u5230\u6307\u5B9A\u884C\u53F7\u5904\u8FD0\u884C.\r\n\r\nGRAPH\t\u56FE\u5F62\u6A21\u5F0F\r\n\u7528\u6CD5:\tGRAPH\r\n\u5982:\r\n]10
+    GRAPH\r\n]20 BOX 10,10,40,40\r\n]30 CIRCLE 50,50,30\r\n]40 END\r\n\r\nINKEY$\t\u8BFB\u952E\u503C\r\n\u7528\u6CD5:\tINKEY$\r\n\r\nINPUT
+    \t\u4ECE\u952E\u76D8\u6216\u6587\u4EF6\u8F93\u5165\r\n\u7528\u6CD5:\tINPUT A1,A2,A3...\r\n\u5982:\r\n]10
+    INPUT A\r\n]20 INPUT B\r\n]30 END\r\n\u8FD0\u884C\r\n?23\r\n23\r\n]10 INPUT A$\r\n]20
+    PRINT A$\r\n]30 END\r\n\u8FD0\u884C\r\n?I LOVE GVBASIC\r\nI LOVE GVBASIC\r\n]\r\n\u7528\u6CD5:\r\nINPUT
+    #filenum%,varlist[,varlist,...]\r\n\u5982:\r\n]10 INPUT #1,A$,A1$\r\n\r\nINT \t\u53D6\u6574\r\n\u7528\u6CD5:\r\nINT
+    (x)\r\n*\u53D6\u503C\u4E3Ax\u7684\u6574\u6570\u90E8\u5206\r\n\u5982:\r\n]10 A=234.58\r\n]20
+    PRINT INT(A)\r\n]30 END\r\n\u8FD0\u884C\r\n234\r\n]\r\n\r\nINVERSE\t\u53CD\u663E\u5B57\u7B26\r\n\u7528\u6CD5:\tINVERSE\r\n\u5982:\r\n]30
+    INVERSE\r\n\r\nLEFT$\t\u53D6\u5B57\u7B26\r\n\u7528\u6CD5:\r\nLEFT$ (S$,n)\r\n*\u53D6\u5B57\u7B26\u4E32s$\u5DE6\u7AEF\u7684n\u4E2A\u5B57\u7B26\u3002\r\n\r\nLEN
+    \t\u6C42\u4E32\u957F\r\n\u7528\u6CD5:\tLEN(S$)\r\n*\u6C42\u5B57\u7B26\u4E32s$\u7684\u957F\u5EA6\r\n\r\nLET
+    \t\u7ED9\u53D8\u91CF\u8D4B\u503C\r\n\u7528\u6CD5:\tLET \u53D8\u91CF=\u8868\u8FBE\u5F0F\r\n*\u8BA1\u7B97\u8868\u8FBE\u5F0F\u7684\u503C,\u5C06\u5176\u8D4B\u7ED9\u6307\u5B9A\u53D8\u91CF\u3002LET\u53EF\u7701\u7565\u3002\r\n\u5982:\r\n]10
+    LET N=2008-1999\r\n]20 R=0.09\r\n]30 LET AAL=100*(1+R)^N\r\n]40 PRINT \"AAL=\";AAL\r\n]50
+    END\r\n\r\nLINE\t\u753B\u76F4\u7EBF\r\n\u7528\u6CD5:\tLINE X0,Y0,X1,Y1,TYPE\r\n*TYPE=1
+    \u753B\u7EBF\r\n*TYPE=0 \u6E05\u7EBF\r\n\u5982:\r\n]10 GRAPH\r\n]30 LINE 10,10,50,50,1\r\n]40
+    END\r\n\r\nLOCATE\t\u7F6E\u663E\u793A\u4F4D\u7F6E\r\n\u7528\u6CD5:\tLOCATE \u884C\u53F7,\u5217\u53F7\r\n\r\nLOF\t\t\u8FD4\u56DE\u968F\u673A\u6587\u4EF6\u957F\u5EA6\r\n\u7528\u6CD5:\tLOF(filenum%)\r\n\u5982:\r\n]40
+    PRINT LOF(1)\r\n\r\nLOG\t\t\u53D6\u5BF9\u6570\r\n\u7528\u6CD5:\tLOG(x)\r\n*\u4EE5e\u4E3A\u5E95\u7684x\u5BF9\u6570\u3002\r\n\r\nLSET\t\u5411\u7F13\u51B2\u533A\u5206\u914D\u7684\u53D8\u91CF\u8D4B\u503C,\u5E76\u505A\u5DE6\u5BF9\u9F50\u8C03\u6574\r\n\u7528\u6CD5:\r\nLSET
+    var$=strexpr$\r\n\u5982:\r\n]40 LSET A$=\"HELLO\"\r\n\r\nMID$\t\u53D6\u5B57\u7B26\r\n\u7528\u6CD5:\tMID$(s$,n,m)\r\n*\u4ECE\u5B57\u7B26\u4E32n\u4F4D\u7F6E\u8D77\u53D6m\u4E2A\u5B57\u7B26\u3002\r\n\r\nMKI$\t\u6574\u6570\u8F6C\u4E3A\u4E8C\u8FDB\u5236\u4E32(2byte\u8868\u793A)\r\n\u7528\u6CD5:\tMKI$(intexpr)\r\n\u5982:\r\n]40
+    RSET A$=MKI$(10)\r\n\r\nMKS$\t\u5B9E\u6570\u8F6C\u4E3A\u4E8C\u8FDB\u5236\u4E32(5byte\u8868\u793A)\r\n\u7528\u6CD5:\tMKS$(numexpr)\r\n\u5982:\r\n]40
+    LSET A$=MKS$(1.445)\r\n\r\nNORMAL\t\u6B63\u5E38\u663E\u793A\r\n\u7528\u6CD5:\tNORMAL\r\n\u5982:\r\n]20
+    NORMAL\r\n\r\nNOT\t\t\u903B\u8F91\u975E\r\n\u7528\u6CD5:\tNOT\r\n\u5982:\r\n]20
+    IF NOT(A>2) THEN PRINT A\r\n\r\nNOTRACE\t\u9000\u51FA\u5355\u6B65\u72B6\u6001\r\n\u7528\u6CD5:\tNOTRACE\r\n*
+    \u8FDB\u5165\u5355\u6B65\u8DDF\u8E2A\u72B6\u6001\u540E,\u6267\u884CNOTRACE\u8BED\u53E5\u540E,\u9000\u51FA\u5355\u6B65\u72B6\u6001\u8FD4\u56DE\u6B63\u5E38\u72B6\u6001\u3002\r\n\r\nON
+    \t\t\u63A7\u5236\u8F6C\u79FB\r\n\u7528\u6CD5:\tON...GOTO n1,n2,n3...\r\n*\u8BA1\u7B97ON\u540E\u7684\u8868\u8FBE\u5F0F\u503C,\u4E3A1\u65F6\u5BF9\u5E94n1\u5B50\u7A0B\u5E8F,\u4E3A2\u65F6\u5BF9\u5E94n2\u5B50\u7A0B\u5E8F.....,\u5F53\u65E0\u5BF9\u5E94\u65F6\u7EE7\u7EED\u6267\u884C\u4E0B\u4E00\u6761\u8BED\u53E5\u3002\r\n\r\nOPEN\t\u6253\u5F00\u6587\u4EF6\r\n\u7528\u6CD5:\tOPEN
+    file$ [FOR mode] AS #filenum% [LEN=reclen%]\r\nfile$:\t\u6587\u4EF6\u540D\u4E32\r\nmode:\t\u6253\u5F00\u65B9\u5F0F\r\n\t\tINPUT
+    \u53EA\u8BFB\r\n\t\tOUTPUT \u53EA\u5199\r\n\t\tAPPEND \u8FFD\u52A0\r\n\t\tRANDOM
+    \u968F\u673A\r\nfilenum%: \u6587\u4EF6\u53F7\r\nLEN:\t\u7F13\u51B2\u533A\u957F\u5EA6,\u9ED8\u8BA4\u4E3A32(\u53EA\u5728RANDOM\u65B9\u5F0F\u4E0B\u6709\u6548)\r\n\u5982:\r\n]10
+    OPEN \"DAT\" FOR OUTPUT AS #1\r\n]20 OPEN \"DAT1\" FOR RANDOM AS #2 LEN=50\r\n\r\nOR
+    \t\t\u903B\u8F91\u6216\r\n\u7528\u6CD5:\tOR\r\n\u5982:\r\n]20 IF A>1 OR B>1 THEN
+    PRINT A*B\r\n\r\nPLAY\t\u6F14\u594F\u97F3\u4E50\r\n\u7528\u6CD5:\tPLAY \"CDEFGAB\"\r\n\r\nPOP\t\t\u5C06\u5806\u6808\u4E2D\u7684\u8FD4\u56DE\u5730\u5740\u5F39\u6808\r\n\u7528\u6CD5:\tPOP\r\n*\u548CRETURN\u529F\u80FD\u5DEE\u4E0D\u591A,\u4F46\u7A0B\u5E8F\u4E0D\u662F\u8FD4\u56DE\u5230GOSUB\u7684\u4E0B\u6761\u8BED\u53E5,\u800C\u662F\u63A5\u7740\u8FD0\u884C\u3002\r\n\r\nPOS\t\t\u53D6\u5149\u6807\u4F4D\u7F6E\r\n\u7528\u6CD5:\tPOS(n)\r\n*\u5F97\u5230\u5149\u6807\u7684\u6C34\u5E73\u4F4D\u7F6E\r\n\r\nPRINT\t\u5C4F\u5E55\u663E\u793A\r\n\u7528\u6CD5:\t1.PRINT
+    exp\r\n\t\t\u663E\u793A\u5B8C\u8868\u8FBE\u5F0F\u4EE5\u540E\u6362\u884C\u3002\r\n\t\t2.PRINT
+    exp1,exp2,exp3...\r\n\t\t\u663E\u793A\u5B8C\u6BCF\u4E2A\u8868\u8FBE\u5F0F\u4EE5\u540E\u5C31\u6362\u884C\u3002\r\n\t\t3.PRINT
+    exp1;exp2;exp3...\r\n\t\t\u663E\u793A\u6BCF\u4E2A\u8868\u8FBE\u5F0F\u4EE5\u540E\u4E0D\u6362\u884C,\u63A5\u7740\u663E\u793A\u4E0B\u4E00\u4E2A\u8868\u8FBE\u5F0F\u3002\r\n\t\t*\u5F53\u663E\u793A\u8D85\u8FC7\u4E00\u884C\u65F6,\u81EA\u52A8\u6362\u884C\u63A5\u7740\u663E\u793A\u3002\r\n\u5982:\r\n]A=23:LET
+    B=15\r\n]PRINT A,B\r\n23\r\n15\r\n]PRINT \"THIS\";\"IS\";\"GVBASIC\"\r\nTHISISGVBASIC\r\n]\r\n\r\nPUT\t\t\u5411\u6307\u5B9A\u6587\u4EF6\u7684\u6307\u5B9A\u8BB0\u5F55\u5199\u5165\u7F13\u51B2\u533A\u5185\u5BB9\r\n\u7528\u6CD5:\r\nPUT
+    #filenum%,recordnum%\r\n\u5982:\r\n]40 PUT #1,1\r\n\r\nREAD \t\u4ECE\u6570\u636E\u533A\u8BFB\u6570\r\n\u7528\u6CD5:\tREAD
+    dat1,dat2,dat3...\r\n\u5982:\r\n]10 REM AVERAGE\r\n]20 S0=0\r\n]30 GOSUB 100\r\n]40
+    PRINT S0\r\n]50 GOTO 990\r\n]100 READ A\r\n]110 WHILE A<>-1\r\n]120 S0=S0+A\r\n]130
+    READ A\r\n]140 WEND\r\n]150 RETURN\r\n]900 DATA 34,45,50,65,23,88,-1\r\n]990 END\r\n\u8FD0\u884C\r\n\r\nREM
+    \t\u6CE8\u91CA\r\n\u7528\u6CD5:\tREM \u8BF4\u660E\r\n*REM\u662F\u975E\u6267\u884C\u8BED\u53E5,\u7528\u6765\u5BF9\u7A0B\u5E8F\u6216\u7A0B\u5E8F\u4E2D\u7684\u67D0\u4E9B\u8BED\u53E5\u505A\u6CE8\u91CA,\u4FBF\u4E8E\u9605\u8BFB\u7A0B\u5E8F\u3002\r\n\r\nRESTORE\t\u6062\u590D\u6307\u9488\r\n\u7528\u6CD5:\tRESTORE\r\n*\u6062\u590D\u6570\u636E\u533A\u6307\u9488\u5230\u6570\u636E\u533A\u5934\u3002\r\n\r\nRETURN
+    \t\u5B50\u7A0B\u5E8F\u8FD4\u56DE\r\n\u7528\u6CD5:\tRETURN\r\n*\u76F8\u5173\u8BED\u53E5
+    GOSUB\r\n\r\nRIGHT$\t\u53D6\u5B57\u7B26\r\n\u7528\u6CD5:\tRIGHT$(s$,n)\r\n*\u53D6\u5B57\u7B26\u4E32s$\u53F3\u7AEF\u7684n\u4E2A\u5B57\u7B26\u3002\r\n\r\nRND\t\t\u4EA7\u751F\u968F\u673A\u6570\r\n\u7528\u6CD5:\tRND(x)\r\n*\u4EA7\u751F\u4E00\u4E2A(0,1)\u95F4\u7684\u968F\u673A\u5C0F\u6570\u3002\u5982\u679Cx>0,\u6BCF\u6B21\u4EA7\u751F\u4E0D\u540C\u7684\u968F\u673A\u6570;\u5982\u679Cx<0,\u4EA7\u751F\u6709\u4E00\u5B9A\u5E8F\u5217\u7684\u968F\u673A\u6570;\u5982\u679Cx=0,\u8F93\u51FA\u4E0A\u6B21\u4EA7\u751F\u7684\u968F\u673A\u6570\u3002\r\n\r\nRSET\t\u5411\u7F13\u51B2\u533A\u5206\u914D\u7684\u53D8\u91CF\u8D4B\u503C,\u5E76\u505A\u53F3\u5BF9\u9F50\u8C03\u6574\r\n\u7528\u6CD5:\tRSET
+    var$=strexpr$\r\n\u5982:\r\n]40 RSET A$=\"WORLD\"\r\n\r\nSGN\t\t\u53D6\u7B26\u53F7\r\n\u7528\u6CD5:\tSGN(x)\r\n\r\nSIN
+    \t\u6B63\u5F26\u503C\r\n\u7528\u6CD5:\tSIN(exp)\r\n\r\nSPC\t\t\u6253\u5370\u7A7A\u683C\r\n\u7528\u6CD5:\tSPC(n)\r\n*\u6253\u5370n\u4E2A\u7A7A\u683C\u3002\r\n\u5982:\r\n]PRINT
+    45;SPC(4);56\r\n45    56\r\n]\r\n\r\nSQR\t\t\u5E73\u65B9\u6839\r\n\u7528\u6CD5:\tSQR(exp)\r\n\r\nSTR$\t\u6570\u5B57\u8F6C\u4E3A\u5B57\u4E32\r\n\u7528\u6CD5:\tSTR$(n)\r\n*\u5C06\u6570\u5B57n\u8F6C\u5316\u4E3A\u5B57\u7B26\u4E32\r\n\r\nSWAP\t\u53D8\u91CF\u4E92\u6362\r\n\u7528\u6CD5:\tSWAP
+    A1,B1\r\n\u5982:\r\n]10 A=28:B=50\r\n]20 PRINT A,B\r\n]30 SWAP A,B\r\n]40 PRINT
+    A,B\r\n]50 END\r\n]\r\n\r\nTAB \t\u8F93\u51FA\u63A7\u5236\r\n\u7528\u6CD5:\tTAB(n)\r\n*\u4ECE\u7B2Cn\u5217\u5F00\u59CB\u8F93\u51FA\u3002\r\n\u5982:\r\n]PRINT
+    \"QWER\";TAB(8);\"ASDF\"\r\nQWER    ASDF\r\n]PRINT \"QWERTYUI\";TAB(5);\"ASDFGH\"\r\nQWERTYUI\r\n
+    \   ASDFGH\r\n]\r\n\r\nTAN\t\t\u6B63\u5207\u503C\r\n\u7528\u6CD5:\tTAN(exp)\r\n\r\nTEXT
+    \t\u6587\u672C\u6A21\u5F0F\r\n\u7528\u6CD5:\tTEXT\r\n\r\nTRACE\t\u5355\u6B65\u8DDF\u8E2A\r\n\u7528\u6CD5:\tTRACE\r\n*
+    TRACE\u6307\u4EE4\u6267\u884C\u540E\u8FDB\u5165\u5355\u6B65\u8DDF\u8E2A\u72B6\u6001,\u8FD9\u662F\u8981\u6267\u884C\u7684\u6BCF\u4E00\u6761\u8BED\u53E5\u548C\u884C\u53F7\u90FD\u663E\u793A\u5728\u5C4F\u5E55\u4E0A,\u76F4\u5230\u6267\u884C\u4E86NOTRACE\u624D\u9000\u51FA\u5355\u6B65\u8DDF\u8E2A\u72B6\u6001\u3002\r\n\r\nVAL\t\t\u5B57\u4E32\u8F6C\u4E3A\u6570\u5B57\r\n\u7528\u6CD5:\tVAL(s$)\r\n*\u5C06\u5B57\u7B26\u4E32s$\u8F6C\u5316\u4E3A\u6570\u5B57\u3002\r\n\r\nWHILE/WEND
+    \u5FAA\u73AF\u63A7\u5236\r\n\u7528\u6CD5:\r\nWHILE \u8868\u8FBE\u5F0F\r\n...\r\nWEND\r\n*\u5F53\u8868\u8FBE\u5F0F\u4E3A\u771F\u65F6\u6267\u884C\u5FAA\u73AF,\u5F53\u8868\u8FBE\u5F0F\u4E3A\u5047\u65F6\u7EE7\u7EED\u6267\u884CWEND\u540E\u7684\u4E0B\u4E00\u6761\u8BED\u53E5\u3002\r\n\u5982:\r\n]10
+    REM AVERAGE\r\n]20 S0=0\r\n]30 GOSUB 100\r\n]40 PRINT S0\r\n]50 GOTO 990\r\n]100
+    READ A\r\n]110 WHILE A<>-1\r\n]120 S0=S0+A\r\n]130 READ A\r\n]140 WEND\r\n]150
+    RETURN\r\n]900 DATA 34,45,50,65,23,88,-1\r\n]990 END\r\n\u8FD0\u884C\r\n305\r\n]\r\n\r\nWRITE\t\u5199\u6570\u636E\u5230\u6587\u4EF6(\u5982\u65E0\u6587\u4EF6\u53F7\u5199\u5230\u5C4F\u5E55)\r\n\u7528\u6CD5:\r\nWRITE
+    [#filenum%,] expr1, expr2, ...\r\n\u5982:\r\n]40 WRITE #1, A$, B%\r\n\r\n"
+  mFontSize: 18
+  mFontStyle: 0
+  mAlignment: 0
+  mEncoding: 1
+  mMaxLineCount: 0
+  mEffectStyle: 0
+  mEffectColor: {r: 0, g: 0, b: 0, a: 1}
+  mSymbols: 1
+  mEffectDistance: {x: 1, y: 1}
+  mOverflow: 3
+  mMaterial: {fileID: 0}
+  mApplyGradient: 0
+  mGradientTop: {r: 1, g: 1, b: 1, a: 1}
+  mGradientBottom: {r: .699999988, g: .699999988, b: .699999988, a: 1}
+  mSpacingX: 0
+  mSpacingY: 0
+  mUseFloatSpacing: 0
+  mFloatSpacingX: 0
+  mFloatSpacingY: 0
+  mShrinkToFit: 0
+  mMaxLineWidth: 0
+  mMaxLineHeight: 0
+  mLineWidth: 0
+  mMultiline: 1
 --- !u!1 &715183061
 GameObject:
   m_ObjectHideFlags: 0
@@ -7388,6 +7673,110 @@ Transform:
   - {fileID: 14711193}
   m_Father: {fileID: 0}
   m_RootOrder: 1
+--- !u!1 &826581637
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 826581638}
+  - 114: {fileID: 826581639}
+  - 114: {fileID: 826581640}
+  m_Layer: 5
+  m_Name: Panel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &826581638
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 826581637}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 344576021}
+  - {fileID: 689427440}
+  m_Father: {fileID: 2092516691}
+  m_RootOrder: 0
+--- !u!114 &826581639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 826581637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae942c9068183dc40a9d01f648273726, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  showInPanelTool: 1
+  generateNormals: 0
+  widgetsAreStatic: 0
+  cullWhileDragging: 1
+  alwaysOnScreen: 0
+  anchorOffset: 0
+  softBorderPadding: 0
+  renderQueue: 0
+  startingRenderQueue: 3004
+  mClipTexture: {fileID: 0}
+  mAlpha: 1
+  mClipping: 3
+  mClipRange: {x: 0, y: 0, z: 304, w: 152}
+  mClipSoftness: {x: 0, y: 0}
+  mDepth: 1
+  mSortingOrder: 0
+  mClipOffset: {x: 0, y: 0}
+--- !u!114 &826581640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 826581637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d81807633ea807d4c8e3fff7e10c6000, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movement: 1
+  dragEffect: 2
+  restrictWithinPanel: 1
+  disableDragIfFits: 0
+  smoothDragStart: 1
+  iOSDragEmulation: 1
+  scrollWheelFactor: .25
+  momentumAmount: 35
+  dampenStrength: 9
+  horizontalScrollBar: {fileID: 0}
+  verticalScrollBar: {fileID: 0}
+  showScrollBars: 1
+  customMovement: {x: 1, y: 0}
+  contentPivot: 0
+  scale: {x: 0, y: 0, z: 0}
+  relativePositionOnReset: {x: 0, y: 0}
+  centerOnChild: {fileID: 0}
 --- !u!1 &832578595
 GameObject:
   m_ObjectHideFlags: 0
@@ -16658,6 +17047,7 @@ MonoBehaviour:
   m_textDisplay: {fileID: 1709264630}
   m_graphDisplay: {fileID: 1709264629}
   m_msgBox: {fileID: 1453556230}
+  m_helpBoard: {fileID: 2092516692}
 --- !u!114 &1709264629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19352,6 +19742,84 @@ MonoBehaviour:
   mMaxLineHeight: 0
   mLineWidth: 0
   mMultiline: 1
+--- !u!1 &2092516690
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 2092516691}
+  - 114: {fileID: 2092516693}
+  - 114: {fileID: 2092516692}
+  m_Layer: 5
+  m_Name: HelpBoard
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &2092516691
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2092516690}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: .5, y: 79, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 826581638}
+  m_Father: {fileID: 168752580}
+  m_RootOrder: 3
+--- !u!114 &2092516692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2092516690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd9e8dd1823f8dd41ac62e4c728c6b6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2092516693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2092516690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 858a20c1b21a3f94bb5b2d3b901c9aaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 304
+  mHeight: 152
+  mDepth: 21
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: 2
 --- !u!1 &2135147859
 GameObject:
   m_ObjectHideFlags: 0

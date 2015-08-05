@@ -19,6 +19,7 @@ public class StateMgr : MonoBehaviour
     public GraphDisplay m_graphDisplay;
 
     public MessageBox m_msgBox;
+    public HelpBoard m_helpBoard;
 
     public string CUR_CODE_FILE_NAME { set; get; }
     public string CUR_SOURCE_CODE { set; get; }
@@ -51,6 +52,10 @@ public class StateMgr : MonoBehaviour
         if ( m_msgBox.IS_SHOW )
         {
             m_msgBox.onInput(key);
+        }
+        else if( m_helpBoard.IS_SHOW )
+        {
+            m_helpBoard.onInput(key);
         }
         else
         {
@@ -114,6 +119,14 @@ public class StateMgr : MonoBehaviour
     public void ShowMessageBox( string msg, Action yes, Action no )
     {
         m_msgBox.Show( msg, yes, no );
+    }
+
+    /// <summary>
+    /// 显示帮助信息
+    /// </summary>
+    public void ShowHelp()
+    {
+        m_helpBoard.Show();
     }
 
 }
