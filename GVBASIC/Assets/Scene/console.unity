@@ -3574,7 +3574,7 @@ MonoBehaviour:
     relative: 1
     absolute: 0
   updateAnchors: 1
-  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mColor: {r: .678431392, g: .678431392, b: .68235296, a: 1}
   mPivot: 4
   mWidth: 360
   mHeight: 180
@@ -3594,7 +3594,7 @@ MonoBehaviour:
   bottomType: 1
   topType: 1
   mAtlas: {fileID: 11464074, guid: d27dbcba57ffbeb4aaae738afb583e21, type: 2}
-  mSpriteName: button_9
+  mSpriteName: button_3
   mFillCenter: 1
 --- !u!1 &373403953
 GameObject:
@@ -6556,18 +6556,17 @@ MonoBehaviour:
     relative: 1
     absolute: 0
   updateAnchors: 1
-  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mColor: {r: .333333343, g: .333333343, b: .333333343, a: 1}
   mPivot: 0
   mWidth: 291
-  mHeight: 13356
+  mHeight: 21398
   mDepth: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: .0217879601
+  aspectRatio: .0138862375
   keepCrispWhenShrunk: 1
-  mTrueTypeFont: {fileID: 4028824154787511821, guid: 0000000000000000d000000000000000,
-    type: 0}
+  mTrueTypeFont: {fileID: 12800000, guid: c80cb22f69ee80747bf839148344e76a, type: 3}
   mFont: {fileID: 0}
   mText: "[GVBASIC\u5E2E\u52A9]\r\n\r\n----- \u7B26\u53F7\u5B9A\u4E49 -----\r\n%\t\t\u6574\u5F62\u53D8\u91CF\r\n$\t\t\u5B57\u7B26\u4E32\r\n+\t\t\u52A0\u6CD5\u8FD0\u7B97\u7B26\r\n-\t\t\u51CF\u6CD5\u8FD0\u7B97\u7B26\r\n*\t\t\u4E58\u6CD5\u8FD0\u7B97\u7B26\r\n/\t\t\u9664\u6CD5\u8FD0\u7B97\u7B26\r\n^\t\t\u4E58\u65B9\u8FD0\u7B97\u7B26\r\n>\t\t\u5927\u4E8E\r\n<\t\t\u5C0F\u4E8E\r\n=\t\t\u7B49\u4E8E\r\n>=\t\t\u5927\u4E8E\u6216\u7B49\u4E8E\r\n<=\t\t\u5C0F\u4E8E\u6216\u7B49\u4E8E\r\n<>\t\t\u4E0D\u7B49\u4E8E\r\nAND\t\t\u903B\u8F91\u4E0E\r\nOR\t\t\u903B\u8F91\u6216\r\nNOT\t\t\u903B\u8F91\u975E\r\n\r\n\r\n-----
     \u8BED\u53E5\u5206\u7C7B -----\r\n\u51FD\u6570:\r\nSIN,COS,TAN,LOG,EXP,SQR,ABS,INT,SGN,RND,LEFT$,RIGHT$,MID$,ASC,CHR$,LEN,SPC,TAB,STR$,MKI$,MKS$,CVI$,CVS$,VAL,POS,LOF,EOF\r\n\u8BED\u53E5:\r\nTEXT,GRAPH,NORMAL,INVERSE,LOCATE,READ,DATA,DEF,FN,DIM,END,FOR...TO...STEP,NEXT,ON...GOTO,GOTO,LET,IF...THEN...ELSE,CALL,INPUT,PRINT,REM,RESTORE,RESUME,RETURN,POP,STOP,CONT,WHILE...WEND,SWAP,BEEP,PLAY,DRAW,LINE,BOX,CIRCLE,ELLIPSE,OPEN,CLOSE,WRITE,FIELD,GET,PUT,LSET,RSET,INKEY$\r\n\r\n\r\n-----
@@ -6682,8 +6681,8 @@ MonoBehaviour:
     READ A\r\n]110 WHILE A<>-1\r\n]120 S0=S0+A\r\n]130 READ A\r\n]140 WEND\r\n]150
     RETURN\r\n]900 DATA 34,45,50,65,23,88,-1\r\n]990 END\r\n\u8FD0\u884C\r\n305\r\n]\r\n\r\nWRITE\t\u5199\u6570\u636E\u5230\u6587\u4EF6(\u5982\u65E0\u6587\u4EF6\u53F7\u5199\u5230\u5C4F\u5E55)\r\n\u7528\u6CD5:\r\nWRITE
     [#filenum%,] expr1, expr2, ...\r\n\u5982:\r\n]40 WRITE #1, A$, B%\r\n\r\n"
-  mFontSize: 18
-  mFontStyle: 0
+  mFontSize: 26
+  mFontStyle: 1
   mAlignment: 0
   mEncoding: 1
   mMaxLineCount: 0
@@ -19766,7 +19765,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2092516690}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .5, y: 79, z: 0}
+  m_LocalPosition: {x: 0, y: 79.1999969, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 826581638}
