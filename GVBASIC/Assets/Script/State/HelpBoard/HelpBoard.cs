@@ -3,6 +3,8 @@ using System.Collections;
 
 public class HelpBoard : MonoBehaviour 
 {
+    public UIProgressBar m_progressBar;
+
     protected bool m_isShow = false;
 
     /// <summary>
@@ -29,7 +31,10 @@ public class HelpBoard : MonoBehaviour
         }
         else if( key == KCode.LeftArrow )
         {
-            //TODO 
+            if( m_progressBar.value > 0 )
+            {
+                //TODO 
+            }
         }
         else if( key == KCode.RightArrow )
         {
