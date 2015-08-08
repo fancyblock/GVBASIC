@@ -115,7 +115,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &457812
 Transform:
   m_ObjectHideFlags: 1
@@ -278,14 +278,14 @@ MonoBehaviour:
   mColor: {r: .333333343, g: .333333343, b: .333333343, a: 1}
   mPivot: 0
   mWidth: 291
-  mHeight: 13310
+  mHeight: 13112
   mDepth: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: .0218632612
+  aspectRatio: .0221934114
   keepCrispWhenShrunk: 1
-  mTrueTypeFont: {fileID: 12800000, guid: c80cb22f69ee80747bf839148344e76a, type: 3}
+  mTrueTypeFont: {fileID: 12800000, guid: 0eb0f2c14679ef2418e831fde1cadfe5, type: 3}
   mFont: {fileID: 0}
   mText: "[\u7B26\u53F7\u5B9A\u4E49]\n\n%    \u6574\u5F62\u53D8\u91CF\r\n$     \u5B57\u7B26\u4E32\r\n+
     \    \u52A0\u6CD5\u8FD0\u7B97\u7B26\r\n-      \u51CF\u6CD5\u8FD0\u7B97\u7B26\r\n*
@@ -671,7 +671,7 @@ MonoBehaviour:
   anchorOffset: 0
   softBorderPadding: 0
   renderQueue: 0
-  startingRenderQueue: 3003
+  startingRenderQueue: 3005
   mClipTexture: {fileID: 0}
   mAlpha: 1
   mClipping: 3

@@ -57,6 +57,10 @@ public class StateMgr : MonoBehaviour
         {
             m_helpBoard.onInput(key);
         }
+        else if( key == KCode.F3 )
+        {
+            ShowHelp();
+        }
         else
         {
             m_curState.onInput(key);

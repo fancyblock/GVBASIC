@@ -60,10 +60,6 @@ public class CodeList : State
             case KCode.F4:
                 editFile();
                 break;
-            case KCode.F3:
-                // 显示帮助 
-                m_stateMgr.ShowHelp();
-                break;
             default:
                 break;
         }
