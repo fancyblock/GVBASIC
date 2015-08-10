@@ -23,9 +23,19 @@ public class CodeEditor : State
         onClearAll();
         m_stateMgr.TextMode();
 
-        // 新建一个空文件还是读取已有文件 
-        if( !string.IsNullOrEmpty( m_stateMgr.CUR_SOURCE_CODE ))
+        if (string.IsNullOrEmpty(m_stateMgr.CUR_SOURCE_CODE))
+        {
+            // 新建一个（几乎）空白文件
+            m_buffer[0].TEXT = "10 ";
+
+            m_curLine = 0;
+            m_curIndex = 3;
+        }
+        else
+        {
+            // 读取已有文件 
             readCode(m_stateMgr.CUR_SOURCE_CODE);
+        }
 
         refresh();
 	}
@@ -67,6 +77,10 @@ public class CodeEditor : State
                     exportCode();
                     m_stateMgr.GotoState(StateEnums.eStateSaver);
                     return;
+                case KCode.F1:
+                    // 切换插入/覆盖模式
+                    //TODO 
+                    break;
                 default:
                     break;
             }

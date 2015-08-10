@@ -31,7 +31,18 @@ public class LineInfo
     /// <summary>
     /// getter of the text 
     /// </summary>
-    public string TEXT { get { return m_buffer.ToString(); } }
+    public string TEXT 
+    { 
+        get 
+        { 
+            return m_buffer.ToString(); 
+        }
+        set
+        {
+            m_buffer.Remove(0, m_buffer.Length);
+            m_buffer.Append(value);
+        }
+    }
 
     /// <summary>
     /// count of line 
