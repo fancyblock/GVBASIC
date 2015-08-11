@@ -854,6 +854,12 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 1186528977}
   m_Script: {fileID: 11500000, guid: 639d578681b62294b92ab33d85857640, type: 3}
+--- !u!114 &1598811477 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11480358, guid: 07f49ab753f90024ab9ab37ee52eb438,
+    type: 2}
+  m_PrefabInternal: {fileID: 1791708642}
+  m_Script: {fileID: 11500000, guid: 50dad2ae0cbea914391e6dffd00e1b52, type: 3}
 --- !u!1 &1709264626
 GameObject:
   m_ObjectHideFlags: 0
@@ -903,6 +909,7 @@ MonoBehaviour:
   m_graphDisplay: {fileID: 1709264629}
   m_msgBox: {fileID: 1453556230}
   m_helpBoard: {fileID: 2092516692}
+  m_keyboard: {fileID: 1598811477}
 --- !u!114 &1709264629
 MonoBehaviour:
   m_ObjectHideFlags: 0

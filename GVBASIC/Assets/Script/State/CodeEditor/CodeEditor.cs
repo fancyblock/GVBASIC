@@ -14,7 +14,7 @@ public class CodeEditor : State
     protected int m_curLine;
     protected int m_curIndex;
 
-    protected bool m_isInsertMode;
+    protected bool m_insertMode;
     protected int m_lineOffset;
 
 	// Use this for initialization
@@ -22,6 +22,7 @@ public class CodeEditor : State
     {
         onClearAll();
         m_stateMgr.TextMode();
+        m_insertMode = false;
 
         if (string.IsNullOrEmpty(m_stateMgr.CUR_SOURCE_CODE))
         {
@@ -46,44 +47,42 @@ public class CodeEditor : State
     /// <param name="key"></param>
     public override void onInput(KCode key)
     {
-        int newIndex = m_buffer[m_curLine].KeyInput(key, m_curIndex);
-
-        if (newIndex >= 0)
+        switch (key)
         {
-            m_curIndex = newIndex;
-        }
-        else
-        {
-            switch (key)
-            {
-                case KCode.Home:
-                    onClearAll();
-                    break;
-                case KCode.Return:
-                    onReturn();
-                    break;
-                case KCode.Delete:
-                case KCode.Backspace:
-                    onDel();
-                    break;
-                case KCode.Insert:
-                    m_isInsertMode = !m_isInsertMode;
-                    break;
-                case KCode.UpArrow:
-                case KCode.DownArrow:
-                    onMoveCursor(key);
-                    break;
-                case KCode.Escape:
-                    exportCode();
-                    m_stateMgr.GotoState(StateEnums.eStateSaver);
-                    return;
-                case KCode.F1:
-                    // 切换插入/覆盖模式
+            case KCode.Home:
+                onClearAll();
+                break;
+            case KCode.Return:
+                onReturn();
+                break;
+            case KCode.Delete:
+            case KCode.Backspace:
+                onDel();
+                break;
+            case KCode.UpArrow:
+            case KCode.DownArrow:
+            case KCode.LeftArrow:
+            case KCode.RightArrow:
+                onMoveCursor(key);
+                break;
+            case KCode.Escape:
+                exportCode();
+                m_stateMgr.GotoState(StateEnums.eStateSaver);
+                return;
+            case KCode.F1:
+                // 切换插入/覆盖模式
+                m_insertMode = !m_insertMode;
+                break;
+            case KCode.CapsLock:
+                // 切换字母大小写
+                m_stateMgr.m_keyboard.SetCaps(!m_stateMgr.m_keyboard.CAPS);
+                break;
+            default:
+                if( key >= KCode.Space && key < KCode.Delete )     // 可输入字符
+                {
                     //TODO 
-                    break;
-                default:
-                    break;
-            }
+                }
+                break;
         }
 
         refresh();

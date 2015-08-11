@@ -20,6 +20,7 @@ public class StateMgr : MonoBehaviour
 
     public MessageBox m_msgBox;
     public HelpBoard m_helpBoard;
+    public Keyboard m_keyboard;
 
     public string CUR_CODE_FILE_NAME { set; get; }
     public string CUR_SOURCE_CODE { set; get; }
@@ -87,6 +88,9 @@ public class StateMgr : MonoBehaviour
             m_curState.onSwitchOut();
 
         m_curState = m_stateDic[aimState];
+
+        // 重置键盘
+        m_keyboard.SetCaps(true);
 
         // 切入新状态
         m_curState.onSwitchIn();

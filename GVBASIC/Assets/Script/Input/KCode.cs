@@ -5,11 +5,9 @@ public enum KCode
 {
     None = 0,
     Backspace = 8,
-    Tab = 9,
-    Clear = 12,
     Return = 13,
-    Pause = 19,
     Escape = 27,
+
     Space = 32,
     Exclaim = 33,
     DoubleQuote = 34,
@@ -104,6 +102,7 @@ public enum KCode
     leftBrace = 123,
     rightBrace = 125,
     wavy = 126,
+
     Delete = 127,
 
     UpArrow = 273,
@@ -111,9 +110,7 @@ public enum KCode
     RightArrow = 275,
     LeftArrow = 276,
 
-    Insert = 277,
     Home = 278,
-    End = 279,
 
     F1 = 282,
     F2 = 283,
@@ -121,5 +118,4 @@ public enum KCode
     F4 = 285,
 
     CapsLock = 301,
-    Menu = 319,
 }
