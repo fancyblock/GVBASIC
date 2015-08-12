@@ -24,18 +24,13 @@ public class CodeEditor : State
         m_stateMgr.TextMode();
         m_insertMode = false;
 
-        if (string.IsNullOrEmpty(m_stateMgr.CUR_SOURCE_CODE))
-        {
-            // 新建一个（几乎）空白文件
-            m_buffer[0].TEXT = "10 ";
-
-            m_curLine = 0;
-            m_curIndex = 3;
-        }
-        else
+        if (!string.IsNullOrEmpty(m_stateMgr.CUR_SOURCE_CODE))
         {
             // 读取已有文件 
             readCode(m_stateMgr.CUR_SOURCE_CODE);
+
+            m_curLine = 0;
+            m_curIndex = 0;
         }
 
         refresh();
@@ -89,13 +84,18 @@ public class CodeEditor : State
     }
 
     
+    /// <summary>
+    /// 清除
+    /// </summary>
     protected void onClearAll()
     {
         m_buffer.Clear();
         m_buffer.Add(new LineInfo());
+
+        m_buffer[0].TEXT = "10 ";
         
         m_curLine = 0;
-        m_curIndex = 0;
+        m_curIndex = 3;
 
         m_lineOffset = 0;
     }
@@ -172,6 +172,9 @@ public class CodeEditor : State
             // 插入新行  
             if (m_buffer[m_curLine].LENGTH > 0)
             {
+                // 自动设置行号
+                //TODO 
+
                 m_buffer.Add(new LineInfo());
                 m_curLine = m_buffer.Count - 1;
                 m_curIndex = 0;
