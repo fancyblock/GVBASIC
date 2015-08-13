@@ -50,33 +50,30 @@ public class CodeEditor : State
             case KCode.Return:
                 onReturn();
                 break;
-            case KCode.Delete:
-            case KCode.Backspace:
-                onDel();
-                break;
             case KCode.UpArrow:
             case KCode.DownArrow:
             case KCode.LeftArrow:
             case KCode.RightArrow:
                 onMoveCursor(key);
                 break;
+            case KCode.Delete:
+            case KCode.Backspace:
+                onDel();
+                break;
             case KCode.Escape:
                 exportCode();
                 m_stateMgr.GotoState(StateEnums.eStateSaver);
                 return;
             case KCode.F1:
-                // 切换插入/覆盖模式
-                m_insertMode = !m_insertMode;
+                m_insertMode = !m_insertMode;                       // 切换插入/覆盖模式
                 break;
             case KCode.CapsLock:
                 // 切换字母大小写
                 m_stateMgr.m_keyboard.SetCaps(!m_stateMgr.m_keyboard.CAPS);
                 break;
             default:
-                if( key >= KCode.Space && key < KCode.Delete )     // 可输入字符
-                {
-                    //TODO 
-                }
+                if (key >= KCode.Space && key < KCode.Delete)       // 可输入字符
+                    onInputKey(key);
                 break;
         }
 
@@ -114,6 +111,60 @@ public class CodeEditor : State
                 codeLine = sr.ReadLine();
             }
         }
+    }
+
+    /// <summary>
+    /// 回车，创建新行（自动补行号）或者移至下一行，新行上回车会将新行移至第一行
+    /// </summary>
+    protected void onReturn()
+    {
+        LineInfo line = m_buffer[m_curLine];
+
+        if( line.IS_NEW_LINE )
+        {
+            // 卷屏至最上 
+            //TODO 
+
+            return;
+        }
+
+        int lineNum;
+
+        // 没有行号错误
+        if (!line.GetLineNumber(out lineNum))
+        {
+            //TODO 
+
+            return;
+        }
+
+        if( m_curLine == m_buffer.Count - 1 )
+        {
+            // 创建新行  
+            lineNum += 10;
+
+            m_buffer.Add(new LineInfo( lineNum.ToString() ));
+            m_curLine = m_buffer.Count - 1;
+            m_curIndex = 0;
+        }
+        else
+        {
+            // 移至下行 
+            m_curLine++;
+            m_curIndex = 0;
+        }
+
+        // 代码按行号排序
+        sortCode();
+    }
+
+    /// <summary>
+    /// 字符输入
+    /// </summary>
+    /// <param name="code"></param>
+    public void onInputKey( KCode code )
+    {
+        //TODO 
     }
 
     protected void onDel()
@@ -157,35 +208,6 @@ public class CodeEditor : State
                 m_curIndex = m_buffer[m_curLine].GetFirstLineIndex(m_curIndex % Defines.TEXT_AREA_WIDTH);
             }
         }
-    }
-
-    /// <summary>
-    /// 回车
-    /// </summary>
-    protected void onReturn()
-    {
-        if (m_curLine == m_buffer.Count - 1)
-        {
-            // 插入新行  
-            if (m_buffer[m_curLine].LENGTH > 0)
-            {
-                // 自动设置行号
-                //TODO 
-
-                m_buffer.Add(new LineInfo());
-                m_curLine = m_buffer.Count - 1;
-                m_curIndex = 0;
-            }
-        }
-        else
-        {
-            // 移至下一行
-            m_curLine++;
-            m_curIndex = m_buffer[m_curLine].GetFirstLineIndex(m_curIndex % Defines.TEXT_AREA_WIDTH);
-        }
-
-        // 代码按行号排序
-        sortCode();
     }
 
     protected void refresh()
@@ -241,7 +263,15 @@ public class CodeEditor : State
     /// </summary>
     protected void sortCode()
     {
-        //TODO 
+        m_buffer.Sort((LineInfo line1, LineInfo line2) =>
+            {
+                int num1,num2;
+
+                line1.GetLineNumber(out num1);
+                line2.GetLineNumber(out num2);
+
+                return num1 - num2;
+            });
     }
 
 }

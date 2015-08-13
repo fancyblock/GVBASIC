@@ -164,6 +164,19 @@ public class LineInfo
     }
 
     /// <summary>
+    /// 获取行号
+    /// </summary>
+    /// <param name="lineNum"></param>
+    /// <returns></returns>
+    public bool GetLineNumber( out int lineNum )
+    {
+        //TODO 
+        lineNum = 0;
+
+        return true;
+    }
+
+    /// <summary>
     /// TODO 
     /// </summary>
     /// <param name="index"></param>
