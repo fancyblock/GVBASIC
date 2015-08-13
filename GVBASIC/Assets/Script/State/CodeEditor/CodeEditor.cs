@@ -157,9 +157,6 @@ public class CodeEditor : State
                 m_curIndex = m_buffer[m_curLine].GetFirstLineIndex(m_curIndex % Defines.TEXT_AREA_WIDTH);
             }
         }
-
-        // 代码按行号排序
-        sortCode();
     }
 
     /// <summary>

@@ -5,6 +5,7 @@ using System.Text;
 public class LineInfo
 {
     protected StringBuilder m_buffer;
+    protected bool m_newLine;
 
     /// <summary>
     /// default constructor 
@@ -12,6 +13,7 @@ public class LineInfo
     public LineInfo()
     {
         m_buffer = new StringBuilder();
+        m_newLine = true;
     }
 
     /// <summary>
@@ -21,12 +23,18 @@ public class LineInfo
     public LineInfo( string lineStr )
     {
         m_buffer = new StringBuilder(lineStr);
+        m_newLine = true;
     }
 
     /// <summary>
     /// getter of the length 
     /// </summary>
     public int LENGTH { get { return m_buffer.Length; } }
+
+    /// <summary>
+    /// getter of the line status 
+    /// </summary>
+    public bool IS_NEW_LINE { get { return m_newLine; } }
 
     /// <summary>
     /// getter of the text 
