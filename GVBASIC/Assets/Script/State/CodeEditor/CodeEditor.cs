@@ -127,7 +127,8 @@ public class CodeEditor : State
         if( line.IS_NEW_LINE )
         {
             // 卷屏至最上 
-            m_stateMgr.NotifierInfo("Line number error !");
+            //TODO 
+            
             return;
         }
 
@@ -135,8 +136,7 @@ public class CodeEditor : State
         int lineNum = line.LINE_NUM;
         if ( lineNum < 0 )
         {
-            //TODO 
-
+            m_stateMgr.NotifierInfo("Line number error !");
             return;
         }
 
@@ -194,9 +194,15 @@ public class CodeEditor : State
 
     protected void onMoveCursor( KCode dir )
     {
+        LineInfo li = m_buffer[m_curLine];
+
         if( dir == KCode.UpArrow )
         {
-            if (m_curLine > 0)
+            if (m_curIndex >= Defines.TEXT_AREA_WIDTH)
+            {
+                m_curIndex -= Defines.TEXT_AREA_WIDTH;
+            }
+            else if(m_curLine > 0)
             {
                 m_curLine--;
                 m_curIndex = m_buffer[m_curLine].GetLastLineIndex(m_curIndex);
@@ -204,12 +210,24 @@ public class CodeEditor : State
         }
         else if( dir == KCode.DownArrow )
         {
-            if (m_curLine < m_buffer.Count - 1)
+            if (m_curIndex + Defines.TEXT_AREA_WIDTH < li.LENGTH)
+            {
+                m_curIndex += Defines.TEXT_AREA_WIDTH;
+            }
+            else if (m_curLine < m_buffer.Count - 1)
             {
                 // 移至下一行
                 m_curLine++;
                 m_curIndex = m_buffer[m_curLine].GetFirstLineIndex(m_curIndex % Defines.TEXT_AREA_WIDTH);
             }
+        }
+        else if( dir == KCode.LeftArrow )
+        {
+            //TODO 
+        }
+        else if( dir == KCode.RightArrow )
+        {
+            //TODO 
         }
     }
 
@@ -255,8 +273,11 @@ public class CodeEditor : State
     {
         StringBuilder code = new StringBuilder();
 
-        foreach( LineInfo li in m_buffer )
-            code.AppendLine(li.TEXT);
+        foreach (LineInfo li in m_buffer)
+        {
+            if( !li.IS_NEW_LINE )
+                code.AppendLine(li.TEXT);
+        }
 
         m_stateMgr.CUR_SOURCE_CODE = code.ToString();
     }

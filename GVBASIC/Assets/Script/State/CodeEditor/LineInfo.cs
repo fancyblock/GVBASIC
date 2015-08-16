@@ -102,20 +102,6 @@ public class LineInfo
             if (curIndex < LENGTH)
                 newIndex = curIndex + 1;
         }
-        else if( key == KCode.UpArrow )
-        {
-            if (curIndex >= Defines.TEXT_AREA_WIDTH)
-                newIndex = curIndex - Defines.TEXT_AREA_WIDTH;
-            else
-                newIndex = -1;
-        }
-        else if( key == KCode.DownArrow)
-        {
-            if (curIndex + Defines.TEXT_AREA_WIDTH < LENGTH)
-                newIndex = curIndex + Defines.TEXT_AREA_WIDTH;
-            else
-                newIndex = -1;
-        }
         else if( key == KCode.Delete )
         {
             if( LENGTH > 0 )
