@@ -19,6 +19,7 @@ public class StateMgr : MonoBehaviour
     public GraphDisplay m_graphDisplay;
 
     public MessageBox m_msgBox;
+    public InfoNotifier m_infoNotifier;
     public HelpBoard m_helpBoard;
     public Keyboard m_keyboard;
 
@@ -50,6 +51,9 @@ public class StateMgr : MonoBehaviour
     /// <param name="key"></param>
     public void Input( KCode key )
     {
+        if (m_infoNotifier.IS_SHOW)
+            return;
+
         if ( m_msgBox.IS_SHOW )
         {
             m_msgBox.onInput(key);
@@ -127,6 +131,15 @@ public class StateMgr : MonoBehaviour
     public void ShowMessageBox( string msg, Action yes, Action no )
     {
         m_msgBox.Show( msg, yes, no );
+    }
+
+    /// <summary>
+    /// 短暂的显示一下信息
+    /// </summary>
+    /// <param name="info"></param>
+    public void NotifierInfo( string info )
+    {
+        m_infoNotifier.Show(info);
     }
 
     /// <summary>
