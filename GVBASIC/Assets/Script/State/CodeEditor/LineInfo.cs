@@ -5,7 +5,10 @@ using System.Text;
 public class LineInfo
 {
     protected StringBuilder m_buffer;
+    protected int m_lineNum;
     protected bool m_newLine;
+
+    protected StringBuilder m_tempBuffer = new StringBuilder();
 
     /// <summary>
     /// default constructor 
@@ -14,6 +17,8 @@ public class LineInfo
     {
         m_buffer = new StringBuilder();
         m_newLine = true;
+
+        m_lineNum = -1;
     }
 
     /// <summary>
@@ -24,6 +29,8 @@ public class LineInfo
     {
         m_buffer = new StringBuilder(lineStr);
         m_newLine = true;
+
+        refreshLineNum();
     }
 
     /// <summary>
@@ -34,7 +41,11 @@ public class LineInfo
     /// <summary>
     /// getter of the line status 
     /// </summary>
-    public bool IS_NEW_LINE { get { return m_newLine; } }
+    public bool IS_NEW_LINE 
+    { 
+        get { return m_newLine; }
+        set { m_newLine = value; }
+    }
 
     /// <summary>
     /// getter of the text 
@@ -49,6 +60,8 @@ public class LineInfo
         {
             m_buffer.Remove(0, m_buffer.Length);
             m_buffer.Append(value);
+
+            refreshLineNum();
         }
     }
 
@@ -109,11 +122,11 @@ public class LineInfo
             {
                 if (curIndex < LENGTH)
                 {
-                    Remove(curIndex);
+                    remove(curIndex);
                 }
                 else
                 {
-                    Remove(curIndex - 1);
+                    remove(curIndex - 1);
                     newIndex = curIndex - 1;
                 }
             }
@@ -133,34 +146,14 @@ public class LineInfo
             }
             else
             {
-                SetChar(curIndex, (char)chr);
+                setChar(curIndex, (char)chr);
                 newIndex = curIndex + 1;
             }
         }
 
+        refreshLineNum();
+
         return newIndex;
-    }
-
-    /// <summary>
-    /// remove index 
-    /// </summary>
-    /// <param name="index"></param>
-    public void Remove(int index)
-    {
-        m_buffer.Remove(index, 1);
-    }
-
-    /// <summary>
-    /// set char 
-    /// </summary>
-    /// <param name="index"></param>
-    /// <param name="chr"></param>
-    public void SetChar(int index, char chr)
-    {
-        if (index < m_buffer.Length)
-            m_buffer[index] = chr;             // replace 
-        else
-            m_buffer.Insert(index, chr);       // add to the end of line 
     }
 
     /// <summary>
@@ -168,13 +161,7 @@ public class LineInfo
     /// </summary>
     /// <param name="lineNum"></param>
     /// <returns></returns>
-    public bool GetLineNumber( out int lineNum )
-    {
-        //TODO 
-        lineNum = 0;
-
-        return true;
-    }
+    public int LINE_NUM { get { return m_lineNum; } }
 
     /// <summary>
     /// TODO 
@@ -206,6 +193,60 @@ public class LineInfo
             idx = m_buffer.Length - 1;
 
         return idx;
+    }
+
+
+    /// <summary>
+    /// 更新行号
+    /// </summary>
+    protected void refreshLineNum()
+    {
+        if (m_buffer.Length == 0)
+        {
+            m_lineNum = -1;
+            return;
+        }
+
+        if( m_tempBuffer.Length > 0 )
+            m_tempBuffer.Remove(0, m_tempBuffer.Length);
+        
+        for( int i = 0; i < m_buffer.Length; i++ )
+        {
+            char c = m_buffer[i];
+
+            // 加入数字
+            if (char.IsNumber(c))
+                m_tempBuffer.Append(c);
+            else
+                break;
+        }
+
+        string str = m_tempBuffer.ToString();
+
+        if (!int.TryParse(str, out m_lineNum))
+            m_lineNum = -1;
+    }
+
+    /// <summary>
+    /// remove index 
+    /// </summary>
+    /// <param name="index"></param>
+    protected void remove(int index)
+    {
+        m_buffer.Remove(index, 1);
+    }
+
+    /// <summary>
+    /// set char 
+    /// </summary>
+    /// <param name="index"></param>
+    /// <param name="chr"></param>
+    protected void setChar(int index, char chr)
+    {
+        if (index < m_buffer.Length)
+            m_buffer[index] = chr;             // replace 
+        else
+            m_buffer.Insert(index, chr);       // add to the end of line 
     }
 
 }

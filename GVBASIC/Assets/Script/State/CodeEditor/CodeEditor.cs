@@ -90,6 +90,7 @@ public class CodeEditor : State
         m_buffer.Add(new LineInfo());
 
         m_buffer[0].TEXT = "10 ";
+        m_buffer[0].IS_NEW_LINE = true;
         
         m_curLine = 0;
         m_curIndex = 3;
@@ -107,7 +108,10 @@ public class CodeEditor : State
 
             while( codeLine != null )
             {
-                m_buffer.Add(new LineInfo( codeLine ));
+                LineInfo line = new LineInfo(codeLine);
+                line.IS_NEW_LINE = false;
+                m_buffer.Add(line);
+
                 codeLine = sr.ReadLine();
             }
         }
@@ -123,15 +127,13 @@ public class CodeEditor : State
         if( line.IS_NEW_LINE )
         {
             // 卷屏至最上 
-            //TODO 
-
+            m_stateMgr.NotifierInfo("Line number error !");
             return;
         }
 
-        int lineNum;
-
-        // 没有行号错误
-        if (!line.GetLineNumber(out lineNum))
+        // 负数代表这行行号错误或者没行号
+        int lineNum = line.LINE_NUM;
+        if ( lineNum < 0 )
         {
             //TODO 
 
@@ -142,10 +144,11 @@ public class CodeEditor : State
         {
             // 创建新行  
             lineNum += 10;
+            LineInfo newLine = new LineInfo( lineNum.ToString() );
 
-            m_buffer.Add(new LineInfo( lineNum.ToString() ));
+            m_buffer.Add( newLine );
             m_curLine = m_buffer.Count - 1;
-            m_curIndex = 0;
+            m_curIndex = newLine.LENGTH + 1;
         }
         else
         {
@@ -264,14 +267,9 @@ public class CodeEditor : State
     protected void sortCode()
     {
         m_buffer.Sort((LineInfo line1, LineInfo line2) =>
-            {
-                int num1,num2;
-
-                line1.GetLineNumber(out num1);
-                line2.GetLineNumber(out num2);
-
-                return num1 - num2;
-            });
+        {
+            return line1.LINE_NUM - line2.LINE_NUM;
+        });
     }
 
 }
