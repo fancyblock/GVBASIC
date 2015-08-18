@@ -66,6 +66,7 @@ public class CodeEditor : State
                 return;
             case KCode.F1:
                 m_insertMode = !m_insertMode;                       // 切换插入/覆盖模式
+                //TODO 
                 break;
             case KCode.CapsLock:
                 // 切换字母大小写
@@ -75,14 +76,11 @@ public class CodeEditor : State
                 if (key >= KCode.Space && key < KCode.Delete)       // 可输入字符
                 {
                     if( m_insertMode )
-                    {
-                        //TODO 
-                    }
+                        m_buffer[m_curLine].InsChar(m_curIndex, (char)key);
                     else
-                    {
                         m_buffer[m_curLine].SetChar(m_curIndex, (char)key);
-                        m_curIndex++;
-                    }
+
+                    m_curIndex++;
                 }
                 break;
         }
@@ -134,13 +132,8 @@ public class CodeEditor : State
     {
         LineInfo line = m_buffer[m_curLine];
 
-        if( line.IS_NEW_LINE )
-        {
-            // 卷屏至最上 
-            //TODO 
-            
+        if (line.IS_NEW_LINE)   // 卷屏至最上?
             return;
-        }
 
         // 负数代表这行行号错误或者没行号
         int lineNum = line.LINE_NUM;

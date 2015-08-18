@@ -196,6 +196,21 @@ public class LineInfo
         m_newLine = false;
     }
 
+    /// <summary>
+    /// 插入一个字符
+    /// </summary>
+    /// <param name="index"></param>
+    /// <param name="chr"></param>
+    public void InsChar( int index, char chr )
+    {
+        if (index < m_buffer.Length)
+            m_buffer.Insert( index, chr );     // 插入
+        else
+            m_buffer.Append(chr);              // 添加到末尾
+
+        m_newLine = false;
+    }
+
 
     /// <summary>
     /// 更新行号
