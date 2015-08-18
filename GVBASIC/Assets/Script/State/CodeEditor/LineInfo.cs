@@ -132,7 +132,7 @@ public class LineInfo
             }
             else
             {
-                setChar(curIndex, (char)chr);
+                SetChar(curIndex, (char)chr);
                 newIndex = curIndex + 1;
             }
         }
@@ -181,6 +181,21 @@ public class LineInfo
         return idx;
     }
 
+    /// <summary>
+    /// set char 
+    /// </summary>
+    /// <param name="index"></param>
+    /// <param name="chr"></param>
+    public void SetChar(int index, char chr)
+    {
+        if (index < m_buffer.Length)
+            m_buffer[index] = chr;             // replace 
+        else
+            m_buffer.Append(chr);              // add to the end of line 
+
+        m_newLine = false;
+    }
+
 
     /// <summary>
     /// 更新行号
@@ -220,19 +235,6 @@ public class LineInfo
     protected void remove(int index)
     {
         m_buffer.Remove(index, 1);
-    }
-
-    /// <summary>
-    /// set char 
-    /// </summary>
-    /// <param name="index"></param>
-    /// <param name="chr"></param>
-    protected void setChar(int index, char chr)
-    {
-        if (index < m_buffer.Length)
-            m_buffer[index] = chr;             // replace 
-        else
-            m_buffer.Insert(index, chr);       // add to the end of line 
     }
 
 }

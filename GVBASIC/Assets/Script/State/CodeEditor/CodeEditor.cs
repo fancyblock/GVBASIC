@@ -73,7 +73,17 @@ public class CodeEditor : State
                 break;
             default:
                 if (key >= KCode.Space && key < KCode.Delete)       // 可输入字符
-                    onInputKey(key);
+                {
+                    if( m_insertMode )
+                    {
+                        //TODO 
+                    }
+                    else
+                    {
+                        m_buffer[m_curLine].SetChar(m_curIndex, (char)key);
+                        m_curIndex++;
+                    }
+                }
                 break;
         }
 
@@ -144,11 +154,11 @@ public class CodeEditor : State
         {
             // 创建新行  
             lineNum += 10;
-            LineInfo newLine = new LineInfo( lineNum.ToString() );
+            LineInfo newLine = new LineInfo( lineNum + " " );
 
             m_buffer.Add( newLine );
             m_curLine = m_buffer.Count - 1;
-            m_curIndex = newLine.LENGTH + 1;
+            m_curIndex = newLine.LENGTH;
         }
         else
         {
@@ -223,11 +233,13 @@ public class CodeEditor : State
         }
         else if( dir == KCode.LeftArrow )
         {
-            //TODO 
+            if (m_curIndex > 0)
+                m_curIndex--;
         }
         else if( dir == KCode.RightArrow )
         {
-            //TODO 
+            if (m_curIndex < li.LENGTH)
+                m_curIndex++;
         }
     }
 
