@@ -23,6 +23,7 @@ public class CodeEditor : State
         onClearAll();
         m_stateMgr.TextMode();
         m_insertMode = false;
+        m_stateMgr.m_textDisplay.UNDER_CURSOR = false;
 
         if (!string.IsNullOrEmpty(m_stateMgr.CUR_SOURCE_CODE))
         {
@@ -66,7 +67,7 @@ public class CodeEditor : State
                 return;
             case KCode.F1:
                 m_insertMode = !m_insertMode;                       // 切换插入/覆盖模式
-                //TODO 
+                m_stateMgr.m_textDisplay.UNDER_CURSOR = m_insertMode;
                 break;
             case KCode.CapsLock:
                 // 切换字母大小写

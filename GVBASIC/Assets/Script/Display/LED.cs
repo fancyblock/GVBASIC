@@ -15,6 +15,9 @@ public class LED : MonoBehaviour
     protected Color[] m_cleanColorData;
     protected Color[] m_soildColorData;
 
+    protected Color[] m_cursorData;
+    protected Color[] m_cursorInvData;
+
 	// Use this for initialization
 	void Awake () 
     {
@@ -81,6 +84,20 @@ public class LED : MonoBehaviour
     }
 
     /// <summary>
+    /// 绘制光标(下划线)
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="inverse"></param>
+    public void DrawCursor( int x, int y, bool inverse )
+    {
+        if (inverse)
+            m_texture.SetPixels(x, y, ASCII.WIDTH, 2, m_cursorData);
+        else
+            m_texture.SetPixels(x, y, ASCII.WIDTH, 2, m_cursorInvData);
+    }
+
+    /// <summary>
     /// clean screen 
     /// </summary>
     public void CleanScreen()
@@ -102,6 +119,37 @@ public class LED : MonoBehaviour
             ASCII ascii = new ASCII(i, m_whiteColor, m_blackColor);
             m_asciis[i] = ascii;
         }
+
+        m_cursorData = bytesToColors(new int[] { 0xff, 0xff });
+        m_cursorInvData = bytesToColors(new int[] { 0x00, 0x00 });
+    }
+
+    /// <summary>
+    /// 根据字节数据生成颜色数组
+    /// </summary>
+    /// <param name="bytes"></param>
+    /// <returns></returns>
+    protected Color[] bytesToColors( int[] bytes )
+    {
+        Color[] colors = new Color[bytes.Length * 8];
+        int index = 0;
+
+        foreach( int b in bytes )
+        {
+            for( int i = 0; i < 8; i++ )
+            {
+                bool isBlack = ( b >> ( 7 - i ) & 0x01 ) == 1 ? true : false;
+
+                if (isBlack)
+                    colors[index] = m_blackColor;
+                else
+                    colors[index] = m_whiteColor;
+
+                index++;
+            }
+        }
+
+        return colors;
     }
 
 }

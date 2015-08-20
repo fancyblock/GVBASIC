@@ -10,6 +10,7 @@ public class TextDisplay : MonoBehaviour
 	protected int[,] m_buffer;
     protected bool[,] m_inverseBuffer;
 
+    protected bool m_underCursor;
     protected int m_cursorX;
     protected int m_cursorY;
 
@@ -36,11 +37,21 @@ public class TextDisplay : MonoBehaviour
     /// </summary>
     void Update ()
     {
-        // draw the flash char 
-        if (m_timer > m_cursorInterval * 0.5f)
-            m_led.DrawLetter(m_cursorX * ASCII.WIDTH, m_cursorY * ASCII.HEIGHT, m_buffer[m_cursorX, m_cursorY], true);
+        // 绘制光标
+        if (m_underCursor)
+        {
+            if (m_timer > m_cursorInterval * 0.5f)
+                m_led.DrawCursor(m_cursorX * ASCII.WIDTH, m_cursorY * ASCII.HEIGHT + ASCII.HEIGHT - 2, true);
+            else
+                m_led.DrawCursor(m_cursorX * ASCII.WIDTH, m_cursorY * ASCII.HEIGHT + ASCII.HEIGHT - 2, false);
+        }
         else
-            m_led.DrawLetter(m_cursorX * ASCII.WIDTH, m_cursorY * ASCII.HEIGHT, m_buffer[m_cursorX, m_cursorY], false);
+        {
+            if (m_timer > m_cursorInterval * 0.5f)
+                m_led.DrawLetter(m_cursorX * ASCII.WIDTH, m_cursorY * ASCII.HEIGHT, m_buffer[m_cursorX, m_cursorY], true);
+            else
+                m_led.DrawLetter(m_cursorX * ASCII.WIDTH, m_cursorY * ASCII.HEIGHT, m_buffer[m_cursorX, m_cursorY], false);
+        }
 
         // update timer 
         m_timer += Time.deltaTime;
@@ -68,6 +79,8 @@ public class TextDisplay : MonoBehaviour
     /// </summary>
     public int CURSOR_X { get { return m_cursorX; } }
     public int CURSOR_Y { get { return m_cursorY; } }
+
+    public bool UNDER_CURSOR { set { m_underCursor = value; } }
 
     /// <summary>
     /// refresh the display 
