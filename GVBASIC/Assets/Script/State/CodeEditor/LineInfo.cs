@@ -194,6 +194,8 @@ public class LineInfo
             m_buffer.Append(chr);              // add to the end of line 
 
         m_newLine = false;
+
+        refreshLineNum();
     }
 
     /// <summary>
@@ -209,6 +211,8 @@ public class LineInfo
             m_buffer.Append(chr);              // 添加到末尾
 
         m_newLine = false;
+
+        refreshLineNum();
     }
 
 

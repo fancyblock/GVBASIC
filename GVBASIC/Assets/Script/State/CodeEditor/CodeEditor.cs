@@ -66,15 +66,14 @@ public class CodeEditor : State
                 m_stateMgr.GotoState(StateEnums.eStateSaver);
                 return;
             case KCode.F1:
-                m_insertMode = !m_insertMode;                       // 切换插入/覆盖模式
+                m_insertMode = !m_insertMode;                                   // 切换插入/覆盖模式
                 m_stateMgr.m_textDisplay.UNDER_CURSOR = m_insertMode;
                 break;
             case KCode.CapsLock:
-                // 切换字母大小写
-                m_stateMgr.m_keyboard.SetCaps(!m_stateMgr.m_keyboard.CAPS);
+                m_stateMgr.m_keyboard.SetCaps(!m_stateMgr.m_keyboard.CAPS);     // 切换字母大小写
                 break;
             default:
-                if (key >= KCode.Space && key < KCode.Delete)       // 可输入字符
+                if (key >= KCode.Space && key < KCode.Delete)                   // 可输入字符
                 {
                     if( m_insertMode )
                         m_buffer[m_curLine].InsChar(m_curIndex, (char)key);
