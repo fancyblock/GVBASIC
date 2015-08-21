@@ -73,15 +73,7 @@ public class CodeEditor : State
                 m_stateMgr.m_keyboard.SetCaps(!m_stateMgr.m_keyboard.CAPS);     // 切换字母大小写
                 break;
             default:
-                if (key >= KCode.Space && key < KCode.Delete)                   // 可输入字符
-                {
-                    if( m_insertMode )
-                        m_buffer[m_curLine].InsChar(m_curIndex, (char)key);
-                    else
-                        m_buffer[m_curLine].SetChar(m_curIndex, (char)key);
-
-                    m_curIndex++;
-                }
+                onInputKey(key);
                 break;
         }
 
@@ -139,7 +131,7 @@ public class CodeEditor : State
         int lineNum = line.LINE_NUM;
         if ( lineNum < 0 )
         {
-            m_stateMgr.NotifierInfo("Line number error !");
+            m_stateMgr.NotifierInfo(Defines.INFO_LINE_NUM_ERR);
             return;
         }
 
@@ -168,14 +160,37 @@ public class CodeEditor : State
     /// 字符输入
     /// </summary>
     /// <param name="code"></param>
-    public void onInputKey( KCode code )
+    public void onInputKey( KCode key )
     {
-        //TODO 
+        if (key >= KCode.Space && key < KCode.Delete)                   // 可输入字符
+        {
+            if (m_insertMode)
+                m_buffer[m_curLine].InsChar(m_curIndex, (char)key);
+            else
+                m_buffer[m_curLine].SetChar(m_curIndex, (char)key);
+
+            m_curIndex++;
+        }
     }
 
     protected void onDel()
     {
         LineInfo li = m_buffer[m_curLine];
+
+        if (li.LENGTH > 0)
+        {
+            if (m_curIndex < li.LENGTH)
+            {
+                li.Remove(m_curIndex);
+            }
+            else
+            {
+                li.Remove(m_curIndex - 1);
+                m_curIndex--;
+            }
+
+            return;
+        }
 
         if (m_buffer.Count > 1)
         {
@@ -197,7 +212,7 @@ public class CodeEditor : State
 
     protected void onMoveCursor( KCode dir )
     {
-        LineInfo li = m_buffer[m_curLine];
+        LineInfo line = m_buffer[m_curLine];
 
         if( dir == KCode.UpArrow )
         {
@@ -207,21 +222,36 @@ public class CodeEditor : State
             }
             else if(m_curLine > 0)
             {
-                m_curLine--;
-                m_curIndex = m_buffer[m_curLine].GetLastLineIndex(m_curIndex);
+                if (line.LINE_NUM < 0)
+                {
+                    m_stateMgr.NotifierInfo(Defines.INFO_LINE_NUM_ERR);
+                }
+                else
+                {
+                    // 移至上一行
+                    m_curLine--;
+                    m_curIndex = m_buffer[m_curLine].GetLastLineIndex(m_curIndex);
+                }
             }
         }
         else if( dir == KCode.DownArrow )
         {
-            if (m_curIndex + Defines.TEXT_AREA_WIDTH < li.LENGTH)
+            if (m_curIndex + Defines.TEXT_AREA_WIDTH < line.LENGTH)
             {
                 m_curIndex += Defines.TEXT_AREA_WIDTH;
             }
             else if (m_curLine < m_buffer.Count - 1)
             {
-                // 移至下一行
-                m_curLine++;
-                m_curIndex = m_buffer[m_curLine].GetFirstLineIndex(m_curIndex % Defines.TEXT_AREA_WIDTH);
+                if (line.LINE_NUM < 0)
+                {
+                    m_stateMgr.NotifierInfo(Defines.INFO_LINE_NUM_ERR);
+                }
+                else
+                {
+                    // 移至下一行
+                    m_curLine++;
+                    m_curIndex = m_buffer[m_curLine].GetFirstLineIndex(m_curIndex % Defines.TEXT_AREA_WIDTH);
+                }
             }
         }
         else if( dir == KCode.LeftArrow )
@@ -231,7 +261,7 @@ public class CodeEditor : State
         }
         else if( dir == KCode.RightArrow )
         {
-            if (m_curIndex < li.LENGTH)
+            if (m_curIndex < line.LENGTH)
                 m_curIndex++;
         }
     }

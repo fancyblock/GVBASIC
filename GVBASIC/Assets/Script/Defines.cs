@@ -8,4 +8,5 @@ public class Defines
     public const int PROGRAM_STATUS_END             = 2;
     public const int PROGRAM_STATUS_ERROR           = 3;
 
+    public const string INFO_LINE_NUM_ERR = "Line number error !";
 }

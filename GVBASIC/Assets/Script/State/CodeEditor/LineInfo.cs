@@ -108,11 +108,11 @@ public class LineInfo
             {
                 if (curIndex < LENGTH)
                 {
-                    remove(curIndex);
+                    Remove(curIndex);
                 }
                 else
                 {
-                    remove(curIndex - 1);
+                    Remove(curIndex - 1);
                     newIndex = curIndex - 1;
                 }
             }
@@ -215,6 +215,16 @@ public class LineInfo
         refreshLineNum();
     }
 
+    /// <summary>
+    /// remove index 
+    /// </summary>
+    /// <param name="index"></param>
+    public void Remove(int index)
+    {
+        m_buffer.Remove(index, 1);
+        refreshLineNum();
+    }
+
 
     /// <summary>
     /// 更新行号
@@ -245,15 +255,6 @@ public class LineInfo
 
         if (!int.TryParse(str, out m_lineNum))
             m_lineNum = -1;
-    }
-
-    /// <summary>
-    /// remove index 
-    /// </summary>
-    /// <param name="index"></param>
-    protected void remove(int index)
-    {
-        m_buffer.Remove(index, 1);
     }
 
 }
