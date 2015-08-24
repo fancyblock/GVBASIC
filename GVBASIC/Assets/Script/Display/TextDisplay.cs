@@ -13,6 +13,8 @@ public class TextDisplay : MonoBehaviour
     protected bool m_underCursor;
     protected int m_cursorX;
     protected int m_cursorY;
+    protected int m_lastTextX;
+    protected int m_lastTextY;
 
     protected float m_timer;
 
@@ -80,6 +82,9 @@ public class TextDisplay : MonoBehaviour
     public int CURSOR_X { get { return m_cursorX; } }
     public int CURSOR_Y { get { return m_cursorY; } }
 
+    public int LAST_TEXT_X { get { return m_lastTextX; } }
+    public int LAST_TEXT_Y { get { return m_lastTextY; } }
+
     public bool UNDER_CURSOR { set { m_underCursor = value; } }
 
     /// <summary>
@@ -131,6 +136,9 @@ public class TextDisplay : MonoBehaviour
                 y ++;
             }
         }
+
+        m_lastTextX = x;
+        m_lastTextY = y;
     }
 
     /// <summary>

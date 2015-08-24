@@ -95,8 +95,8 @@ public class EmuAPI : MonoBehaviour, IAPI
             m_textDisplay.DrawText(cursorX, cursorY, output);
 
             // set the new cursor position 
-            cursorX = 0;
-            cursorY = 0;
+            cursorX = m_textDisplay.LAST_TEXT_X;
+            cursorY = m_textDisplay.LAST_TEXT_Y;
 
             if( cursorY >= Defines.TEXT_AREA_HEIGHT )
             {
