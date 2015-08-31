@@ -382,7 +382,7 @@ MonoBehaviour:
     RETURN\r\n]900 DATA 34,45,50,65,23,88,-1\r\n]990 END\r\n\u8FD0\u884C\r\n305\r\n]\r\n\r\nWRITE\t\u5199\u6570\u636E\u5230\u6587\u4EF6(\u5982\u65E0\u6587\u4EF6\u53F7\u5199\u5230\u5C4F\u5E55)\r\n\u7528\u6CD5:\r\nWRITE
     [#filenum%,] expr1, expr2, ...\r\n\u5982:\r\n]40 WRITE #1, A$, B%\r\n\r\n"
   mFontSize: 22
-  mFontStyle: 1
+  mFontStyle: 0
   mAlignment: 0
   mEncoding: 1
   mMaxLineCount: 0

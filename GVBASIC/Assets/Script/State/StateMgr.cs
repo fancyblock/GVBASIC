@@ -58,10 +58,12 @@ public class StateMgr : MonoBehaviour
         {
             m_msgBox.onInput(key);
         }
+/*      帮助功能在初版中暂时隐藏
         else if( m_helpBoard.IS_SHOW )
         {
             m_helpBoard.onInput(key);
         }
+ */
         else if( key == KCode.F3 )
         {
             ShowHelp();
