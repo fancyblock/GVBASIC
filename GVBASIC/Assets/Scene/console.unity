@@ -989,22 +989,6 @@ Prefab:
       propertyPath: m_stateMgr
       value: 
       objectReference: {fileID: 1709264628}
-    - target: {fileID: 139916, guid: 07f49ab753f90024ab9ab37ee52eb438, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 193988, guid: 07f49ab753f90024ab9ab37ee52eb438, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6129096, guid: 07f49ab753f90024ab9ab37ee52eb438, type: 2}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 11408044, guid: 07f49ab753f90024ab9ab37ee52eb438, type: 2}
-      propertyPath: dragHighlight
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 07f49ab753f90024ab9ab37ee52eb438, type: 2}
   m_IsPrefabParent: 0

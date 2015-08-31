@@ -58,14 +58,13 @@ public class CodeEditor : State
                 onMoveCursor(key);
                 break;
             case KCode.Delete:
-            case KCode.Backspace:
                 onDel();
                 break;
             case KCode.Escape:
                 exportCode();
                 m_stateMgr.GotoState(StateEnums.eStateSaver);
                 return;
-            case KCode.F1:
+            case KCode.Insert:
                 m_insertMode = !m_insertMode;                                   // 切换插入/覆盖模式
                 m_stateMgr.m_textDisplay.UNDER_CURSOR = m_insertMode;
                 break;

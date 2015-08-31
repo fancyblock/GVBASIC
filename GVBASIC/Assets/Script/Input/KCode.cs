@@ -104,6 +104,7 @@ public enum KCode
     wavy = 126,
 
     Delete = 127,
+    Insert = 128,
 
     UpArrow = 273,
     DownArrow = 274,

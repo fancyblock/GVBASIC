@@ -580,7 +580,7 @@ GameObject:
   - 114: {fileID: 11428394}
   - 114: {fileID: 11474902}
   m_Layer: 5
-  m_Name: btnClear
+  m_Name: btnInsert
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1326,7 +1326,7 @@ GameObject:
   - 114: {fileID: 11413476}
   - 114: {fileID: 11480832}
   m_Layer: 5
-  m_Name: btnBackSpace
+  m_Name: btnDel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5257,7 +5257,7 @@ BoxCollider2D:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 193988}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
@@ -12368,7 +12368,7 @@ MonoBehaviour:
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 12800000, guid: 3ae638ea3e4128f45ab4d56cf3b653b9, type: 3}
   mFont: {fileID: 0}
-  mText: Back
+  mText: Del
   mFontSize: 14
   mFontStyle: 0
   mAlignment: 0
@@ -13439,7 +13439,7 @@ MonoBehaviour:
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 12800000, guid: 3ae638ea3e4128f45ab4d56cf3b653b9, type: 3}
   mFont: {fileID: 0}
-  mText: Ins
+  mText: New
   mFontSize: 14
   mFontStyle: 0
   mAlignment: 0
@@ -13931,7 +13931,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dedf7cc0eef3fd64da374db0ef8019fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_key: 278
+  m_key: 128
   m_txtKeyDisplay: {fileID: 0}
 --- !u!114 &11474928
 MonoBehaviour:
@@ -17970,7 +17970,7 @@ MonoBehaviour:
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 12800000, guid: 3ae638ea3e4128f45ab4d56cf3b653b9, type: 3}
   mFont: {fileID: 0}
-  mText: Clear
+  mText: Ins
   mFontSize: 14
   mFontStyle: 0
   mAlignment: 0
