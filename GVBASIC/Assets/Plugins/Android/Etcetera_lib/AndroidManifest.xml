@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.prime31.Etcetera">
+    <uses-sdk android:minSdkVersion="9"/>
+
+    <application>
+	    <activity android:name="com.prime31.EtceteraProxyActivity" android:configChanges="orientation|screenLayout|screenSize|smallestScreenSize"></activity>
+		<activity android:name="com.prime31.WebViewActivity" android:configChanges="keyboardHidden|orientation|screenSize"></activity>
+		<activity android:name="com.prime31.P31VideoPlayerActivity" android:configChanges="keyboard|keyboardHidden|orientation|screenSize"></activity>
+		<receiver android:name="com.prime31.AlarmManagerReceiver"></receiver>
+
+		<meta-data android:name="com.prime31.EtceteraPlugin" android:value="UnityPlayerActivityProxy"/>
+    </application>
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+</manifest>

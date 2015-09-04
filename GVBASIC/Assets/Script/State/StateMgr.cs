@@ -2,7 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-
+using Prime31;
 
 public enum StateEnums
 {
@@ -30,6 +30,7 @@ public class StateMgr : MonoBehaviour
     protected Dictionary<StateEnums, State> m_stateDic = new Dictionary<StateEnums, State>();
 
     protected State m_curState = null;
+    protected float m_lastBackTime = 0.0f;
 
 	// Use this for initialization
 	void Start () 
@@ -43,6 +44,19 @@ public class StateMgr : MonoBehaviour
     void Update()
     {
         m_curState.onUpdate();
+
+        // 按返回键退出,先提示一次
+        if( UnityEngine.Input.GetKeyDown( KeyCode.Escape ))
+        {
+            float time = Time.realtimeSinceStartup;
+
+            if ((time - m_lastBackTime) > 2.0f)
+                EtceteraAndroid.showToast("再按一次退出", false);
+            else
+                Application.Quit();
+
+            m_lastBackTime = time;
+        }
     }
 
     /// <summary>
