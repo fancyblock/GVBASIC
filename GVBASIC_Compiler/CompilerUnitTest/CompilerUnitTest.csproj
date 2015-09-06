@@ -57,6 +57,7 @@
     <Compile Include="TestHelper.cs" />
     <Compile Include="TokenizerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="MathTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GVBASIC_Compiler\GVBASIC_Compiler.csproj">

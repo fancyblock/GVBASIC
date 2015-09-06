@@ -134,7 +134,7 @@ namespace GVBASIC_Compiler.Compiler
             if (p.TYPE == BaseData.TYPE_INT)
                 ret = new BaseData(p.INT_VAL);
             else if (p.TYPE == BaseData.TYPE_FLOAT)
-                ret = new BaseData(((int)p.FLOAT_VAL));
+                ret = new BaseData( (int)Math.Floor( (double)p.FLOAT_VAL ));        // 文曲星中对负数取整是取小于该数的最大整数
 
             return ret;
         }
@@ -146,7 +146,10 @@ namespace GVBASIC_Compiler.Compiler
             BaseData ret = BaseData.ZERO;
             BaseData p = param[0];
 
-            //TODO 
+            if (p.TYPE == BaseData.TYPE_INT)
+                ret = new BaseData( (float)Math.Sin( (double)p.INT_VAL ) );
+            else if (p.TYPE == BaseData.TYPE_FLOAT)
+                ret = new BaseData( (float)Math.Sin( (double)p.FLOAT_VAL) );
 
             return ret;
         }
@@ -158,7 +161,10 @@ namespace GVBASIC_Compiler.Compiler
             BaseData ret = BaseData.ZERO;
             BaseData p = param[0];
 
-            //TODO 
+            if (p.TYPE == BaseData.TYPE_INT)
+                ret = new BaseData((float)Math.Cos((double)p.INT_VAL));
+            else if (p.TYPE == BaseData.TYPE_FLOAT)
+                ret = new BaseData((float)Math.Cos((double)p.FLOAT_VAL));
 
             return ret;
         }
@@ -170,7 +176,10 @@ namespace GVBASIC_Compiler.Compiler
             BaseData ret = BaseData.ZERO;
             BaseData p = param[0];
 
-            //TODO 
+            if (p.TYPE == BaseData.TYPE_INT)
+                ret = new BaseData((float)Math.Tan((double)p.INT_VAL));
+            else if (p.TYPE == BaseData.TYPE_FLOAT)
+                ret = new BaseData((float)Math.Tan((double)p.FLOAT_VAL));
 
             return ret;
         }
@@ -182,7 +191,10 @@ namespace GVBASIC_Compiler.Compiler
             BaseData ret = BaseData.ZERO;
             BaseData p = param[0];
 
-            //TODO 
+            if (p.TYPE == BaseData.TYPE_INT)
+                ret = new BaseData((float)Math.Atan((double)p.INT_VAL));
+            else if (p.TYPE == BaseData.TYPE_FLOAT)
+                ret = new BaseData((float)Math.Atan((double)p.FLOAT_VAL));
 
             return ret;
         }
@@ -194,7 +206,10 @@ namespace GVBASIC_Compiler.Compiler
             BaseData ret = BaseData.ZERO;
             BaseData p = param[0];
 
-            //TODO 
+            if (p.TYPE == BaseData.TYPE_INT)
+                ret = new BaseData((float)Math.Sqrt((double)p.INT_VAL));
+            else if (p.TYPE == BaseData.TYPE_FLOAT)
+                ret = new BaseData((float)Math.Sqrt((double)p.FLOAT_VAL));
 
             return ret;
         }
@@ -206,7 +221,10 @@ namespace GVBASIC_Compiler.Compiler
             BaseData ret = BaseData.ZERO;
             BaseData p = param[0];
 
-            //TODO 
+            if (p.TYPE == BaseData.TYPE_INT)
+                ret = new BaseData((float)Math.Exp((double)p.INT_VAL));
+            else if (p.TYPE == BaseData.TYPE_FLOAT)
+                ret = new BaseData((float)Math.Exp((double)p.FLOAT_VAL));
 
             return ret;
         }
@@ -218,7 +236,10 @@ namespace GVBASIC_Compiler.Compiler
             BaseData ret = BaseData.ZERO;
             BaseData p = param[0];
 
-            //TODO 
+            if (p.TYPE == BaseData.TYPE_INT)
+                ret = new BaseData((float)Math.Log((double)p.INT_VAL));
+            else if (p.TYPE == BaseData.TYPE_FLOAT)
+                ret = new BaseData((float)Math.Log((double)p.FLOAT_VAL));
 
             return ret;
         }
