@@ -882,22 +882,24 @@ namespace GVBASIC_Compiler.Compiler
             Expression exp = expression4();
 
             int tt = lookAhead();
-            while( tt == Token.EQUAL || tt == Token.GTR || tt == Token.LT || tt == Token.GTE || tt == Token.LTE )
+            while( tt == Token.EQUAL || tt == Token.GTR || tt == Token.LT || tt == Token.GTE || tt == Token.LTE || tt == Token.NEG )
             {
                 Expression subExp = null;
 
                 eatToken( tt );
 
-                if( tt == Token.EQUAL )
+                if (tt == Token.EQUAL)
                     subExp = new Expression(Expression.OP_EQUAL);
-                else if( tt == Token.GTR )
+                else if (tt == Token.GTR)
                     subExp = new Expression(Expression.OP_GREATER);
-                else if( tt == Token.GTE)
+                else if (tt == Token.GTE)
                     subExp = new Expression(Expression.OP_GREATER_EQU);
-                else if( tt == Token.LT)
+                else if (tt == Token.LT)
                     subExp = new Expression(Expression.OP_LESS);
-                else if( tt == Token.LTE)
+                else if (tt == Token.LTE)
                     subExp = new Expression(Expression.OP_LESS_EQ);
+                else if (tt == Token.NEG)
+                    subExp = new Expression(Expression.OP_NOT_EQUAL);
 
                 subExp.m_leftExp = exp;
                 subExp.m_rightExp = expression4();

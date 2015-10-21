@@ -21,21 +21,22 @@ namespace GVBASIC_Compiler.Compiler
         public const int OP_GREATER_EQU = 8;
         public const int OP_LESS        = 9;
         public const int OP_LESS_EQ     = 10;
+        public const int OP_NOT_EQUAL   = 11;
 
-        public const int OP_AND         = 11;
-        public const int OP_OR          = 12;
-        public const int OP_NOT         = 13;
+        public const int OP_AND         = 12;
+        public const int OP_OR          = 13;
+        public const int OP_NOT         = 14;
 
-        public const int EXP_SYMBOL     = 14;
-        public const int EXP_ARRAY_SYMBOL = 15;
-        public const int EXP_FUNC       = 16;
-        public const int EXP_USER_FUNC  = 17;
-        public const int EXP_INKEY      = 18;
+        public const int EXP_SYMBOL     = 15;
+        public const int EXP_ARRAY_SYMBOL = 16;
+        public const int EXP_FUNC       = 17;
+        public const int EXP_USER_FUNC  = 18;
+        public const int EXP_INKEY      = 19;
 
-        public const int VALUE          = 19;
+        public const int VALUE          = 20;
 
-        public const int TYPE_NEXT_LINE = 22;
-        public const int TYPE_CLOSE_TO  = 23;
+        public const int TYPE_NEXT_LINE = 21;
+        public const int TYPE_CLOSE_TO  = 22;
 
         public int m_type;
         public Expression m_leftExp;

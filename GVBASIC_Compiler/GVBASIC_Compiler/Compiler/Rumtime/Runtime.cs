@@ -757,35 +757,38 @@ namespace GVBASIC_Compiler.Compiler
                 case Expression.OP_GREATER_EQU:
                 case Expression.OP_LESS:
                 case Expression.OP_LESS_EQ:
+                case Expression.OP_NOT_EQUAL:
                     // check the value 
                     expLeft = calculateExp(exp.m_leftExp);
                     expRight = calculateExp(exp.m_rightExp);
                     if (expLeft.m_type != Expression.VALUE || expRight.m_type != Expression.VALUE)
                         throw new ErrorCode(ErrorCode.ERROR_CODE_12);
 
-                    if( exp.m_type == Expression.OP_ADD )
+                    if (exp.m_type == Expression.OP_ADD)
                         result = new Expression(expLeft.m_value + expRight.m_value);
-                    else if( exp.m_type == Expression.OP_MINUS )
+                    else if (exp.m_type == Expression.OP_MINUS)
                         result = new Expression(expLeft.m_value - expRight.m_value);
-                    else if( exp.m_type == Expression.OP_MUL)
+                    else if (exp.m_type == Expression.OP_MUL)
                         result = new Expression(expLeft.m_value * expRight.m_value);
-                    else if( exp.m_type == Expression.OP_DIV)
+                    else if (exp.m_type == Expression.OP_DIV)
                         result = new Expression(expLeft.m_value / expRight.m_value);
-                    else if( exp.m_type == Expression.OP_POWER)
+                    else if (exp.m_type == Expression.OP_POWER)
                         result = new Expression(expLeft.m_value ^ expRight.m_value);
-                    else if( exp.m_type == Expression.OP_AND)
+                    else if (exp.m_type == Expression.OP_AND)
                         result = new Expression(expLeft.m_value & expRight.m_value);
-                    else if( exp.m_type == Expression.OP_OR)
+                    else if (exp.m_type == Expression.OP_OR)
                         result = new Expression(expLeft.m_value | expRight.m_value);
-                    else if( exp.m_type == Expression.OP_EQUAL)
-                        result = new Expression(expLeft.m_value == expRight.m_value ? 1 : 0 );
-                    else if( exp.m_type == Expression.OP_GREATER)
-                        result = new Expression( new BaseData( expLeft.m_value > expRight.m_value ? 1 : 0 ) );
-                    else if( exp.m_type == Expression.OP_GREATER_EQU)
-                        result = new Expression( new BaseData( expLeft.m_value >= expRight.m_value ? 1 : 0 ) );
-                    else if( exp.m_type == Expression.OP_LESS)
+                    else if (exp.m_type == Expression.OP_EQUAL)
+                        result = new Expression(expLeft.m_value == expRight.m_value ? 1 : 0);
+                    else if (exp.m_type == Expression.OP_NOT_EQUAL)
+                        result = new Expression(expLeft.m_value != expRight.m_value ? 1 : 0);
+                    else if (exp.m_type == Expression.OP_GREATER)
+                        result = new Expression(new BaseData(expLeft.m_value > expRight.m_value ? 1 : 0));
+                    else if (exp.m_type == Expression.OP_GREATER_EQU)
+                        result = new Expression(new BaseData(expLeft.m_value >= expRight.m_value ? 1 : 0));
+                    else if (exp.m_type == Expression.OP_LESS)
                         result = new Expression(new BaseData(expLeft.m_value < expRight.m_value ? 1 : 0));
-                    else if( exp.m_type == Expression.OP_LESS_EQ)
+                    else if (exp.m_type == Expression.OP_LESS_EQ)
                         result = new Expression(new BaseData(expLeft.m_value <= expRight.m_value ? 1 : 0));
                     break;
                 default:
