@@ -779,9 +779,9 @@ namespace GVBASIC_Compiler.Compiler
                     else if (exp.m_type == Expression.OP_OR)
                         result = new Expression(expLeft.m_value | expRight.m_value);
                     else if (exp.m_type == Expression.OP_EQUAL)
-                        result = new Expression(expLeft.m_value == expRight.m_value ? 1 : 0);
+                        result = new Expression(expLeft.m_value == expRight.m_value ? BaseData.ONE : BaseData.ZERO);
                     else if (exp.m_type == Expression.OP_NOT_EQUAL)
-                        result = new Expression(expLeft.m_value != expRight.m_value ? 1 : 0);
+                        result = new Expression(expLeft.m_value != expRight.m_value ? BaseData.ONE : BaseData.ZERO);
                     else if (exp.m_type == Expression.OP_GREATER)
                         result = new Expression(new BaseData(expLeft.m_value > expRight.m_value ? 1 : 0));
                     else if (exp.m_type == Expression.OP_GREATER_EQU)

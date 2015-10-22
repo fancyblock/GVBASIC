@@ -407,5 +407,22 @@ namespace CompilerUnitTest
             TestHelper.TestProgram(code, result);
         }
 
+        [TestMethod]
+        public void CompareOperator()
+        {
+            string code =
+                "10 A= 1                                    \n" +
+                "20 B= 2                                    \n" +
+                "30 R= 3                                    \n" +
+                "40 IF A = 1 THEN PRINT \"A=1\"             \n" +
+                "50 IF A <> B THEN PRINT \"A!=B\"           \n" +
+                "60 IF A > B THEN PRINT \"A>B\"             \n";
+
+            string result =
+                "A=1" + "\n" +
+                "A!=B" + "\n";
+
+            TestHelper.TestProgram(code, result);
+        }
     }
 }

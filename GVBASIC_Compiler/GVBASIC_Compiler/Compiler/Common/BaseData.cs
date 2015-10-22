@@ -16,6 +16,7 @@ namespace GVBASIC_Compiler.Compiler
         public const int TYPE_CLOSE_TO  = 7;
 
         public static BaseData ZERO = new BaseData(0);
+        public static BaseData ONE = new BaseData(1);
 
         private int m_intVal;
         private float m_floatVal;
