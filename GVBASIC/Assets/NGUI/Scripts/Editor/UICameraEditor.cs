@@ -1,6 +1,6 @@
 //----------------------------------------------
 //            NGUI: Next-Gen UI kit
-// Copyright © 2011-2015 Tasharen Entertainment
+// Copyright © 2011-2016 Tasharen Entertainment
 //----------------------------------------------
 
 using UnityEngine;
@@ -77,6 +77,12 @@ public class UICameraEditor : Editor
 			EditorGUI.BeginDisabledGroup(!mouse.boolValue && !touch.boolValue);
 			{
 				EditorGUILayout.PropertyField(serializedObject.FindProperty("allowMultiTouch"));
+			}
+			EditorGUI.EndDisabledGroup();
+
+			EditorGUI.BeginDisabledGroup(!(mouse.boolValue && (touch.boolValue || controller.boolValue)));
+			{
+				EditorGUILayout.PropertyField(serializedObject.FindProperty("autoHideCursor"));
 			}
 			EditorGUI.EndDisabledGroup();
 

@@ -1,6 +1,6 @@
 //----------------------------------------------
 //            NGUI: Next-Gen UI kit
-// Copyright © 2011-2015 Tasharen Entertainment
+// Copyright © 2011-2016 Tasharen Entertainment
 //----------------------------------------------
 
 #if !UNITY_3_5
@@ -103,16 +103,18 @@ static public class NGUIText
 		useSymbols = (bitmapFont != null && bitmapFont.hasSymbols) && encoding && symbolStyle != SymbolStyle.None;
 
 #if DYNAMIC_FONT
-		if (dynamicFont != null && request)
-		{
-			dynamicFont.RequestCharactersInTexture(")_-", finalSize, fontStyle);
+		Font font = dynamicFont;
 
-#if UNITY_4_3 || UNITY_4_5 || UNITY_4_6
-			if (!dynamicFont.GetCharacterInfo(')', out mTempChar, finalSize, fontStyle) || mTempChar.vert.height == 0f)
+		if (font != null && request)
+		{
+			font.RequestCharactersInTexture(")_-", finalSize, fontStyle);
+
+#if UNITY_4_3 || UNITY_4_5 || UNITY_4_6 || UNITY_4_7
+			if (!font.GetCharacterInfo(')', out mTempChar, finalSize, fontStyle) || mTempChar.vert.height == 0f)
 			{
-				dynamicFont.RequestCharactersInTexture("A", finalSize, fontStyle);
+				font.RequestCharactersInTexture("A", finalSize, fontStyle);
 				{
-					if (!dynamicFont.GetCharacterInfo('A', out mTempChar, finalSize, fontStyle))
+					if (!font.GetCharacterInfo('A', out mTempChar, finalSize, fontStyle))
 					{
 						baseline = 0f;
 						return;
@@ -123,11 +125,11 @@ static public class NGUIText
 			float y0 = mTempChar.vert.yMax;
 			float y1 = mTempChar.vert.yMin;
 #else
-			if (!dynamicFont.GetCharacterInfo(')', out mTempChar, finalSize, fontStyle) || mTempChar.maxY == 0f)
+			if (!font.GetCharacterInfo(')', out mTempChar, finalSize, fontStyle) || mTempChar.maxY == 0f)
 			{
-				dynamicFont.RequestCharactersInTexture("A", finalSize, fontStyle);
+				font.RequestCharactersInTexture("A", finalSize, fontStyle);
 				{
-					if (!dynamicFont.GetCharacterInfo('A', out mTempChar, finalSize, fontStyle))
+					if (!font.GetCharacterInfo('A', out mTempChar, finalSize, fontStyle))
 					{
 						baseline = 0f;
 						return;
@@ -193,7 +195,7 @@ static public class NGUIText
 		else if (dynamicFont != null)
 		{
 			if (dynamicFont.GetCharacterInfo((char)ch, out mTempChar, finalSize, fontStyle))
- #if UNITY_4_3 || UNITY_4_5 || UNITY_4_6
+ #if UNITY_4_3 || UNITY_4_5 || UNITY_4_6 || UNITY_4_7
 				return mTempChar.width * fontScale * pixelDensity;
  #else
 				return mTempChar.advance * fontScale * pixelDensity;
@@ -261,7 +263,7 @@ static public class NGUIText
 		{
 			if (dynamicFont.GetCharacterInfo((char)ch, out mTempChar, finalSize, fontStyle))
 			{
- #if UNITY_4_3 || UNITY_4_5 || UNITY_4_6
+ #if UNITY_4_3 || UNITY_4_5 || UNITY_4_6 || UNITY_4_7
 				glyph.v0.x = mTempChar.vert.xMin;
 				glyph.v1.x = glyph.v0.x + mTempChar.vert.width;
 
@@ -1060,7 +1062,7 @@ static public class NGUIText
 	/// Text wrapping functionality. The 'width' and 'height' should be in pixels.
 	/// </summary>
 
-	static public bool WrapText (string text, out string finalText, bool keepCharCount, bool wrapLineColors)
+	static public bool WrapText (string text, out string finalText, bool keepCharCount, bool wrapLineColors, bool useEllipsis = false)
 	{
 		if (regionWidth < 1 || regionHeight < 1 || finalLineHeight < 1f)
 		{
@@ -1098,7 +1100,13 @@ static public class NGUIText
 		bool ignoreColor = false;
 
 		if (!useSymbols) wrapLineColors = false;
-		if (wrapLineColors) mColors.Add(c);
+		if (wrapLineColors)
+		{
+			mColors.Add(c);
+			sb.Append("[");
+			sb.Append(NGUIText.EncodeColor(c));
+			sb.Append("]");
+		}
 
 		// Run through all characters
 		for (; offset < textLength; ++offset)
@@ -1179,7 +1187,7 @@ static public class NGUIText
 			{
 				// Find the glyph for this character
 				float w = GetGlyphWidth(ch, prev);
-				if (w == 0f) continue;
+				if (w == 0f && !IsSpace(ch)) continue;
 				glyphWidth = finalSpacingX + w;
 			}
 			else glyphWidth = finalSpacingX + symbol.advance * fontScale;
@@ -1211,6 +1219,44 @@ static public class NGUIText
 				// Can't start a new line
 				if (lineIsEmpty || lineCount == maxLineCount)
 				{
+					// Adds "..." at the end of text that doesn't fit. Contributed by Jason Nollan.
+					if (useEllipsis && lineCount == maxLineCount && offset > 1)
+					{
+						float ellipsisWidth = GetGlyphWidth('.', '.') * 3f;
+
+						if (ellipsisWidth < regionWidth)
+						{
+							remainingWidth += glyphWidth;
+							int tempOffset = offset;
+							int removeCount = 0;
+
+							while (tempOffset > 1 && remainingWidth < ellipsisWidth)
+							{
+								--tempOffset;
+								char prevCh = text[tempOffset - 1];
+								char characterToRemove = text[tempOffset];
+								bool isCaseWhereSpaceShouldBeInStringBuilderButIsnt = (remainingWidth == 0 && IsSpace(characterToRemove));
+								remainingWidth += GetGlyphWidth(characterToRemove, prevCh);
+								if (tempOffset < start && !isCaseWhereSpaceShouldBeInStringBuilderButIsnt)
+									++removeCount;
+							}
+
+							if (remainingWidth >= ellipsisWidth)
+							{
+								if (removeCount > 0)
+									sb.Length = Mathf.Max(0, sb.Length - removeCount);
+
+								sb.Append(text.Substring(start, Mathf.Max(0, tempOffset - start)));
+								while (sb.Length > 0 && IsSpace(sb[sb.Length - 1])) --sb.Length;
+								sb.Append("...");
+
+								++lineCount;
+								start = offset = tempOffset;
+								break;
+							}
+						}
+					}
+
 					// This is the first word on the line -- add it up to the character that fits
 					sb.Append(text.Substring(start, Mathf.Max(0, offset - start)));
 					bool space = IsSpace(ch);

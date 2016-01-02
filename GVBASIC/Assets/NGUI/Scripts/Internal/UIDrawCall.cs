@@ -1,7 +1,7 @@
 
 //----------------------------------------------
 //            NGUI: Next-Gen UI kit
-// Copyright © 2011-2015 Tasharen Entertainment
+// Copyright © 2011-2016 Tasharen Entertainment
 //----------------------------------------------
 
 //#define SHOW_HIDDEN_OBJECTS
@@ -125,6 +125,16 @@ public class UIDrawCall : MonoBehaviour
 	{
 		get { return (mRenderer != null) ? mRenderer.sortingOrder : 0; }
 		set { if (mRenderer != null && mRenderer.sortingOrder != value) mRenderer.sortingOrder = value; }
+	}
+
+	/// <summary>
+	/// Renderer's sorting layer name, used with the Unity's 2D system.
+	/// </summary>
+
+	public string sortingLayerName
+	{
+		get { return (mRenderer != null) ? mRenderer.sortingLayerName : null; }
+		set { if (mRenderer != null && mRenderer.sortingLayerName != value) mRenderer.sortingLayerName = value; }
 	}
 
 	/// <summary>
@@ -257,7 +267,7 @@ public class UIDrawCall : MonoBehaviour
 	{
 		mTextureClip = false;
 		mLegacyShader = false;
-		mClipCount = panel.clipCount;
+		mClipCount = (panel != null) ? panel.clipCount : 0;
 
 		string shaderName = (mShader != null) ? mShader.name :
 			((mMaterial != null) ? mMaterial.shader.name : "Unlit/Transparent Colored");
@@ -284,7 +294,7 @@ public class UIDrawCall : MonoBehaviour
 		const string textureClip = " (TextureClip)";
 		shaderName = shaderName.Replace(textureClip, "");
 
-		if (panel.clipping == Clipping.TextureMask)
+		if (panel != null && panel.clipping == Clipping.TextureMask)
 		{
 			mTextureClip = true;
 			shader = Shader.Find("Hidden/" + shaderName + textureClip);
@@ -362,6 +372,8 @@ public class UIDrawCall : MonoBehaviour
 
 	void UpdateMaterials ()
 	{
+		if (panel == null) return;
+
 		// If clipping should be used, we need to find a replacement shader
 		if (mRebuildMat || mDynamicMat == null || mClipCount != panel.clipCount || mTextureClip != (panel.clipping == Clipping.TextureMask))
 		{
@@ -416,7 +428,7 @@ public class UIDrawCall : MonoBehaviour
 					(tans.buffer != null && tans.buffer.Length != verts.buffer.Length);
 
 				// Non-automatic render queues rely on Z position, so it's a good idea to trim everything
-				if (!trim && panel.renderQueue != UIPanel.RenderQueue.Automatic)
+				if (!trim && panel != null && panel.renderQueue != UIPanel.RenderQueue.Automatic)
 					trim = (mMesh == null || mMesh.vertexCount != verts.buffer.Length);
 
 				// NOTE: Apparently there is a bug with Adreno devices:
@@ -768,22 +780,26 @@ public class UIDrawCall : MonoBehaviour
 #if SHOW_HIDDEN_OBJECTS && UNITY_EDITOR
 		name = (name != null) ? "_UIDrawCall [" + name + "]" : "DrawCall";
 #endif
-		if (mInactiveList.size > 0)
+		while (mInactiveList.size > 0)
 		{
 			UIDrawCall dc = mInactiveList.Pop();
-			mActiveList.Add(dc);
-			if (name != null) dc.name = name;
-			NGUITools.SetActive(dc.gameObject, true);
-			return dc;
+
+			if (dc != null)
+			{
+				mActiveList.Add(dc);
+				if (name != null) dc.name = name;
+				NGUITools.SetActive(dc.gameObject, true);
+				return dc;
+			}
 		}
 
 #if UNITY_EDITOR
 		// If we're in the editor, create the game object with hide flags set right away
 		GameObject go = UnityEditor.EditorUtility.CreateGameObjectWithHideFlags(name,
  #if SHOW_HIDDEN_OBJECTS
-			HideFlags.DontSave | HideFlags.NotEditable, typeof(UIDrawCall));
+		HideFlags.DontSave | HideFlags.NotEditable, typeof(UIDrawCall));
  #else
-			HideFlags.HideAndDontSave, typeof(UIDrawCall));
+		HideFlags.HideAndDontSave, typeof(UIDrawCall));
  #endif
 		UIDrawCall newDC = go.GetComponent<UIDrawCall>();
 #else

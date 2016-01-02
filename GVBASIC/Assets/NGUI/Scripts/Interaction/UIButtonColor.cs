@@ -1,6 +1,6 @@
 //----------------------------------------------
 //            NGUI: Next-Gen UI kit
-// Copyright © 2011-2015 Tasharen Entertainment
+// Copyright © 2011-2016 Tasharen Entertainment
 //----------------------------------------------
 
 using UnityEngine;
@@ -114,7 +114,7 @@ public class UIButtonColor : UIWidgetContainer
 	protected virtual void OnInit ()
 	{
 		mInitDone = true;
-		if (tweenTarget == null) tweenTarget = gameObject;
+		if (tweenTarget == null && !Application.isPlaying) tweenTarget = gameObject;
 		if (tweenTarget != null) mWidget = tweenTarget.GetComponent<UIWidget>();
 
 		if (mWidget != null)
@@ -124,7 +124,7 @@ public class UIButtonColor : UIWidgetContainer
 		}
 		else if (tweenTarget != null)
 		{
-#if UNITY_4_3 || UNITY_4_5 || UNITY_4_6
+#if UNITY_4_3 || UNITY_4_5 || UNITY_4_6 || UNITY_4_7
 			Renderer ren = tweenTarget.renderer;
 #else
 			Renderer ren = tweenTarget.GetComponent<Renderer>();
@@ -136,7 +136,7 @@ public class UIButtonColor : UIWidgetContainer
 			}
 			else
 			{
-#if UNITY_4_3 || UNITY_4_5 || UNITY_4_6
+#if UNITY_4_3 || UNITY_4_5 || UNITY_4_6 || UNITY_4_7
 				Light lt = tweenTarget.light;
 #else
 				Light lt = tweenTarget.GetComponent<Light>();
@@ -186,16 +186,19 @@ public class UIButtonColor : UIWidgetContainer
 #if UNITY_EDITOR
 		if (!Application.isPlaying) return;
 #endif
-		if (mInitDone && tweenTarget != null)
+		if (mInitDone && mState != State.Normal)
 		{
 			SetState(State.Normal, true);
 
-			TweenColor tc = tweenTarget.GetComponent<TweenColor>();
-
-			if (tc != null)
+			if (tweenTarget != null)
 			{
-				tc.value = mDefaultColor;
-				tc.enabled = false;
+				TweenColor tc = tweenTarget.GetComponent<TweenColor>();
+
+				if (tc != null)
+				{
+					tc.value = mDefaultColor;
+					tc.enabled = false;
+				}
 			}
 		}
 	}

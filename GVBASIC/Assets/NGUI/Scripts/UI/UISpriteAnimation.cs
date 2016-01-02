@@ -1,6 +1,6 @@
 //----------------------------------------------
 //            NGUI: Next-Gen UI kit
-// Copyright © 2011-2015 Tasharen Entertainment
+// Copyright © 2011-2016 Tasharen Entertainment
 //----------------------------------------------
 
 using UnityEngine;
@@ -70,10 +70,10 @@ public class UISpriteAnimation : MonoBehaviour
 	{
 		if (mActive && mSpriteNames.Count > 1 && Application.isPlaying && mFPS > 0)
 		{
-			mDelta += RealTime.deltaTime;
+			mDelta += Mathf.Min(1f, RealTime.deltaTime);
 			float rate = 1f / mFPS;
 
-			if (rate < mDelta)
+			while (rate < mDelta)
 			{
 				mDelta = (rate > 0f) ? mDelta - rate : 0f;
 

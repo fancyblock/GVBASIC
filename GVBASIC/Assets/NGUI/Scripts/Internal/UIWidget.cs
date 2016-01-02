@@ -1,6 +1,6 @@
 //----------------------------------------------
 //            NGUI: Next-Gen UI kit
-// Copyright © 2011-2015 Tasharen Entertainment
+// Copyright © 2011-2016 Tasharen Entertainment
 //----------------------------------------------
 
 using UnityEngine;
@@ -621,7 +621,7 @@ public class UIWidget : UIRect
 	{
 		get
 		{
-#if UNITY_4_3 || UNITY_4_5 || UNITY_4_6
+#if UNITY_4_3 || UNITY_4_5 || UNITY_4_6 || UNITY_4_7
 			BoxCollider box = collider as BoxCollider;
 #else
 			BoxCollider box = GetComponent<Collider>() as BoxCollider;
@@ -751,7 +751,7 @@ public class UIWidget : UIRect
 	}
 
 	/// <summary>
-	/// Set the widget's rectangle.
+	/// Set the widget's rectangle. XY is the bottom-left corner.
 	/// </summary>
 
 	public override void SetRect (float x, float y, float width, float height)
@@ -826,8 +826,8 @@ public class UIWidget : UIRect
 		Material rightMat = right.material;
 
 		if (leftMat == rightMat) return 0;
-		if (leftMat != null) return -1;
-		if (rightMat != null) return 1;
+		if (leftMat == null) return 1;
+		if (rightMat == null) return -1;
 
 		return (leftMat.GetInstanceID() < rightMat.GetInstanceID()) ? -1 : 1;
 	}
@@ -1042,9 +1042,9 @@ public class UIWidget : UIRect
 	/// Remember whether we're in play mode.
 	/// </summary>
 
-	protected virtual void Awake ()
+	protected override void Awake ()
 	{
-		mGo = gameObject;
+		base.Awake();
 		mPlayMode = Application.isPlaying;
 	}
 
@@ -1412,7 +1412,6 @@ public class UIWidget : UIRect
 		}
 		else if (!panel.widgetsAreStatic && trans.hasChanged)
 		{
-			mMoved = true;
 			mMatrixFrame = -1;
 			trans.hasChanged = false;
 			Vector2 offset = pivotOffset;
@@ -1452,8 +1451,6 @@ public class UIWidget : UIRect
 
 		if (mChanged)
 		{
-			mChanged = false;
-
 			if (mIsVisibleByAlpha && finalAlpha > 0.001f && shader != null)
 			{
 				bool hadVertices = geometry.hasVertices;
@@ -1476,19 +1473,26 @@ public class UIWidget : UIRect
 					}
 					geometry.ApplyTransform(mLocalToPanel, panel.generateNormals);
 					mMoved = false;
+					mChanged = false;
 					return true;
 				}
+
+				mChanged = false;
 				return hadVertices;
 			}
 			else if (geometry.hasVertices)
 			{
 				if (fillGeometry) geometry.Clear();
 				mMoved = false;
+				mChanged = false;
 				return true;
 			}
 		}
 		else if (mMoved && geometry.hasVertices)
 		{
+			// Want to see what's being moved? Uncomment this line.
+			//Debug.Log("Moving " + name + " (" + Time.frameCount + ")");
+
 			if (mMatrixFrame != frame)
 			{
 				mLocalToPanel = panel.worldToLocal * cachedTransform.localToWorldMatrix;
@@ -1496,9 +1500,11 @@ public class UIWidget : UIRect
 			}
 			geometry.ApplyTransform(mLocalToPanel, panel.generateNormals);
 			mMoved = false;
+			mChanged = false;
 			return true;
 		}
 		mMoved = false;
+		mChanged = false;
 		return false;
 	}
 

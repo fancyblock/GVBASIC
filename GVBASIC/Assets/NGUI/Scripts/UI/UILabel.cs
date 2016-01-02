@@ -1,11 +1,7 @@
 //----------------------------------------------
 //            NGUI: Next-Gen UI kit
-// Copyright © 2011-2015 Tasharen Entertainment
+// Copyright © 2011-2016 Tasharen Entertainment
 //----------------------------------------------
-
-#if !UNITY_3_5
-#define DYNAMIC_FONT
-#endif
 
 using UnityEngine;
 using System.Collections.Generic;
@@ -71,6 +67,7 @@ public class UILabel : UIWidget
 	[HideInInspector][SerializeField] bool mUseFloatSpacing = false;
 	[HideInInspector][SerializeField] float mFloatSpacingX = 0;
 	[HideInInspector][SerializeField] float mFloatSpacingY = 0;
+	[HideInInspector][SerializeField] bool mOverflowEllipsis = false;
 
 	// Obsolete values
 	[HideInInspector][SerializeField] bool mShrinkToFit = false;
@@ -79,10 +76,8 @@ public class UILabel : UIWidget
 	[HideInInspector][SerializeField] float mLineWidth = 0;
 	[HideInInspector][SerializeField] bool mMultiline = true;
 
-#if DYNAMIC_FONT
 	[System.NonSerialized] Font mActiveTTF = null;
 	[System.NonSerialized] float mDensity = 1f;
-#endif
 	[System.NonSerialized] bool mShouldBeProcessed = true;
 	[System.NonSerialized] string mProcessedText = null;
 	[System.NonSerialized] bool mPremultiply = false;
@@ -213,7 +208,6 @@ public class UILabel : UIWidget
 		{
 			if (mTrueTypeFont != value)
 			{
-#if DYNAMIC_FONT
 				SetActiveFont(null);
 				RemoveFromPanel();
 				mTrueTypeFont = value;
@@ -223,10 +217,6 @@ public class UILabel : UIWidget
 				ProcessAndRequest();
 				if (mActiveTTF != null)
 					base.MarkAsChanged();
-#else
-				mTrueTypeFont = value;
-				mFont = null;
-#endif
 			}
 		}
 	}
@@ -540,7 +530,26 @@ public class UILabel : UIWidget
 		}
 	}
 
-#if DYNAMIC_FONT
+	/// <summary>
+	/// Whether to append "..." at the end of clamped text that didn't fit.
+	/// </summary>
+
+	public bool overflowEllipsis
+	{
+		get
+		{
+			return mOverflowEllipsis;
+		}
+		set
+		{
+			if (mOverflowEllipsis != value)
+			{
+				mOverflowEllipsis = value;
+				MarkAsChanged();
+			}
+		}
+	}
+
 	/// <summary>
 	/// Whether the label will use the printed size instead of font size when printing the label.
 	/// It's a dynamic font feature that will ensure that the text is crisp when shrunk.
@@ -561,7 +570,6 @@ public class UILabel : UIWidget
 			return false;
 		}
 	}
-#endif
 
 	/// <summary>
 	/// Whether this label will support color encoding in the format of [RRGGBB] and new line in the form of a "\\n" string.
@@ -856,13 +864,8 @@ public class UILabel : UIWidget
 	/// Whether the label has a valid font.
 	/// </summary>
 
-#if DYNAMIC_FONT
 	bool isValid { get { return mFont != null || mTrueTypeFont != null; } }
-#else
-	bool isValid { get { return mFont != null; } }
-#endif
 
-#if DYNAMIC_FONT
 	static BetterList<UILabel> mList = new BetterList<UILabel>();
 	static Dictionary<Font, int> mFontUsage = new Dictionary<Font, int>();
 
@@ -896,43 +899,46 @@ public class UILabel : UIWidget
 	{
 		if (mActiveTTF != fnt)
 		{
-			if (mActiveTTF != null)
+			Font font = mActiveTTF;
+
+			if (font != null)
 			{
 				int usage;
 
-				if (mFontUsage.TryGetValue(mActiveTTF, out usage))
+				if (mFontUsage.TryGetValue(font, out usage))
 				{
 					usage = Mathf.Max(0, --usage);
 
 					if (usage == 0)
 					{
-#if UNITY_4_3 || UNITY_4_5 || UNITY_4_6
-						mActiveTTF.textureRebuildCallback = null;
+#if UNITY_4_3 || UNITY_4_5
+						font.textureRebuildCallback = null;
 #endif
-						mFontUsage.Remove(mActiveTTF);
+						mFontUsage.Remove(font);
 					}
-					else mFontUsage[mActiveTTF] = usage;
+					else mFontUsage[font] = usage;
 				}
-#if UNITY_4_3 || UNITY_4_5 || UNITY_4_6
-				else mActiveTTF.textureRebuildCallback = null;
+#if UNITY_4_3 || UNITY_4_5
+				else font.textureRebuildCallback = null;
 #endif
 			}
 
 			mActiveTTF = fnt;
+			font = fnt;
 
-			if (mActiveTTF != null)
+			if (font != null)
 			{
 				int usage = 0;
 
 				// Font hasn't been used yet? Register a change delegate callback
-#if UNITY_4_3 || UNITY_4_5 || UNITY_4_6
-				if (!mFontUsage.TryGetValue(mActiveTTF, out usage))
-					mActiveTTF.textureRebuildCallback = OnFontTextureChanged;
+#if UNITY_4_3 || UNITY_4_5
+				if (!mFontUsage.TryGetValue(font, out usage))
+					font.textureRebuildCallback = delegate() { OnFontChanged(font); };
 #endif
 #if UNITY_FLASH
-				mFontUsage[mActiveTTF] = usage + 1;
+				mFontUsage[font] = usage + 1;
 #else
-				mFontUsage[mActiveTTF] = ++usage;
+				mFontUsage[font] = ++usage;
 #endif
 			}
 		}
@@ -947,41 +953,6 @@ public class UILabel : UIWidget
 	/// So... queue yet another work-around.
 	/// </summary>
 
-#if UNITY_4_3 || UNITY_4_5 || UNITY_4_6
-	static void OnFontTextureChanged ()
-	{
-		for (int i = 0; i < mList.size; ++i)
-		{
-			UILabel lbl = mList[i];
-
-			if (lbl != null)
-			{
-				Font fnt = lbl.trueTypeFont;
-
-				if (fnt != null)
-				{
-					fnt.RequestCharactersInTexture(lbl.mText, lbl.mFinalFontSize, lbl.mFontStyle);
-				}
-			}
-		}
-
-		for (int i = 0; i < mList.size; ++i)
-		{
-			UILabel lbl = mList[i];
-
-			if (lbl != null)
-			{
-				Font fnt = lbl.trueTypeFont;
-
-				if (fnt != null)
-				{
-					lbl.RemoveFromPanel();
-					lbl.CreatePanel();
-				}
-			}
-		}
-	}
-#else
 	static void OnFontChanged (Font font)
 	{
 		for (int i = 0; i < mList.size; ++i)
@@ -995,28 +966,32 @@ public class UILabel : UIWidget
 				if (fnt == font)
 				{
 					fnt.RequestCharactersInTexture(lbl.mText, lbl.mFinalFontSize, lbl.mFontStyle);
+					lbl.MarkAsChanged();
+
+					if (lbl.panel == null)
+						lbl.CreatePanel();
+
+					if (mTempDrawcalls == null)
+						mTempDrawcalls = new List<UIDrawCall>();
+
+					if (lbl.drawCall != null && !mTempDrawcalls.Contains(lbl.drawCall))
+						mTempDrawcalls.Add(lbl.drawCall);
 				}
 			}
 		}
 
-		for (int i = 0; i < mList.size; ++i)
+		if (mTempDrawcalls != null)
 		{
-			UILabel lbl = mList[i];
-
-			if (lbl != null)
+			for (int i = 0, imax = mTempDrawcalls.Count; i < imax; ++i)
 			{
-				Font fnt = lbl.trueTypeFont;
-
-				if (fnt == font)
-				{
-					lbl.RemoveFromPanel();
-					lbl.CreatePanel();
-				}
+				UIDrawCall dc = mTempDrawcalls[i];
+				if (dc.panel != null) dc.panel.FillDrawCall(dc);
 			}
+			mTempDrawcalls.Clear();
 		}
 	}
-#endif
-#endif
+
+	static List<UIDrawCall> mTempDrawcalls;
 
 	/// <summary>
 	/// Get the sides of the rectangle relative to the specified transform.
@@ -1124,10 +1099,8 @@ public class UILabel : UIWidget
 			mFont = null;
 			mTrueTypeFont = null;
 			mAllowProcessing = false;
-
-#if DYNAMIC_FONT
 			SetActiveFont(null);
-#endif
+
 			if (fnt != null)
 			{
 				bitmapFont = fnt;
@@ -1147,7 +1120,7 @@ public class UILabel : UIWidget
 	}
 #endif
 
-#if !UNITY_4_3 && !UNITY_4_5 && !UNITY_4_6
+#if !UNITY_4_3 && !UNITY_4_5
 	static bool mTexRebuildAdded = false;
 
 	protected override void OnEnable ()
@@ -1185,10 +1158,8 @@ public class UILabel : UIWidget
 		// Whether this is a premultiplied alpha shader
 		mPremultiply = (material != null && material.shader != null && material.shader.name.Contains("Premultiplied"));
 
-#if DYNAMIC_FONT
 		// Request the text within the font
 		ProcessAndRequest();
-#endif
 	}
 
 	/// <summary>
@@ -1235,7 +1206,6 @@ public class UILabel : UIWidget
 			return;
 		}
 
-#if DYNAMIC_FONT
 		bool isDynamic = (trueTypeFont != null);
 
 		if (isDynamic && keepCrisp)
@@ -1244,7 +1214,7 @@ public class UILabel : UIWidget
 			if (rt != null) mDensity = (rt != null) ? rt.pixelSizeAdjustment : 1f;
 		}
 		else mDensity = 1f;
-#endif
+
 		if (full) UpdateNGUIText();
 
 		if (mOverflow == Overflow.ResizeFreely)
@@ -1261,12 +1231,10 @@ public class UILabel : UIWidget
 
 		if (mFinalFontSize > 0)
 		{
-#if DYNAMIC_FONT
 			bool adjustSize = keepCrisp;
-#endif
+
 			for (int ps = mFinalFontSize; ps > 0; --ps)
 			{
-#if DYNAMIC_FONT
 				// Adjust either the size, or the scale
 				if (adjustSize)
 				{
@@ -1274,20 +1242,16 @@ public class UILabel : UIWidget
 					NGUIText.fontSize = mFinalFontSize;
 				}
 				else
-#endif
 				{
 					mScale = (float)ps / mFinalFontSize;
-#if DYNAMIC_FONT
 					NGUIText.fontScale = isDynamic ? mScale : ((float)mFontSize / mFont.defaultSize) * mScale;
-#else
-					NGUIText.fontScale = ((float)mFontSize / mFont.defaultSize) * mScale;
-#endif
 				}
 
 				NGUIText.Update(false);
 
 				// Wrap the text
-				bool fits = NGUIText.WrapText(mText, out mProcessedText, true, false);
+				bool fits = NGUIText.WrapText(mText, out mProcessedText, true, false,
+					mOverflowEllipsis && mOverflow == Overflow.ClampContent);
 
 				if (mOverflow == Overflow.ShrinkContent && !fits)
 				{
@@ -1338,9 +1302,7 @@ public class UILabel : UIWidget
 		if (full)
 		{
 			NGUIText.bitmapFont = null;
-#if DYNAMIC_FONT
 			NGUIText.dynamicFont = null;
-#endif
 		}
 	}
 
@@ -1460,16 +1422,12 @@ public class UILabel : UIWidget
 				mTempIndices.Clear();
 
 				NGUIText.bitmapFont = null;
-#if DYNAMIC_FONT
 				NGUIText.dynamicFont = null;
-#endif
 				return retVal;
 			}
 
 			NGUIText.bitmapFont = null;
-#if DYNAMIC_FONT
 			NGUIText.dynamicFont = null;
-#endif
 		}
 		return 0;
 	}
@@ -1663,9 +1621,8 @@ public class UILabel : UIWidget
 			}
 
 			NGUIText.bitmapFont = null;
-#if DYNAMIC_FONT
 			NGUIText.dynamicFont = null;
-#endif
+
 			// If the selection doesn't move, then we're at the top or bottom-most line
 			if (key == KeyCode.UpArrow || key == KeyCode.Home) return 0;
 			if (key == KeyCode.DownArrow || key == KeyCode.End) return text.Length;
@@ -1722,9 +1679,7 @@ public class UILabel : UIWidget
 		}
 
 		NGUIText.bitmapFont = null;
-#if DYNAMIC_FONT
 		NGUIText.dynamicFont = null;
-#endif
 	}
 
 	/// <summary>
@@ -1746,6 +1701,7 @@ public class UILabel : UIWidget
 			col.r = Mathf.GammaToLinearSpace(col.r);
 			col.g = Mathf.GammaToLinearSpace(col.g);
 			col.b = Mathf.GammaToLinearSpace(col.b);
+			col.a = Mathf.GammaToLinearSpace(col.a);
 		}
 
 		string text = processedText;
@@ -1756,9 +1712,8 @@ public class UILabel : UIWidget
 		NGUIText.tint = col;
 		NGUIText.Print(text, verts, uvs, cols);
 		NGUIText.bitmapFont = null;
-#if DYNAMIC_FONT
 		NGUIText.dynamicFont = null;
-#endif
+
 		// Center the content within the label vertically
 		Vector2 pos = ApplyOffset(verts, start);
 
@@ -1861,7 +1816,17 @@ public class UILabel : UIWidget
 	{
 		Color c = mEffectColor;
 		c.a *= finalAlpha;
-		Color32 col = (bitmapFont != null && bitmapFont.premultipliedAlphaShader) ? NGUITools.ApplyPMA(c) : c;
+		if (bitmapFont != null && bitmapFont.premultipliedAlphaShader) c = NGUITools.ApplyPMA(c);
+
+		if (QualitySettings.activeColorSpace == ColorSpace.Linear)
+		{
+			c.r = Mathf.GammaToLinearSpace(c.r);
+			c.g = Mathf.GammaToLinearSpace(c.g);
+			c.b = Mathf.GammaToLinearSpace(c.b);
+			c.a = Mathf.GammaToLinearSpace(c.a);
+		}
+
+		Color32 col = c;
 
 		for (int i = start; i < end; ++i)
 		{
@@ -1884,7 +1849,8 @@ public class UILabel : UIWidget
 			{
 				Color fc = c;
 				fc.a = (uc.a / 255f * c.a);
-				cols.buffer[i] = (bitmapFont != null && bitmapFont.premultipliedAlphaShader) ? NGUITools.ApplyPMA(fc) : fc;
+				if (QualitySettings.activeColorSpace == ColorSpace.Linear) fc.a = Mathf.GammaToLinearSpace(fc.a);
+				cols.buffer[i] = fc;
 			}
 		}
 	}
@@ -1900,9 +1866,7 @@ public class UILabel : UIWidget
 		NGUIText.symbolStyle = NGUIText.SymbolStyle.None;
 		int offset = NGUIText.CalculateOffsetToFit(text);
 		NGUIText.bitmapFont = null;
-#if DYNAMIC_FONT
 		NGUIText.dynamicFont = null;
-#endif
 		return offset;
 	}
 
@@ -1960,9 +1924,7 @@ public class UILabel : UIWidget
 		NGUIText.regionHeight = height;
 		bool retVal = NGUIText.WrapText(text, out final);
 		NGUIText.bitmapFont = null;
-#if DYNAMIC_FONT
 		NGUIText.dynamicFont = null;
-#endif
 		return retVal;
 	}
 
@@ -2003,16 +1965,13 @@ public class UILabel : UIWidget
 				NGUIText.bitmapFont = fnt;
 			}
 
-#if DYNAMIC_FONT
 			if (NGUIText.bitmapFont.isDynamic)
 			{
 				NGUIText.dynamicFont = NGUIText.bitmapFont.dynamicFont;
 				NGUIText.bitmapFont = null;
 			}
 			else NGUIText.dynamicFont = null;
-#endif
 		}
-#if DYNAMIC_FONT
 		else
 		{
 			NGUIText.dynamicFont = ttf;
@@ -2034,7 +1993,6 @@ public class UILabel : UIWidget
 			NGUIText.regionWidth = Mathf.RoundToInt(mWidth * (mDrawRegion.z - mDrawRegion.x));
 			NGUIText.regionHeight = Mathf.RoundToInt(mHeight * (mDrawRegion.w - mDrawRegion.y));
 		}
-#endif
 
 		if (alignment == Alignment.Automatic)
 		{

@@ -1,6 +1,6 @@
 //----------------------------------------------
 //            NGUI: Next-Gen UI kit
-// Copyright © 2011-2015 Tasharen Entertainment
+// Copyright © 2011-2016 Tasharen Entertainment
 //----------------------------------------------
 
 #if !UNITY_FLASH
@@ -222,6 +222,8 @@ public class UILabelInspector : UIWidgetInspector
 
 			SerializedProperty ov = NGUIEditorTools.DrawPaddedProperty("Overflow", serializedObject, "mOverflow");
 			NGUISettings.overflowStyle = (UILabel.Overflow)ov.intValue;
+			if (NGUISettings.overflowStyle == UILabel.Overflow.ClampContent)
+				NGUIEditorTools.DrawProperty("Use Ellipsis", serializedObject, "mOverflowEllipsis", GUILayout.Width(110f));
 
 			NGUIEditorTools.DrawPaddedProperty("Alignment", serializedObject, "mAlignment");
 

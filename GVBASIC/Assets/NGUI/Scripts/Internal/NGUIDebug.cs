@@ -1,6 +1,6 @@
 //----------------------------------------------
 //            NGUI: Next-Gen UI kit
-// Copyright © 2011-2015 Tasharen Entertainment
+// Copyright © 2011-2016 Tasharen Entertainment
 //----------------------------------------------
 
 using UnityEngine;
@@ -113,7 +113,7 @@ public class NGUIDebug : MonoBehaviour
 	
 	void OnGUI()
 	{
-		Rect rect = new Rect(5f, 5f, 1000f, 18f);
+		Rect rect = new Rect(5f, 5f, 1000f, 22f);
 
 		if (mRayDebug)
 		{

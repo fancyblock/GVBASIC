@@ -1,6 +1,6 @@
 //----------------------------------------------
 //            NGUI: Next-Gen UI kit
-// Copyright © 2011-2015 Tasharen Entertainment
+// Copyright Â© 2011-2016 Tasharen Entertainment
 //----------------------------------------------
 
 using UnityEngine;
@@ -115,7 +115,7 @@ static public class NGUITools
 
 			if (mListener != null && mListener.enabled && NGUITools.GetActive(mListener.gameObject))
 			{
-#if UNITY_4_3 || UNITY_4_5 || UNITY_4_6
+#if UNITY_4_3 || UNITY_4_5 || UNITY_4_6 || UNITY_4_7
 				AudioSource source = mListener.audio;
 #else
 				AudioSource source = mListener.GetComponent<AudioSource>();
@@ -390,7 +390,7 @@ static public class NGUITools
 			if (w != null)
 			{
 				Vector3[] corners = w.localCorners;
-#if UNITY_4_3 || UNITY_4_5 || UNITY_4_6
+#if UNITY_4_3 || UNITY_4_5 || UNITY_4_6 || UNITY_4_7
 				box.center = Vector3.Lerp(corners[0], corners[2], 0.5f);
 #else
 				box.offset = Vector3.Lerp(corners[0], corners[2], 0.5f);
@@ -400,7 +400,7 @@ static public class NGUITools
 			else
 			{
 				Bounds b = NGUIMath.CalculateRelativeWidgetBounds(go.transform, considerInactive);
-#if UNITY_4_3 || UNITY_4_5 || UNITY_4_6
+#if UNITY_4_3 || UNITY_4_5 || UNITY_4_6 || UNITY_4_7
 				box.center = b.center;
 #else
 				box.offset = b.center;
@@ -471,13 +471,13 @@ static public class NGUITools
 	/// Add a new child game object.
 	/// </summary>
 
-	static public GameObject AddChild (GameObject parent) { return AddChild(parent, true); }
+	static public GameObject AddChild (this GameObject parent) { return AddChild(parent, true); }
 
 	/// <summary>
 	/// Add a new child game object.
 	/// </summary>
 
-	static public GameObject AddChild (GameObject parent, bool undo)
+	static public GameObject AddChild (this GameObject parent, bool undo)
 	{
 		GameObject go = new GameObject();
 #if UNITY_EDITOR
@@ -499,7 +499,7 @@ static public class NGUITools
 	/// Instantiate an object and add it to the specified parent.
 	/// </summary>
 
-	static public GameObject AddChild (GameObject parent, GameObject prefab)
+	static public GameObject AddChild (this GameObject parent, GameObject prefab)
 	{
 		GameObject go = GameObject.Instantiate(prefab) as GameObject;
 #if UNITY_EDITOR
@@ -570,7 +570,7 @@ static public class NGUITools
 			for (int i = 0, imax = widgets.Length; i < imax; ++i)
 			{
 				UIWidget w = widgets[i];
-#if UNITY_4_3 || UNITY_4_5 || UNITY_4_6
+#if UNITY_4_3 || UNITY_4_5 || UNITY_4_6 || UNITY_4_7
 				if (w.cachedGameObject != go && (w.collider != null || w.GetComponent<Collider2D>() != null)) continue;
 #else
 				if (w.cachedGameObject != go && (w.GetComponent<Collider>() != null || w.GetComponent<Collider2D>() != null)) continue;
@@ -799,7 +799,7 @@ static public class NGUITools
 		{
 			UICamera cam = root.GetComponentInChildren<UICamera>();
 
-#if UNITY_4_3 || UNITY_4_5 || UNITY_4_6
+#if UNITY_4_3 || UNITY_4_5 || UNITY_4_6 || UNITY_4_7
 			if (cam != null && cam.camera.isOrthoGraphic == advanced3D)
 #else
 			if (cam != null && cam.GetComponent<Camera>().orthographic == advanced3D)
@@ -921,7 +921,7 @@ static public class NGUITools
 	/// Helper function that recursively sets all children with widgets' game objects layers to the specified value.
 	/// </summary>
 
-	static public void SetChildLayer (Transform t, int layer)
+	static public void SetChildLayer (this Transform t, int layer)
 	{
 		for (int i = 0; i < t.childCount; ++i)
 		{
@@ -931,14 +931,23 @@ static public class NGUITools
 		}
 	}
 
+	static Dictionary<System.Type, string> mTypeNames = new Dictionary<Type, string>();
+
 	/// <summary>
 	/// Add a child object to the specified parent and attaches the specified script to it.
 	/// </summary>
 
-	static public T AddChild<T> (GameObject parent) where T : Component
+	static public T AddChild<T> (this GameObject parent) where T : Component
 	{
 		GameObject go = AddChild(parent);
-		go.name = GetTypeName<T>();
+		string name;
+
+		if (!mTypeNames.TryGetValue(typeof(T), out name) || name == null)
+		{
+			name = GetTypeName<T>();
+			mTypeNames[typeof(T)] = name;
+		}
+		go.name = name;
 		return go.AddComponent<T>();
 	}
 
@@ -946,10 +955,17 @@ static public class NGUITools
 	/// Add a child object to the specified parent and attaches the specified script to it.
 	/// </summary>
 
-	static public T AddChild<T> (GameObject parent, bool undo) where T : Component
+	static public T AddChild<T> (this GameObject parent, bool undo) where T : Component
 	{
 		GameObject go = AddChild(parent, undo);
-		go.name = GetTypeName<T>();
+		string name;
+
+		if (!mTypeNames.TryGetValue(typeof(T), out name) || name == null)
+		{
+			name = GetTypeName<T>();
+			mTypeNames[typeof(T)] = name;
+		}
+		go.name = name;
 		return go.AddComponent<T>();
 	}
 
@@ -957,24 +973,10 @@ static public class NGUITools
 	/// Add a new widget of specified type.
 	/// </summary>
 
-	static public T AddWidget<T> (GameObject go) where T : UIWidget
+	static public T AddWidget<T> (this GameObject go, int depth = int.MaxValue) where T : UIWidget
 	{
-		int depth = CalculateNextDepth(go);
+		if (depth == int.MaxValue) depth = CalculateNextDepth(go);
 
-		// Create the widget and place it above other widgets
-		T widget = AddChild<T>(go);
-		widget.width = 100;
-		widget.height = 100;
-		widget.depth = depth;
-		return widget;
-	}
-
-	/// <summary>
-	/// Add a new widget of specified type.
-	/// </summary>
-
-	static public T AddWidget<T> (GameObject go, int depth) where T : UIWidget
-	{
 		// Create the widget and place it above other widgets
 		T widget = AddChild<T>(go);
 		widget.width = 100;
@@ -988,10 +990,10 @@ static public class NGUITools
 	/// It will be sliced if the sprite has an inner rect, and a regular sprite otherwise.
 	/// </summary>
 
-	static public UISprite AddSprite (GameObject go, UIAtlas atlas, string spriteName)
+	static public UISprite AddSprite (this GameObject go, UIAtlas atlas, string spriteName, int depth = int.MaxValue)
 	{
 		UISpriteData sp = (atlas != null) ? atlas.GetSprite(spriteName) : null;
-		UISprite sprite = AddWidget<UISprite>(go);
+		UISprite sprite = AddWidget<UISprite>(go, depth);
 		sprite.type = (sp == null || !sp.hasBorder) ? UISprite.Type.Simple : UISprite.Type.Sliced;
 		sprite.atlas = atlas;
 		sprite.spriteName = spriteName;
@@ -1485,12 +1487,20 @@ static public class NGUITools
 		{
 			TextEditor te = new TextEditor();
 			te.Paste();
+#if UNITY_4_6 || UNITY_4_7 || UNITY_5_0 || UNITY_5_1 || UNITY_5_2
 			return te.content.text;
+#else
+			return te.text;
+#endif
 		}
 		set
 		{
 			TextEditor te = new TextEditor();
+#if UNITY_4_6 || UNITY_4_7 || UNITY_5_0 || UNITY_5_1 || UNITY_5_2
 			te.content = new GUIContent(value);
+#else
+			te.text = value;
+#endif
 			te.OnFocus();
 			te.Copy();
 		}
@@ -1568,7 +1578,7 @@ static public class NGUITools
 
 	static public Vector3[] GetSides (this Camera cam, float depth, Transform relativeTo)
 	{
-#if UNITY_4_3 || UNITY_4_5 || UNITY_4_6
+#if UNITY_4_3 || UNITY_4_5 || UNITY_4_6 || UNITY_4_7
 		if (cam.isOrthoGraphic)
 #else
 		if (cam.orthographic)
@@ -1654,7 +1664,7 @@ static public class NGUITools
 
 	static public Vector3[] GetWorldCorners (this Camera cam, float depth, Transform relativeTo)
 	{
-#if UNITY_4_3 || UNITY_4_5 || UNITY_4_6
+#if UNITY_4_3 || UNITY_4_5 || UNITY_4_6 || UNITY_4_7
 		if (cam.isOrthoGraphic)
 #else
 		if (cam.orthographic)
@@ -2112,5 +2122,65 @@ static public class NGUITools
 			case KeyCode.JoystickButton19: return "J19";
 		}
 		return null;
+	}
+
+	static Dictionary<string, UIWidget> mWidgets = new Dictionary<string, UIWidget>();
+	static UIPanel mRoot;
+	static GameObject mGo;
+
+	public delegate void OnInitFunc<T> (T w) where T : UIWidget;
+
+	/// <summary>
+	/// Immediately add a new widget to the screen or return an existing one that matches the specified ID.
+	/// The usage of this function is very similar to GUI.Draw in a sense that it can be used to quickly
+	/// show persistent widgets via code.
+	/// </summary>
+
+	static public T Draw<T> (string id, OnInitFunc<T> onInit = null) where T : UIWidget
+	{
+		UIWidget w;
+		if (mWidgets.TryGetValue(id, out w) && w) return (T)w;
+
+		if (mRoot == null)
+		{
+			UICamera baseCam = null;
+			UIRoot baseRoot = null;
+
+			for (int i = 0; i < UIRoot.list.Count; ++i)
+			{
+				UIRoot root = UIRoot.list[i];
+
+				if (root)
+				{
+					UICamera cam = UICamera.FindCameraForLayer(root.gameObject.layer);
+
+					if (cam && cam.cachedCamera.orthographic)
+					{
+						baseCam = cam;
+						baseRoot = root;
+						break;
+					}
+				}
+			}
+
+			if (baseCam == null)
+			{
+				mRoot = NGUITools.CreateUI(false, LayerMask.NameToLayer("UI"));
+			}
+			else
+			{
+				mRoot = baseRoot.gameObject.AddChild<UIPanel>();
+			}
+
+			mRoot.depth = 100000;
+			mGo = mRoot.gameObject;
+			mGo.name = "Immediate Mode GUI";
+		}
+
+		w = mGo.AddWidget<T>();
+		w.name = id;
+		mWidgets[id] = w;
+		if (onInit != null) onInit((T)w);
+		return (T)w;
 	}
 }
