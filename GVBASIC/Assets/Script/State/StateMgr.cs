@@ -45,6 +45,7 @@ public class StateMgr : MonoBehaviour
     {
         m_curState.onUpdate();
 
+#if UNITY_ANDROID
         // 按返回键退出,先提示一次
         if( UnityEngine.Input.GetKeyDown( KeyCode.Escape ))
         {
@@ -57,6 +58,7 @@ public class StateMgr : MonoBehaviour
 
             m_lastBackTime = time;
         }
+#endif
     }
 
     /// <summary>
