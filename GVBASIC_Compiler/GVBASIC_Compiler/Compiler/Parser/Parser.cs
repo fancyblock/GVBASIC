@@ -46,10 +46,13 @@ namespace GVBASIC_Compiler.Compiler
                 m_curLineNumber = tok.m_intVal;
 
                 List<Statement> statementList = statements();
-                foreach( Statement s in statementList )
+                for (int i = 0; i < statementList.Count; i++ )
                 {
-                    s.m_lineNum = m_curLineNumber;
-                    m_statements.Add(s);
+                    Statement subS = statementList[i];
+                    subS.m_lineNum = m_curLineNumber;
+                    subS.m_subIndex = i;
+
+                    m_statements.Add(subS);
                 }
 
                 // filter the end of line 
@@ -58,7 +61,13 @@ namespace GVBASIC_Compiler.Compiler
             }
 
             // sort the statement by line number
-            m_statements.Sort((a, b) => { return a.m_lineNum - b.m_lineNum; });
+            m_statements.Sort((a, b) => 
+            {
+                if( a.m_lineNum != b.m_lineNum )
+                    return a.m_lineNum - b.m_lineNum;
+
+                return a.m_subIndex - b.m_subIndex;
+            });
         }
 
         /// <summary>

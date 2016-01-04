@@ -141,6 +141,7 @@ namespace GVBASIC_Compiler.Compiler
 
         public int m_type;
         public int m_lineNum;
+        public int m_subIndex;
         public int m_lineIndex;
 
         public int m_inkeyCnt;
