@@ -133,7 +133,7 @@ public class EmuAPI : MonoBehaviour, IAPI
     /// <param name="y"></param>
     public void Locate(int x, int y)
     {
-        m_textDisplay.SetCursor( x-1, y-1);
+        m_textDisplay.SetCursor( y-1, x-1);
     }
 
     public int CursorX()
