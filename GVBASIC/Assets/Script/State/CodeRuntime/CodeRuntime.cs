@@ -47,6 +47,8 @@ public class CodeRuntime : State
         switch(m_status)
         {
             case STATUS_INKEY:
+                if ((int)key >= (int)KCode.A && (int)key <= (int)KCode.Z)
+                    key = key + 32;
                 m_emuAPI.AppendInkey(key);
                 m_inkeyCount--;
                 // 输入完毕退出

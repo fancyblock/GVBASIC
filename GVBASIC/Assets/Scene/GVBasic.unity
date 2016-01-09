@@ -166,6 +166,7 @@ MonoBehaviour:
   submitKey1: 330
   cancelKey0: 27
   cancelKey1: 331
+  autoHideCursor: 1
 --- !u!20 &14711196
 Camera:
   m_ObjectHideFlags: 0
@@ -257,6 +258,9 @@ MonoBehaviour:
   mFillAmount: 1
   mInvert: 0
   mFlip: 0
+  mApplyGradient: 0
+  mGradientTop: {r: 1, g: 1, b: 1, a: 1}
+  mGradientBottom: {r: .699999988, g: .699999988, b: .699999988, a: 1}
   centerType: 1
   leftType: 1
   rightType: 1
@@ -366,6 +370,9 @@ MonoBehaviour:
   mFillAmount: 1
   mInvert: 0
   mFlip: 0
+  mApplyGradient: 0
+  mGradientTop: {r: 1, g: 1, b: 1, a: 1}
+  mGradientBottom: {r: .699999988, g: .699999988, b: .699999988, a: 1}
   centerType: 1
   leftType: 1
   rightType: 1
@@ -595,6 +602,7 @@ MonoBehaviour:
   mClipSoftness: {x: 4, y: 4}
   mDepth: 0
   mSortingOrder: 0
+  mSortingLayerName: 
   mClipOffset: {x: 0, y: 0}
 --- !u!114 &798068148
 MonoBehaviour:
@@ -624,7 +632,7 @@ Transform:
   m_GameObject: {fileID: 798068145}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: .00540540554, y: .00540540554, z: .00540540554}
+  m_LocalScale: {x: .00560224103, y: .00560224103, z: .00560224103}
   m_Children:
   - {fileID: 14711193}
   m_Father: {fileID: 0}
@@ -756,6 +764,9 @@ MonoBehaviour:
   mFillAmount: 1
   mInvert: 0
   mFlip: 0
+  mApplyGradient: 0
+  mGradientTop: {r: 1, g: 1, b: 1, a: 1}
+  mGradientBottom: {r: .699999988, g: .699999988, b: .699999988, a: 1}
   centerType: 1
   leftType: 1
   rightType: 1
@@ -945,7 +956,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_led: {fileID: 267660185}
-  m_cursorInterval: .660000026
+  m_cursorInterval: .800000012
 --- !u!1001 &1791708642
 Prefab:
   m_ObjectHideFlags: 0
