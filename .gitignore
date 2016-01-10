@@ -28,3 +28,5 @@ GVBASIC_Compiler/GVBASIC_Compiler/GVBASIC_Compiler.csproj.user
 Publish/
 GVBASIC/Assets/Plugins/BASIC/
 GVBASIC/UnityVS.GVBASIC.CSharp.Plugins.csproj
+*.csproj
+GVBASIC/GVBASIC.sln
