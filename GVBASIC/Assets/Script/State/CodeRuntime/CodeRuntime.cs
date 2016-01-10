@@ -6,9 +6,10 @@ using GVBASIC_Compiler.Compiler;
 
 public class CodeRuntime : State 
 {
-    protected const int STATUS_RUNNING  = 1;
-    protected const int STATUS_INKEY    = 2;
-    protected const int STATUS_INPUT    = 3;
+    public const int STATUS_RUNNING     = 1;
+    public const int STATUS_INKEY       = 2;
+    public const int STATUS_INPUT       = 3;
+    public const int STATUS_END         = 4;
 
     public EmuAPI m_emuAPI;
 
@@ -92,6 +93,9 @@ public class CodeRuntime : State
                     }
                 }
                 break;
+            case STATUS_END:
+                m_stateMgr.GotoState(StateEnums.eStateList);
+                break;
             default:
                 break;
         }
@@ -125,4 +129,8 @@ public class CodeRuntime : State
         m_stateMgr.m_textDisplay.SetCursor(0, 0);
     }
 
+    public void End()
+    {
+        m_status = STATUS_END;
+    }
 }

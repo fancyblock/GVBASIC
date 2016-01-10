@@ -39,13 +39,7 @@ public class Keyboard : MonoBehaviour
     /// <summary>
     /// getter of the caps 
     /// </summary>
-    public bool CAPS
-    {
-        get
-        {
-            return m_caps;
-        }
-    }
+    public bool CAPS { get { return m_caps; } }
 
     /// <summary>
     /// 设置大写小写

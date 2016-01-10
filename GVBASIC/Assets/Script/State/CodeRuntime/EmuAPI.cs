@@ -47,6 +47,7 @@ public class EmuAPI : MonoBehaviour, IAPI
     public void ProgramDone() 
     {
         m_status = Defines.PROGRAM_STATUS_END;
+        m_codeRuntime.End();
     }
 
     public void Print(List<BaseData> expList) 
