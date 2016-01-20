@@ -272,8 +272,8 @@ public class EmuAPI : MonoBehaviour, IAPI
             m_led.DrawBox(x0, y0, x1 - x0 + 1, y1 - y0 + 1, set);
         }
         else
-        // 画一个矩形框 (中空)
         {
+            // 画一个矩形框 (中空)
             m_led.DrawBox(x0, y0, x1 - x0 + 1, 1, set);
             m_led.DrawBox(x0, y1, x1 - x0 + 1, 1, set);
             m_led.DrawBox(x0, y0, 1, y1 - y0 + 1, set);
@@ -301,7 +301,7 @@ public class EmuAPI : MonoBehaviour, IAPI
     /// <param name="type"></param>
     public void Draw(int x, int y, int type)
     {
-        m_graphDisplay.DrawPixel(x, y, type == 1);
+        m_graphDisplay.DrawPixel(x, y, type != 0);
     }
 
     /// <summary>
@@ -328,7 +328,74 @@ public class EmuAPI : MonoBehaviour, IAPI
     /// <param name="type"></param>
     public void Line(int x0, int y0, int x1, int y1, int type)
     {
-        //TODO 
+        Debug.Log(x0 + "," + y0 + "," + x1 + "," + y1);
+
+        bool set = type != 0;
+        int i;
+        int start, end;
+
+        if( x0 == x1 )
+        {
+            if( y1 > y0 )
+            {
+                start = y0;
+                end = y1;
+            }
+            else
+            {
+                start = y1;
+                end = y0;
+            }
+
+            for (i = start; i <= end; i++ )
+                m_graphDisplay.DrawPixel(x0, i, set);
+        }
+        else if( y0 == y1 )
+        {
+            if( x1 > x0 )
+            {
+                start = x0;
+                end = x1;
+            }
+            else
+            {
+                start = x1;
+                end = x0;
+            }
+
+            for (i = start; i <= end; i++)
+                m_graphDisplay.DrawPixel(i, y0, set);
+        }
+        else
+        {
+            float k = (float)(y1 - y0) / (float)(x1 - x0);
+            int inc;
+            float val;
+
+            if( Mathf.Abs(k) > 1.0f )
+            {
+                val = x0;
+                inc = y1 > y0 ? 1 : -1;
+                k = 1.0f / k;
+
+                for( i = y0; i != y1; i += inc )
+                {
+                    m_graphDisplay.DrawPixel( Mathf.RoundToInt(val) ,i, set);
+                    val += k * inc;
+                }
+            }
+            else
+            {
+                val = y0;
+                inc = x1 > x0 ? 1 : -1;
+
+                for( i = x0; i != x1; i+=inc  )
+                {
+                    m_graphDisplay.DrawPixel(i, Mathf.RoundToInt(val), set);
+                    val += k * inc;
+                }
+            }
+        }
     }
 
 }
